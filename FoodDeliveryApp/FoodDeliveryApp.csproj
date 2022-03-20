@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<ProduceReferenceAssembly>true</ProduceReferenceAssembly>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Refractored.MvvmHelpers" Version="1.6.2" />
+		<PackageReference Include="Xamarin.CommunityToolkit" Version="2.0.1" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+		<PackageReference Include="Xamarin.Forms" Version="5.0.0.2337" />
+		<PackageReference Include="Xamarin.Essentials" Version="1.7.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Update="Views\EntryFoodAppPage.xaml.cs">
+			<DependentUpon>EntryFoodAppPage.xaml</DependentUpon>
+		</Compile>
+		<Compile Update="Views\CosContentPage.xaml.cs">
+			<DependentUpon>CosContentPage.xaml</DependentUpon>
+		</Compile>
+		<Compile Update="Views\ListaRestaurantePage.xaml.cs">
+			<DependentUpon>ListaRestaurantePage.xaml</DependentUpon>
+		</Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Update="Views\CategoryPage.xaml">
+			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Views\CosContentPage.xaml">
+			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Views\ListaRestaurantePage.xaml">
+			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+	</ItemGroup>
+
+</Project>

@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="FoodDeliveryApp.Views.ItemDetailPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="{Binding Title}">
+
+    <StackLayout Padding="15" Spacing="20">
+        <Image
+            Margin="5,0,5,0"
+            Aspect="AspectFit"
+            BackgroundColor="Transparent"
+            HeightRequest="200"
+            Source="{Binding ImageFinal.Source}"
+            WidthRequest="200" />
+        <Frame HorizontalOptions="CenterAndExpand">
+            <StackLayout
+                Padding="15"
+                Orientation="Horizontal"
+                Spacing="10">
+                <Label
+                    FontSize="Medium"
+                    Text="Produs:"
+                    TextColor="Black"
+                    VerticalOptions="CenterAndExpand" />
+                <Label
+                    FontSize="Medium"
+                    Text="{Binding Name}"
+                    TextColor="Black"
+                    VerticalOptions="CenterAndExpand" />
+            </StackLayout>
+        </Frame>
+        <Frame HorizontalOptions="CenterAndExpand">
+            <StackLayout
+                Padding="15"
+                Orientation="Horizontal"
+                Spacing="10">
+                <Label
+                    FontSize="Small"
+                    Text="Descriere:"
+                    TextColor="Black"
+                    VerticalOptions="CenterAndExpand" />
+                <Label
+                    FontSize="Small"
+                    Text="{Binding Description}"
+                    TextColor="Black"
+                    VerticalOptions="CenterAndExpand" />
+            </StackLayout>
+        </Frame>
+        <Frame HorizontalOptions="CenterAndExpand">
+            <StackLayout
+                Padding="15"
+                Orientation="Horizontal"
+                Spacing="10">
+                <Label
+                    FontSize="Small"
+                    Text="Gramaj:"
+                    TextColor="Black"
+                    VerticalOptions="CenterAndExpand" />
+                <Label
+                    FontSize="Small"
+                    Text="{Binding Gramaj}"
+                    TextColor="Black"
+                    VerticalOptions="CenterAndExpand" />
+                <Label
+                    FontSize="Small"
+                    Text="Pret:"
+                    TextColor="Black"
+                    VerticalOptions="CenterAndExpand" />
+                <Label
+                    FontSize="Small"
+                    Text="{Binding Pret}"
+                    TextColor="Black"
+                    VerticalOptions="CenterAndExpand" />
+            </StackLayout>
+        </Frame>
+    </StackLayout>
+
+</ContentPage>

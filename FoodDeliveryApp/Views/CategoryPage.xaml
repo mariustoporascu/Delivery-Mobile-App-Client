@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="FoodDeliveryApp.Views.CategoryPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:FoodDeliveryApp.ViewModels"
+    xmlns:model="clr-namespace:FoodDeliveryApp.Models"
+    x:Name="Items"
+    Title="{Binding Title}"
+    Shell.PresentationMode="Animated">
+    <StackLayout>
+        <StackLayout Padding="20,20,20,20" BackgroundColor="LightBlue">
+            <Label
+                FontSize="16"
+                HorizontalTextAlignment="Center"
+                LineBreakMode="WordWrap"
+                Style="{DynamicResource ListItemTextStyle}"
+                Text="Toate produsele"
+                TextColor="Black" />
+            <StackLayout.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type local:CategViewModel}}, Path=AllProductsTapped}" NumberOfTapsRequired="1" />
+            </StackLayout.GestureRecognizers>
+        </StackLayout>
+        <!--<RefreshView
+            x:DataType="local:CategViewModel"
+            Command="{Binding LoadItemsCommand}"
+            IsRefreshing="{Binding IsBusy, Mode=TwoWay}">-->
+        <CollectionView
+            x:Name="ItemsListView"
+            BackgroundColor="WhiteSmoke"
+            ItemsLayout="VerticalGrid,3"
+            ItemsSource="{Binding Items}"
+            SelectionMode="None">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid BackgroundColor="MediumAquamarine">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="180" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <StackLayout
+                            Margin="5,5,5,5"
+                            x:DataType="model:Categ"
+                            BackgroundColor="LightGoldenrodYellow"
+                            HorizontalOptions="FillAndExpand"
+                            Orientation="Vertical">
+                            <Image
+                                Margin="5,0,5,0"
+                                Aspect="AspectFit"
+                                BackgroundColor="Transparent"
+                                HeightRequest="80"
+                                Source="{Binding ImageFinal.Source}"
+                                VerticalOptions="CenterAndExpand"
+                                WidthRequest="80" />
+                            <Label
+                                FontSize="16"
+                                HorizontalTextAlignment="Center"
+                                LineBreakMode="WordWrap"
+                                Style="{DynamicResource ListItemTextStyle}"
+                                Text="{Binding Name}"
+                                TextColor="Black"
+                                VerticalOptions="CenterAndExpand" />
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type local:CategViewModel}}, Path=ItemTapped}"
+                                    CommandParameter="{Binding .}"
+                                    NumberOfTapsRequired="1" />
+                            </StackLayout.GestureRecognizers>
+                        </StackLayout>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <!--</RefreshView>-->
+    </StackLayout>
+</ContentPage>
