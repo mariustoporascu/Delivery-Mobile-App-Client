@@ -17,7 +17,7 @@ namespace FoodDeliveryApp.Views
         public EntryFoodAppPage()
         {
             InitializeComponent();
-            BindingContext =  new EntryFoodAppViewModel();
+            BindingContext = new EntryFoodAppViewModel();
         }
 
     }

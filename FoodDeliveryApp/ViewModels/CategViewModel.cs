@@ -1,5 +1,6 @@
 ﻿using FoodDeliveryApp.Models;
 using FoodDeliveryApp.Views;
+using MvvmHelpers;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -17,8 +18,8 @@ namespace FoodDeliveryApp.ViewModels
         private Categ _selectedItem;
         private int canal;
         private int refId;
-        private ObservableCollection<Categ> _items;
-        public ObservableCollection<Categ> Items
+        private ObservableRangeCollection<Categ> _items;
+        public ObservableRangeCollection<Categ> Items
         {
             get => _items;
             set => SetProperty(ref _items, value);
@@ -30,7 +31,7 @@ namespace FoodDeliveryApp.ViewModels
         public CategViewModel()
         {
             Title = "Categorii";
-            Items = new ObservableCollection<Categ>();
+            Items = new ObservableRangeCollection<Categ>();
             LoadItemsCommand = new Command(ExecuteLoadItemsCommand);
             ItemTapped = new Command<Categ>(OnItemSelected);
             AllProductsTapped = new Command(AllProducts);
@@ -52,13 +53,19 @@ namespace FoodDeliveryApp.ViewModels
             try
             {
                 Items.Clear();
+                var newItems = new ObservableRangeCollection<Categ>();
                 var items = DataStore.GetCategories(canal, refId);
                 foreach (var item in items)
                 {
-                    item.ImageFinal = new Image();
-                    item.ImageFinal.Source = GetSource(item);
-                    Items.Add(item);
+                    if (item.ImageFinal == null)
+                    {
+                        item.ImageFinal = new Image();
+                        item.ImageFinal.Source = GetSource(item);
+                    }
+
+                    newItems.Add(item);
                 }
+                Items.AddRange(newItems);
             }
             catch (Exception ex)
             {

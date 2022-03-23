@@ -138,11 +138,14 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
-	<PackageReference Include="Refractored.MvvmHelpers" Version="1.6.2" />
-	<PackageReference Include="Xamarin.CommunityToolkit" Version="2.0.1" />
-	<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-	<PackageReference Include="Xamarin.Forms" Version="5.0.0.2337" />
-	<PackageReference Include="Xamarin.Essentials" Version="1.7.1" />
+    <PackageReference Include="Plugin.FacebookClient">
+      <Version>4.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="Refractored.MvvmHelpers" Version="1.6.2" />
+    <PackageReference Include="Xamarin.CommunityToolkit" Version="2.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2337" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.7.1" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
@@ -171,5 +174,20 @@
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\No_image_available.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\img_home_dark.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icon_about_dark.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\img_bigcart_dark.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\img_search_dark.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\img_search.png" />
   </ItemGroup>
 </Project>

@@ -49,8 +49,11 @@ namespace FoodDeliveryApp.ViewModels
                 var items = DataStore.GetRestaurante();
                 foreach (var item in items)
                 {
-                    item.ImageFinal = new Image();
-                    item.ImageFinal.Source = GetSource(item);
+                    if (item.ImageFinal == null)
+                    {
+                        item.ImageFinal = new Image();
+                        item.ImageFinal.Source = GetSource(item);
+                    }
                     Items.Add(item);
                 }
             }

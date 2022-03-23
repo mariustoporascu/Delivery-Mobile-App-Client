@@ -4,5 +4,13 @@
 <dict>
 	<key>com.apple.developer.networking.wifi-info</key>
 	<true/>
+	<key>com.apple.developer.applesignin</key>
+	<array>
+		<string>Default</string>
+	</array>
+	<key>keychain-access-groups</key>
+  <array>
+    <string>{YB847G5ND6}.{com.tmiit.FoodDeliveryApp}</string>
+  </array>
 </dict>
 </plist>

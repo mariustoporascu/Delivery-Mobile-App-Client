@@ -14,7 +14,7 @@ namespace FoodDeliveryApp.ViewModels
         private string text;
         private string description;
         private string gramaj;
-        private decimal pret;
+        private string pret;
         private Image imageFinal;
         public int Id { get; set; }
 
@@ -35,7 +35,7 @@ namespace FoodDeliveryApp.ViewModels
             set => SetProperty(ref gramaj, value);
         }
 
-        public decimal Pret
+        public string Pret
         {
             get => pret;
             set => SetProperty(ref pret, value);
@@ -81,8 +81,8 @@ namespace FoodDeliveryApp.ViewModels
                 Id = item.ProductId;
                 Name = item.Name;
                 Description = item.Description;
-                Gramaj = item.Gramaj;
-                Pret = item.Price;
+                Gramaj = item.GramajInterfata;
+                Pret = item.PretInterfata;
             }
             catch (Exception)
             {

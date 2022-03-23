@@ -37,7 +37,11 @@ namespace FoodDeliveryApp.Services
 
         public void loadCartPrefs()
         {
-            if (CartPrefs == "" || CartPrefs == null) cartItems = new List<CartItem>();
+            if (CartPrefs == "" || CartPrefs == null)
+            {
+                cartItems = new List<CartItem>();
+                return;
+            }
             var settings = new JsonSerializerSettings
             {
                 NullValueHandling = NullValueHandling.Ignore,

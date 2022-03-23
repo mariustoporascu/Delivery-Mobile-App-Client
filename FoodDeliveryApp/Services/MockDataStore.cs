@@ -1,4 +1,5 @@
-﻿using FoodDeliveryApp.Models;
+﻿using Android.Widget;
+using FoodDeliveryApp.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -73,6 +74,7 @@ namespace FoodDeliveryApp.Services
         //}
         public void SaveCart(CartItem item)
         {
+
             if (_serverInfo.cartItems.Find(citem => citem.ProductId == item.ProductId) != null)
             {
                 _serverInfo.cartItems.Find(citem => citem.ProductId == item.ProductId).Cantitate = item.Cantitate;

@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using Android.Widget;
 
 namespace FoodDeliveryApp.ViewModels
 {
@@ -32,8 +33,9 @@ namespace FoodDeliveryApp.ViewModels
         private int canal;
         private int refId;
         public Command LoadItemsCommand { get; }
-        public Command MinusCommand { get; }
-        public Command PlusCommand { get; }
+        public Command<Item> MinusCommand { get; }
+        public Command<Item> PlusCommand { get; }
+        public Command SearchCommand { get; }
         public Command<Item> ItemTapped { get; }
         public string SearchItem
         {
@@ -86,6 +88,7 @@ namespace FoodDeliveryApp.ViewModels
             ItemTapped = new Command<Item>(OnItemSelected);
             MinusCommand = new Command<Item>(OnMinus);
             PlusCommand = new Command<Item>(OnPlus);
+            SearchCommand = new Command(Searching);
         }
 
         private ImageSource GetSource(Item item)
@@ -103,6 +106,7 @@ namespace FoodDeliveryApp.ViewModels
 
             try
             {
+                SearchItem = "";
                 Items.Clear();
                 ItemsSubCateg.Clear();
                 var newList = new ObservableRangeCollection<Grouping<Categ, Item>>();
@@ -112,8 +116,11 @@ namespace FoodDeliveryApp.ViewModels
                     var items = DataStore.GetItems(canal, refId, categId);
                     foreach (var item in items)
                     {
-                        item.ImageFinal = new Image();
-                        item.ImageFinal.Source = GetSource(item);
+                        if (item.ImageFinal == null)
+                        {
+                            item.ImageFinal = new Image();
+                            item.ImageFinal.Source = GetSource(item);
+                        }
                         item.Cantitate = 0;
                         SItems.Add(item);
                     }
@@ -248,6 +255,8 @@ namespace FoodDeliveryApp.ViewModels
 
         void OnMinus(Item itemVM)
         {
+            if (CItems == null)
+                return;
             var item = CItems.Find(citem => citem.ProductId == itemVM.ProductId);
             if (itemVM == null || item == null)
                 return;
@@ -261,14 +270,16 @@ namespace FoodDeliveryApp.ViewModels
             else
                 DataStore.SaveCart(item);
 
-            RefreshCanExecutes();
         }
 
         void OnPlus(Item itemVM)
         {
-            var item = CItems.Find(citem => citem.ProductId == itemVM.ProductId);
+            if (CItems == null)
+                return;
             if (itemVM == null)
                 return;
+            var item = CItems.Find(citem => citem.ProductId == itemVM.ProductId);
+
             if (item == null)
             {
                 item = new CartItem
@@ -286,12 +297,6 @@ namespace FoodDeliveryApp.ViewModels
             itemVM.Cantitate++;
             DataStore.SaveCart(item);
 
-            RefreshCanExecutes();
-        }
-        void RefreshCanExecutes()
-        {
-            PlusCommand.ChangeCanExecute();
-            MinusCommand.ChangeCanExecute();
         }
         async void OnItemSelected(Item item)
         {

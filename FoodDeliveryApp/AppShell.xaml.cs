@@ -10,8 +10,6 @@ namespace FoodDeliveryApp
 {
     public partial class AppShell : Xamarin.Forms.Shell
     {
-        public IDataStore DataStore => DependencyService.Get<IDataStore>();
-
         public AppShell()
         {
             InitializeComponent();
@@ -19,7 +17,7 @@ namespace FoodDeliveryApp
             Routing.RegisterRoute(nameof(ListaRestaurantePage), typeof(ListaRestaurantePage));
             Routing.RegisterRoute(nameof(CategoryPage), typeof(CategoryPage));
             Routing.RegisterRoute(nameof(ItemDetailPage), typeof(ItemDetailPage));
-            Task.Run(async () => await DataStore.Init()).Wait();
+            Task.Run(async () => await DependencyService.Get<IDataStore>().Init()).Wait();
         }
 
         private async void OnMenuItemClicked(object sender, EventArgs e)

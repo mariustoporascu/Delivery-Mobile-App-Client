@@ -13,28 +13,50 @@
         https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/data-binding/compiled-bindings
     -->
     <StackLayout>
-        <Entry
-            HorizontalTextAlignment="Center"
-            Placeholder="Cauta Produs"
-            PlaceholderColor="Black"
-            Text="{Binding SearchItem}"
-            TextChanged="Entry_TextChanged"
-            TextColor="Black" />
-        <!--<RefreshView
-            x:DataType="local:ItemsViewModel"
-            Command="{Binding LoadItemsCommand}"
-            IsRefreshing="{Binding IsBusy, Mode=TwoWay}">-->
+        <StackLayout
+            BackgroundColor="{AppThemeBinding Light=White,
+                                              Dark=Black}"
+            HorizontalOptions="FillAndExpand"
+            Orientation="Horizontal">
+            <Entry
+                BackgroundColor="{AppThemeBinding Light=LightCyan,
+                                                  Dark=DarkCyan}"
+                HorizontalOptions="FillAndExpand"
+                HorizontalTextAlignment="Center"
+                Placeholder="Cauta Produs"
+                PlaceholderColor="{AppThemeBinding Light=Black,
+                                                   Dark=White}"
+                Text="{Binding SearchItem}"
+                TextColor="{AppThemeBinding Light=Black,
+                                            Dark=White}" />
+
+            <ImageButton
+                Margin="0,0,10,0"
+                BackgroundColor="Transparent"
+                Command="{Binding Source={RelativeSource AncestorType={x:Type local:ItemsViewModel}}, Path=SearchCommand}"
+                HeightRequest="25"
+                HorizontalOptions="End"
+                Source="{AppThemeBinding Light=img_search.png,
+                                         Dark=img_search_dark.png}" />
+
+        </StackLayout>
+        <!--<RefreshView Command="{Binding LoadItemsCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">-->
         <CollectionView
             x:Name="CategListView"
-            BackgroundColor="WhiteSmoke"
+            BackgroundColor="{AppThemeBinding Light=LightCyan,
+                                              Dark=DarkCyan}"
             IsGrouped="True"
             ItemsLayout="VerticalGrid,2"
-            SelectionMode="None">
+            SelectionMode="None"
+            VerticalOptions="FillAndExpand">
             <CollectionView.GroupHeaderTemplate>
                 <DataTemplate>
-                    <Frame BackgroundColor="AntiqueWhite" HorizontalOptions="CenterAndExpand">
+                    <Frame
+                        BackgroundColor="AntiqueWhite"
+                        CornerRadius="20"
+                        HorizontalOptions="CenterAndExpand">
                         <Label
-                            FontSize="18"
+                            FontSize="Medium"
                             HorizontalOptions="CenterAndExpand"
                             LineBreakMode="WordWrap"
                             Text="{Binding Key.Name}"
@@ -44,124 +66,95 @@
             </CollectionView.GroupHeaderTemplate>
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <StackLayout>
-                        <!--<Frame>
-                            <Label Text="{Binding Name}" />
-                        </Frame>-->
-                        <!--<CollectionView
-                            x:Name="SubCategListView"
-                            BackgroundColor="WhiteSmoke"
-                            ItemsSource="{Binding SubCategs}"
-                            SelectionMode="None">
-                            <CollectionView.ItemTemplate>
-                                <DataTemplate>
-                                    <StackLayout>
-                                        <Frame>
-                                            <Label Text="{Binding Name}"/>
-                                        </Frame>-->
-                        <!--<CollectionView
-                            x:Name="ItemsListView"
-                            BackgroundColor="WhiteSmoke"
-                            ItemsLayout="VerticalGrid,2"
-                            ItemsSource="{Binding Items}"
-                            MinimumHeightRequest="500"
-                            SelectionMode="None">
-                            <CollectionView.ItemTemplate>
-                                <DataTemplate>-->
-                        <Grid BackgroundColor="MediumAquamarine">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="250" />
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
+                    <StackLayout BackgroundColor="Transparent">
+                        <Frame Margin="5" Padding="0" CornerRadius="10" BackgroundColor="Transparent">
+                            <StackLayout BackgroundColor="MediumAquamarine" HeightRequest="250">
 
-                            <StackLayout
-                                Margin="5,5,5,5"
-                                x:DataType="model:Item"
-                                BackgroundColor="LightGoldenrodYellow"
-                                HorizontalOptions="FillAndExpand"
-                                Orientation="Vertical">
+                                <StackLayout
+                                    Margin="5,5,5,5"
+                                    x:DataType="model:Item"
+                                    BackgroundColor="LightGoldenrodYellow"
+                                    HorizontalOptions="FillAndExpand"
+                                    Orientation="Vertical"
+                                    VerticalOptions="FillAndExpand">
 
-                                <StackLayout HorizontalOptions="CenterAndExpand">
-                                    <Image
-                                        Margin="5,0,5,0"
-                                        Aspect="AspectFit"
-                                        BackgroundColor="Transparent"
-                                        HeightRequest="90"
-                                        Source="{Binding ImageFinal.Source}"
-                                        WidthRequest="90" />
-                                    <Label
-                                        FontSize="16"
-                                        HorizontalTextAlignment="Center"
-                                        LineBreakMode="WordWrap"
-                                        Style="{DynamicResource ListItemTextStyle}"
-                                        Text="{Binding Name}"
-                                        TextColor="Black" />
-                                    <StackLayout.GestureRecognizers>
-                                        <TapGestureRecognizer
-                                            Command="{Binding Source={RelativeSource AncestorType={x:Type local:ItemsViewModel}}, Path=ItemTapped}"
+                                    <StackLayout HorizontalOptions="CenterAndExpand">
+                                        <Image
+                                            Margin="5,0,5,0"
+                                            Aspect="AspectFit"
+                                            BackgroundColor="Transparent"
+                                            HeightRequest="90"
+                                            Source="{Binding ImageFinal.Source}"
+                                            WidthRequest="90" />
+                                        <Label
+                                            FontSize="Medium"
+                                            HorizontalTextAlignment="Center"
+                                            LineBreakMode="WordWrap"
+                                            Style="{DynamicResource ListItemTextStyle}"
+                                            Text="{Binding Name}"
+                                            TextColor="Black" />
+                                        <StackLayout.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type local:ItemsViewModel}}, Path=ItemTapped}"
+                                                CommandParameter="{Binding .}"
+                                                NumberOfTapsRequired="1" />
+                                        </StackLayout.GestureRecognizers>
+                                    </StackLayout>
+                                    <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="EndAndExpand">
+                                        <Label
+                                            FontSize="Small"
+                                            HorizontalTextAlignment="Center"
+                                            LineBreakMode="NoWrap"
+                                            Style="{DynamicResource ListItemTextStyle}"
+                                            Text="{Binding GramajInterfata}"
+                                            TextColor="Black" />
+                                        <Label
+                                            FontSize="Small"
+                                            HorizontalTextAlignment="Center"
+                                            LineBreakMode="NoWrap"
+                                            Style="{DynamicResource ListItemDetailTextStyle}"
+                                            Text="{Binding PretInterfata}"
+                                            TextColor="Black" />
+                                        <StackLayout.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type local:ItemsViewModel}}, Path=ItemTapped}"
+                                                CommandParameter="{Binding .}"
+                                                NumberOfTapsRequired="1" />
+                                        </StackLayout.GestureRecognizers>
+                                    </StackLayout>
+                                    <StackLayout
+                                        Margin="0,0,0,10"
+                                        HorizontalOptions="CenterAndExpand"
+                                        Orientation="Horizontal"
+                                        VerticalOptions="EndAndExpand">
+                                        <ImageButton
+                                            Margin="5,0,5,0"
+                                            Aspect="AspectFit"
+                                            BackgroundColor="Transparent"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type local:ItemsViewModel}}, Path=MinusCommand}"
                                             CommandParameter="{Binding .}"
-                                            NumberOfTapsRequired="1" />
-                                    </StackLayout.GestureRecognizers>
-                                </StackLayout>
-                                <StackLayout HorizontalOptions="CenterAndExpand">
-                                    <Label
-                                        FontSize="16"
-                                        HorizontalTextAlignment="Center"
-                                        LineBreakMode="NoWrap"
-                                        Style="{DynamicResource ListItemTextStyle}"
-                                        Text="{Binding GramajInterfata}"
-                                        TextColor="Black" />
-                                    <Label
-                                        FontSize="13"
-                                        HorizontalTextAlignment="Center"
-                                        LineBreakMode="NoWrap"
-                                        Style="{DynamicResource ListItemDetailTextStyle}"
-                                        Text="{Binding PretInterfata}"
-                                        TextColor="Black" />
-                                    <StackLayout.GestureRecognizers>
-                                        <TapGestureRecognizer
-                                            Command="{Binding Source={RelativeSource AncestorType={x:Type local:ItemsViewModel}}, Path=ItemTapped}"
+                                            HeightRequest="28"
+                                            Source="minus.png"
+                                            WidthRequest="28" />
+                                        <Label
+                                            Margin="20,0,20,0"
+                                            FontSize="Large"
+                                            Text="{Binding Cantitate}"
+                                            TextColor="Blue"
+                                            VerticalTextAlignment="Center" />
+                                        <ImageButton
+                                            Margin="5,0,5,0"
+                                            Aspect="AspectFit"
+                                            BackgroundColor="Transparent"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type local:ItemsViewModel}}, Path=PlusCommand}"
                                             CommandParameter="{Binding .}"
-                                            NumberOfTapsRequired="1" />
-                                    </StackLayout.GestureRecognizers>
-                                </StackLayout>
-                                <StackLayout HorizontalOptions="CenterAndExpand" Orientation="Horizontal">
-                                    <ImageButton
-                                        Margin="5,0,5,0"
-                                        Aspect="AspectFit"
-                                        BackgroundColor="Transparent"
-                                        Command="{Binding Source={RelativeSource AncestorType={x:Type local:ItemsViewModel}}, Path=MinusCommand}"
-                                        CommandParameter="{Binding .}"
-                                        HeightRequest="28"
-                                        Source="minus.png"
-                                        WidthRequest="28" />
-                                    <Label
-                                        Margin="20,0,20,0"
-                                        FontSize="24"
-                                        Text="{Binding Cantitate}"
-                                        TextColor="Green"
-                                        VerticalTextAlignment="Center" />
-                                    <ImageButton
-                                        Margin="5,0,5,0"
-                                        Aspect="AspectFit"
-                                        BackgroundColor="Transparent"
-                                        Command="{Binding Source={RelativeSource AncestorType={x:Type local:ItemsViewModel}}, Path=PlusCommand}"
-                                        CommandParameter="{Binding .}"
-                                        HeightRequest="28"
-                                        Source="plus.png"
-                                        WidthRequest="28" />
+                                            HeightRequest="28"
+                                            Source="plus.png"
+                                            WidthRequest="28" />
+                                    </StackLayout>
                                 </StackLayout>
                             </StackLayout>
-                        </Grid>
-                        <!--</DataTemplate>
-                            </CollectionView.ItemTemplate>
-                        </CollectionView>-->
-                        <!--</StackLayout>
-                                </DataTemplate>
-                            </CollectionView.ItemTemplate>
-                        </CollectionView>-->
+                        </Frame>
                     </StackLayout>
                 </DataTemplate>
             </CollectionView.ItemTemplate>

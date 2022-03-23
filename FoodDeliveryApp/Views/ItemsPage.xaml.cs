@@ -34,9 +34,10 @@ namespace FoodDeliveryApp.Views
             }
             viewModel.LoadItemsCommand.Execute(null);
         }
-        private void Entry_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            viewModel.Searching();
-        }
+        //private void Entry_TextChanged(object sender, TextChangedEventArgs e)
+        //{
+        //    if (viewModel.SItems.Count > 0)
+        //        viewModel.Searching();
+        //}
     }
 }

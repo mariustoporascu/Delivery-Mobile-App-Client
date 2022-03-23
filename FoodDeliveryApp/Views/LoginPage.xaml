@@ -1,14 +1,83 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d"
-             x:Class="FoodDeliveryApp.Views.LoginPage"
-             Shell.NavBarIsVisible="False">
-    <ContentPage.Content>
-        <StackLayout Padding="10,0,10,0" VerticalOptions="Center">
-            <Button VerticalOptions="Center" Text="Login" Command="{Binding LoginCommand}"/>
+<ContentPage
+    x:Class="FoodDeliveryApp.Views.LoginPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="clr-namespace:FoodDeliveryApp.ViewModels;assembly=FoodDeliveryApp"
+    x:DataType="viewModels:LoginViewModel"
+    Shell.NavBarIsVisible="False"
+    mc:Ignorable="d">
+    <Grid>
+        <StackLayout
+            Margin="32"
+            IsVisible="{Binding IsNotLoggedIn}"
+            VerticalOptions="Center">
+            <Label HorizontalOptions="Center" Text="Please Login" />
+            <Button
+                BackgroundColor="MediumPurple"
+                Command="{Binding ExecuteLogin}"
+                Text="Login"
+                TextColor="White" />
         </StackLayout>
-    </ContentPage.Content>
+        <StackLayout
+            Margin="0,32"
+            IsVisible="{Binding IsLoggedIn}"
+            Spacing="12">
+            <Label
+                FontSize="Title"
+                HorizontalOptions="Center"
+                Text="Logged in 🙂" />
+            <Label Text="{Binding TokenExpirationText}" />
+            <StackLayout
+                Margin="8"
+                Orientation="Horizontal"
+                Spacing="8">
+                <Label Text="{Binding AccessTokenText}" />
+                <Button
+                    BackgroundColor="MediumPurple"
+                    Command="{Binding ExecuteCopyAccessToken}"
+                    Text="Copy"
+                    TextColor="White" />
+            </StackLayout>
+            <StackLayout
+                Margin="8"
+                Orientation="Horizontal"
+                Spacing="8">
+                <Label Text="{Binding IdTokenText}" />
+                <Button
+                    BackgroundColor="MediumPurple"
+                    Command="{Binding ExecuteCopyIdentityToken}"
+                    Text="Copy"
+                    TextColor="White" />
+            </StackLayout>
+            <StackLayout
+                Margin="8"
+                Orientation="Horizontal"
+                Spacing="8">
+                <Label Text="{Binding User}" />
+
+            </StackLayout>
+            <StackLayout
+                Margin="8"
+                Orientation="Horizontal"
+                Spacing="8">
+                <Label Text="{Binding UserEmail}" />
+
+            </StackLayout>
+            <Button
+                Margin="32,0"
+                BackgroundColor="MediumPurple"
+                Command="{Binding ExecuteRefresh}"
+                Text="Refresh Token"
+                TextColor="White" />
+            <Button
+                Margin="32,0"
+                BackgroundColor="MediumPurple"
+                Command="{Binding ExecuteLogout}"
+                Text="Logout"
+                TextColor="White" />
+        </StackLayout>
+    </Grid>
 </ContentPage>

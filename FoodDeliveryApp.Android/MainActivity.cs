@@ -5,6 +5,8 @@ using Android.Content.PM;
 using Android.Runtime;
 using Android.OS;
 using Android.Widget;
+using Plugin.FacebookClient;
+using Android.Content;
 
 namespace FoodDeliveryApp.Droid
 {
@@ -17,7 +19,7 @@ namespace FoodDeliveryApp.Droid
             ToolbarResource = Resource.Layout.Toolbar;
 
             base.OnCreate(savedInstanceState);
-
+            FacebookClientManager.Initialize(this);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App());
@@ -52,6 +54,11 @@ namespace FoodDeliveryApp.Droid
                 dialog.Show();
             }
             return;
+        }
+        protected override void OnActivityResult(int requestCode, Result resultCode, Intent intent)
+        {
+            base.OnActivityResult(requestCode, resultCode, intent);
+            FacebookClientManager.OnActivityResult(requestCode, resultCode, intent);
         }
     }
 }

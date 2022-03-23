@@ -11,7 +11,7 @@
     <StackLayout>
         <StackLayout Padding="20,20,20,20" BackgroundColor="LightBlue">
             <Label
-                FontSize="16"
+                FontSize="Medium"
                 HorizontalTextAlignment="Center"
                 LineBreakMode="WordWrap"
                 Style="{DynamicResource ListItemTextStyle}"
@@ -21,58 +21,63 @@
                 <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type local:CategViewModel}}, Path=AllProductsTapped}" NumberOfTapsRequired="1" />
             </StackLayout.GestureRecognizers>
         </StackLayout>
-        <!--<RefreshView
+        <RefreshView
             x:DataType="local:CategViewModel"
             Command="{Binding LoadItemsCommand}"
-            IsRefreshing="{Binding IsBusy, Mode=TwoWay}">-->
-        <CollectionView
-            x:Name="ItemsListView"
-            BackgroundColor="WhiteSmoke"
-            ItemsLayout="VerticalGrid,3"
-            ItemsSource="{Binding Items}"
-            SelectionMode="None">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Grid BackgroundColor="MediumAquamarine">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="180" />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <StackLayout
-                            Margin="5,5,5,5"
-                            x:DataType="model:Categ"
-                            BackgroundColor="LightGoldenrodYellow"
-                            HorizontalOptions="FillAndExpand"
-                            Orientation="Vertical">
-                            <Image
-                                Margin="5,0,5,0"
-                                Aspect="AspectFit"
+            IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+            <CollectionView
+                x:Name="ItemsListView"
+                BackgroundColor="{AppThemeBinding Light=LightCyan,
+                                                  Dark=DarkCyan}"
+                ItemsLayout="VerticalGrid,3"
+                ItemsSource="{Binding Items}"
+                SelectionMode="None"
+                VerticalOptions="FillAndExpand">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout  BackgroundColor="Transparent">
+                            <Frame
+                                Margin="5"
+                                Padding="0"
                                 BackgroundColor="Transparent"
-                                HeightRequest="80"
-                                Source="{Binding ImageFinal.Source}"
-                                VerticalOptions="CenterAndExpand"
-                                WidthRequest="80" />
-                            <Label
-                                FontSize="16"
-                                HorizontalTextAlignment="Center"
-                                LineBreakMode="WordWrap"
-                                Style="{DynamicResource ListItemTextStyle}"
-                                Text="{Binding Name}"
-                                TextColor="Black"
-                                VerticalOptions="CenterAndExpand" />
-                            <StackLayout.GestureRecognizers>
-                                <TapGestureRecognizer
-                                    Command="{Binding Source={RelativeSource AncestorType={x:Type local:CategViewModel}}, Path=ItemTapped}"
-                                    CommandParameter="{Binding .}"
-                                    NumberOfTapsRequired="1" />
-                            </StackLayout.GestureRecognizers>
+                                CornerRadius="10">
+                                <StackLayout BackgroundColor="MediumAquamarine" HeightRequest="180">
+                                    <StackLayout
+                                        Margin="5,5,5,5"
+                                        x:DataType="model:Categ"
+                                        BackgroundColor="LightGoldenrodYellow"
+                                        HorizontalOptions="FillAndExpand"
+                                        Orientation="Vertical"
+                                        VerticalOptions="FillAndExpand">
+                                        <Image
+                                            Margin="5,0,5,0"
+                                            Aspect="AspectFit"
+                                            BackgroundColor="Transparent"
+                                            HeightRequest="80"
+                                            Source="{Binding ImageFinal.Source}"
+                                            VerticalOptions="CenterAndExpand"
+                                            WidthRequest="80" />
+                                        <Label
+                                            FontSize="Small"
+                                            HorizontalTextAlignment="Center"
+                                            LineBreakMode="WordWrap"
+                                            Style="{DynamicResource ListItemTextStyle}"
+                                            Text="{Binding Name}"
+                                            TextColor="Black"
+                                            VerticalOptions="CenterAndExpand" />
+                                        <StackLayout.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type local:CategViewModel}}, Path=ItemTapped}"
+                                                CommandParameter="{Binding .}"
+                                                NumberOfTapsRequired="1" />
+                                        </StackLayout.GestureRecognizers>
+                                    </StackLayout>
+                                </StackLayout>
+                            </Frame>
                         </StackLayout>
-                    </Grid>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-        <!--</RefreshView>-->
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
     </StackLayout>
 </ContentPage>

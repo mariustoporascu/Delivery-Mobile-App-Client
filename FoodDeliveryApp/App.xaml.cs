@@ -10,7 +10,9 @@ namespace FoodDeliveryApp
 {
     public partial class App : Application
     {
-
+        public const string CallbackUri = "com.tmiit.fooddeliveryapp";
+        public static readonly string CallbackScheme = $"{CallbackUri}:/authenticated";
+        public static readonly string SignoutCallbackScheme = $"{CallbackUri}:/signout-callback-oidc";
         public bool PromptToConfirmExit
         {
             get
@@ -27,7 +29,7 @@ namespace FoodDeliveryApp
         {
             InitializeComponent();
 
-            DependencyService.Register<MockDataStore>();
+            DependencyService.Register<IDataStore, MockDataStore>();
             MainPage = new AppShell();
         }
 
