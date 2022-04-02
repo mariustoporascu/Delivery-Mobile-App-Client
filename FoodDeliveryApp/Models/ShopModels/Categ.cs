@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Xamarin.Forms;
 
-namespace FoodDeliveryApp.Models
+namespace FoodDeliveryApp.Models.ShopModels
 {
     public class Categ
     {

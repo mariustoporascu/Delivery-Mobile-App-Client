@@ -34,6 +34,9 @@
 		<Compile Update="Views\ListaRestaurantePage.xaml.cs">
 			<DependentUpon>ListaRestaurantePage.xaml</DependentUpon>
 		</Compile>
+		<Compile Update="Views\PlaceOrderPage.xaml.cs">
+		  <DependentUpon>PlaceOrderPage.xaml</DependentUpon>
+		</Compile>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -45,6 +48,12 @@
 		</EmbeddedResource>
 		<EmbeddedResource Update="Views\ListaRestaurantePage.xaml">
 			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Views\PlaceOrderPage.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Views\ProfilePage.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
 	</ItemGroup>
 

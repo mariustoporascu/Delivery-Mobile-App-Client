@@ -1,4 +1,5 @@
-﻿using IdentityModel.OidcClient;
+﻿using FoodDeliveryApp.Models.AuthModels;
+using IdentityModel.OidcClient;
 using IdentityModel.OidcClient.Results;
 
 namespace FoodDeliveryApp.Services

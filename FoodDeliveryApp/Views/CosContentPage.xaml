@@ -4,7 +4,7 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:FoodDeliveryApp.ViewModels"
-    xmlns:model="clr-namespace:FoodDeliveryApp.Models"
+    xmlns:model="clr-namespace:FoodDeliveryApp.Models.ShopModels"
     x:Name="Cos"
     Title="{Binding Title}"
     Shell.PresentationMode="Animated">
@@ -19,43 +19,40 @@
 
                     <Label
                         FontSize="Small"
-                        WidthRequest="90"
                         HorizontalOptions="CenterAndExpand"
                         HorizontalTextAlignment="Center"
                         LineBreakMode="WordWrap"
                         Style="{DynamicResource ListItemTextStyle}"
                         Text="Produs"
-                        TextColor="Black" />
+                        TextColor="Black"
+                        WidthRequest="90" />
                     <Label
                         FontSize="Small"
-                        WidthRequest="80"
-                        
                         HorizontalOptions="CenterAndExpand"
                         HorizontalTextAlignment="Center"
                         LineBreakMode="WordWrap"
                         Style="{DynamicResource ListItemTextStyle}"
                         Text="Gramaj / Pret"
-                        TextColor="Black" />
+                        TextColor="Black"
+                        WidthRequest="80" />
                     <Label
                         FontSize="Small"
-                        WidthRequest="95"
-                        
                         HorizontalOptions="CenterAndExpand"
                         HorizontalTextAlignment="Center"
                         LineBreakMode="WordWrap"
                         Style="{DynamicResource ListItemTextStyle}"
                         Text="Cantitate"
-                        TextColor="Black" />
+                        TextColor="Black"
+                        WidthRequest="95" />
                     <Label
-                        WidthRequest="100"
-                        
                         FontSize="Small"
                         HorizontalOptions="CenterAndExpand"
                         HorizontalTextAlignment="Center"
                         LineBreakMode="WordWrap"
                         Style="{DynamicResource ListItemTextStyle}"
                         Text="Sterge din cos"
-                        TextColor="Black" />
+                        TextColor="Black"
+                        WidthRequest="100" />
                 </StackLayout>
             </StackLayout>
         </StackLayout>
@@ -87,7 +84,7 @@
                                         WidthRequest="90">
                                         <Label
                                             FontSize="Small"
-                                        HorizontalOptions="CenterAndExpand"
+                                            HorizontalOptions="CenterAndExpand"
                                             HorizontalTextAlignment="Center"
                                             LineBreakMode="WordWrap"
                                             Style="{DynamicResource ListItemTextStyle}"
@@ -100,11 +97,13 @@
                                                 NumberOfTapsRequired="1" />
                                         </StackLayout.GestureRecognizers>
                                     </StackLayout>
-                                    <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" WidthRequest="80">
+                                    <StackLayout
+                                        HorizontalOptions="CenterAndExpand"
+                                        VerticalOptions="CenterAndExpand"
+                                        WidthRequest="80">
                                         <Label
                                             FontSize="Small"
                                             HorizontalTextAlignment="Center"
-                                            
                                             LineBreakMode="NoWrap"
                                             Style="{DynamicResource ListItemTextStyle}"
                                             Text="{Binding Gramaj}"
@@ -123,34 +122,36 @@
                                                 NumberOfTapsRequired="1" />
                                         </StackLayout.GestureRecognizers>
                                     </StackLayout>
-                                    <StackLayout HorizontalOptions="CenterAndExpand" Orientation="Horizontal" WidthRequest="95">
+                                    <StackLayout
+                                        HorizontalOptions="CenterAndExpand"
+                                        Orientation="Horizontal"
+                                        WidthRequest="95">
                                         <ImageButton
                                             Margin="5,0,5,0"
                                             Aspect="AspectFit"
                                             BackgroundColor="Transparent"
-                                            HorizontalOptions="CenterAndExpand"
                                             Command="{Binding Source={RelativeSource AncestorType={x:Type local:CosContentViewModel}}, Path=MinusCommand}"
                                             CommandParameter="{Binding .}"
                                             HeightRequest="15"
+                                            HorizontalOptions="CenterAndExpand"
                                             Source="minus.png"
                                             WidthRequest="15" />
                                         <Label
                                             Margin="5,0,5,0"
                                             FontSize="Medium"
-                                            Text="{Binding Cantitate}"
-                                            TextColor="Blue"
                                             HorizontalOptions="CenterAndExpand"
                                             HorizontalTextAlignment="Center"
+                                            Text="{Binding Cantitate}"
+                                            TextColor="Blue"
                                             VerticalTextAlignment="Center" />
                                         <ImageButton
                                             Margin="5,0,5,0"
                                             Aspect="AspectFit"
-                                            HorizontalOptions="CenterAndExpand"
-                                            
                                             BackgroundColor="Transparent"
                                             Command="{Binding Source={RelativeSource AncestorType={x:Type local:CosContentViewModel}}, Path=PlusCommand}"
                                             CommandParameter="{Binding .}"
                                             HeightRequest="15"
+                                            HorizontalOptions="CenterAndExpand"
                                             Source="plus.png"
                                             WidthRequest="15" />
                                     </StackLayout>
@@ -174,6 +175,6 @@
             <Label Text="{Binding Total}" TextColor="Black" />
             <Label Text=" RON" TextColor="Black" />
         </StackLayout>
-        <Button Text="Finalizare" />
+        <Button Clicked="GoToFinalizeOrder" Text="Finalizare" />
     </StackLayout>
 </ContentPage>

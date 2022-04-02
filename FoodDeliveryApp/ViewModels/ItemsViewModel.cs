@@ -10,6 +10,7 @@ using System.IO;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Android.Widget;
+using FoodDeliveryApp.Models.ShopModels;
 
 namespace FoodDeliveryApp.ViewModels
 {

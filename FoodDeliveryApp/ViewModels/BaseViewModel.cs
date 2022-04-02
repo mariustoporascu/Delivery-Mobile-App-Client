@@ -11,6 +11,8 @@ namespace FoodDeliveryApp.ViewModels
     public class BaseViewModel : INotifyPropertyChanged
     {
         public IDataStore DataStore => DependencyService.Get<IDataStore>();
+        public IAuthController AuthController => DependencyService.Get<IAuthController>();
+        public IOrderServ OrderService => DependencyService.Get<IOrderServ>();
 
         bool isBusy = false;
         public bool IsBusy

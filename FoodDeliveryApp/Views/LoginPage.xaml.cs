@@ -15,7 +15,29 @@ namespace FoodDeliveryApp.Views
         public LoginPage()
         {
             InitializeComponent();
-            this.BindingContext = new LoginViewModel();
+            var vm = new LoginViewModel();
+            vm.OnSignIn += OnSignIn;
+            vm.OnSignInFailed += OnSignInFailed;
+            BindingContext = vm;
+            if (!vm._loggedIn)
+            {
+                OnSignIn(this, default(EventArgs));
+            }
+
+        }
+        private async void OnSignIn(object sender, EventArgs e)
+        {
+            await Navigation.PopModalAsync();
+        }
+        private async void OnSignInFailed(object sender, EventArgs e)
+        {
+
+            await DisplayAlert("Eroare", "Inregistrare esuata", "OK");
+        }
+        async void OnDismissButtonClicked(object sender, EventArgs args)
+        {
+            // Page appearance not animated
+            await Navigation.PopModalAsync(false);
         }
     }
 }

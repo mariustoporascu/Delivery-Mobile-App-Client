@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="FoodDeliveryApp.Views.ProfilePage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:FoodDeliveryApp.ViewModels"
+    xmlns:model="clr-namespace:FoodDeliveryApp.Models"
+    Title="Detalii cont">
+    <StackLayout x:DataType="local:ProfileViewModel">
+        <StackLayout IsVisible="{Binding IsLoggedIn}" VerticalOptions="CenterAndExpand">
+            <Label
+                FontSize="Large"
+                HorizontalOptions="CenterAndExpand"
+                Text="{Binding Title}"
+                TextColor="Black" />
+            <Label
+                Margin="0,0,0,40"
+                HorizontalOptions="CenterAndExpand"
+                Text="{Binding Email}"
+                TextColor="Black" />
+            <Entry
+                HorizontalOptions="FillAndExpand"
+                HorizontalTextAlignment="Center"
+                Placeholder="Nume complet"
+                PlaceholderColor="Black"
+                Text="{Binding FullName}"
+                TextColor="Black" />
+            <Entry
+                HorizontalOptions="FillAndExpand"
+                HorizontalTextAlignment="Center"
+                Placeholder="Numar telefon"
+                PlaceholderColor="Black"
+                Text="{Binding PhoneNumber}"
+                TextColor="Black" />
+            <Entry
+                HorizontalOptions="FillAndExpand"
+                HorizontalTextAlignment="Center"
+                Placeholder="Nr cladire/apartament"
+                PlaceholderColor="Black"
+                Text="{Binding BuildingInfo}"
+                TextColor="Black" />
+            <Entry
+                HorizontalOptions="FillAndExpand"
+                HorizontalTextAlignment="Center"
+                Placeholder="Nume/Nr Strada"
+                PlaceholderColor="Black"
+                Text="{Binding Street}"
+                TextColor="Black" />
+            <Entry
+                HorizontalOptions="FillAndExpand"
+                HorizontalTextAlignment="Center"
+                Placeholder="Oras"
+                PlaceholderColor="Black"
+                Text="{Binding City}"
+                TextColor="Black" />
+            <Button Command="{Binding SaveProfile}" Text="Salveaza" />
+        </StackLayout>
+        <StackLayout IsVisible="{Binding IsNotLoggedIn}" VerticalOptions="CenterAndExpand">
+            <Label
+                FontSize="Large"
+                HorizontalOptions="CenterAndExpand"
+                Text="Nu esti autentificat"
+                TextColor="Black" />
+            <Button Clicked="RedirSignIn" Text="Autentificare" />
+        </StackLayout>
+    </StackLayout>
+</ContentPage>

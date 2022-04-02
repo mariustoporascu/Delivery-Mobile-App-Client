@@ -62,8 +62,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <MtouchArch>ARM64</MtouchArch>
-    <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignKey>Apple Development: Marius Toporascu (5THXDHZ9AT)</CodesignKey>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <CodesignProvision>VS: com.tmiit.FoodDeliveryApp Development</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'Default' ">
     <AppExtensionDebugBundleId />
@@ -71,6 +72,9 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
+    <Compile Include="Renderers\AppleSignInButtonRenderer.cs" />
+    <Compile Include="Renderers\TabIconRenderer.cs" />
+    <Compile Include="Services\AppleSignInService.cs" />
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -189,5 +193,23 @@
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\img_search.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\account_dark.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\account.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\img_orders_dark.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\img_map.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\img_map_dark.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\img_orders.png" />
   </ItemGroup>
 </Project>

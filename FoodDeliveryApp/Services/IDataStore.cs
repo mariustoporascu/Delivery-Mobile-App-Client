@@ -1,4 +1,5 @@
 ﻿using FoodDeliveryApp.Models;
+using FoodDeliveryApp.Models.ShopModels;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -10,6 +11,7 @@ namespace FoodDeliveryApp.Services
         Task Init();
         void SaveCart(CartItem item);
         void DeleteFromCart(CartItem item);
+        void CleanCart();
         List<CartItem> GetCartItems();
         Item GetItem(int id);
         List<Item> GetItems(int canal, int refId, int? categId);

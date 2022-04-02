@@ -1,0 +1,52 @@
+﻿using FoodDeliveryApp.Models;
+using FoodDeliveryApp.Models.ShopModels;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace FoodDeliveryApp.Services
+{
+    public class OrderServ : IOrderServ
+    {
+        private HttpClient _httpClient = new HttpClient();
+        public async Task<int> CreateOrder(Order order)
+        {
+            Uri uri = new Uri("https://fooddelivapp.somee.com/foodapp/createorder");
+            _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            var json = JsonConvert.SerializeObject(order);
+            var data = new StringContent(json, Encoding.UTF8, "application/json");
+            HttpResponseMessage httpResponseMessage = await _httpClient.PostAsync(uri, data);
+            if (httpResponseMessage.IsSuccessStatusCode)
+            {
+                var respInfo = await httpResponseMessage.Content.ReadAsStringAsync();
+                return int.Parse(respInfo);
+            }
+            return 0;
+        }
+
+        public async Task CreateOrderInfo(OrderInfo orderInfo)
+        {
+            Uri uri = new Uri("https://fooddelivapp.somee.com/foodapp/createorderinfo");
+            _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            var json = JsonConvert.SerializeObject(orderInfo);
+            var data = new StringContent(json, Encoding.UTF8, "application/json");
+            HttpResponseMessage httpResponseMessage = await _httpClient.PostAsync(uri, data);
+            Debug.WriteLine(httpResponseMessage.IsSuccessStatusCode);
+        }
+
+        public async Task CreateProductsInOrder(List<ProductInOrder> productsInOrder)
+        {
+            Uri uri = new Uri("https://fooddelivapp.somee.com/foodapp/createorderproducts");
+            _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            var json = JsonConvert.SerializeObject(productsInOrder);
+            var data = new StringContent(json, Encoding.UTF8, "application/json");
+            HttpResponseMessage httpResponseMessage = await _httpClient.PostAsync(uri, data);
+            Debug.WriteLine(httpResponseMessage.IsSuccessStatusCode);
+        }
+    }
+}

@@ -1,4 +1,5 @@
 ﻿using FoodDeliveryApp.Models;
+using FoodDeliveryApp.Models.ShopModels;
 using FoodDeliveryApp.Views;
 using MvvmHelpers;
 using System;

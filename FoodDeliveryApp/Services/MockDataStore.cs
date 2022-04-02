@@ -1,5 +1,6 @@
 ﻿using Android.Widget;
 using FoodDeliveryApp.Models;
+using FoodDeliveryApp.Models.ShopModels;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -47,31 +48,7 @@ namespace FoodDeliveryApp.Services
                 return _serverInfo.items.FindAll(items => items.RestaurantRefId == refId);
             }
         }
-        //public IEnumerable<Item> SearchItems(int canal, int refId, int? categId, string itemName = "")
-        //{
-        //    if (canal == 1)
-        //    {
-        //        if (categId > 0)
-        //        {
-        //            return _serverInfo.items.FindAll(items => items.CategoryRefId == categId && items.SuperMarketRefId != null
-        //                && (items.Name.ToLower().Contains(itemName.ToLower())
-        //                || items.Description.ToLower().Contains(itemName.ToLower())));
-        //        }
-        //        return _serverInfo.items.FindAll(items => items.Name.ToLower().Contains(itemName.ToLower())
-        //            || items.Description.ToLower().Contains(itemName.ToLower()) && items.SuperMarketRefId != null);
-        //    }
-        //    else
-        //    {
-        //        if (categId > 0)
-        //        {
-        //            return _serverInfo.items.FindAll(items => items.CategoryRefId == categId && items.RestaurantRefId == refId
-        //                && (items.Name.ToLower().Contains(itemName.ToLower())
-        //                || items.Description.ToLower().Contains(itemName.ToLower())));
-        //        }
-        //        return _serverInfo.items.FindAll(items => items.Name.ToLower().Contains(itemName.ToLower())
-        //            || items.Description.ToLower().Contains(itemName.ToLower()) && items.RestaurantRefId == refId);
-        //    }
-        //}
+
         public void SaveCart(CartItem item)
         {
 
@@ -89,6 +66,15 @@ namespace FoodDeliveryApp.Services
         {
             if (item != null)
                 _serverInfo.cartItems.Remove(item);
+            _serverInfo.saveCartPrefs(_serverInfo.cartItems);
+        }
+        public void CleanCart()
+        {
+            _serverInfo.cartItems.Clear();
+            foreach (var item in _serverInfo.items)
+            {
+                item.Cantitate = 0;
+            }
             _serverInfo.saveCartPrefs(_serverInfo.cartItems);
         }
 

@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Xamarin.Forms;
 
-namespace FoodDeliveryApp.Models
+namespace FoodDeliveryApp.Models.ShopModels
 {
     public class Item : BaseModel
     {

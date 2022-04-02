@@ -3,81 +3,36 @@
     x:Class="FoodDeliveryApp.Views.LoginPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:FoodDeliveryApp.Controls"
     xmlns:d="http://xamarin.com/schemas/2014/forms/design"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModels="clr-namespace:FoodDeliveryApp.ViewModels;assembly=FoodDeliveryApp"
     x:DataType="viewModels:LoginViewModel"
-    Shell.NavBarIsVisible="False"
     mc:Ignorable="d">
     <Grid>
         <StackLayout
             Margin="32"
-            IsVisible="{Binding IsNotLoggedIn}"
+            IsVisible="{Binding LoggedIn}"
             VerticalOptions="Center">
-            <Label HorizontalOptions="Center" Text="Please Login" />
+            <Label HorizontalOptions="Center" Text="Creaza cont" />
             <Button
                 BackgroundColor="MediumPurple"
-                Command="{Binding ExecuteLogin}"
-                Text="Login"
-                TextColor="White" />
-        </StackLayout>
-        <StackLayout
-            Margin="0,32"
-            IsVisible="{Binding IsLoggedIn}"
-            Spacing="12">
-            <Label
-                FontSize="Title"
-                HorizontalOptions="Center"
-                Text="Logged in 🙂" />
-            <Label Text="{Binding TokenExpirationText}" />
-            <StackLayout
-                Margin="8"
-                Orientation="Horizontal"
-                Spacing="8">
-                <Label Text="{Binding AccessTokenText}" />
-                <Button
-                    BackgroundColor="MediumPurple"
-                    Command="{Binding ExecuteCopyAccessToken}"
-                    Text="Copy"
-                    TextColor="White" />
-            </StackLayout>
-            <StackLayout
-                Margin="8"
-                Orientation="Horizontal"
-                Spacing="8">
-                <Label Text="{Binding IdTokenText}" />
-                <Button
-                    BackgroundColor="MediumPurple"
-                    Command="{Binding ExecuteCopyIdentityToken}"
-                    Text="Copy"
-                    TextColor="White" />
-            </StackLayout>
-            <StackLayout
-                Margin="8"
-                Orientation="Horizontal"
-                Spacing="8">
-                <Label Text="{Binding User}" />
-
-            </StackLayout>
-            <StackLayout
-                Margin="8"
-                Orientation="Horizontal"
-                Spacing="8">
-                <Label Text="{Binding UserEmail}" />
-
-            </StackLayout>
-            <Button
-                Margin="32,0"
-                BackgroundColor="MediumPurple"
-                Command="{Binding ExecuteRefresh}"
-                Text="Refresh Token"
+                Command="{Binding ExecuteLoginGoogle}"
+                IsVisible="{Binding IsGoogleSignInAvailable}"
+                Text="Creaza cont cu Google"
                 TextColor="White" />
             <Button
-                Margin="32,0"
                 BackgroundColor="MediumPurple"
-                Command="{Binding ExecuteLogout}"
-                Text="Logout"
+                Command="{Binding ExecuteLoginFacebook}"
+                Text="Creaza cont cu Facebook"
                 TextColor="White" />
+            <controls:AppleSignInButton
+                ButtonStyle="Black"
+                Command="{Binding SignInWithAppleCommand}"
+                HorizontalOptions="CenterAndExpand"
+                IsVisible="{Binding IsAppleSignInAvailable}"
+                VerticalOptions="CenterAndExpand" />
+            <Button Clicked="OnDismissButtonClicked" Text="Anuleaza" />
         </StackLayout>
     </Grid>
 </ContentPage>

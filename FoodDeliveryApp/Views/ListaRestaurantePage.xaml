@@ -4,7 +4,7 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:FoodDeliveryApp.ViewModels"
-    xmlns:model="clr-namespace:FoodDeliveryApp.Models"
+    xmlns:model="clr-namespace:FoodDeliveryApp.Models.ShopModels"
     x:Name="Items"
     Title="{Binding Title}"
     Shell.PresentationMode="Animated">
@@ -23,8 +23,12 @@
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <StackLayout BackgroundColor="Transparent">
-                    <Frame Margin="5" Padding="0" CornerRadius="10" BackgroundColor="Transparent">
-                        <StackLayout BackgroundColor="MediumAquamarine" HeightRequest="150">
+                        <Frame
+                            Margin="5"
+                            Padding="0"
+                            BackgroundColor="Transparent"
+                            CornerRadius="10">
+                            <StackLayout BackgroundColor="MediumAquamarine" HeightRequest="150">
                                 <StackLayout
                                     Margin="5,5,5,5"
                                     x:DataType="model:Companie"

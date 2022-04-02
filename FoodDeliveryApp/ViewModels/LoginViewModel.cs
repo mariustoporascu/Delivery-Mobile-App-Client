@@ -7,87 +7,123 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using FoodDeliveryApp.Annotations;
+using FoodDeliveryApp.Models;
+using FoodDeliveryApp.Models.AuthModels;
 using FoodDeliveryApp.Services;
+using Newtonsoft.Json;
 using Plugin.FacebookClient;
 using Xamarin.Essentials;
 using Xamarin.Forms;
+
 
 namespace FoodDeliveryApp.ViewModels
 {
     public class LoginViewModel : BaseViewModel
     {
         private readonly HttpClient _httpClient = new HttpClient();
-        private const string AuthorityUrl = "https://accounts.google.com";
-        private Credentials? _credentials;
-        private UserInfo? _userInfo;
+        private const string GoogleUrl = "https://accounts.google.com";
+        private const string ClientId = "121275221168-i230p391b86n5rfu4quoq7b6tijitu72.apps.googleusercontent.com";
+        private const string scope = "openid profile email";
+        private UserInfo? _userInfoGoogle;
         private readonly OidcIdentity _oidcIdentity;
+
+        public bool _loggedIn = !App.isLoggedIn;
+        public bool LoggedIn { get => _loggedIn; }
+        public bool IsAppleSignInAvailable { get { return appleSignInService?.IsAvailable ?? false; } }
+        public bool IsGoogleSignInAvailable { get { return !appleSignInService?.IsAvailable ?? true; } }
+        public ICommand SignInWithAppleCommand { get; set; }
+
+        public event EventHandler OnSignIn = delegate { };
+        public event EventHandler OnSignInFailed = delegate { };
+
+        IAppleSignInService appleSignInService;
+        IAuthController authController;
 
         public LoginViewModel()
         {
-            // const string scope = "openid profile offline_access";
-            const string scope = "openid profile email";
-            _oidcIdentity = new OidcIdentity("121275221168-m5ng9m5r5mhdlcj31r9pl0c21m63gr6b.apps.googleusercontent.com", App.CallbackScheme, App.SignoutCallbackScheme, scope, AuthorityUrl);
-            ExecuteLogin = new Command(Login);
-            ExecuteRefresh = new Command(RefreshTokens);
-            ExecuteLogout = new Command(Logout);
-            ExecuteGetInfo = new Command(GetInfo);
-            ExecuteCopyAccessToken = new Command(async () => await Clipboard.SetTextAsync(_credentials?.AccessToken));
-            ExecuteCopyIdentityToken = new Command(async () => await Clipboard.SetTextAsync(_credentials?.IdentityToken));
+            _oidcIdentity = new OidcIdentity(ClientId, App.CallbackScheme, App.SignoutCallbackScheme, scope, GoogleUrl);
+            ExecuteLoginGoogle = new Command(LoginWithGoogle);
+            ExecuteLoginFacebook = new Command(LoginWithFacebook);
+            appleSignInService = DependencyService.Get<IAppleSignInService>();
+            authController = DependencyService.Get<IAuthController>();
+            SignInWithAppleCommand = new Command(OnAppleSignInRequest);
         }
 
-        public ICommand ExecuteLogin { get; }
-        public ICommand ExecuteRefresh { get; }
-        public ICommand ExecuteLogout { get; }
-        public ICommand ExecuteGetInfo { get; }
-        public ICommand ExecuteCopyAccessToken { get; }
-        public ICommand ExecuteCopyIdentityToken { get; }
+        public ICommand ExecuteLoginGoogle { get; }
+        public ICommand ExecuteLoginFacebook { get; }
 
-        public string TokenExpirationText => "Access Token expires at: " + _credentials?.AccessTokenExpiration;
-        public string AccessTokenText => "Access Token: " + _credentials?.AccessToken;
-        public string IdTokenText => "Id Token: " + _credentials?.IdentityToken;
-        public string User => "User: " + _userInfo?.UserClaim.ToList().FirstOrDefault(claim => claim.Type == "name").Value;
-        public string UserEmail => "UserEmail: " + _userInfo?.UserClaim.ToList().FirstOrDefault(claim => claim.Type == "email").Value;
-        public bool IsLoggedIn => _credentials != null;
-        public bool IsNotLoggedIn => _credentials == null;
-
-        private async void GetInfo()
-        {
-            var url = Path.Combine(AuthorityUrl, "manage", "index");
-            var response = await _httpClient.GetAsync(url);
-            if (response.StatusCode == HttpStatusCode.Unauthorized)
-            {
-                if (string.IsNullOrEmpty(_credentials?.RefreshToken))
-                {
-                    // no valid refresh token exists => authenticate
-                    await _oidcIdentity.Authenticate();
-                }
-                else
-                {
-                    // we have a valid refresh token => refresh tokens
-                    await _oidcIdentity.RefreshToken(_credentials!.RefreshToken);
-                }
-            }
-
-            Debug.WriteLine(await response.Content.ReadAsStringAsync());
-        }
-
-        private async void Login()
+        private async void LoginWithFacebook()
         {
             try
             {
                 FacebookResponse<bool> response = await CrossFacebookClient.Current.LoginAsync(new string[] { "email", "public_profile" });
-                Debug.WriteLine(response);
                 FacebookResponse<string> responseData = await CrossFacebookClient.Current.RequestUserDataAsync(new string[] { "email", "first_name", "gender", "last_name", "birthday" }, new string[] { "email", "user_birthday" });
-                Debug.WriteLine(responseData);
+                if (responseData != null)
+                {
+                    var settings = new JsonSerializerSettings
+                    {
+                        NullValueHandling = NullValueHandling.Ignore,
+                        MissingMemberHandling = MissingMemberHandling.Ignore
+                    };
+                    var userData = JsonConvert.DeserializeObject<FaceBookAcc>(responseData.Data, settings);
+                    SecureStorage.SetAsync(App.FACEBOOK_ID_EMAIL, userData.Email).Wait();
+                    SecureStorage.SetAsync(App.FACEBOOK_ID_NAME, string.Concat(userData.First_Name, " ", userData.Last_Name)).Wait();
+                    SecureStorage.SetAsync(App.FACEBOOK_ID, userData.Id).Wait();
+                    SecureStorage.SetAsync(App.LOGIN_WITH, "Facebook").Wait();
+                    var serverResp = await authController.CreateUser(new UserModel
+                    {
+                        Email = userData.Email,
+                        FullName = string.Concat(userData.First_Name, " ", userData.Last_Name),
+                        UserIdentification = userData.Id,
+                    });
+                    if (!string.IsNullOrEmpty(serverResp) && await AfterSignIn())
+                        OnSignIn?.Invoke(this, default(EventArgs));
+                    else
+                        OnSignInFailed?.Invoke(this, new EventArgs());
+                }
+                else
+                    OnSignInFailed?.Invoke(this, new EventArgs());
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+        }
+        private async void LoginWithGoogle()
+        {
+            try
+            {
                 Credentials credentials = await _oidcIdentity.Authenticate();
-                UserInfo userInfo = await _oidcIdentity.GetUserInfo(credentials.AccessToken);
-                UpdateCredentials(credentials, userInfo);
+                if (credentials != null && string.IsNullOrEmpty(credentials.Error))
+                {
+                    UserInfo userInfo = await _oidcIdentity.GetUserInfo(credentials.AccessToken);
+                    if (userInfo != null)
+                    {
+                        var userData = userInfo.UserClaim.ToList();
+                        SecureStorage.SetAsync(App.GOOGLE_ID_EMAIL, userData.FirstOrDefault(claim => claim.Type == "email").Value).Wait();
+                        SecureStorage.SetAsync(App.GOOGLE_ID_NAME, userData.FirstOrDefault(claim => claim.Type == "name").Value).Wait();
+                        SecureStorage.SetAsync(App.GOOGLE_ID, userData.FirstOrDefault(claim => claim.Type == "sub").Value).Wait();
+                        SecureStorage.SetAsync(App.LOGIN_WITH, "Google").Wait();
 
-                _httpClient.DefaultRequestHeaders.Authorization = credentials.IsError
-                    ? null
-                    : new AuthenticationHeaderValue("bearer", credentials.AccessToken);
+                        var serverResp = await authController.CreateUser(new UserModel
+                        {
+                            Email = userData.FirstOrDefault(claim => claim.Type == "email").Value,
+                            FullName = userData.FirstOrDefault(claim => claim.Type == "name").Value,
+                            UserIdentification = userData.FirstOrDefault(claim => claim.Type == "sub").Value,
+                        });
+                        if (!string.IsNullOrEmpty(serverResp) && await AfterSignIn())
+                            OnSignIn?.Invoke(this, default(EventArgs));
+                        else
+                            OnSignInFailed?.Invoke(this, new EventArgs());
+                    }
+                    else
+                        OnSignInFailed?.Invoke(this, new EventArgs());
+                }
+                else
+                    OnSignInFailed?.Invoke(this, new EventArgs());
             }
             catch (Exception ex)
             {
@@ -95,46 +131,89 @@ namespace FoodDeliveryApp.ViewModels
             }
         }
 
-        private async void RefreshTokens()
+        async void OnAppleSignInRequest()
         {
-            if (_credentials?.RefreshToken == null) return;
-            Credentials credentials = await _oidcIdentity.RefreshToken(_credentials.RefreshToken);
-            UpdateCredentials(credentials);
-        }
-
-        private async void Logout()
-        {
-            await _oidcIdentity.Logout(_credentials?.IdentityToken);
-            _credentials = null;
-            _userInfo = null;
-            OnPropertyChanged(nameof(UserEmail));
-            OnPropertyChanged(nameof(TokenExpirationText));
-            OnPropertyChanged(nameof(AccessTokenText));
-            OnPropertyChanged(nameof(IdTokenText));
-            OnPropertyChanged(nameof(IsLoggedIn));
-            OnPropertyChanged(nameof(IsNotLoggedIn));
-        }
-
-        private void UpdateCredentials(Credentials credentials, UserInfo userInfo = null)
-        {
-            if (credentials.RefreshToken == null)
+            try
             {
-                credentials.RefreshToken = _credentials.RefreshToken;
+                var account = await appleSignInService.SignInAsync();
+                if (account != null)
+                {
+                    SecureStorage.SetAsync(App.APPLE_ID_EMAIL, account.Email).Wait();
+                    SecureStorage.SetAsync(App.APPLE_ID_NAME, account.Name).Wait();
+                    SecureStorage.SetAsync(App.APPLE_ID, account.UserId).Wait();
+                    SecureStorage.SetAsync(App.LOGIN_WITH, "Apple").Wait();
+
+                    var serverResp = await authController.CreateUser(new UserModel
+                    {
+                        Email = account.Email,
+                        FullName = account.Name,
+                        UserIdentification = account.UserId,
+                    });
+                    if (!string.IsNullOrEmpty(serverResp) && await AfterSignIn())
+                        OnSignIn?.Invoke(this, default(EventArgs));
+                    else
+                        OnSignInFailed?.Invoke(this, new EventArgs());
+                }
+                else
+                    OnSignInFailed?.Invoke(this, new EventArgs());
             }
-            _credentials = credentials;
-            if (userInfo != null)
-                _userInfo = userInfo;
-            OnPropertyChanged(nameof(UserEmail));
-            OnPropertyChanged(nameof(TokenExpirationText));
-            OnPropertyChanged(nameof(AccessTokenText));
-            OnPropertyChanged(nameof(IdTokenText));
-            OnPropertyChanged(nameof(IsLoggedIn));
-            OnPropertyChanged(nameof(User));
-            OnPropertyChanged(nameof(IsNotLoggedIn));
+
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+
         }
-        private async void OnLoginClicked(object obj)
+        async Task<bool> AfterSignIn()
         {
-            await Shell.Current.GoToAsync("//EntryFoodAppPage");
+            string loginResult = string.Empty;
+            string finalEmail = string.Empty;
+            string finalId = string.Empty;
+            var authService = DependencyService.Get<IAuthController>();
+            var gMail = await SecureStorage.GetAsync(App.GOOGLE_ID_EMAIL);
+            var gMailId = await SecureStorage.GetAsync(App.GOOGLE_ID);
+            var fMail = await SecureStorage.GetAsync(App.FACEBOOK_ID_EMAIL);
+            var fMailId = await SecureStorage.GetAsync(App.FACEBOOK_ID);
+            var aMail = await SecureStorage.GetAsync(App.APPLE_ID_EMAIL);
+            var aMailId = await SecureStorage.GetAsync(App.APPLE_ID);
+            var lWith = await SecureStorage.GetAsync(App.LOGIN_WITH);
+            if (!string.IsNullOrEmpty(lWith))
+            {
+                if (lWith.Equals("Google"))
+                {
+                    loginResult = await authService.LoginUser(new UserModel { Email = gMail, UserIdentification = gMailId });
+                    finalEmail = gMail;
+                    finalId = gMailId;
+                }
+                else if (lWith.Equals("Facebook"))
+                {
+                    loginResult = await authService.LoginUser(new UserModel { Email = fMail, UserIdentification = fMailId });
+                    finalEmail = fMail;
+                    finalId = fMailId;
+                }
+                else if (lWith.Equals("Apple"))
+                {
+                    loginResult = await authService.LoginUser(new UserModel { Email = aMail, UserIdentification = aMailId });
+                    finalEmail = aMail;
+                    finalId = aMailId;
+                }
+            }
+
+            if (loginResult != string.Empty && !loginResult.Contains("Password is wrong.")
+                && !loginResult.Contains("Email is wrong or user not existing.") && !loginResult.Contains("Login data invalid."))
+            {
+                App.isLoggedIn = true;
+                var settings = new JsonSerializerSettings
+                {
+                    NullValueHandling = NullValueHandling.Ignore,
+                    MissingMemberHandling = MissingMemberHandling.Ignore
+                };
+                App.userInfo = JsonConvert.DeserializeObject<UserModel>(loginResult.Trim(), settings);
+                App.userInfo.Email = finalEmail;
+                App.userInfo.UserIdentification = finalId;
+            }
+            MessagingCenter.Send<LoginViewModel>(this, "UpdateProfile");
+            return App.isLoggedIn;
         }
     }
 }

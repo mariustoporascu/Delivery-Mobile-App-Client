@@ -27,5 +27,9 @@ namespace FoodDeliveryApp.Views
             base.OnAppearing();
             viewModel.LoadItemsCommand.Execute(null);
         }
+        private async void GoToFinalizeOrder(object sender, EventArgs e)
+        {
+            await Navigation.PushModalAsync(new PlaceOrderPage());
+        }
     }
 }

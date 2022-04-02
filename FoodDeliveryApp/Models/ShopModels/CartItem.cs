@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using Xamarin.Forms;
 
-namespace FoodDeliveryApp.Models
+namespace FoodDeliveryApp.Models.ShopModels
 {
     public class CartItem : BaseModel
     {

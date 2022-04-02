@@ -9,8 +9,8 @@
 		<string>Default</string>
 	</array>
 	<key>keychain-access-groups</key>
-  <array>
-    <string>{YB847G5ND6}.{com.tmiit.FoodDeliveryApp}</string>
-  </array>
+	<array>
+		<string>{YB847G5ND6}.{com.tmiit.FoodDeliveryApp}</string>
+	</array>
 </dict>
 </plist>

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 
-namespace FoodDeliveryApp.Services
+namespace FoodDeliveryApp.Models.AuthModels
 {
     public class UserInfo
     {

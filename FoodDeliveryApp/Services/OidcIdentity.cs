@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using FoodDeliveryApp.Models.AuthModels;
 using IdentityModel.OidcClient;
 using IdentityModel.OidcClient.Results;
 
@@ -56,27 +57,6 @@ namespace FoodDeliveryApp.Services
             {
                 Console.WriteLine(ex);
                 return new UserInfo();
-            }
-        }
-
-        public async Task<LogoutResult> Logout(string? identityToken)
-        {
-            OidcClient oidcClient = CreateOidcClient();
-            return null;
-        }
-
-        public async Task<Credentials> RefreshToken(string refreshToken)
-        {
-            try
-            {
-                OidcClient oidcClient = CreateOidcClient();
-                RefreshTokenResult refreshTokenResult = await oidcClient.RefreshTokenAsync(refreshToken);
-                return refreshTokenResult.ToCredentials();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-                return new Credentials { Error = ex.ToString() };
             }
         }
 

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Security.Claims;
 
-namespace FoodDeliveryApp.Services
+namespace FoodDeliveryApp.Models.AuthModels
 {
     public class Credentials
     {
