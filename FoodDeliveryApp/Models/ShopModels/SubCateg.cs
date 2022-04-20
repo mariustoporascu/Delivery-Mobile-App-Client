@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FoodDeliveryApp.Constants;
+using System;
 using System.Collections.Generic;
 using Xamarin.Forms;
 
@@ -10,8 +11,9 @@ namespace FoodDeliveryApp.Models.ShopModels
         public string Name { get; set; }
         public string Description { get; set; }
         public int CategoryRefId { get; set; }
-
-        public string Image { get; set; }
-        public Image ImageFinal { get; set; }
+        public Uri GetPhotoUri => string.IsNullOrWhiteSpace(Photo) ?
+    new Uri($"{ServerConstants.BaseUrl}/content/No_image_available.png") :
+    new Uri($"{ServerConstants.BaseUrl}/WebImage/GetImage/{Photo}");
+        public string Photo { get; set; }
     }
 }

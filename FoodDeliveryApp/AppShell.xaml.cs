@@ -17,6 +17,7 @@ namespace FoodDeliveryApp
             Routing.RegisterRoute(nameof(ListaRestaurantePage), typeof(ListaRestaurantePage));
             Routing.RegisterRoute(nameof(CategoryPage), typeof(CategoryPage));
             Routing.RegisterRoute(nameof(ItemDetailPage), typeof(ItemDetailPage));
+            Routing.RegisterRoute(nameof(RegisterPage), typeof(RegisterPage));
             Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
             Routing.RegisterRoute(nameof(PlaceOrderPage), typeof(PlaceOrderPage));
             Task.Run(async () => await DependencyService.Get<IDataStore>().Init()).Wait();

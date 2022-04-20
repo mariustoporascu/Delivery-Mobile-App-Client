@@ -4,21 +4,46 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:FoodDeliveryApp.ViewModels"
-    xmlns:model="clr-namespace:FoodDeliveryApp.Models"
+    xmlns:model="clr-namespace:FoodDeliveryApp.Models" Shell.PresentationMode="Animated"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     Title="Detalii cont">
-    <StackLayout x:DataType="local:ProfileViewModel">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <xct:InvertedBoolConverter x:Key="invertBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <StackLayout x:DataType="local:ProfileViewModel" BackgroundColor="{AppThemeBinding Light=LightGray, Dark=Gray}">
         <StackLayout IsVisible="{Binding IsLoggedIn}" VerticalOptions="CenterAndExpand">
             <Label
+                Padding="10,0,10,0"
+                xct:CornerRadiusEffect.CornerRadius="20"
+                Background="{AppThemeBinding Light=Gray,
+                                             Dark=LightGray}"
+                BackgroundColor="{AppThemeBinding Light=Gray,
+                                                  Dark=LightGray}"
                 FontSize="Large"
                 HorizontalOptions="CenterAndExpand"
                 Text="{Binding Title}"
                 TextColor="Black" />
             <Label
                 Margin="0,0,0,40"
+                Padding="10,0,10,0"
+                xct:CornerRadiusEffect.CornerRadius="20"
+                Background="{AppThemeBinding Light=Gray,
+                                             Dark=LightGray}"
+                BackgroundColor="{AppThemeBinding Light=Gray,
+                                                  Dark=LightGray}"
+                FontSize="Medium"
                 HorizontalOptions="CenterAndExpand"
                 Text="{Binding Email}"
                 TextColor="Black" />
             <Entry
+                xct:CornerRadiusEffect.CornerRadius="20"
+                Background="{AppThemeBinding Light=Gray,
+                                             Dark=LightGray}"
+                BackgroundColor="{AppThemeBinding Light=Gray,
+                                                  Dark=LightGray}"
+                ClearButtonVisibility="WhileEditing"
                 HorizontalOptions="FillAndExpand"
                 HorizontalTextAlignment="Center"
                 Placeholder="Nume complet"
@@ -26,6 +51,12 @@
                 Text="{Binding FullName}"
                 TextColor="Black" />
             <Entry
+                xct:CornerRadiusEffect.CornerRadius="20"
+                Background="{AppThemeBinding Light=Gray,
+                                             Dark=LightGray}"
+                BackgroundColor="{AppThemeBinding Light=Gray,
+                                                  Dark=LightGray}"
+                ClearButtonVisibility="WhileEditing"
                 HorizontalOptions="FillAndExpand"
                 HorizontalTextAlignment="Center"
                 Placeholder="Numar telefon"
@@ -33,6 +64,12 @@
                 Text="{Binding PhoneNumber}"
                 TextColor="Black" />
             <Entry
+                xct:CornerRadiusEffect.CornerRadius="20"
+                Background="{AppThemeBinding Light=Gray,
+                                             Dark=LightGray}"
+                BackgroundColor="{AppThemeBinding Light=Gray,
+                                                  Dark=LightGray}"
+                ClearButtonVisibility="WhileEditing"
                 HorizontalOptions="FillAndExpand"
                 HorizontalTextAlignment="Center"
                 Placeholder="Nr cladire/apartament"
@@ -40,6 +77,12 @@
                 Text="{Binding BuildingInfo}"
                 TextColor="Black" />
             <Entry
+                xct:CornerRadiusEffect.CornerRadius="20"
+                Background="{AppThemeBinding Light=Gray,
+                                             Dark=LightGray}"
+                BackgroundColor="{AppThemeBinding Light=Gray,
+                                                  Dark=LightGray}"
+                ClearButtonVisibility="WhileEditing"
                 HorizontalOptions="FillAndExpand"
                 HorizontalTextAlignment="Center"
                 Placeholder="Nume/Nr Strada"
@@ -47,21 +90,99 @@
                 Text="{Binding Street}"
                 TextColor="Black" />
             <Entry
+                xct:CornerRadiusEffect.CornerRadius="20"
+                Background="{AppThemeBinding Light=Gray,
+                                             Dark=LightGray}"
+                BackgroundColor="{AppThemeBinding Light=Gray,
+                                                  Dark=LightGray}"
+                ClearButtonVisibility="WhileEditing"
                 HorizontalOptions="FillAndExpand"
                 HorizontalTextAlignment="Center"
                 Placeholder="Oras"
                 PlaceholderColor="Black"
                 Text="{Binding City}"
                 TextColor="Black" />
-            <Button Command="{Binding SaveProfile}" Text="Salveaza" />
+
         </StackLayout>
-        <StackLayout IsVisible="{Binding IsNotLoggedIn}" VerticalOptions="CenterAndExpand">
-            <Label
-                FontSize="Large"
+        <StackLayout IsVisible="{Binding IsLoggedIn}" VerticalOptions="End">
+
+            <Frame
+                Margin="30"
+                Padding="10"
+                Background="Cyan"
+                BackgroundColor="Cyan"
+                CornerRadius="10"
                 HorizontalOptions="CenterAndExpand"
-                Text="Nu esti autentificat"
-                TextColor="Black" />
-            <Button Clicked="RedirSignIn" Text="Autentificare" />
+                VerticalOptions="EndAndExpand">
+                <Button
+				BorderColor="Cyan"
+                    Background="Cyan"
+                    BackgroundColor="Cyan"
+                    Command="{Binding SaveProfile}"
+                    FontAttributes="Bold"
+                    FontSize="18"
+                    Text="SALVEAZA PROFILUL"
+                    TextColor="Black" />
+            </Frame>
+            <Frame
+                Margin="10"
+                Padding="10"
+                Background="Brown"
+                BackgroundColor="Brown"
+                CornerRadius="10"
+                HorizontalOptions="CenterAndExpand"
+                VerticalOptions="EndAndExpand">
+                <Button
+				BorderColor="Brown"
+                    Background="Brown"
+                    BackgroundColor="Brown"
+                    Command="{Binding Source={RelativeSource AncestorType={x:Type local:ProfileViewModel}}, Path=Logout}"
+                    FontAttributes="Bold"
+                    FontSize="18"
+                    Text="Log out"
+                    TextColor="Black" />
+            </Frame>
+        </StackLayout>
+        <StackLayout
+            BackgroundColor="{AppThemeBinding Light=LightGray,
+                                              Dark=Gray}"
+            IsVisible="{Binding IsLoggedIn, Converter={StaticResource invertBoolConverter}}"
+            VerticalOptions="CenterAndExpand">
+            <Frame
+                Margin="50"
+                Padding="10"
+                Background="Cyan"
+                BackgroundColor="Cyan"
+                CornerRadius="10"
+                HorizontalOptions="CenterAndExpand"
+                VerticalOptions="EndAndExpand">
+                <Label
+                    Background="Cyan"
+                    BackgroundColor="Cyan"
+                    FontAttributes="Bold"
+                    FontSize="Large"
+                    HorizontalOptions="CenterAndExpand"
+                    Text="Nu esti autentificat."
+                    TextColor="Black"
+                    VerticalOptions="EndAndExpand" />
+            </Frame>
+            <Frame
+                Padding="10"
+                Background="Cyan"
+                BackgroundColor="Cyan"
+                CornerRadius="10"
+                HorizontalOptions="CenterAndExpand"
+                VerticalOptions="EndAndExpand">
+                <Button
+				BorderColor="Cyan"
+                    Background="Cyan"
+                    BackgroundColor="Cyan"
+                    Clicked="RedirSignIn"
+                    FontAttributes="Bold"
+                    FontSize="18"
+                    Text="AUTENTIFICATE"
+                    TextColor="Black" />
+            </Frame>
         </StackLayout>
     </StackLayout>
 </ContentPage>

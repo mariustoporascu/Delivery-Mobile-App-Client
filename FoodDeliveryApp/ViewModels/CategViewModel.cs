@@ -1,4 +1,5 @@
-﻿using FoodDeliveryApp.Models;
+﻿using FoodDeliveryApp.Constants;
+using FoodDeliveryApp.Models;
 using FoodDeliveryApp.Models.ShopModels;
 using FoodDeliveryApp.Views;
 using MvvmHelpers;
@@ -37,16 +38,6 @@ namespace FoodDeliveryApp.ViewModels
             ItemTapped = new Command<Categ>(OnItemSelected);
             AllProductsTapped = new Command(AllProducts);
         }
-
-        private ImageSource GetSource(Categ item)
-        {
-            if (item.Image != null)
-            {
-                byte[] bytes = Convert.FromBase64String(item.Image);
-                return ImageSource.FromStream(() => new MemoryStream(bytes));
-            }
-            return ImageSource.FromFile("No_image_available.png");
-        }
         void ExecuteLoadItemsCommand()
         {
             IsBusy = true;
@@ -58,12 +49,6 @@ namespace FoodDeliveryApp.ViewModels
                 var items = DataStore.GetCategories(canal, refId);
                 foreach (var item in items)
                 {
-                    if (item.ImageFinal == null)
-                    {
-                        item.ImageFinal = new Image();
-                        item.ImageFinal.Source = GetSource(item);
-                    }
-
                     newItems.Add(item);
                 }
                 Items.AddRange(newItems);

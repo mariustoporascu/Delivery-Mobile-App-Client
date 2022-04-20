@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FoodDeliveryApp.Constants;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -21,8 +22,10 @@ namespace FoodDeliveryApp.Models.ShopModels
         public int? SubCategoryRefId { get; set; }
         public int? RestaurantRefId { get; set; }
         public int? SuperMarketRefId { get; set; }
-        public string Image { get; set; }
-        public Image ImageFinal { get; set; }
+        public string Photo { get; set; }
+        public Uri GetPhotoUri => string.IsNullOrWhiteSpace(Photo) ?
+    new Uri($"{ServerConstants.BaseUrl}/content/No_image_available.png") :
+    new Uri($"{ServerConstants.BaseUrl}/WebImage/GetImage/{Photo}");
 
         private int _cantitate;
         public int Cantitate

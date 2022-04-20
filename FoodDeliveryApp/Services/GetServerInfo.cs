@@ -1,4 +1,5 @@
-﻿using FoodDeliveryApp.Models;
+﻿using FoodDeliveryApp.Constants;
+using FoodDeliveryApp.Models;
 using FoodDeliveryApp.Models.ShopModels;
 using Newtonsoft.Json;
 using System;
@@ -19,6 +20,7 @@ namespace FoodDeliveryApp.Services
         public List<CartItem> cartItems;
         public List<Companie> restaurante;
         public List<Companie> superMarkets;
+        public List<ServerOrder> serverOrders;
         public List<UnitatiMasura> unitati;
 
         public GetServerInfo()
@@ -61,7 +63,7 @@ namespace FoodDeliveryApp.Services
         }
         async Task loadServerProducts()
         {
-            Uri uri = new Uri("https://fooddelivapp.somee.com/foodapp/getallproducts");
+            Uri uri = new Uri($"{ServerConstants.BaseUrl}/foodapp/getallproducts");
             HttpResponseMessage response = await client.GetAsync(uri);
             if (response.IsSuccessStatusCode)
             {
@@ -76,7 +78,7 @@ namespace FoodDeliveryApp.Services
         }
         async Task loadServerCateg()
         {
-            Uri uri = new Uri("https://fooddelivapp.somee.com/foodapp/getallcategories");
+            Uri uri = new Uri($"{ServerConstants.BaseUrl}/foodapp/getallcategories");
             HttpResponseMessage response = await client.GetAsync(uri);
             if (response.IsSuccessStatusCode)
             {
@@ -91,7 +93,7 @@ namespace FoodDeliveryApp.Services
         }
         async Task loadServerSubCateg()
         {
-            Uri uri = new Uri("https://fooddelivapp.somee.com/foodapp/getallsubcategories");
+            Uri uri = new Uri($"{ServerConstants.BaseUrl}/foodapp/getallsubcategories");
             HttpResponseMessage response = await client.GetAsync(uri);
             if (response.IsSuccessStatusCode)
             {
@@ -106,7 +108,7 @@ namespace FoodDeliveryApp.Services
         }
         async Task loadServerRestaurante()
         {
-            Uri uri = new Uri("https://fooddelivapp.somee.com/foodapp/getallrestaurante");
+            Uri uri = new Uri($"{ServerConstants.BaseUrl}/foodapp/getallrestaurante");
             HttpResponseMessage response = await client.GetAsync(uri);
             if (response.IsSuccessStatusCode)
             {
@@ -121,7 +123,7 @@ namespace FoodDeliveryApp.Services
         }
         async Task loadServerSuperMarkets()
         {
-            Uri uri = new Uri("https://fooddelivapp.somee.com/foodapp/getallsupermarkets");
+            Uri uri = new Uri($"{ServerConstants.BaseUrl}/foodapp/getallsupermarkets");
             HttpResponseMessage response = await client.GetAsync(uri);
             if (response.IsSuccessStatusCode)
             {
@@ -134,9 +136,25 @@ namespace FoodDeliveryApp.Services
                 superMarkets = JsonConvert.DeserializeObject<List<Companie>>(content, settings);
             }
         }
+        public List<ServerOrder> loadServerOrders(string email)
+        {
+            Uri uri = new Uri($"{ServerConstants.BaseUrl}/foodapp/getallorders/{email}");
+            HttpResponseMessage response = client.GetAsync(uri).GetAwaiter().GetResult();
+            if (response.IsSuccessStatusCode)
+            {
+                string content = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+                var settings = new JsonSerializerSettings
+                {
+                    NullValueHandling = NullValueHandling.Ignore,
+                    MissingMemberHandling = MissingMemberHandling.Ignore
+                };
+                serverOrders = JsonConvert.DeserializeObject<List<ServerOrder>>(content, settings);
+            }
+            return serverOrders;
+        }
         async Task loadServerMeasuringUnits()
         {
-            Uri uri = new Uri("https://fooddelivapp.somee.com/foodapp/getallmeasuringunits");
+            Uri uri = new Uri($"{ServerConstants.BaseUrl}/foodapp/getallmeasuringunits");
             HttpResponseMessage response = await client.GetAsync(uri);
             if (response.IsSuccessStatusCode)
             {

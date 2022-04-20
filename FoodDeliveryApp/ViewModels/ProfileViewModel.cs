@@ -3,6 +3,7 @@ using FoodDeliveryApp.Models.AuthModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace FoodDeliveryApp.ViewModels
@@ -27,22 +28,36 @@ namespace FoodDeliveryApp.ViewModels
         public event EventHandler OnUpdateProfile = delegate { };
 
         public bool IsLoggedIn { get => isLoggedIn; set => SetProperty(ref isLoggedIn, value); }
-        public bool IsNotLoggedIn { get => !isLoggedIn; }
+        public Command Logout { get; }
+
         public ProfileViewModel()
         {
             RefreshProfile();
 
             SaveProfile = new Command(OnSaveProfile);
+            Logout = new Command(LogOutFunct);
+
             MessagingCenter.Subscribe<LoginViewModel>(this, "UpdateProfile", (sender) =>
                {
                    RefreshProfile();
                });
+            MessagingCenter.Subscribe<RegisterViewModel>(this, "UpdateProfile", (sender) =>
+            {
+                RefreshProfile();
+            });
+        }
+        void LogOutFunct()
+        {
+            App.userInfo = null;
+            App.isLoggedIn = false;
+            SecureStorage.RemoveAll();
+            IsLoggedIn = false;
+
         }
 
         public void RefreshProfile()
         {
             IsLoggedIn = App.isLoggedIn;
-            OnPropertyChanged("IsNotLoggedIn");
             Title = "Bun venit " + App.userInfo?.FullName;
             FullName = App.userInfo?.FullName;
             BuildingInfo = App.userInfo?.BuildingInfo;
@@ -62,6 +77,7 @@ namespace FoodDeliveryApp.ViewModels
                 PhoneNumber = PhoneNumber,
                 Email = Email,
                 UserIdentification = App.userInfo.UserIdentification,
+                Password = App.userInfo.Password
             });
             if (!result.Contains("Data invalid") || !result.Contains("Email is wrong or user not existing."))
             {
@@ -70,6 +86,7 @@ namespace FoodDeliveryApp.ViewModels
                 App.userInfo.City = City;
                 App.userInfo.PhoneNumber = PhoneNumber;
                 App.userInfo.Street = Street;
+                RefreshProfile();
                 OnUpdateProfile(this, default(EventArgs));
             }
         }

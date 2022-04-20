@@ -27,6 +27,8 @@ namespace FoodDeliveryApp
         public const string FACEBOOK_ID = "FacebookId";
         public const string FACEBOOK_ID_EMAIL = "FacebookIdEmail";
         public const string FACEBOOK_ID_NAME = "FacebookIdName";
+        public const string WEBEMAIL = "WebEmail";
+        public const string WEBPASS = "WebPass";
         public static bool isLoggedIn = false;
 
         public bool PromptToConfirmExit
@@ -64,6 +66,8 @@ namespace FoodDeliveryApp
             var fMailId = await SecureStorage.GetAsync(App.FACEBOOK_ID);
             var aMail = await SecureStorage.GetAsync(App.APPLE_ID_EMAIL);
             var aMailId = await SecureStorage.GetAsync(App.APPLE_ID);
+            var webMail = await SecureStorage.GetAsync(App.WEBEMAIL);
+            var webPass = await SecureStorage.GetAsync(App.WEBPASS);
             var lWith = await SecureStorage.GetAsync(App.LOGIN_WITH);
             if (!string.IsNullOrEmpty(lWith))
             {
@@ -85,6 +89,11 @@ namespace FoodDeliveryApp
                     finalEmail = aMail;
                     finalId = aMailId;
                 }
+                else if (lWith.Equals("WebLogin"))
+                {
+                    loginResult = await authService.LoginUser(new UserModel { Email = webMail, Password = webPass });
+                    finalEmail = webMail;
+                }
             }
 
             if (loginResult != string.Empty && !loginResult.Contains("Password is wrong.")
@@ -98,7 +107,12 @@ namespace FoodDeliveryApp
                 };
                 userInfo = JsonConvert.DeserializeObject<UserModel>(loginResult.Trim(), settings);
                 userInfo.Email = finalEmail;
-                userInfo.UserIdentification = finalId;
+                if (string.IsNullOrEmpty(finalId))
+                {
+                    userInfo.Password = webPass;
+                }
+                else
+                    userInfo.UserIdentification = finalId;
             }
         }
 

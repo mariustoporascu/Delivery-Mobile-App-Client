@@ -13,17 +13,18 @@ namespace FoodDeliveryApp.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ProfilePage : ContentPage
     {
+        ProfileViewModel viewModel;
         public ProfilePage()
         {
             InitializeComponent();
-            var vm = new ProfileViewModel();
-            vm.OnUpdateProfile += OnUpdateProfile;
-            BindingContext = vm;
+            BindingContext = viewModel = new ProfileViewModel();
+            viewModel.OnUpdateProfile += OnUpdateProfile;
             if (!App.isLoggedIn)
             {
                 RedirSignIn(this, default(EventArgs));
             }
         }
+
         private async void RedirSignIn(object sender, EventArgs e)
         {
             await Navigation.PushModalAsync(new LoginPage());

@@ -25,5 +25,10 @@ namespace FoodDeliveryApp.Views
         {
             await Navigation.PopModalAsync();
         }
+        async void OnDismissButtonClicked(object sender, EventArgs args)
+        {
+            // Page appearance not animated
+            await Navigation.PopModalAsync(false);
+        }
     }
 }

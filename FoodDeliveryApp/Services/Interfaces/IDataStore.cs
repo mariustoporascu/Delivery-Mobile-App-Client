@@ -11,6 +11,7 @@ namespace FoodDeliveryApp.Services
         Task Init();
         void SaveCart(CartItem item);
         void DeleteFromCart(CartItem item);
+        CartItem GetCartItem(int id);
         void CleanCart();
         List<CartItem> GetCartItems();
         Item GetItem(int id);
@@ -21,6 +22,6 @@ namespace FoodDeliveryApp.Services
         IEnumerable<Companie> GetRestaurante();
         IEnumerable<Companie> GetSuperMarkets();
         IEnumerable<UnitatiMasura> GetUnitatiMasura();
-
+        IEnumerable<ServerOrder> GetServerOrders(string email);
     }
 }

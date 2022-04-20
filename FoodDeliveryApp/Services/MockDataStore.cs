@@ -28,6 +28,10 @@ namespace FoodDeliveryApp.Services
         {
             return _serverInfo.items.FirstOrDefault(s => s.ProductId == id);
         }
+        public CartItem GetCartItem(int id)
+        {
+            return _serverInfo.cartItems.FirstOrDefault(s => s.ProductId == id);
+        }
 
         public List<Item> GetItems(int canal, int refId, int? categId)
         {
@@ -54,10 +58,14 @@ namespace FoodDeliveryApp.Services
 
             if (_serverInfo.cartItems.Find(citem => citem.ProductId == item.ProductId) != null)
             {
+                _serverInfo.items.Find(sItem => sItem.ProductId == item.ProductId).Cantitate = item.Cantitate;
+
                 _serverInfo.cartItems.Find(citem => citem.ProductId == item.ProductId).Cantitate = item.Cantitate;
             }
             else
             {
+                _serverInfo.items.Find(sItem => sItem.ProductId == item.ProductId).Cantitate = 1;
+
                 _serverInfo.cartItems.Add(item);
             }
             _serverInfo.saveCartPrefs(_serverInfo.cartItems);
@@ -65,9 +73,14 @@ namespace FoodDeliveryApp.Services
         public void DeleteFromCart(CartItem item)
         {
             if (item != null)
+            {
+                _serverInfo.items.Find(sItem => sItem.ProductId == item.ProductId).Cantitate = 0;
                 _serverInfo.cartItems.Remove(item);
+            }
+
             _serverInfo.saveCartPrefs(_serverInfo.cartItems);
         }
+
         public void CleanCart()
         {
             _serverInfo.cartItems.Clear();
@@ -116,6 +129,11 @@ namespace FoodDeliveryApp.Services
         public IEnumerable<SubCateg> GetSubCategories()
         {
             return _serverInfo.subCateg;
+        }
+
+        public IEnumerable<ServerOrder> GetServerOrders(string email)
+        {
+            return _serverInfo.loadServerOrders(email);
         }
     }
 }

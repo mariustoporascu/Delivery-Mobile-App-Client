@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using FoodDeliveryApp.Constants;
 using FoodDeliveryApp.Models.AuthModels;
 using IdentityModel.OidcClient;
 using IdentityModel.OidcClient.Results;
@@ -8,27 +9,9 @@ namespace FoodDeliveryApp.Services
 {
     public class OidcIdentity
     {
-        private readonly string _authorityUrl;
-        private readonly string _clientId;
-        private readonly string _redirectUrl;
-        private readonly string _postLogoutRedirectUrl;
-        private readonly string _scope;
-        private readonly string? _clientSecret;
-        private readonly string _issuerName = "accounts.google.com";
-        private readonly string _tokenEndpoint = "https://oauth2.googleapis.com/token";
-        private readonly string _authorizeEndpoint = "https://accounts.google.com/o/oauth2/v2/auth";
-        private readonly string _userInfoEndpoint = "https://openidconnect.googleapis.com/v1/userinfo";
-        private readonly string _revokeEndpoint = "https://oauth2.googleapis.com/revoke";
-        private readonly string _certEndpoint = "https://www.googleapis.com/oauth2/v3/certs";
-
-        public OidcIdentity(string clientId, string redirectUrl, string postLogoutRedirectUrl, string scope, string authorityUrl, string? clientSecret = null)
+        public OidcIdentity()
         {
-            _authorityUrl = authorityUrl;
-            _clientId = clientId;
-            _redirectUrl = redirectUrl;
-            _postLogoutRedirectUrl = postLogoutRedirectUrl;
-            _scope = scope;
-            _clientSecret = clientSecret;
+
         }
 
         public async Task<Credentials> Authenticate()
@@ -64,21 +47,20 @@ namespace FoodDeliveryApp.Services
         {
             var options = new OidcClientOptions
             {
-                Authority = _authorityUrl,
-                ClientId = _clientId,
-                Scope = _scope,
-                RedirectUri = _redirectUrl,
-                ClientSecret = _clientSecret,
-                PostLogoutRedirectUri = _postLogoutRedirectUrl,
+                Authority = GoogleConstants.GoogleUrl,
+                ClientId = GoogleConstants.ClientId,
+                Scope = GoogleConstants.Scope,
+                RedirectUri = App.CallbackScheme,
+                PostLogoutRedirectUri = App.SignoutCallbackScheme,
                 Browser = new WebAuthBrowser(),
                 ProviderInformation = new ProviderInformation
                 {
-                    IssuerName = _issuerName,
+                    IssuerName = GoogleConstants.IssuerName,
                     KeySet = new IdentityModel.Jwk.JsonWebKeySet(),
-                    TokenEndpoint = _tokenEndpoint,
-                    AuthorizeEndpoint = _authorizeEndpoint,
-                    UserInfoEndpoint = _userInfoEndpoint,
-                    EndSessionEndpoint = _revokeEndpoint,
+                    TokenEndpoint = GoogleConstants.TokenEndpoint,
+                    AuthorizeEndpoint = GoogleConstants.AuthorizeEndpoint,
+                    UserInfoEndpoint = GoogleConstants.UserInfoEndpoint,
+                    EndSessionEndpoint = GoogleConstants.RevokeEndpoint,
                 }
 
             };

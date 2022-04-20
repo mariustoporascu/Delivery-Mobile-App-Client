@@ -3,9 +3,47 @@
     x:Class="FoodDeliveryApp.Views.PlaceOrderPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:FoodDeliveryApp.ViewModels"
+    xmlns:local="clr-namespace:FoodDeliveryApp.ViewModels" Shell.PresentationMode="Animated"
     xmlns:model="clr-namespace:FoodDeliveryApp.Models">
-    <StackLayout x:DataType="local:PlaceOrderViewModel">
-        <Button Command="{Binding PlaceFinalOrder}" Text="Plaseaza Comanda"/>
+    <StackLayout
+        x:DataType="local:PlaceOrderViewModel"
+        HorizontalOptions="CenterAndExpand"
+        VerticalOptions="CenterAndExpand">
+        <Frame
+            Margin="10"
+            Padding="10"
+            Background="Cyan"
+            BackgroundColor="Cyan"
+            CornerRadius="10"
+            HorizontalOptions="CenterAndExpand"
+            VerticalOptions="EndAndExpand">
+            <Button
+			BorderColor="Cyan"
+                Background="Cyan"
+                BackgroundColor="Cyan"
+                Command="{Binding PlaceFinalOrder}"
+                FontAttributes="Bold"
+                FontSize="18"
+                Text="PLASEAZA COMANDA"
+                TextColor="Black" />
+        </Frame>
+        <Frame
+            Margin="10"
+            Padding="10"
+            Background="Brown"
+            BackgroundColor="Brown"
+            CornerRadius="10"
+            HorizontalOptions="CenterAndExpand"
+            VerticalOptions="EndAndExpand">
+            <Button
+			BorderColor="Brown"
+                Background="Brown"
+                BackgroundColor="Brown"
+                Clicked="OnDismissButtonClicked"
+                FontAttributes="Bold"
+                FontSize="18"
+                Text="Anuleaza"
+                TextColor="Black" />
+        </Frame>
     </StackLayout>
 </ContentPage>

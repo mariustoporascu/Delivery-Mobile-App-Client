@@ -18,7 +18,18 @@ namespace FoodDeliveryApp.ViewModels
         private decimal _total;
         private ObservableCollection<CartItem> _items;
         public ObservableCollection<CartItem> Items { get => _items; set => SetProperty(ref _items, value); }
-
+        private bool isPageVisible = false;
+        public bool IsPageVisible
+        {
+            get => isPageVisible;
+            set => SetProperty(ref isPageVisible, value);
+        }
+        private bool isLoggedIn = false;
+        public bool IsLoggedIn
+        {
+            get => isLoggedIn;
+            set => SetProperty(ref isLoggedIn, value);
+        }
         public Command LoadItemsCommand { get; }
         public Command MinusCommand { get; }
         public Command PlusCommand { get; }
@@ -56,6 +67,10 @@ namespace FoodDeliveryApp.ViewModels
                     Items.Add(item);
                     Total = Total + item.Cantitate * item.Price;
                 }
+                if (items.Count > 0)
+                    IsPageVisible = true;
+                else
+                    IsPageVisible = false;
             }
             catch (Exception ex)
             {
@@ -81,6 +96,7 @@ namespace FoodDeliveryApp.ViewModels
             Items.Remove(item);
             DataStore.DeleteFromCart(item);
             RefreshCanExecutes();
+
         }
         void OnMinus(CartItem item)
         {
@@ -112,9 +128,11 @@ namespace FoodDeliveryApp.ViewModels
             {
                 Total = Total + item.Cantitate * item.Price;
             }
-            PlusCommand.ChangeCanExecute();
-            DeleteCommand.ChangeCanExecute();
-            MinusCommand.ChangeCanExecute();
+            if (Items.Count > 0)
+                IsPageVisible = true;
+            else
+                IsPageVisible = false;
+
         }
         async void OnItemSelected(CartItem item)
         {

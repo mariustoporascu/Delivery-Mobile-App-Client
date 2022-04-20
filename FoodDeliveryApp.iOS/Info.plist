@@ -95,5 +95,13 @@
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.tmiit.FoodDeliveryApp</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Track Order Map</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Track Order Map</string>
+	<key>NSLocationUsageDescription</key>
+	<string>Track Order Map</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Track Order Map</string>
 </dict>
 </plist>

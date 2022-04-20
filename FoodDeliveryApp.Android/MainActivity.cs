@@ -7,6 +7,7 @@ using Android.OS;
 using Android.Widget;
 using Plugin.FacebookClient;
 using Android.Content;
+using Xamarin.Essentials;
 
 namespace FoodDeliveryApp.Droid
 {
@@ -22,6 +23,8 @@ namespace FoodDeliveryApp.Droid
             FacebookClientManager.Initialize(this);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
+            Xamarin.FormsMaps.Init(this, savedInstanceState);
+            GetLocationPermissions();
             LoadApplication(new App());
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
@@ -41,6 +44,17 @@ namespace FoodDeliveryApp.Droid
             base.OnBackPressed();
         }
 
+        private async void GetLocationPermissions()
+        {
+            var status = await Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();
+            if (status == PermissionStatus.Granted)
+                return;
+            var getPerm = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
+            if (getPerm == PermissionStatus.Granted)
+                return;
+            else
+                Toast.MakeText(this, "You will not be able to use map features without the permission.", ToastLength.Long);
+        }
         private void ConfirmWithDialog()
         {
             using (var alert = new AlertDialog.Builder(this))

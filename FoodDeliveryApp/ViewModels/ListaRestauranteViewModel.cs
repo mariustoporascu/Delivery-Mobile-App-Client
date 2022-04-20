@@ -1,4 +1,5 @@
-﻿using FoodDeliveryApp.Models;
+﻿using FoodDeliveryApp.Constants;
+using FoodDeliveryApp.Models;
 using FoodDeliveryApp.Models.ShopModels;
 using FoodDeliveryApp.Views;
 using System;
@@ -31,15 +32,6 @@ namespace FoodDeliveryApp.ViewModels
             ItemTapped = new Command<Companie>(OnItemSelected);
         }
 
-        private ImageSource GetSource(Companie item)
-        {
-            if (item.Image != null)
-            {
-                byte[] bytes = Convert.FromBase64String(item.Image);
-                return ImageSource.FromStream(() => new MemoryStream(bytes));
-            }
-            return ImageSource.FromFile("No_image_available.png");
-        }
         void ExecuteLoadItemsCommand()
         {
             IsBusy = true;
@@ -50,11 +42,6 @@ namespace FoodDeliveryApp.ViewModels
                 var items = DataStore.GetRestaurante();
                 foreach (var item in items)
                 {
-                    if (item.ImageFinal == null)
-                    {
-                        item.ImageFinal = new Image();
-                        item.ImageFinal.Source = GetSource(item);
-                    }
                     Items.Add(item);
                 }
             }

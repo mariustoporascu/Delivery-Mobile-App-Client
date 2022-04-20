@@ -1,4 +1,5 @@
-﻿using FoodDeliveryApp.Models;
+﻿using FoodDeliveryApp.Constants;
+using FoodDeliveryApp.Models;
 using FoodDeliveryApp.Models.ShopModels;
 using Newtonsoft.Json;
 using System;
@@ -16,7 +17,7 @@ namespace FoodDeliveryApp.Services
         private HttpClient _httpClient = new HttpClient();
         public async Task<int> CreateOrder(Order order)
         {
-            Uri uri = new Uri("https://fooddelivapp.somee.com/foodapp/createorder");
+            Uri uri = new Uri($"{ServerConstants.BaseUrl}/foodapp/createorder");
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             var json = JsonConvert.SerializeObject(order);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
@@ -31,7 +32,7 @@ namespace FoodDeliveryApp.Services
 
         public async Task CreateOrderInfo(OrderInfo orderInfo)
         {
-            Uri uri = new Uri("https://fooddelivapp.somee.com/foodapp/createorderinfo");
+            Uri uri = new Uri($"{ServerConstants.BaseUrl}/foodapp/createorderinfo");
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             var json = JsonConvert.SerializeObject(orderInfo);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
@@ -41,7 +42,7 @@ namespace FoodDeliveryApp.Services
 
         public async Task CreateProductsInOrder(List<ProductInOrder> productsInOrder)
         {
-            Uri uri = new Uri("https://fooddelivapp.somee.com/foodapp/createorderproducts");
+            Uri uri = new Uri($"{ServerConstants.BaseUrl}/foodapp/createorderproducts");
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             var json = JsonConvert.SerializeObject(productsInOrder);
             var data = new StringContent(json, Encoding.UTF8, "application/json");

@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Android.Widget;
 using FoodDeliveryApp.Models.ShopModels;
+using FoodDeliveryApp.Constants;
 
 namespace FoodDeliveryApp.ViewModels
 {
@@ -92,15 +93,6 @@ namespace FoodDeliveryApp.ViewModels
             SearchCommand = new Command(Searching);
         }
 
-        private ImageSource GetSource(Item item)
-        {
-            if (item.Image != null)
-            {
-                byte[] bytes = Convert.FromBase64String(item.Image);
-                return ImageSource.FromStream(() => new MemoryStream(bytes));
-            }
-            return ImageSource.FromFile("No_image_available.png");
-        }
         void ExecuteLoadItemsCommand()
         {
             IsBusy = true;
@@ -117,11 +109,6 @@ namespace FoodDeliveryApp.ViewModels
                     var items = DataStore.GetItems(canal, refId, categId);
                     foreach (var item in items)
                     {
-                        if (item.ImageFinal == null)
-                        {
-                            item.ImageFinal = new Image();
-                            item.ImageFinal.Source = GetSource(item);
-                        }
                         item.Cantitate = 0;
                         SItems.Add(item);
                     }
@@ -153,7 +140,7 @@ namespace FoodDeliveryApp.ViewModels
                                 {
                                     if (SItems.FindAll(item => item.SubCategoryRefId == subCateg.SubCategoryId).Count > 0)
                                     {
-                                        ItemsSubCateg.Add(new Grouping<SubCateg, Item>(subCateg, SItems.FindAll(item => item.SubCategoryRefId == subCateg.SubCategoryId)));
+                                        newListSub.Add(new Grouping<SubCateg, Item>(subCateg, SItems.FindAll(item => item.SubCategoryRefId == subCateg.SubCategoryId)));
                                     }
                                 }
                             }
@@ -162,7 +149,7 @@ namespace FoodDeliveryApp.ViewModels
                     else
                     {
                         if (SItems.FindAll(item => item.CategoryRefId == categ.CategoryId).Count > 0)
-                            Items.Add(new Grouping<Categ, Item>(categ, SItems.FindAll(item => item.CategoryRefId == categ.CategoryId)));
+                            newList.Add(new Grouping<Categ, Item>(categ, SItems.FindAll(item => item.CategoryRefId == categ.CategoryId)));
                     }
 
                 }

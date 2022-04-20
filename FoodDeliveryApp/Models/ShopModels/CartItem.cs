@@ -11,6 +11,8 @@ namespace FoodDeliveryApp.Models.ShopModels
         public string Description { get; set; }
         public string Gramaj { get; set; }
         public decimal Price { get; set; }
+        public int ShopId { get; set; }
+        public int Canal { get; set; }
 
         private int _cantitate;
         public int Cantitate

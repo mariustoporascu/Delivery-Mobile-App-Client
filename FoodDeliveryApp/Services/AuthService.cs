@@ -1,4 +1,5 @@
-﻿using FoodDeliveryApp.Models;
+﻿using FoodDeliveryApp.Constants;
+using FoodDeliveryApp.Models;
 using FoodDeliveryApp.Models.AuthModels;
 using Newtonsoft.Json;
 using System;
@@ -20,21 +21,21 @@ namespace FoodDeliveryApp.Services
         }
         public async Task<string> CreateUser(UserModel userModel)
         {
-            Uri uri = new Uri("https://fooddelivapp.somee.com/auth/create");
+            Uri uri = new Uri($"{ServerConstants.BaseUrl}/auth/create");
             return await sendRequest(userModel, uri);
 
         }
 
         public async Task<string> LoginUser(UserModel userModel)
         {
-            Uri uri = new Uri("https://fooddelivapp.somee.com/auth/login");
+            Uri uri = new Uri($"{ServerConstants.BaseUrl}/auth/login");
             return await sendRequest(userModel, uri);
 
         }
 
         public async Task<string> UserProfile(UserModel userModel)
         {
-            Uri uri = new Uri("https://fooddelivapp.somee.com/auth/profile");
+            Uri uri = new Uri($"{ServerConstants.BaseUrl}/auth/profile");
             return await sendRequest(userModel, uri);
 
         }

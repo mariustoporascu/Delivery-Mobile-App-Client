@@ -1,4 +1,5 @@
-﻿using FoodDeliveryApp.Models;
+﻿using FoodDeliveryApp.Constants;
+using FoodDeliveryApp.Models;
 using FoodDeliveryApp.Models.ShopModels;
 using System;
 using System.Diagnostics;
@@ -11,44 +12,27 @@ namespace FoodDeliveryApp.ViewModels
     [QueryProperty(nameof(ItemId), nameof(ItemId))]
     public class ItemDetailViewModel : BaseViewModel
     {
+        private CartItem cItem;
+        private Item item;
         private int itemId;
-        private string text;
-        private string description;
-        private string gramaj;
-        private string pret;
-        private Image imageFinal;
-        public int Id { get; set; }
+        public Command MinusCommand { get; }
+        public Command PlusCommand { get; }
 
-        public string Name
-        {
-            get => text;
-            set => SetProperty(ref text, value);
-        }
-
-        public string Description
-        {
-            get => description;
-            set => SetProperty(ref description, value);
-        }
-        public string Gramaj
-        {
-            get => gramaj;
-            set => SetProperty(ref gramaj, value);
-        }
-
-        public string Pret
-        {
-            get => pret;
-            set => SetProperty(ref pret, value);
-        }
-        public Image ImageFinal
-        {
-            get => imageFinal;
-            set => SetProperty(ref imageFinal, value);
-        }
         public ItemDetailViewModel()
         {
             Title = "Detalii Produs";
+            MinusCommand = new Command(OnMinus);
+            PlusCommand = new Command(OnPlus);
+        }
+        public Item Item
+        {
+            get => item;
+            set => SetProperty(ref item, value);
+        }
+        public CartItem CItem
+        {
+            get => cItem;
+            set => SetProperty(ref cItem, value);
         }
         public int ItemId
         {
@@ -62,28 +46,49 @@ namespace FoodDeliveryApp.ViewModels
                 LoadItemId(value);
             }
         }
-        private ImageSource GetSource(Item item)
+        void OnMinus()
         {
-            if (item.Image != null)
+            if (Item.Cantitate == 0)
+                return;
+            Item.Cantitate--;
+            CItem.Cantitate--;
+            if (CItem.Cantitate == 0)
             {
-                byte[] bytes = Convert.FromBase64String(item.Image);
-                return ImageSource.FromStream(() => new MemoryStream(bytes));
+                DataStore.DeleteFromCart(CItem);
             }
-            return ImageSource.FromFile("No_image_available.png");
+            else
+                DataStore.SaveCart(CItem);
+
+        }
+
+        void OnPlus()
+        {
+            if (Item == null)
+                return;
+
+            if (CItem == null)
+            {
+                CItem = new CartItem
+                {
+                    ProductId = Item.ProductId,
+                    Description = Item.Description,
+                    Gramaj = Item.Gramaj,
+                    Name = Item.Name,
+                    Price = Item.Price,
+                    Cantitate = Item.Cantitate,
+                };
+            }
+            Item.Cantitate++;
+            CItem.Cantitate++;
+            DataStore.SaveCart(CItem);
 
         }
         public void LoadItemId(int itemId)
         {
             try
             {
-                var item = DataStore.GetItem(itemId);
-                ImageFinal = new Image();
-                ImageFinal.Source = GetSource(item);
-                Id = item.ProductId;
-                Name = item.Name;
-                Description = item.Description;
-                Gramaj = item.GramajInterfata;
-                Pret = item.PretInterfata;
+                Item = DataStore.GetItem(itemId);
+                CItem = DataStore.GetCartItem(itemId);
             }
             catch (Exception)
             {

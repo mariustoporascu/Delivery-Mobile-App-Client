@@ -1,0 +1,223 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="FoodDeliveryApp.Views.OrdersPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:FoodDeliveryApp.ViewModels"
+    xmlns:model="clr-namespace:FoodDeliveryApp.Models.ShopModels" Shell.PresentationMode="Animated"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    Title="Comenzi">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <xct:InvertedBoolConverter x:Key="invertBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <StackLayout BackgroundColor="{AppThemeBinding Light=Gray, Dark=LightGray}" VerticalOptions="FillAndExpand">
+        <StackLayout IsVisible="{Binding IsLoggedIn}" VerticalOptions="FillAndExpand">
+            <StackLayout IsVisible="{Binding IsPageVisible}" VerticalOptions="FillAndExpand">
+                <StackLayout BackgroundColor="{AppThemeBinding Light=LightGray, Dark=Gray}">
+                    <StackLayout Margin="2" BackgroundColor="{AppThemeBinding Light=LightGray, Dark=Gray}">
+                        <StackLayout
+                            Margin="2"
+                            BackgroundColor="{AppThemeBinding Light=LightGray,
+                                                              Dark=Gray}"
+                            HorizontalOptions="FillAndExpand"
+                            Orientation="Horizontal">
+
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="Small"
+                                HorizontalOptions="CenterAndExpand"
+                                HorizontalTextAlignment="Center"
+                                LineBreakMode="WordWrap"
+                                Style="{DynamicResource ListItemTextStyle}"
+                                Text="Nr"
+                                TextColor="Black"
+                                WidthRequest="90" />
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="Small"
+                                HorizontalOptions="CenterAndExpand"
+                                HorizontalTextAlignment="Center"
+                                LineBreakMode="WordWrap"
+                                Style="{DynamicResource ListItemTextStyle}"
+                                Text="Status"
+                                TextColor="Black"
+                                WidthRequest="80" />
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="Small"
+                                HorizontalOptions="CenterAndExpand"
+                                HorizontalTextAlignment="Center"
+                                LineBreakMode="WordWrap"
+                                Style="{DynamicResource ListItemTextStyle}"
+                                Text="Total"
+                                TextColor="Black"
+                                WidthRequest="95" />
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="Small"
+                                HorizontalOptions="CenterAndExpand"
+                                HorizontalTextAlignment="Center"
+                                LineBreakMode="WordWrap"
+                                Style="{DynamicResource ListItemTextStyle}"
+                                Text="Data"
+                                TextColor="Black"
+                                WidthRequest="100" />
+                        </StackLayout>
+                    </StackLayout>
+                </StackLayout>
+
+                <RefreshView
+                    x:DataType="local:OrdersViewModel"
+                    BackgroundColor="{AppThemeBinding Light=LightGray,
+                                                      Dark=Gray}"
+                    Command="{Binding LoadOrdersCommand}"
+                    IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+                    <CollectionView
+                        x:Name="ItemsListView"
+                        BackgroundColor="{AppThemeBinding Light=LightGray,
+                                                          Dark=Gray}"
+                        ItemsSource="{Binding Orders}"
+                        SelectionMode="None">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <StackLayout BackgroundColor="{AppThemeBinding Light=LightCyan, Dark=LightCyan}">
+                                    <StackLayout
+                                        Margin="2"
+                                        x:DataType="model:ServerOrder"
+                                        BackgroundColor="{AppThemeBinding Light=DarkCyan,
+                                                                          Dark=DarkCyan}">
+                                        <StackLayout
+                                            Margin="2"
+                                            BackgroundColor="{AppThemeBinding Light=LightCyan,
+                                                                              Dark=LightCyan}"
+                                            HorizontalOptions="FillAndExpand"
+                                            Orientation="Horizontal">
+                                            <StackLayout
+                                                HorizontalOptions="CenterAndExpand"
+                                                VerticalOptions="CenterAndExpand"
+                                                WidthRequest="90">
+                                                <Label
+                                                    FontSize="Small"
+                                                    HorizontalOptions="CenterAndExpand"
+                                                    HorizontalTextAlignment="Center"
+                                                    LineBreakMode="WordWrap"
+                                                    Style="{DynamicResource ListItemTextStyle}"
+                                                    Text="{Binding OrderId}"
+                                                    TextColor="Black" />
+                                                <!--<StackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type local:CosContentViewModel}}, Path=ItemTapped}"
+                                            CommandParameter="{Binding .}"
+                                            NumberOfTapsRequired="1" />
+                                    </StackLayout.GestureRecognizers>-->
+                                            </StackLayout>
+                                            <StackLayout
+                                                HorizontalOptions="CenterAndExpand"
+                                                VerticalOptions="CenterAndExpand"
+                                                WidthRequest="80">
+                                                <Label
+                                                    FontSize="Small"
+                                                    HorizontalTextAlignment="Center"
+                                                    LineBreakMode="NoWrap"
+                                                    Style="{DynamicResource ListItemTextStyle}"
+                                                    Text="{Binding Status}"
+                                                    TextColor="Black" />
+                                                <!--<StackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type local:CosContentViewModel}}, Path=ItemTapped}"
+                                            CommandParameter="{Binding .}"
+                                            NumberOfTapsRequired="1" />
+                                    </StackLayout.GestureRecognizers>-->
+                                            </StackLayout>
+                                            <StackLayout
+                                                HorizontalOptions="CenterAndExpand"
+                                                VerticalOptions="CenterAndExpand"
+                                                WidthRequest="95">
+                                                <Label
+                                                    FontSize="Small"
+                                                    HorizontalTextAlignment="Center"
+                                                    LineBreakMode="NoWrap"
+                                                    Style="{DynamicResource ListItemTextStyle}"
+                                                    Text="{Binding TotalOrdered}"
+                                                    TextColor="Black" />
+                                                <!--<StackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type local:CosContentViewModel}}, Path=ItemTapped}"
+                                            CommandParameter="{Binding .}"
+                                            NumberOfTapsRequired="1" />
+                                    </StackLayout.GestureRecognizers>-->
+                                            </StackLayout>
+                                            <StackLayout
+                                                HorizontalOptions="CenterAndExpand"
+                                                VerticalOptions="CenterAndExpand"
+                                                WidthRequest="100">
+                                                <Label
+                                                    FontSize="Small"
+                                                    HorizontalTextAlignment="Center"
+                                                    LineBreakMode="NoWrap"
+                                                    Style="{DynamicResource ListItemTextStyle}"
+                                                    Text="{Binding Created, StringFormat='{0:MMMM dd, yyyy}'}"
+                                                    TextColor="Black" />
+                                                <Label
+                                                    FontSize="Small"
+                                                    HorizontalTextAlignment="Center"
+                                                    LineBreakMode="NoWrap"
+                                                    Style="{DynamicResource ListItemTextStyle}"
+                                                    Text="{Binding Created, StringFormat='{}{0:hh\\:mm}'}"
+                                                    TextColor="Black" />
+                                            </StackLayout>
+                                        </StackLayout>
+                                    </StackLayout>
+                                </StackLayout>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </RefreshView>
+            </StackLayout>
+            <StackLayout
+                BackgroundColor="{AppThemeBinding Light=LightGray,
+                                                  Dark=Gray}"
+                IsVisible="{Binding IsPageVisible, Converter={StaticResource invertBoolConverter}}"
+                VerticalOptions="FillAndExpand">
+                <Frame
+                    Padding="20"
+                    Background="Cyan"
+                    BackgroundColor="Cyan"
+                    CornerRadius="10"
+                    HorizontalOptions="CenterAndExpand"
+                    VerticalOptions="CenterAndExpand">
+                    <Label
+                        Background="Cyan"
+                        BackgroundColor="Cyan"
+                        FontAttributes="Bold"
+                        FontSize="Large"
+                        Text="Nu ai nici o comanda plasata."
+                        TextColor="Black" />
+                </Frame>
+            </StackLayout>
+        </StackLayout>
+        <StackLayout
+            BackgroundColor="{AppThemeBinding Light=LightGray,
+                                              Dark=Gray}"
+            IsVisible="{Binding IsLoggedIn, Converter={StaticResource invertBoolConverter}}"
+            VerticalOptions="FillAndExpand">
+            <Frame
+                Padding="20"
+                Background="Cyan"
+                BackgroundColor="Cyan"
+                CornerRadius="10"
+                HorizontalOptions="CenterAndExpand"
+                VerticalOptions="CenterAndExpand">
+                <Label
+                    Background="Cyan"
+                    BackgroundColor="Cyan"
+                    FontAttributes="Bold"
+                    FontSize="Large"
+                    Text="Nu esti autentificat."
+                    TextColor="Black" />
+            </Frame>
+        </StackLayout>
+    </StackLayout>
+</ContentPage>

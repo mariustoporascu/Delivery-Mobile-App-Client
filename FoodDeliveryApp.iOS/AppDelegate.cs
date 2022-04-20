@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using CoreLocation;
 using Foundation;
 using Plugin.FacebookClient;
 using UIKit;
@@ -25,6 +25,8 @@ namespace FoodDeliveryApp.iOS
         {
 
             global::Xamarin.Forms.Forms.Init();
+            global::Xamarin.FormsMaps.Init();
+            new CLLocationManager().RequestWhenInUseAuthorization();
             LoadApplication(new App());
             FacebookClientManager.Initialize(app, options);
             return base.FinishedLaunching(app, options);

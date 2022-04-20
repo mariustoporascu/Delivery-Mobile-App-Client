@@ -8,44 +8,61 @@
     x:Name="Items"
     Title="{Binding Title}"
     Shell.PresentationMode="Animated">
-    <StackLayout>
-        <StackLayout Padding="20,20,20,20" BackgroundColor="LightBlue">
-            <Label
-                FontSize="Medium"
-                HorizontalTextAlignment="Center"
-                LineBreakMode="WordWrap"
-                Style="{DynamicResource ListItemTextStyle}"
-                Text="Toate produsele"
-                TextColor="Black" />
-            <StackLayout.GestureRecognizers>
-                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type local:CategViewModel}}, Path=AllProductsTapped}" NumberOfTapsRequired="1" />
-            </StackLayout.GestureRecognizers>
+    <StackLayout BackgroundColor="{AppThemeBinding Light=Gray, Dark=LightGray}">
+        <StackLayout Padding="0,5,0,5" BackgroundColor="{AppThemeBinding Light=LightGray, Dark=Gray}">
+            <Frame
+                Margin="0"
+                Padding="10"
+                BackgroundColor="Cyan"
+                CornerRadius="10"
+                HorizontalOptions="CenterAndExpand"
+                VerticalOptions="EndAndExpand">
+                <StackLayout>
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="Medium"
+                        HorizontalTextAlignment="Center"
+                        LineBreakMode="WordWrap"
+                        Style="{DynamicResource ListItemTextStyle}"
+                        Text="Toate produsele"
+                        TextColor="Black"
+                        TextDecorations="Underline" />
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type local:CategViewModel}}, Path=AllProductsTapped}" NumberOfTapsRequired="1" />
+                    </StackLayout.GestureRecognizers>
+                </StackLayout>
+            </Frame>
+
         </StackLayout>
         <RefreshView
             x:DataType="local:CategViewModel"
+            BackgroundColor="{AppThemeBinding Light=LightGray,
+                                              Dark=Gray}"
             Command="{Binding LoadItemsCommand}"
             IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
             <CollectionView
                 x:Name="ItemsListView"
-                BackgroundColor="{AppThemeBinding Light=LightCyan,
-                                                  Dark=DarkCyan}"
+                BackgroundColor="{AppThemeBinding Light=LightGray,
+                                                  Dark=Gray}"
                 ItemsLayout="VerticalGrid,3"
                 ItemsSource="{Binding Items}"
                 SelectionMode="None"
                 VerticalOptions="FillAndExpand">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <StackLayout BackgroundColor="Transparent">
+                        <StackLayout BackgroundColor="{AppThemeBinding Light=LightGray, Dark=Gray}">
                             <Frame
                                 Margin="5"
                                 Padding="0"
-                                BackgroundColor="Transparent"
+                                BackgroundColor="{AppThemeBinding Light=LightCyan,
+                                                                  Dark=LightCyan}"
                                 CornerRadius="10">
-                                <StackLayout BackgroundColor="MediumAquamarine" HeightRequest="180">
+                                <StackLayout BackgroundColor="{AppThemeBinding Light=DarkCyan, Dark=DarkCyan}" HeightRequest="200">
                                     <StackLayout
                                         Margin="5,5,5,5"
                                         x:DataType="model:Categ"
-                                        BackgroundColor="LightGoldenrodYellow"
+                                        BackgroundColor="{AppThemeBinding Light=LightCyan,
+                                                                          Dark=LightCyan}"
                                         HorizontalOptions="FillAndExpand"
                                         Orientation="Vertical"
                                         VerticalOptions="FillAndExpand">
@@ -54,9 +71,15 @@
                                             Aspect="AspectFit"
                                             BackgroundColor="Transparent"
                                             HeightRequest="80"
-                                            Source="{Binding ImageFinal.Source}"
                                             VerticalOptions="CenterAndExpand"
-                                            WidthRequest="80" />
+                                            WidthRequest="80">
+                                            <Image.Source>
+                                                <UriImageSource
+                                                    CacheValidity="7"
+                                                    CachingEnabled="True"
+                                                    Uri="{Binding GetPhotoUri}" />
+                                            </Image.Source>
+                                        </Image>
                                         <Label
                                             FontSize="Small"
                                             HorizontalTextAlignment="Center"
