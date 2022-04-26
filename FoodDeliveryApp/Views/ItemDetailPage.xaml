@@ -4,8 +4,10 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:FoodDeliveryApp.ViewModels"
-    xmlns:model="clr-namespace:FoodDeliveryApp.Models.ShopModels" Shell.PresentationMode="Animated"
-    Title="{Binding Title}">
+    xmlns:model="clr-namespace:FoodDeliveryApp.Models.ShopModels"
+    Title="{Binding Title}"
+    x:DataType="local:ItemDetailViewModel"
+    Shell.PresentationMode="Animated">
 
     <StackLayout
         Padding="15"

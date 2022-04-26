@@ -2,9 +2,9 @@
 using FoodDeliveryApp.Models.MapsModels;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
+using System.Globalization;
 using System.Net.Http;
-using System.Text;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Xamarin.Forms.Maps;
 
@@ -12,7 +12,6 @@ namespace FoodDeliveryApp.Services
 {
     public class MapsApiServ
     {
-        private JsonSerializer _serializer = new JsonSerializer();
 
         private static MapsApiServ _ServiceClientInstance;
 
@@ -30,13 +29,18 @@ namespace FoodDeliveryApp.Services
         {
             client = new HttpClient();
             client.BaseAddress = new Uri("https://maps.googleapis.com/maps/");
+            client.DefaultRequestHeaders.AcceptLanguage.Add(new StringWithQualityHeaderValue("en-US"));
         }
 
         public async Task<GoogleDirection> GetDirections(Position position1, Position position2)
         {
             GoogleDirection googleDirection = new GoogleDirection();
-
-            var response = await client.GetAsync($"api/directions/json?mode=driving&transit_routing_preference=less_driving&origin={position1.Latitude},{position1.Longitude}&destination={position2.Latitude},{position2.Longitude}&key={GoogleConstants.GeoApiKey}").ConfigureAwait(false);
+            var response = await client.GetAsync("api/directions/json?mode=driving&transit_routing_preference=less_driving&origin=" +
+                 position2.Latitude.ToString("N7", CultureInfo.InvariantCulture) + "," +
+                 position2.Longitude.ToString("N7", CultureInfo.InvariantCulture) + "&destination=" +
+                 position1.Latitude.ToString("N7", CultureInfo.InvariantCulture) + "," +
+                 position1.Longitude.ToString("N7", CultureInfo.InvariantCulture) +
+                "&language=ro&region=RO&key=" + GoogleConstants.GeoApiKey).ConfigureAwait(false);
             if (response.IsSuccessStatusCode)
             {
                 var json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);

@@ -1,10 +1,8 @@
 ﻿using FoodDeliveryApp.Constants;
-using FoodDeliveryApp.Models;
 using FoodDeliveryApp.Models.ShopModels;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
@@ -30,12 +28,13 @@ namespace FoodDeliveryApp.Services
 
         public async Task loadAppInfo()
         {
-            await loadServerCateg();
-            await loadServerSubCateg();
-            await loadServerProducts();
-            await loadServerRestaurante();
-            await loadServerSuperMarkets();
-            await loadServerMeasuringUnits();
+            await loadServerCateg().ConfigureAwait(false);
+            await loadServerSubCateg().ConfigureAwait(false);
+            await loadServerProducts().ConfigureAwait(false);
+            await loadServerRestaurante().ConfigureAwait(false);
+            await loadServerSuperMarkets().ConfigureAwait(false);
+            await loadServerMeasuringUnits().ConfigureAwait(false);
+            loadCartPrefs();
         }
 
         public void loadCartPrefs()
@@ -64,10 +63,10 @@ namespace FoodDeliveryApp.Services
         async Task loadServerProducts()
         {
             Uri uri = new Uri($"{ServerConstants.BaseUrl}/foodapp/getallproducts");
-            HttpResponseMessage response = await client.GetAsync(uri);
+            HttpResponseMessage response = await client.GetAsync(uri).ConfigureAwait(false);
             if (response.IsSuccessStatusCode)
             {
-                string content = await response.Content.ReadAsStringAsync();
+                string content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                 var settings = new JsonSerializerSettings
                 {
                     NullValueHandling = NullValueHandling.Ignore,
@@ -79,10 +78,10 @@ namespace FoodDeliveryApp.Services
         async Task loadServerCateg()
         {
             Uri uri = new Uri($"{ServerConstants.BaseUrl}/foodapp/getallcategories");
-            HttpResponseMessage response = await client.GetAsync(uri);
+            HttpResponseMessage response = await client.GetAsync(uri).ConfigureAwait(false);
             if (response.IsSuccessStatusCode)
             {
-                string content = await response.Content.ReadAsStringAsync();
+                string content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                 var settings = new JsonSerializerSettings
                 {
                     NullValueHandling = NullValueHandling.Ignore,
@@ -94,10 +93,10 @@ namespace FoodDeliveryApp.Services
         async Task loadServerSubCateg()
         {
             Uri uri = new Uri($"{ServerConstants.BaseUrl}/foodapp/getallsubcategories");
-            HttpResponseMessage response = await client.GetAsync(uri);
+            HttpResponseMessage response = await client.GetAsync(uri).ConfigureAwait(false);
             if (response.IsSuccessStatusCode)
             {
-                string content = await response.Content.ReadAsStringAsync();
+                string content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                 var settings = new JsonSerializerSettings
                 {
                     NullValueHandling = NullValueHandling.Ignore,
@@ -109,10 +108,10 @@ namespace FoodDeliveryApp.Services
         async Task loadServerRestaurante()
         {
             Uri uri = new Uri($"{ServerConstants.BaseUrl}/foodapp/getallrestaurante");
-            HttpResponseMessage response = await client.GetAsync(uri);
+            HttpResponseMessage response = await client.GetAsync(uri).ConfigureAwait(false);
             if (response.IsSuccessStatusCode)
             {
-                string content = await response.Content.ReadAsStringAsync();
+                string content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                 var settings = new JsonSerializerSettings
                 {
                     NullValueHandling = NullValueHandling.Ignore,
@@ -124,10 +123,10 @@ namespace FoodDeliveryApp.Services
         async Task loadServerSuperMarkets()
         {
             Uri uri = new Uri($"{ServerConstants.BaseUrl}/foodapp/getallsupermarkets");
-            HttpResponseMessage response = await client.GetAsync(uri);
+            HttpResponseMessage response = await client.GetAsync(uri).ConfigureAwait(false);
             if (response.IsSuccessStatusCode)
             {
-                string content = await response.Content.ReadAsStringAsync();
+                string content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                 var settings = new JsonSerializerSettings
                 {
                     NullValueHandling = NullValueHandling.Ignore,
@@ -136,13 +135,13 @@ namespace FoodDeliveryApp.Services
                 superMarkets = JsonConvert.DeserializeObject<List<Companie>>(content, settings);
             }
         }
-        public List<ServerOrder> loadServerOrders(string email)
+        public async Task<List<ServerOrder>> loadServerOrders(string email)
         {
             Uri uri = new Uri($"{ServerConstants.BaseUrl}/foodapp/getallorders/{email}");
-            HttpResponseMessage response = client.GetAsync(uri).GetAwaiter().GetResult();
+            HttpResponseMessage response = await client.GetAsync(uri).ConfigureAwait(false);
             if (response.IsSuccessStatusCode)
             {
-                string content = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+                string content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                 var settings = new JsonSerializerSettings
                 {
                     NullValueHandling = NullValueHandling.Ignore,
@@ -155,10 +154,10 @@ namespace FoodDeliveryApp.Services
         async Task loadServerMeasuringUnits()
         {
             Uri uri = new Uri($"{ServerConstants.BaseUrl}/foodapp/getallmeasuringunits");
-            HttpResponseMessage response = await client.GetAsync(uri);
+            HttpResponseMessage response = await client.GetAsync(uri).ConfigureAwait(false);
             if (response.IsSuccessStatusCode)
             {
-                string content = await response.Content.ReadAsStringAsync();
+                string content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                 var settings = new JsonSerializerSettings
                 {
                     NullValueHandling = NullValueHandling.Ignore,

@@ -1,7 +1,4 @@
-﻿using System;
-using Xamarin.Forms;
-
-namespace FoodDeliveryApp.Models.ShopModels
+﻿namespace FoodDeliveryApp.Models.ShopModels
 {
     public class UnitatiMasura
     {

@@ -2,9 +2,9 @@
 
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
-		<ProduceReferenceAssembly>true</ProduceReferenceAssembly>
 		<LangVersion>8</LangVersion>
 		<Nullable>enable</Nullable>
+		<PlatformTarget>AnyCPU</PlatformTarget>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -13,7 +13,7 @@
 		<PackageReference Include="Xamarin.CommunityToolkit" Version="2.0.1" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 		<PackageReference Include="Xamarin.Forms" Version="5.0.0.2401" />
-		<PackageReference Include="Xamarin.Essentials" Version="1.7.1" />
+		<PackageReference Include="Xamarin.Essentials" Version="1.7.2" />
 		<PackageReference Include="IdentityModel" Version="6.0.0" />
 		<PackageReference Include="IdentityModel.OidcClient" Version="5.0.0" />
 		<PackageReference Include="Xamarin.Forms.Maps" Version="5.0.0.2401" />
@@ -26,48 +26,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Compile Update="Views\EntryFoodAppPage.xaml.cs">
-			<DependentUpon>EntryFoodAppPage.xaml</DependentUpon>
-		</Compile>
-		<Compile Update="Views\CosContentPage.xaml.cs">
-			<DependentUpon>CosContentPage.xaml</DependentUpon>
-		</Compile>
-		<Compile Update="Views\ListaRestaurantePage.xaml.cs">
-			<DependentUpon>ListaRestaurantePage.xaml</DependentUpon>
-		</Compile>
-		<Compile Update="Views\RegisterPage.xaml.cs">
-		  <DependentUpon>RegisterPage.xaml</DependentUpon>
-		</Compile>
-		<Compile Update="Views\PlaceOrderPage.xaml.cs">
-		  <DependentUpon>PlaceOrderPage.xaml</DependentUpon>
-		</Compile>
-	</ItemGroup>
-
-	<ItemGroup>
-		<EmbeddedResource Update="Views\CategoryPage.xaml">
+		<EmbeddedResource Update="App.xaml">
 			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
-		<EmbeddedResource Update="Views\CosContentPage.xaml">
+		<EmbeddedResource Update="Views\ProductInOrderPage.xaml">
 			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
-		<EmbeddedResource Update="Views\ListaRestaurantePage.xaml">
+		<EmbeddedResource Update="Views\UserProfilePage.xaml">
 			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-		</EmbeddedResource>
-		<EmbeddedResource Update="Views\LoginPage.xaml">
-		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-		</EmbeddedResource>
-		<EmbeddedResource Update="Views\MapsPage.xaml">
-		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-		</EmbeddedResource>
-		<EmbeddedResource Update="Views\OrdersPage.xaml">
-		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-		</EmbeddedResource>
-		<EmbeddedResource Update="Views\PlaceOrderPage.xaml">
-		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-		</EmbeddedResource>
-		<EmbeddedResource Update="Views\ProfilePage.xaml">
-		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
 	</ItemGroup>
-
 </Project>

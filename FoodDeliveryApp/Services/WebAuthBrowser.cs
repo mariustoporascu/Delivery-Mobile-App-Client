@@ -1,10 +1,10 @@
-﻿using System;
+﻿using IdentityModel.OidcClient.Browser;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using IdentityModel.OidcClient.Browser;
 using Xamarin.Essentials;
 
 namespace FoodDeliveryApp.Services

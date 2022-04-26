@@ -1,7 +1,4 @@
-﻿using System;
-using System.Security.Claims;
-
-namespace FoodDeliveryApp.Models.AuthModels
+﻿namespace FoodDeliveryApp.Models.AuthModels
 {
     public class FaceBookAcc
     {

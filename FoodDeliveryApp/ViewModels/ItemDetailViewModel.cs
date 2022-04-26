@@ -1,10 +1,6 @@
-﻿using FoodDeliveryApp.Constants;
-using FoodDeliveryApp.Models;
-using FoodDeliveryApp.Models.ShopModels;
+﻿using FoodDeliveryApp.Models.ShopModels;
 using System;
 using System.Diagnostics;
-using System.IO;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace FoodDeliveryApp.ViewModels
@@ -20,7 +16,6 @@ namespace FoodDeliveryApp.ViewModels
 
         public ItemDetailViewModel()
         {
-            Title = "Detalii Produs";
             MinusCommand = new Command(OnMinus);
             PlusCommand = new Command(OnPlus);
         }
@@ -43,7 +38,7 @@ namespace FoodDeliveryApp.ViewModels
             set
             {
                 itemId = value;
-                LoadItemId(value);
+                LoadItem(value);
             }
         }
         void OnMinus()
@@ -76,6 +71,8 @@ namespace FoodDeliveryApp.ViewModels
                     Name = Item.Name,
                     Price = Item.Price,
                     Cantitate = Item.Cantitate,
+                    Canal = Item.SuperMarketRefId != null ? 1 : 2,
+                    ShopId = Item.SuperMarketRefId != null ? Item.SuperMarketRefId : Item.RestaurantRefId
                 };
             }
             Item.Cantitate++;
@@ -83,12 +80,15 @@ namespace FoodDeliveryApp.ViewModels
             DataStore.SaveCart(CItem);
 
         }
-        public void LoadItemId(int itemId)
+        public void LoadItem(int itemId)
         {
             try
             {
                 Item = DataStore.GetItem(itemId);
+                Title = "Detalii " + Item.Name;
                 CItem = DataStore.GetCartItem(itemId);
+                if (CItem != null)
+                    Item.Cantitate = CItem.Cantitate;
             }
             catch (Exception)
             {

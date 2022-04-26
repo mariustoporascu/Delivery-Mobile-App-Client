@@ -2,8 +2,6 @@
 using FoodDeliveryApp.Services;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -45,7 +43,7 @@ namespace FoodDeliveryApp.ViewModels
                 SecureStorage.SetAsync(App.WEBPASS, Password).Wait();
                 SecureStorage.SetAsync(App.LOGIN_WITH, "WebLogin").Wait();
                 MessagingCenter.Send<LoginViewModel>(this, "UpdateProfile");
-                OnSignIn?.Invoke(this, default(EventArgs));
+                OnSignIn?.Invoke(this, new EventArgs());
 
             }
             else

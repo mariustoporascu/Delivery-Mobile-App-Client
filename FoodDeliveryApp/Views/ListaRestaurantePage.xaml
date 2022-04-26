@@ -4,73 +4,75 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:FoodDeliveryApp.ViewModels"
-    xmlns:model="clr-namespace:FoodDeliveryApp.Models.ShopModels" Shell.PresentationMode="Animated"
+    xmlns:model="clr-namespace:FoodDeliveryApp.Models.ShopModels"
     x:Name="Items"
-    Title="{Binding Title}">
-    <RefreshView
+    Title="{Binding Title}"
+    x:DataType="local:ListaRestauranteViewModel"
+    Shell.PresentationMode="Animated">
+    <!--<RefreshView
         x:DataType="local:ListaRestauranteViewModel"
         Command="{Binding LoadItemsCommand}"
-        IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
-        <CollectionView
-            x:Name="ItemsListView"
-            BackgroundColor="{AppThemeBinding Light=LightGray,
-                                              Dark=Gray}"
-            ItemsLayout="VerticalGrid,3"
-            ItemsSource="{Binding Items}"
-            SelectionMode="None"
-            VerticalOptions="FillAndExpand">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <StackLayout BackgroundColor="{AppThemeBinding Light=LightGray, Dark=Gray}">
-                        <Frame
-                            Margin="5"
-                            Padding="0"
-                            BackgroundColor="{AppThemeBinding Light=LightCyan,
-                                                              Dark=LightCyan}"
-                            CornerRadius="10">
-                            <StackLayout BackgroundColor="{AppThemeBinding Light=DarkCyan, Dark=DarkCyan}" HeightRequest="180">
-                                <StackLayout
-                                    Margin="5,5,5,5"
-                                    x:DataType="model:Companie"
-                                    BackgroundColor="{AppThemeBinding Light=LightCyan,
-                                                                      Dark=LightCyan}"
-                                    HorizontalOptions="FillAndExpand"
-                                    Orientation="Vertical"
-                                    VerticalOptions="FillAndExpand">
-                                    <Image
-                                        Margin="5,0,5,0"
-                                        Aspect="AspectFit"
-                                        BackgroundColor="Transparent"
-                                        HeightRequest="80"
-                                        WidthRequest="80">
-                                        <Image.Source>
-                                            <UriImageSource
-                                                CacheValidity="7"
-                                                CachingEnabled="True"
-                                                Uri="{Binding GetPhotoUri}" />
+        IsRefreshing="{Binding IsBusy, Mode=TwoWay}">-->
+    <CollectionView
+        x:Name="ItemsListView"
+        BackgroundColor="{AppThemeBinding Light=LightGray,
+                                          Dark=Gray}"
+        ItemsLayout="VerticalGrid,3"
+        ItemsSource="{Binding Items}"
+        SelectionMode="None"
+        VerticalOptions="FillAndExpand">
+        <CollectionView.ItemTemplate>
+            <DataTemplate>
+                <StackLayout BackgroundColor="{AppThemeBinding Light=LightGray, Dark=Gray}">
+                    <Frame
+                        Margin="5"
+                        Padding="0"
+                        BackgroundColor="{AppThemeBinding Light=LightCyan,
+                                                          Dark=LightCyan}"
+                        CornerRadius="10">
+                        <StackLayout BackgroundColor="{AppThemeBinding Light=DarkCyan, Dark=DarkCyan}" HeightRequest="180">
+                            <StackLayout
+                                Margin="5,5,5,5"
+                                x:DataType="model:Companie"
+                                BackgroundColor="{AppThemeBinding Light=LightCyan,
+                                                                  Dark=LightCyan}"
+                                HorizontalOptions="FillAndExpand"
+                                Orientation="Vertical"
+                                VerticalOptions="FillAndExpand">
+                                <Image
+                                    Margin="5,0,5,0"
+                                    Aspect="AspectFit"
+                                    BackgroundColor="Transparent"
+                                    HeightRequest="80"
+                                    WidthRequest="80">
+                                    <Image.Source>
+                                        <UriImageSource
+                                            CacheValidity="7"
+                                            CachingEnabled="True"
+                                            Uri="{Binding GetPhotoUri}" />
 
-                                        </Image.Source>
-                                    </Image>
-                                    <Label
-                                        FontSize="Small"
-                                        HorizontalTextAlignment="Center"
-                                        LineBreakMode="WordWrap"
-                                        Style="{DynamicResource ListItemTextStyle}"
-                                        Text="{Binding Name}"
-                                        TextColor="Black"
-                                        VerticalOptions="CenterAndExpand" />
-                                    <StackLayout.GestureRecognizers>
-                                        <TapGestureRecognizer
-                                            Command="{Binding Source={RelativeSource AncestorType={x:Type local:ListaRestauranteViewModel}}, Path=ItemTapped}"
-                                            CommandParameter="{Binding .}"
-                                            NumberOfTapsRequired="1" />
-                                    </StackLayout.GestureRecognizers>
-                                </StackLayout>
+                                    </Image.Source>
+                                </Image>
+                                <Label
+                                    FontSize="Small"
+                                    HorizontalTextAlignment="Center"
+                                    LineBreakMode="WordWrap"
+                                    Style="{DynamicResource ListItemTextStyle}"
+                                    Text="{Binding Name}"
+                                    TextColor="Black"
+                                    VerticalOptions="CenterAndExpand" />
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type local:ListaRestauranteViewModel}}, Path=ItemTapped}"
+                                        CommandParameter="{Binding .}"
+                                        NumberOfTapsRequired="1" />
+                                </StackLayout.GestureRecognizers>
                             </StackLayout>
-                        </Frame>
-                    </StackLayout>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-    </RefreshView>
+                        </StackLayout>
+                    </Frame>
+                </StackLayout>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
+    <!--</RefreshView>-->
 </ContentPage>

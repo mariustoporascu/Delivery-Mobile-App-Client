@@ -3,8 +3,13 @@
     x:Class="FoodDeliveryApp.Views.MapsPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps" Shell.PresentationMode="Animated"
-    Title="Harta">
+    xmlns:local="clr-namespace:FoodDeliveryApp.ViewModels"
+    xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    Title="Harta"
+    x:DataType="local:MapsViewModel"
+    Shell.PresentationMode="Animated">
+
     <StackLayout BackgroundColor="{AppThemeBinding Light=LightGray, Dark=Gray}">
         <Label
             FontSize="Large"
@@ -15,39 +20,24 @@
             x:Name="AppMap"
             HasScrollEnabled="True"
             HasZoomEnabled="True"
-            IsShowingUser="True"
             IsVisible="True"
             MapClicked="PickupButton_Clicked"
             MapType="Street" />
         <StackLayout BackgroundColor="{AppThemeBinding Light=LightGray, Dark=Gray}">
-            <Frame
-                Margin="10"
+
+            <Button
+                x:Name="TrackPath"
                 Padding="10"
+                xct:CornerRadiusEffect.CornerRadius="10"
                 Background="Cyan"
                 BackgroundColor="Cyan"
-                CornerRadius="10"
+                BorderColor="Cyan"
+                Clicked="TrackPath_Clicked"
+                FontAttributes="Bold"
                 HorizontalOptions="CenterAndExpand"
-                VerticalOptions="EndAndExpand">
-                <Button
-				BorderColor="Cyan"
-                    x:Name="TrackPath"
-                    Padding="10"
-                    Background="Cyan"
-                    BackgroundColor="Cyan"
-                    Clicked="TrackPath_Clicked"
-                    FontAttributes="Bold"
-                    Text="Track Path"
-                    TextColor="Black"
-                    VerticalOptions="EndAndExpand" />
-            </Frame>
-            <!--<Button
-                x:Name="PickupButton"
-                Padding="10"
-                BackgroundColor="Black"
-                Clicked="PickupButton_Clicked"
-                Text="Pickup Location"
-                TextColor="White"
-                VerticalOptions="EndAndExpand" />-->
+                Text="Track Path"
+                TextColor="Black"
+                VerticalOptions="CenterAndExpand" />
             <StackLayout HorizontalOptions="CenterAndExpand" Orientation="Horizontal">
                 <Label
                     FontAttributes="Bold"

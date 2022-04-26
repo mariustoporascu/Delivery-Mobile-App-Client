@@ -1,12 +1,8 @@
-﻿using FoodDeliveryApp.Constants;
-using FoodDeliveryApp.Models;
-using FoodDeliveryApp.Models.ShopModels;
+﻿using FoodDeliveryApp.Models.ShopModels;
 using FoodDeliveryApp.Views;
 using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Diagnostics;
-using System.IO;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -29,12 +25,11 @@ namespace FoodDeliveryApp.ViewModels
             Title = "Lista Restaurante";
             Items = new ObservableCollection<Companie>();
             LoadItemsCommand = new Command(ExecuteLoadItemsCommand);
-            ItemTapped = new Command<Companie>(OnItemSelected);
+            ItemTapped = new Command<Companie>(async (item) => await OnItemSelected(item));
         }
 
         void ExecuteLoadItemsCommand()
         {
-            IsBusy = true;
 
             try
             {
@@ -49,10 +44,6 @@ namespace FoodDeliveryApp.ViewModels
             {
                 Debug.WriteLine(ex);
             }
-            finally
-            {
-                IsBusy = false;
-            }
         }
 
         public Companie SelectedItem
@@ -64,7 +55,7 @@ namespace FoodDeliveryApp.ViewModels
                 OnItemSelected(value);
             }
         }
-        async void OnItemSelected(Companie item)
+        async Task OnItemSelected(Companie item)
         {
             if (item == null)
                 return;

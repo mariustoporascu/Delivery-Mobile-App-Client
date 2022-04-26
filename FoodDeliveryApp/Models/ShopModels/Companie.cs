@@ -1,6 +1,5 @@
 ﻿using FoodDeliveryApp.Constants;
 using System;
-using Xamarin.Forms;
 
 namespace FoodDeliveryApp.Models.ShopModels
 {

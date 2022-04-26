@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace FoodDeliveryApp.Models.AuthModels
+﻿namespace FoodDeliveryApp.Models.AuthModels
 {
     public class AppleAccount
     {

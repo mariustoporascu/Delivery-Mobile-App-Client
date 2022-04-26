@@ -1,8 +1,5 @@
 ﻿using FoodDeliveryApp.Services;
-using FoodDeliveryApp.ViewModels;
 using FoodDeliveryApp.Views;
-using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -20,7 +17,9 @@ namespace FoodDeliveryApp
             Routing.RegisterRoute(nameof(RegisterPage), typeof(RegisterPage));
             Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
             Routing.RegisterRoute(nameof(PlaceOrderPage), typeof(PlaceOrderPage));
-            Task.Run(async () => await DependencyService.Get<IDataStore>().Init()).Wait();
+            Routing.RegisterRoute(nameof(OrderInfoPage), typeof(OrderInfoPage));
+            Routing.RegisterRoute(nameof(ProductInOrderPage), typeof(ProductInOrderPage));
+            Task.Run(async () => await DependencyService.Get<IDataStore>().Init().ConfigureAwait(false));
         }
 
     }

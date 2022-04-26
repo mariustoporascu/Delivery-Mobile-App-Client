@@ -1,18 +1,12 @@
 ﻿using FoodDeliveryApp.ViewModels;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
-using Xamarin.Forms.Xaml;
 
 namespace FoodDeliveryApp.Views
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MapsPage : ContentPage
     {
         MapsViewModel mapsViewModel;
@@ -28,22 +22,13 @@ namespace FoodDeliveryApp.Views
             base.OnAppearing();
             await mapsViewModel.LoadMyLocation();
             if (mapsViewModel.pinRoute1.Position != null)
-                AppMap.MoveToRegion(new MapSpan(mapsViewModel.pinRoute1.Position, 0.01, 0.01));
-        }
-
-        private bool TimerStarted()
-        {
-            Device.BeginInvokeOnMainThread(async () =>
             {
-                Compass.Start(SensorSpeed.UI, applyLowPassFilter: true);
-                AppMap.Pins.Clear();
-                AppMap.MapElements.Clear();
-                //Get the cars nearrby from api but here we are hardcoding the contents
+                if (AppMap.Pins.FirstOrDefault(pin => pin.Label == "Adresa mea") == null)
+                    AppMap.Pins.Add(mapsViewModel.pinRoute1);
+                else
+                    AppMap.Pins.FirstOrDefault(pin => pin.Label == "Adresa mea").Position = mapsViewModel.pinRoute1.Position;
+                AppMap.MoveToRegion(new MapSpan(mapsViewModel.pinRoute1.Position, 0.01, 0.01));
             }
-
-            );
-            Compass.Stop();
-            return true;
         }
 
         void PickupButton_Clicked(object sender, MapClickedEventArgs e)
@@ -51,48 +36,58 @@ namespace FoodDeliveryApp.Views
             //User Actual Location
             if (AppMap.Pins.Count > 0)
             {
-                Pin pinTo = AppMap.Pins.FirstOrDefault(pins => pins.Label == "Direction To Pin");
+                Pin pinTo = AppMap.Pins.FirstOrDefault(pins => pins.Label == "Curier");
                 if (pinTo != null)
                     AppMap.Pins.Remove(pinTo);
             }
 
             Pin goToPin = new Pin()
             {
-                Label = "Direction To Pin",
+                Label = "Curier",
                 Type = PinType.Place,
-                //Icon = (Device.RuntimePlatform == Device.Android) ? BitmapDescriptorFactory.FromBundle("PickupPin.png") : BitmapDescriptorFactory.FromView(new Image() { Source = "PickupPin.png", WidthRequest = 30, HeightRequest = 30 }),
                 Position = e.Position,
-                //IsDraggable = true
 
             };
             AppMap.Pins.Add(goToPin);
-            //This is my actual location as of now we are taking it from google maps. But you have to use location plugin to generate latitude and longitude.
-            var positions = e.Position;//Latitude, Longitude
-            //AppMap.MoveToRegion(MapSpan.FromCenterAndRadius(positions, Distance.FromMeters(500)));
+        }
+        async void PickupButton_Clicked2(object sender, MapClickedEventArgs e)
+        {
+            //User Actual Location
+            if (AppMap.Pins.Count > 0)
+            {
+                Pin pinTo = AppMap.Pins.FirstOrDefault(pins => pins.Label == "Adresa mea");
+                if (pinTo != null)
+                    AppMap.Pins.Remove(pinTo);
+            }
+
+            Pin goToPin = new Pin()
+            {
+                Label = "Adresa mea",
+                Type = PinType.Place,
+                Position = e.Position,
+
+            };
+            var userLocation = await mapsViewModel.geoCoder.GetAddressesForPositionAsync(e.Position).ConfigureAwait(false);
+            if (!string.IsNullOrWhiteSpace(userLocation.FirstOrDefault()))
+            {
+                var split = userLocation.FirstOrDefault().Split(',');
+                App.userInfo.City = split[split.Count() - 2];
+                App.userInfo.Street = split.FirstOrDefault(str => str.ToLower().StartsWith("str"));
+            }
+            AppMap.Pins.Add(goToPin);
         }
 
         async void TrackPath_Clicked(object sender, EventArgs e)
         {
-            Pin pinTo = AppMap.Pins.FirstOrDefault(pins => pins.Label == "Direction To Pin");
+            Pin pinTo = AppMap.Pins.FirstOrDefault(pins => pins.Label == "Curier");
             if (pinTo == null)
                 return;
-            var pathcontent = await mapsViewModel.LoadRoute(pinTo);
+            var route = await mapsViewModel.LoadRoute(pinTo);
+            if (route == null)
+                return;
+            var pathcontent = Enumerable.ToList(Models.MapsModels.PolylineHelper.Decode(route.Routes.First().OverviewPolyline.Points));
             if (pathcontent == null)
                 return;
-
-
-            //var assembly = typeof(MainPage).GetTypeInfo().Assembly;
-            //var stream = assembly.GetManifestResourceStream($"XamGMaps.MapResources.TrackPath.json");
-            //string trackPathFile;
-
-            //using (var reader = new System.IO.StreamReader(stream))
-            //{
-            //    trackPathFile = reader.ReadToEnd();
-            //}
-
-            //var myJson = JsonConvert.DeserializeObject<List<Position>>(trackPathFile);
-
-
             AppMap.MapElements.Clear();
 
             var polyline = new Polyline();
@@ -113,36 +108,24 @@ namespace FoodDeliveryApp.Views
 
             AppMap.MapElements.Add(polyline);
 
-            AppMap.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(polyline.Geopath[0].Latitude, polyline.Geopath[0].Longitude), Distance.FromMiles(0.50f)));
-
-            var pin = new Pin
-            {
-                Type = PinType.SearchResult,
-                Position = new Position(polyline.Geopath.First().Latitude, polyline.Geopath.First().Longitude),
-                Label = "Pin",
-                Address = "Pin",
-                //Tag = "CirclePoint",
-                //Icon = (Device.RuntimePlatform == Device.Android) ? BitmapDescriptorFactory.FromBundle("ic_circle_point.png") : BitmapDescriptorFactory.FromView(new Image() { Source = "ic_circle_point.png", WidthRequest = 25, HeightRequest = 25 })
-
-            };
-            AppMap.Pins.Add(pin);
+            AppMap.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(polyline.Geopath[0].Latitude, polyline.Geopath[0].Longitude), Distance.FromMiles(0.30f)));
 
             var positionIndex = 1;
             if (totalDistance < 1.0f)
             {
-                var convertedDistance = totalDistance * 1000;
-                DistToGo.Text = convertedDistance.ToString().Substring(0, convertedDistance.ToString().IndexOf(".")) + " m";
+                int convertedDistance = (int)Math.Round(totalDistance * 1000);
+                DistToGo.Text = convertedDistance.ToString() + " m";
             }
             else
             {
                 DistToGo.Text = totalDistance.ToString().Substring(0, totalDistance.ToString().IndexOf(".") + 3) + " km";
             }
-            timeToGo = (int)((totalDistance * 60) / 40);
+            timeToGo = (int)Math.Round(((totalDistance * 60) / 40));
             if (timeToGo > 0)
                 TimeToGo.Text = timeToGo.ToString() + " min";
             else
-                TimeToGo.Text = timeToGo.ToString() + "1 min";
-            Device.StartTimer(TimeSpan.FromMilliseconds(2500), () =>
+                TimeToGo.Text = "1 min";
+            Device.StartTimer(TimeSpan.FromMilliseconds(1500), () =>
             {
                 if (pathcontent.Count > positionIndex)
                 {
@@ -162,12 +145,11 @@ namespace FoodDeliveryApp.Views
             if (AppMap.Pins.Count == 1 && AppMap.MapElements != null && AppMap.MapElements?.Count > 1)
                 return;
 
-            var cPin = AppMap.Pins.FirstOrDefault();
+            var cPin = AppMap.Pins.FirstOrDefault(pin => pin.Label == "Curier");
 
             if (cPin != null)
             {
                 cPin.Position = new Position(position.Latitude, position.Longitude);
-                //cPin.Icon = (Device.RuntimePlatform == Device.Android) ? BitmapDescriptorFactory.FromBundle("CarPins.png") : BitmapDescriptorFactory.FromView(new Image() { Source = "CarPins.png", WidthRequest = 25, HeightRequest = 25 });
                 AppMap.MoveToRegion(MapSpan.FromCenterAndRadius(cPin.Position, Distance.FromMeters(200)));
                 var previousPosition = ((Polyline)AppMap.MapElements?.FirstOrDefault()).Geopath.FirstOrDefault();
                 ((Polyline)AppMap.MapElements?.FirstOrDefault()).Geopath?.Remove(previousPosition);
@@ -179,14 +161,14 @@ namespace FoodDeliveryApp.Views
                     {
                         if (totalDistance < 1.0f)
                         {
-                            var convertedDistance = totalDistance * 1000;
-                            DistToGo.Text = convertedDistance.ToString().Substring(0, convertedDistance.ToString().IndexOf(".")) + " m";
+                            var convertedDistance = (int)Math.Round(totalDistance * 1000);
+                            DistToGo.Text = convertedDistance.ToString() + " m";
                         }
                         else
                         {
                             DistToGo.Text = totalDistance.ToString().Substring(0, totalDistance.ToString().IndexOf(".") + 3) + " km";
                         }
-                        timeToGo = (int)((totalDistance * 60) / 40);
+                        timeToGo = (int)Math.Round(((totalDistance * 60) / 40));
                         if (timeToGo > 0)
                             TimeToGo.Text = timeToGo.ToString() + " min";
                         else

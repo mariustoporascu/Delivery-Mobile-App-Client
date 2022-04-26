@@ -1,14 +1,6 @@
-﻿using FoodDeliveryApp.Models;
-using FoodDeliveryApp.ViewModels;
-using FoodDeliveryApp.Views;
+﻿using FoodDeliveryApp.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace FoodDeliveryApp.Views
 {
@@ -24,20 +16,23 @@ namespace FoodDeliveryApp.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
+
             if (viewModel.Canal == 1)
             {
-                CategListView.ItemsSource = viewModel.ItemsSubCateg;
+                ItemsListView.ItemsSource = viewModel.ItemsSubCateg;
             }
             else
             {
-                CategListView.ItemsSource = viewModel.Items;
+                ItemsListView.ItemsSource = viewModel.Items;
             }
             viewModel.LoadItemsCommand.Execute(null);
+            ItemsListView.ScrollTo(0, 0, position: ScrollToPosition.Start);
+
         }
 
         private void Entry_Completed(object sender, EventArgs e)
         {
-            viewModel.Searching();
+            viewModel.SearchCommand.Execute(null);
         }
         //private void Entry_TextChanged(object sender, TextChangedEventArgs e)
         //{

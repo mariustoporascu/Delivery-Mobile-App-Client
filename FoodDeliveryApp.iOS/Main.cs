@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-using Foundation;
-using UIKit;
+﻿using UIKit;
 
 namespace FoodDeliveryApp.iOS
 {
@@ -14,7 +9,11 @@ namespace FoodDeliveryApp.iOS
         {
             // if you want to use a different Application Delegate class from "AppDelegate"
             // you can specify it here.
-            UIApplication.Main(args, null, "AppDelegate");
+            /*CultureInfo newCulture = new CultureInfo("en-US");// whatever :)
+                                                              // make sure the following is executed on the UI thread
+            System.Threading.Thread.CurrentThread.CurrentCulture = newCulture;
+            System.Threading.Thread.CurrentThread.CurrentUICulture = newCulture;*/
+            UIApplication.Main(args, null, typeof(AppDelegate));
         }
     }
 }

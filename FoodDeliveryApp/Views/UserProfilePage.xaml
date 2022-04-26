@@ -1,0 +1,210 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="FoodDeliveryApp.Views.UserProfilePage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewModels="clr-namespace:FoodDeliveryApp.ViewModels;assembly=FoodDeliveryApp"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    Title="Detalii cont"
+    x:DataType="viewModels:UserProfileViewModel"
+    Shell.PresentationMode="Animated">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <xct:InvertedBoolConverter x:Key="invertBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <StackLayout BackgroundColor="{AppThemeBinding Light=LightGray, Dark=Gray}" VerticalOptions="FillAndExpand">
+        <StackLayout IsVisible="{Binding IsLoggedIn}" VerticalOptions="CenterAndExpand">
+            <Label
+                Padding="10,0,10,0"
+                xct:CornerRadiusEffect.CornerRadius="20"
+                Background="LemonChiffon"
+                BackgroundColor="LemonChiffon"
+                FontSize="Large"
+                HorizontalTextAlignment="Center"
+                LineBreakMode="WordWrap"
+                Text="{Binding Header}"
+                TextColor="Black"
+                VerticalOptions="CenterAndExpand"
+                VerticalTextAlignment="Center" />
+            <Label
+                Margin="0,0,0,40"
+                Padding="10,0,10,0"
+                xct:CornerRadiusEffect.CornerRadius="20"
+                Background="LemonChiffon"
+                BackgroundColor="LemonChiffon"
+                FontSize="Medium"
+                HorizontalOptions="CenterAndExpand"
+                Text="{Binding Email}"
+                TextColor="Black" />
+            <Entry
+                x:Name="NumeComplet"
+                xct:CornerRadiusEffect.CornerRadius="20"
+                Background="LemonChiffon"
+                BackgroundColor="LemonChiffon"
+                ClearButtonVisibility="WhileEditing"
+                HorizontalOptions="FillAndExpand"
+                HorizontalTextAlignment="Center"
+                Placeholder="Nume complet"
+                PlaceholderColor="Black"
+                Text="{Binding FullName}"
+                TextChanged="CheckFieldNumeComplet"
+                TextColor="Black">
+                <Entry.Behaviors>
+                    <xct:TextValidationBehavior
+                        x:Name="NumeCompletEntry"
+                        Flags="ValidateOnValueChanging"
+                        MinimumLength="6" />
+                </Entry.Behaviors>
+            </Entry>
+            <Entry
+                x:Name="NrTelefon"
+                xct:CornerRadiusEffect.CornerRadius="20"
+                Background="LemonChiffon"
+                BackgroundColor="LemonChiffon"
+                ClearButtonVisibility="WhileEditing"
+                HorizontalOptions="FillAndExpand"
+                HorizontalTextAlignment="Center"
+                Placeholder="Numar telefon"
+                PlaceholderColor="Black"
+                Text="{Binding PhoneNumber}"
+                TextChanged="CheckFieldNrTelefon"
+                TextColor="Black">
+                <Entry.Behaviors>
+                    <xct:TextValidationBehavior
+                        x:Name="NrTelefonEntry"
+                        Flags="ValidateOnValueChanging"
+                        MinimumLength="10" />
+                </Entry.Behaviors>
+            </Entry>
+            <Entry
+                x:Name="CladireAp"
+                xct:CornerRadiusEffect.CornerRadius="20"
+                Background="LemonChiffon"
+                BackgroundColor="LemonChiffon"
+                ClearButtonVisibility="WhileEditing"
+                HorizontalOptions="FillAndExpand"
+                HorizontalTextAlignment="Center"
+                Placeholder="Nr cladire / apartament"
+                PlaceholderColor="Black"
+                Text="{Binding BuildingInfo}"
+                TextChanged="CheckFieldCladireAp"
+                TextColor="Black">
+                <Entry.Behaviors>
+                    <xct:TextValidationBehavior
+                        x:Name="CladireApEntry"
+                        Flags="ValidateOnValueChanging"
+                        MinimumLength="3" />
+                </Entry.Behaviors>
+            </Entry>
+            <Entry
+                x:Name="NumeNrStrada"
+                xct:CornerRadiusEffect.CornerRadius="20"
+                Background="LemonChiffon"
+                BackgroundColor="LemonChiffon"
+                ClearButtonVisibility="WhileEditing"
+                HorizontalOptions="FillAndExpand"
+                HorizontalTextAlignment="Center"
+                Placeholder="Nume / Nr Strada"
+                PlaceholderColor="Black"
+                Text="{Binding Street}"
+                TextChanged="CheckFieldNumeNrStrada"
+                TextColor="Black">
+                <Entry.Behaviors>
+                    <xct:TextValidationBehavior
+                        x:Name="NumeNrStradaEntry"
+                        Flags="ValidateOnValueChanging"
+                        MinimumLength="6" />
+                </Entry.Behaviors>
+            </Entry>
+            <Entry
+                x:Name="Oras"
+                xct:CornerRadiusEffect.CornerRadius="20"
+                Background="LemonChiffon"
+                BackgroundColor="LemonChiffon"
+                ClearButtonVisibility="WhileEditing"
+                HorizontalOptions="FillAndExpand"
+                HorizontalTextAlignment="Center"
+                Placeholder="Oras"
+                PlaceholderColor="Black"
+                Text="{Binding City}"
+                TextChanged="CheckFieldOras"
+                TextColor="Black">
+                <Entry.Behaviors>
+                    <xct:TextValidationBehavior
+                        x:Name="OrasEntry"
+                        Flags="ValidateOnValueChanging"
+                        MinimumLength="6" />
+                </Entry.Behaviors>
+            </Entry>
+        </StackLayout>
+        <StackLayout
+            IsVisible="{Binding IsLoggedIn}"
+            Orientation="Horizontal"
+            VerticalOptions="End">
+            <Button
+                Margin="10"
+                Padding="10"
+                xct:CornerRadiusEffect.CornerRadius="20"
+                Background="Red"
+                BackgroundColor="Red"
+                BorderColor="Red"
+                Command="{Binding Logout}"
+                FontAttributes="Bold"
+                FontSize="18"
+                HorizontalOptions="CenterAndExpand"
+                Text="Log out"
+                TextColor="Black" />
+            <Button
+                Margin="10"
+                Padding="10"
+                xct:CornerRadiusEffect.CornerRadius="20"
+                Background="Cyan"
+                BackgroundColor="Cyan"
+                BorderColor="Cyan"
+                Clicked="SaveButtonClicked"
+                FontAttributes="Bold"
+                FontSize="18"
+                HorizontalOptions="CenterAndExpand"
+                Text="SALVEAZA PROFILUL"
+                TextColor="Black" />
+        </StackLayout>
+        <StackLayout
+            BackgroundColor="{AppThemeBinding Light=LightGray,
+                                              Dark=Gray}"
+            IsVisible="{Binding IsLoggedIn, Converter={StaticResource invertBoolConverter}}"
+            VerticalOptions="CenterAndExpand">
+            <Frame
+                Margin="50"
+                Padding="10"
+                Background="Cyan"
+                BackgroundColor="Cyan"
+                CornerRadius="10"
+                HorizontalOptions="CenterAndExpand"
+                VerticalOptions="EndAndExpand">
+                <Label
+                    Background="Cyan"
+                    BackgroundColor="Cyan"
+                    FontAttributes="Bold"
+                    FontSize="Large"
+                    HorizontalOptions="CenterAndExpand"
+                    Text="Nu esti autentificat."
+                    TextColor="Black"
+                    VerticalOptions="EndAndExpand" />
+            </Frame>
+
+            <Button
+                Padding="20"
+                xct:CornerRadiusEffect.CornerRadius="10"
+                Background="Cyan"
+                BackgroundColor="Cyan"
+                BorderColor="Cyan"
+                Clicked="RedirSignIn"
+                FontAttributes="Bold"
+                FontSize="18"
+                HorizontalOptions="CenterAndExpand"
+                Text="AUTENTIFICATE"
+                TextColor="Black" />
+        </StackLayout>
+    </StackLayout>
+</ContentPage>

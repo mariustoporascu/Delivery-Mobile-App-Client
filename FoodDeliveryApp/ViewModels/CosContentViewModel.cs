@@ -1,13 +1,9 @@
-﻿using FoodDeliveryApp.Models;
-using FoodDeliveryApp.Models.ShopModels;
+﻿using FoodDeliveryApp.Models.ShopModels;
 using FoodDeliveryApp.Views;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Text;
 using System.Threading.Tasks;
-using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace FoodDeliveryApp.ViewModels
@@ -42,7 +38,7 @@ namespace FoodDeliveryApp.ViewModels
             Items = new ObservableCollection<CartItem>();
             LoadItemsCommand = new Command(ExecuteLoadItemsCommand);
 
-            ItemTapped = new Command<CartItem>(OnItemSelected);
+            ItemTapped = new Command<CartItem>(async (item) => await OnItemSelected(item));
 
             MinusCommand = new Command<CartItem>(OnMinus);
             PlusCommand = new Command<CartItem>(OnPlus);
@@ -55,7 +51,6 @@ namespace FoodDeliveryApp.ViewModels
         }
         void ExecuteLoadItemsCommand()
         {
-            IsBusy = true;
 
             try
             {
@@ -75,10 +70,6 @@ namespace FoodDeliveryApp.ViewModels
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
-            }
-            finally
-            {
-                IsBusy = false;
             }
         }
 
@@ -134,7 +125,7 @@ namespace FoodDeliveryApp.ViewModels
                 IsPageVisible = false;
 
         }
-        async void OnItemSelected(CartItem item)
+        async Task OnItemSelected(CartItem item)
         {
             if (item == null)
                 return;

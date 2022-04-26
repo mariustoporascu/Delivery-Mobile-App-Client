@@ -1,23 +1,10 @@
-﻿using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
+﻿using Android.Content;
 using Android.Text;
 using Android.Text.Style;
 using Android.Views;
-using Android.Widget;
-using AndroidX.AppCompat.Widget;
-using FoodDeliveryApp;
-using FoodDeliveryApp.Droid.CustomRenderers;
 using Google.Android.Material.BottomNavigation;
-using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Text;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
-using Xamarin.Forms.Platform.Android.AppCompat;
 
 //[assembly: ExportRenderer(typeof(AppShell), typeof(MyTabBarRenderer))]
 namespace FoodDeliveryApp.Droid.CustomRenderers

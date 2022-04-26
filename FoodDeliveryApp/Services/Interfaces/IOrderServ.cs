@@ -1,8 +1,5 @@
-﻿using FoodDeliveryApp.Models;
-using FoodDeliveryApp.Models.ShopModels;
-using System;
+﻿using FoodDeliveryApp.Models.ShopModels;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace FoodDeliveryApp.Services

@@ -1,13 +1,11 @@
-﻿using System;
-using System.Threading.Tasks;
-using AuthenticationServices;
-using Foundation;
+﻿using AuthenticationServices;
 using FoodDeliveryApp.iOS.Services;
-using FoodDeliveryApp.Models;
-using FoodDeliveryApp.Services;
-using UIKit;
-using Xamarin.Forms;
 using FoodDeliveryApp.Models.AuthModels;
+using FoodDeliveryApp.Services;
+using Foundation;
+using System;
+using System.Threading.Tasks;
+using UIKit;
 
 [assembly: Xamarin.Forms.Dependency(typeof(AppleSignInService))]
 namespace FoodDeliveryApp.iOS.Services

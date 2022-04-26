@@ -4,18 +4,18 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:FoodDeliveryApp.ViewModels"
-    xmlns:model="clr-namespace:FoodDeliveryApp.Models.ShopModels" Shell.PresentationMode="Animated"
-    xmlns:xct="http://xamarin.com/schemas/2020/toolkit">
+    xmlns:model="clr-namespace:FoodDeliveryApp.Models.ShopModels"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    x:DataType="local:LoginViewModel"
+    Shell.PresentationMode="ModalAnimated">
     <StackLayout BackgroundColor="{AppThemeBinding Light=LightGray, Dark=Gray}" VerticalOptions="FillAndExpand">
         <StackLayout VerticalOptions="CenterAndExpand">
 
             <Entry
                 Margin="20"
                 xct:CornerRadiusEffect.CornerRadius="20"
-                Background="{AppThemeBinding Light=Gray,
-                                             Dark=LightGray}"
-                BackgroundColor="{AppThemeBinding Light=Gray,
-                                                  Dark=LightGray}"
+                Background="LemonChiffon"
+                BackgroundColor="LemonChiffon"
                 ClearButtonVisibility="WhileEditing"
                 FontSize="Large"
                 HorizontalOptions="FillAndExpand"
@@ -24,21 +24,12 @@
                 PlaceholderColor="Black"
                 Text="{Binding UserName}"
                 TextColor="Black"
-                VerticalOptions="EndAndExpand">
-                <Entry.Behaviors>
-                    <xct:EmailValidationBehavior
-                        x:Name="UsernameEntry"
-                        DecorationFlags="Trim"
-                        Flags="ValidateOnUnfocusing" />
-                </Entry.Behaviors>
-            </Entry>
+                VerticalOptions="EndAndExpand" />
             <Entry
                 Margin="20"
                 xct:CornerRadiusEffect.CornerRadius="20"
-                Background="{AppThemeBinding Light=Gray,
-                                             Dark=LightGray}"
-                BackgroundColor="{AppThemeBinding Light=Gray,
-                                                  Dark=LightGray}"
+                Background="LemonChiffon"
+                BackgroundColor="LemonChiffon"
                 ClearButtonVisibility="WhileEditing"
                 FontSize="Large"
                 HorizontalOptions="FillAndExpand"
@@ -48,69 +39,49 @@
                 PlaceholderColor="Black"
                 Text="{Binding Password}"
                 TextColor="Black"
-                VerticalOptions="EndAndExpand">
-                <Entry.Behaviors>
-                    <xct:TextValidationBehavior
-                        x:Name="PasswordEntry"
-                        Flags="ValidateOnUnfocusing"
-                        MinimumLength="6" />
-                </Entry.Behaviors>
-            </Entry>
+                VerticalOptions="EndAndExpand" />
             <StackLayout Margin="20" Orientation="Horizontal">
+                <Button
+                    Padding="10"
+                    xct:CornerRadiusEffect.CornerRadius="20"
+                    Background="Orange"
+                    BackgroundColor="Orange"
+                    BorderColor="Orange"
+                    Clicked="RedirSignUp"
+                    FontAttributes="Bold"
+                    FontSize="18"
+                    HorizontalOptions="CenterAndExpand"
+                    Text="Creaza Cont"
+                    TextColor="Black" />
+                <Button
+                    Padding="10"
+                    xct:CornerRadiusEffect.CornerRadius="20"
+                    Background="Cyan"
+                    BackgroundColor="Cyan"
+                    BorderColor="Cyan"
+                    Command="{Binding Source={RelativeSource AncestorType={x:Type local:LoginViewModel}}, Path=Login}"
+                    FontAttributes="Bold"
+                    FontSize="18"
+                    HorizontalOptions="CenterAndExpand"
+                    Text="Autentificare"
+                    TextColor="Black" />
 
-                <Frame
-                    Padding="10"
-                    Background="Cyan"
-                    BackgroundColor="Cyan"
-                    CornerRadius="10"
-                    HorizontalOptions="CenterAndExpand"
-                    VerticalOptions="EndAndExpand">
-                    <Button
-					BorderColor="Cyan"
-                        Background="Cyan"
-                        BackgroundColor="Cyan"
-                        Clicked="RedirSignUp"
-                        FontAttributes="Bold"
-                        FontSize="18"
-                        Text="Creaza Cont"
-                        TextColor="Black" />
-                </Frame>
-                <Frame
-                    Padding="10"
-                    Background="Cyan"
-                    BackgroundColor="Cyan"
-                    CornerRadius="10"
-                    HorizontalOptions="CenterAndExpand"
-                    VerticalOptions="EndAndExpand">
-                    <Button
-					BorderColor="Cyan"
-                        Background="Cyan"
-                        BackgroundColor="Cyan"
-                        Command="{Binding Source={RelativeSource AncestorType={x:Type local:LoginViewModel}}, Path=Login}"
-                        FontAttributes="Bold"
-                        FontSize="18"
-                        Text="Autentificare"
-                        TextColor="Black" />
-                </Frame>
             </StackLayout>
         </StackLayout>
         <StackLayout VerticalOptions="EndAndExpand">
-            <Frame
+
+            <Button
                 Margin="10"
                 Padding="10"
-                Background="Brown"
-                BackgroundColor="Brown"
-                CornerRadius="10"
+                xct:CornerRadiusEffect.CornerRadius="20"
+                Background="Red"
+                BackgroundColor="Red"
+                BorderColor="Red"
+                Clicked="OnDismissButtonClicked"
                 HorizontalOptions="CenterAndExpand"
-                VerticalOptions="EndAndExpand">
-                <Button
-				BorderColor="Brown"
-                    Background="Brown"
-                    BackgroundColor="Brown"
-                    Clicked="OnDismissButtonClicked"
-                    Text="Anuleaza"
-                    TextColor="Black" />
-            </Frame>
+                Text="Anuleaza"
+                TextColor="Black" />
+
         </StackLayout>
 
     </StackLayout>

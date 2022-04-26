@@ -16,12 +16,12 @@
     <Shell.Resources>
         <ResourceDictionary>
             <Style x:Key="BaseStyle" TargetType="Element">
-                <Setter Property="Shell.BackgroundColor" Value="{AppThemeBinding Light=Brown, Dark=Brown}" />
-                <Setter Property="Shell.ForegroundColor" Value="{AppThemeBinding Light=Black, Dark=White}" />
-                <Setter Property="Shell.TabBarBackgroundColor" Value="{AppThemeBinding Light=Brown, Dark=Brown}" />
-                <Setter Property="Shell.TabBarForegroundColor" Value="{AppThemeBinding Light=Black, Dark=White}" />
-                <Setter Property="Shell.TabBarUnselectedColor" Value="{AppThemeBinding Light=Black, Dark=White}" />
-                <Setter Property="Shell.TabBarTitleColor" Value="{AppThemeBinding Light=Cyan, Dark=Cyan}" />
+                <Setter Property="Shell.BackgroundColor" Value="{AppThemeBinding Light=LemonChiffon, Dark=LemonChiffon}" />
+                <Setter Property="Shell.ForegroundColor" Value="{AppThemeBinding Light=Black, Dark=Black}" />
+                <Setter Property="Shell.TabBarBackgroundColor" Value="{AppThemeBinding Light=LemonChiffon, Dark=LemonChiffon}" />
+                <Setter Property="Shell.TabBarForegroundColor" Value="{AppThemeBinding Light=Black, Dark=Black}" />
+                <Setter Property="Shell.TabBarUnselectedColor" Value="{AppThemeBinding Light=Black, Dark=Black}" />
+                <Setter Property="Shell.TabBarTitleColor" Value="Crimson" />
                 <Setter Property="Shell.TitleColor" Value="{AppThemeBinding Light=Black, Dark=Black}" />
             </Style>
             <Style BasedOn="{StaticResource BaseStyle}" TargetType="TabBar" />
@@ -43,55 +43,22 @@
             Route="CosContentPage" />
         <ShellContent
             Title="Cont"
-            ContentTemplate="{DataTemplate local:ProfilePage}"
+            ContentTemplate="{DataTemplate local:UserProfilePage}"
             Icon="{AppThemeBinding Light=account.png,
                                    Dark=account_dark.png}"
-            Route="ProfilePage" />
+            Route="UserProfilePage" />
         <ShellContent
             Title="Harta"
             ContentTemplate="{DataTemplate local:MapsPage}"
             Icon="{AppThemeBinding Light=img_map.png,
                                    Dark=img_map_dark.png}"
-            Route="AboutPage" />
+            Route="MapsPage" />
         <ShellContent
             Title="Comenzi"
             ContentTemplate="{DataTemplate local:OrdersPage}"
             Icon="{AppThemeBinding Light=img_orders.png,
                                    Dark=img_orders_dark.png}"
-            Route="AboutPage" />
+            Route="OrdersPage" />
     </TabBar>
-
-    <!-- Optional Templates
-    // These may be provided inline as below or as separate classes.
-
-    // This header appears at the top of the Flyout.
-    // https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/shell/flyout#flyout-header
-    <Shell.FlyoutHeaderTemplate>
-        <DataTemplate>
-            <Grid>ContentHere</Grid>
-        </DataTemplate>
-    </Shell.FlyoutHeaderTemplate>
-
-    // ItemTemplate is for ShellItems as displayed in a Flyout
-    // https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/shell/flyout#define-flyoutitem-appearance
-    <Shell.ItemTemplate>
-        <DataTemplate>
-            <ContentView>
-                Bindable Properties: Title, Icon
-            </ContentView>
-        </DataTemplate>
-    </Shell.ItemTemplate>
-
-    // MenuItemTemplate is for MenuItems as displayed in a Flyout
-    // https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/shell/flyout#define-menuitem-appearance
-    <Shell.MenuItemTemplate>
-        <DataTemplate>
-            <ContentView>
-                Bindable Properties: Text, Icon
-            </ContentView>
-        </DataTemplate>
-    </Shell.MenuItemTemplate>
-
-    -->
 
 </Shell>

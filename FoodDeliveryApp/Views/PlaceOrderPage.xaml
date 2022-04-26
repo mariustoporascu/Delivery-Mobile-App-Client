@@ -3,47 +3,177 @@
     x:Class="FoodDeliveryApp.Views.PlaceOrderPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:FoodDeliveryApp.ViewModels" Shell.PresentationMode="Animated"
-    xmlns:model="clr-namespace:FoodDeliveryApp.Models">
+    xmlns:local="clr-namespace:FoodDeliveryApp.ViewModels"
+    xmlns:model="clr-namespace:FoodDeliveryApp.Models"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    x:DataType="local:PlaceOrderViewModel"
+    Shell.PresentationMode="ModalAnimated">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <xct:InvertedBoolConverter x:Key="invertBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <StackLayout
         x:DataType="local:PlaceOrderViewModel"
-        HorizontalOptions="CenterAndExpand"
-        VerticalOptions="CenterAndExpand">
+        Background="{AppThemeBinding Light=Gray,
+                                     Dark=LightGray}"
+        BackgroundColor="{AppThemeBinding Light=Gray,
+                                          Dark=LightGray}"
+        HorizontalOptions="FillAndExpand"
+        VerticalOptions="FillAndExpand">
         <Frame
-            Margin="10"
+            Margin="50"
             Padding="10"
             Background="Cyan"
             BackgroundColor="Cyan"
             CornerRadius="10"
             HorizontalOptions="CenterAndExpand"
-            VerticalOptions="EndAndExpand">
-            <Button
-			BorderColor="Cyan"
+            IsVisible="{Binding HasValidProfile, Converter={StaticResource invertBoolConverter}}"
+            VerticalOptions="CenterAndExpand">
+            <Label
                 Background="Cyan"
                 BackgroundColor="Cyan"
+                FontAttributes="Bold"
+                FontSize="Medium"
+                HorizontalOptions="CenterAndExpand"
+                HorizontalTextAlignment="Center"
+                Text="Nu ai toate datele profilului completate."
+                TextColor="Black"
+                VerticalOptions="EndAndExpand" />
+        </Frame>
+        <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+
+            <StackLayout
+                Margin="10"
+                Padding="5"
+                x:DataType="local:PlaceOrderViewModel"
+                xct:CornerRadiusEffect.CornerRadius="10"
+                BackgroundColor="{AppThemeBinding Light=LightCyan,
+                                                  Dark=LightCyan}"
+                HorizontalOptions="FillAndExpand"
+                IsVisible="{Binding HasValidProfile}"
+                VerticalOptions="CenterAndExpand">
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="Small"
+                    HorizontalOptions="FillAndExpand"
+                    HorizontalTextAlignment="Center"
+                    LineBreakMode="WordWrap"
+                    Style="{DynamicResource ListItemTextStyle}"
+                    Text="Detalii Livrare"
+                    TextColor="Black"
+                    VerticalOptions="CenterAndExpand"
+                    VerticalTextAlignment="Center"
+                    WidthRequest="90" />
+                <StackLayout BackgroundColor="{AppThemeBinding Light=LightCyan, Dark=LightCyan}" Orientation="Horizontal">
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="Small"
+                        HorizontalOptions="CenterAndExpand"
+                        HorizontalTextAlignment="Center"
+                        LineBreakMode="WordWrap"
+                        Style="{DynamicResource ListItemTextStyle}"
+                        Text="Nume complet"
+                        TextColor="Black"
+                        VerticalTextAlignment="Center"
+                        WidthRequest="80" />
+
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="Small"
+                        HorizontalOptions="CenterAndExpand"
+                        HorizontalTextAlignment="Center"
+                        LineBreakMode="WordWrap"
+                        Style="{DynamicResource ListItemTextStyle}"
+                        Text="Nr. Telefon"
+                        TextColor="Black"
+                        VerticalTextAlignment="Center"
+                        WidthRequest="100" />
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="Small"
+                        HorizontalOptions="CenterAndExpand"
+                        HorizontalTextAlignment="Center"
+                        LineBreakMode="WordWrap"
+                        Style="{DynamicResource ListItemTextStyle}"
+                        Text="Adresa"
+                        TextColor="Black"
+                        VerticalTextAlignment="Center"
+                        WidthRequest="95" />
+                </StackLayout>
+                <StackLayout BackgroundColor="{AppThemeBinding Light=LightCyan, Dark=LightCyan}" Orientation="Horizontal">
+                    <Label
+                        FontSize="Small"
+                        HorizontalOptions="CenterAndExpand"
+                        HorizontalTextAlignment="Center"
+                        LineBreakMode="WordWrap"
+                        Style="{DynamicResource ListItemTextStyle}"
+                        Text="{Binding OrderInfo.FullName}"
+                        TextColor="Black"
+                        VerticalTextAlignment="Center"
+                        WidthRequest="80" />
+
+                    <Label
+                        FontSize="Small"
+                        HorizontalOptions="CenterAndExpand"
+                        HorizontalTextAlignment="Center"
+                        LineBreakMode="WordWrap"
+                        Style="{DynamicResource ListItemTextStyle}"
+                        Text="{Binding OrderInfo.PhoneNo}"
+                        TextColor="Black"
+                        VerticalTextAlignment="Center"
+                        WidthRequest="100" />
+                    <Label
+                        FontSize="Small"
+                        HorizontalOptions="CenterAndExpand"
+                        HorizontalTextAlignment="Center"
+                        LineBreakMode="WordWrap"
+                        Style="{DynamicResource ListItemTextStyle}"
+                        Text="{Binding OrderInfo.Address}"
+                        TextColor="Black"
+                        VerticalTextAlignment="Center"
+                        WidthRequest="95" />
+                </StackLayout>
+                <Label
+                    Margin="0,50,0,0"
+                    FontAttributes="Bold"
+                    FontSize="Medium"
+                    HorizontalOptions="CenterAndExpand"
+                    HorizontalTextAlignment="Center"
+                    IsVisible="{Binding HasBothTypes}"
+                    Text="*Produsele din cos vor fi impartite in comenzi separate supermarket/restaurant."
+                    TextColor="Black"
+                    VerticalOptions="EndAndExpand" />
+            </StackLayout>
+            <Button
+                Margin="10"
+                Padding="10"
+                xct:CornerRadiusEffect.CornerRadius="20"
+                Background="Cyan"
+                BackgroundColor="Cyan"
+                BorderColor="Cyan"
                 Command="{Binding PlaceFinalOrder}"
                 FontAttributes="Bold"
                 FontSize="18"
+                HorizontalOptions="CenterAndExpand"
+                IsVisible="{Binding HasValidProfile}"
                 Text="PLASEAZA COMANDA"
-                TextColor="Black" />
-        </Frame>
-        <Frame
-            Margin="10"
-            Padding="10"
-            Background="Brown"
-            BackgroundColor="Brown"
-            CornerRadius="10"
-            HorizontalOptions="CenterAndExpand"
-            VerticalOptions="EndAndExpand">
+                TextColor="Black"
+                VerticalOptions="StartAndExpand" />
+
             <Button
-			BorderColor="Brown"
-                Background="Brown"
-                BackgroundColor="Brown"
+                Margin="10"
+                Padding="10"
+                xct:CornerRadiusEffect.CornerRadius="20"
+                Background="Red"
+                BackgroundColor="Red"
+                BorderColor="Red"
                 Clicked="OnDismissButtonClicked"
                 FontAttributes="Bold"
                 FontSize="18"
+                HorizontalOptions="CenterAndExpand"
                 Text="Anuleaza"
                 TextColor="Black" />
-        </Frame>
+        </StackLayout>
     </StackLayout>
 </ContentPage>

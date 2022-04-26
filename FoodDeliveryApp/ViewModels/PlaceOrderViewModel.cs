@@ -1,62 +1,116 @@
-﻿using System;
+﻿using FoodDeliveryApp.Models.ShopModels;
+using System;
 using System.Collections.Generic;
-using System.Text;
-using FoodDeliveryApp.Models;
-using FoodDeliveryApp.Models.ShopModels;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace FoodDeliveryApp.ViewModels
 {
     public class PlaceOrderViewModel : BaseViewModel
     {
-        public Order Order { get; set; }
+        public Order OrderMarket { get; set; }
+        public Order OrderRestaurant { get; set; }
         public OrderInfo OrderInfo { get; set; }
-        public List<ProductInOrder> ProductsInOrder { get; set; }
+        public List<ProductInOrder> ProductsInOrderMarket { get; set; }
+        public List<ProductInOrder> ProductsInOrderRestaurant { get; set; }
         public List<CartItem> CartItems { get; set; }
         public Command PlaceFinalOrder { get; set; }
         public event EventHandler OnPlaceOrder = delegate { };
+        private bool hasBothTypes = false;
+        public bool HasBothTypes { get => hasBothTypes; set => SetProperty(ref hasBothTypes, value); }
+        private bool hasValidProfile = false;
+        public bool HasValidProfile { get => hasValidProfile; set => SetProperty(ref hasValidProfile, value); }
         public PlaceOrderViewModel()
         {
+            HasValidProfile = App.userInfo.CompleteProfile;
+            LoadPageData();
+            PlaceFinalOrder = new Command(async () => await OnClickPlaceOrder());
+        }
+        void LoadPageData()
+        {
             CartItems = DataStore.GetCartItems();
-            decimal totalInCart = 0.00M;
-            ProductsInOrder = new List<ProductInOrder>();
+            decimal totalInCart1 = 0.00M;
+            decimal totalInCart2 = 0.00M;
+            ProductsInOrderMarket = new List<ProductInOrder>();
+            ProductsInOrderRestaurant = new List<ProductInOrder>();
             foreach (var item in CartItems)
             {
-                totalInCart += item.Cantitate * item.Price;
-                ProductsInOrder.Add(new ProductInOrder { ProductRefId = item.ProductId, UsedQuantity = item.Cantitate });
+                if (item.Canal == 1)
+                {
+                    totalInCart1 += item.Cantitate * item.Price;
+                    ProductsInOrderMarket.Add(new ProductInOrder { ProductRefId = item.ProductId, UsedQuantity = item.Cantitate });
+                }
+                else
+                {
+                    totalInCart2 += item.Cantitate * item.Price;
+                    ProductsInOrderRestaurant.Add(new ProductInOrder { ProductRefId = item.ProductId, UsedQuantity = item.Cantitate });
+                }
+
             }
-            Order = new Order
+            if (ProductsInOrderMarket.Count > 0)
             {
-                CustomerId = App.userInfo?.Email,
-                Status = "Ordered",
-                OrderId = 0,
-                TotalOrdered = totalInCart
-            };
+                OrderMarket = new Order
+                {
+                    CustomerId = App.userInfo.Email,
+                    Status = "Ordered",
+                    OrderId = 0,
+                    TotalOrdered = totalInCart1
+                };
+            }
+            if (ProductsInOrderRestaurant.Count > 0)
+            {
+                OrderRestaurant = new Order
+                {
+                    CustomerId = App.userInfo.Email,
+                    Status = "Ordered",
+                    OrderId = 0,
+                    TotalOrdered = totalInCart2
+                };
+            }
             OrderInfo = new OrderInfo
             {
-                FullName = App.userInfo?.FullName,
+                FullName = App.userInfo.FullName,
                 OrderInfoId = 0,
-                PhoneNo = App.userInfo?.PhoneNumber,
-                Address = String.Concat(App.userInfo?.BuildingInfo, ", ", App.userInfo?.Street, ", ", App.userInfo?.City)
+                PhoneNo = App.userInfo.PhoneNumber,
+                Address = String.Concat(App.userInfo.BuildingInfo, ", ", App.userInfo.Street, ", ", App.userInfo.City)
             };
-            PlaceFinalOrder = new Command(OnClickPlaceOrder);
+            if (ProductsInOrderMarket.Count > 0 && ProductsInOrderRestaurant.Count > 0)
+                HasBothTypes = true;
         }
 
-        async void OnClickPlaceOrder()
+        async Task OnClickPlaceOrder()
         {
-            var result = await OrderService.CreateOrder(Order);
-            if (result > 0)
+            if (ProductsInOrderMarket.Count > 0)
             {
-                OrderInfo.OrderRefId = result;
-                await OrderService.CreateOrderInfo(OrderInfo);
-                foreach (var item in ProductsInOrder)
+                var result = await OrderService.CreateOrder(OrderMarket);
+                if (result > 0)
                 {
-                    item.OrderRefId = result;
+                    OrderInfo.OrderRefId = result;
+                    await OrderService.CreateOrderInfo(OrderInfo);
+                    foreach (var item in ProductsInOrderMarket)
+                    {
+                        item.OrderRefId = result;
+                    }
+                    await OrderService.CreateProductsInOrder(ProductsInOrderMarket);
                 }
-                await OrderService.CreateProductsInOrder(ProductsInOrder);
+            }
+
+            if (ProductsInOrderRestaurant.Count > 0)
+            {
+                var result = await OrderService.CreateOrder(OrderRestaurant);
+                if (result > 0)
+                {
+                    OrderInfo.OrderRefId = result;
+                    await OrderService.CreateOrderInfo(OrderInfo);
+                    foreach (var item in ProductsInOrderRestaurant)
+                    {
+                        item.OrderRefId = result;
+                    }
+                    await OrderService.CreateProductsInOrder(ProductsInOrderRestaurant);
+                }
             }
             DataStore.CleanCart();
-            OnPlaceOrder?.Invoke(this, default(EventArgs));
+            OnPlaceOrder?.Invoke(this, new EventArgs());
         }
     }
 }

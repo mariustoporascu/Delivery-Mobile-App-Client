@@ -1,9 +1,10 @@
 ﻿using FoodDeliveryApp.Models.ShopModels;
+using FoodDeliveryApp.Views;
 using MvvmHelpers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace FoodDeliveryApp.ViewModels
@@ -15,6 +16,8 @@ namespace FoodDeliveryApp.ViewModels
         public Command LoadOrdersCommand { get; }
         private bool isLoggedIn = false;
         public bool IsLoggedIn { get => isLoggedIn; set => SetProperty(ref isLoggedIn, value); }
+        public Command<ServerOrder> ItemTapped { get; }
+
         private bool isPageVisible = false;
         public bool IsPageVisible
         {
@@ -25,25 +28,36 @@ namespace FoodDeliveryApp.ViewModels
         {
             Orders = new ObservableRangeCollection<ServerOrder>();
             IsLoggedIn = App.isLoggedIn;
+            ItemTapped = new Command<ServerOrder>(OnItemSelected);
 
-            LoadOrdersCommand = new Command(ExecuteLoadOrdersCommand);
+            LoadOrdersCommand = new Command(async () => await ExecuteLoadOrdersCommand());
         }
-        public void ExecuteLoadOrdersCommand()
+        public async Task ExecuteLoadOrdersCommand()
         {
             IsBusy = true;
-            string email = App.userInfo?.Email;
+            string email = App.userInfo.Email;
             try
             {
-                Orders.Clear();
-                var serverOrders = DataStore.GetServerOrders(email);
-                if (serverOrders != null)
-                    Orders.AddRange(serverOrders);
-                if (Orders.Count > 0)
-                {
-                    IsPageVisible = true;
-                }
+                IEnumerable<ServerOrder> serverOrders;
+                if (Device.RuntimePlatform == Device.Android)
+                    serverOrders = await DataStore.GetServerOrders(email).ConfigureAwait(false);
                 else
-                    IsPageVisible = false;
+                    serverOrders = DataStore.GetServerOrders(email).ConfigureAwait(false).GetAwaiter().GetResult();
+
+                lock (Orders)
+                {
+                    Orders.Clear();
+                    if (serverOrders != null)
+                        Orders.AddRange(serverOrders);
+                    if (Orders.Count > 0)
+                    {
+                        IsPageVisible = true;
+                    }
+                    else
+                        IsPageVisible = false;
+                }
+                Task.Delay(2000).Wait();
+
             }
             catch (Exception ex)
             {
@@ -53,6 +67,14 @@ namespace FoodDeliveryApp.ViewModels
             {
                 IsBusy = false;
             }
+        }
+        async void OnItemSelected(ServerOrder item)
+        {
+            if (item == null)
+                return;
+
+            // This will push the ItemDetailPage onto the navigation stack
+            await Shell.Current.GoToAsync($"{nameof(OrderInfoPage)}?{nameof(OrderInfoViewModel.OrderId)}={item.OrderId}");
         }
     }
 }

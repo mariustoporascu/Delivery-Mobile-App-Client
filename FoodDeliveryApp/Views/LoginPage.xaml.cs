@@ -1,35 +1,43 @@
 ﻿using FoodDeliveryApp.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
+using System;
+using Xamarin.CommunityToolkit.Extensions;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace FoodDeliveryApp.Views
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class LoginPage : ContentPage
     {
         public LoginPage()
         {
             InitializeComponent();
             var vm = new LoginViewModel();
-            vm.OnSignIn += OnSignIn;
+            if (Device.RuntimePlatform == Device.iOS)
+                vm.OnSignIn += OnSignInApple;
+            else
+                vm.OnSignIn += OnSignIn;
             vm.OnSignInFailed += OnSignInFailed;
             BindingContext = vm;
+            if (App.isLoggedIn)
+            {
+                if (Device.RuntimePlatform == Device.iOS)
+                    OnSignInApple(this, new EventArgs());
+                else
+                    OnSignIn(this, new EventArgs());
+            }
         }
-
         protected override void OnAppearing()
         {
             base.OnAppearing();
             if (App.isLoggedIn)
             {
-                OnSignIn(this, default(EventArgs));
+                if (Device.RuntimePlatform == Device.iOS)
+                    OnSignInApple(this, new EventArgs());
+                else
+                    OnSignIn(this, new EventArgs());
             }
         }
+
         private async void RedirSignUp(object sender, EventArgs e)
         {
             await Navigation.PushModalAsync(new RegisterPage());
@@ -37,12 +45,19 @@ namespace FoodDeliveryApp.Views
         async void OnDismissButtonClicked(object sender, EventArgs args)
         {
             // Page appearance not animated
-            await Navigation.PopModalAsync(false);
+            await Navigation.PopModalAsync(false).ConfigureAwait(false);
+        }
+        private void OnSignInApple(object sender, EventArgs e)
+        {
+            this.DisplayToastAsync("Ai fost autentificat.", 2300);
+            Navigation.PopModalAsync(false).ConfigureAwait(false);
         }
         private async void OnSignIn(object sender, EventArgs e)
         {
-            await Navigation.PopModalAsync();
+            await this.DisplayToastAsync("Ai fost autentificat.", 1300);
+            await Navigation.PopModalAsync(false).ConfigureAwait(false);
         }
+
         private async void OnSignInFailed(object sender, EventArgs e)
         {
 

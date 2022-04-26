@@ -1,15 +1,10 @@
 ﻿using FoodDeliveryApp.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Xamarin.CommunityToolkit.Extensions;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace FoodDeliveryApp.Views
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class RegisterPage : ContentPage
     {
         RegisterViewModel viewModel;
@@ -17,43 +12,94 @@ namespace FoodDeliveryApp.Views
         {
             InitializeComponent();
             BindingContext = viewModel = new RegisterViewModel();
-            viewModel.OnSignIn += OnSignIn;
+            if (Device.RuntimePlatform == Device.iOS)
+            {
+                viewModel.OnSignIn += OnSignInApple;
+                viewModel.OnSignUpWeb += OnSignUpWebApple;
+            }
+            else
+            {
+                viewModel.OnSignIn += OnSignIn;
+                viewModel.OnSignUpWeb += OnSignUpWeb;
+            }
+
             viewModel.OnSignInFailed += OnSignInFailed;
-            viewModel.OnSignUpWeb += OnSignUpWeb;
             BindingContext = viewModel;
             if (!viewModel._loggedIn)
             {
-                OnSignIn(this, default(EventArgs));
+                if (Device.RuntimePlatform == Device.iOS)
+                    OnSignInApple(this, new EventArgs());
+                else
+                    OnSignIn(this, new EventArgs());
             }
 
+        }
+        private void CheckFieldMail(object sender, TextChangedEventArgs e)
+        {
+            if (!UsernameEntry.IsValid)
+            {
+                Email.TextColor = Color.Red;
+                return;
+            }
+            Email.TextColor = Color.Black;
+        }
+        private void CheckFieldPass(object sender, TextChangedEventArgs e)
+        {
+            if (!PasswordEntry.IsValid)
+            {
+                Password.TextColor = Color.Red;
+                return;
+            }
+            Password.TextColor = Color.Black;
         }
         private async void CheckFields(object sender, EventArgs e)
         {
             if (!UsernameEntry.IsValid && !PasswordEntry.IsValid)
             {
+                Email.TextColor = Color.Red;
+                Password.TextColor = Color.Red;
                 await DisplayAlert("Eroare", "Email si parola invalide", "OK");
                 return;
             }
             if (!UsernameEntry.IsValid)
             {
+                Email.TextColor = Color.Red;
+
                 await DisplayAlert("Eroare", "Email invalid", "OK");
                 return;
             }
             if (!PasswordEntry.IsValid)
             {
+                Password.TextColor = Color.Red;
+
                 await DisplayAlert("Eroare", "Parola trebuie sa contina minimum 6 caractere", "OK");
                 return;
             }
+            Email.TextColor = Color.Black;
+            Password.TextColor = Color.Black;
+
             viewModel.SignUpWebCommand.Execute(null);
+        }
+        private void OnSignInApple(object sender, EventArgs e)
+        {
+            Navigation.PopModalAsync(false).ConfigureAwait(false);
+        }
+        private void OnSignUpWebApple(object sender, EventArgs e)
+        {
+            this.DisplayToastAsync("Contul tau a fost creat cu succes", 2300);
+            Navigation.PopModalAsync(false).ConfigureAwait(false);
         }
         private async void OnSignIn(object sender, EventArgs e)
         {
-            await Navigation.PopModalAsync();
+            await Navigation.PopModalAsync(false).ConfigureAwait(false);
         }
         private async void OnSignUpWeb(object sender, EventArgs e)
         {
-            await Navigation.PopModalAsync();
+            await this.DisplayToastAsync("Contul tau a fost creat cu succes", 1300);
+            await Navigation.PopModalAsync(false).ConfigureAwait(false);
         }
+
+
         private async void OnSignInFailed(object sender, EventArgs e)
         {
 
@@ -62,7 +108,7 @@ namespace FoodDeliveryApp.Views
         async void OnDismissButtonClicked(object sender, EventArgs args)
         {
             // Page appearance not animated
-            await Navigation.PopModalAsync(false);
+            await Navigation.PopModalAsync(false).ConfigureAwait(false);
         }
     }
 }

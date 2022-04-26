@@ -1,17 +1,12 @@
-﻿using FoodDeliveryApp.Models;
+﻿using FoodDeliveryApp.Models.ShopModels;
 using FoodDeliveryApp.Views;
 using MvvmHelpers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Diagnostics;
-using System.IO;
 using System.Threading.Tasks;
 using Xamarin.Forms;
-using Android.Widget;
-using FoodDeliveryApp.Models.ShopModels;
-using FoodDeliveryApp.Constants;
 
 namespace FoodDeliveryApp.ViewModels
 {
@@ -87,7 +82,7 @@ namespace FoodDeliveryApp.ViewModels
             SCateg = new List<Categ>();
             SSubCateg = new List<SubCateg>();
             LoadItemsCommand = new Command(ExecuteLoadItemsCommand);
-            ItemTapped = new Command<Item>(OnItemSelected);
+            ItemTapped = new Command<Item>(async (item) => await OnItemSelected(item));
             MinusCommand = new Command<Item>(OnMinus);
             PlusCommand = new Command<Item>(OnPlus);
             SearchCommand = new Command(Searching);
@@ -95,7 +90,6 @@ namespace FoodDeliveryApp.ViewModels
 
         void ExecuteLoadItemsCommand()
         {
-            IsBusy = true;
 
             try
             {
@@ -175,14 +169,9 @@ namespace FoodDeliveryApp.ViewModels
             {
                 Debug.WriteLine(ex);
             }
-            finally
-            {
-                IsBusy = false;
-            }
         }
-        public void Searching()
+        void Searching()
         {
-            IsBusy = true;
 
             try
             {
@@ -225,13 +214,9 @@ namespace FoodDeliveryApp.ViewModels
             {
                 Debug.WriteLine(ex);
             }
-            finally
-            {
-                IsBusy = false;
-            }
         }
 
-        public Item SelectedItem
+        Item SelectedItem
         {
             get => _selectedItem;
             set
@@ -278,6 +263,8 @@ namespace FoodDeliveryApp.ViewModels
                     Name = itemVM.Name,
                     Price = itemVM.Price,
                     Cantitate = itemVM.Cantitate,
+                    Canal = Canal,
+                    ShopId = Canal == 1 ? itemVM.SuperMarketRefId : itemVM.RestaurantRefId
                 };
                 CItems.Add(item);
             }
@@ -286,7 +273,7 @@ namespace FoodDeliveryApp.ViewModels
             DataStore.SaveCart(item);
 
         }
-        async void OnItemSelected(Item item)
+        async Task OnItemSelected(Item item)
         {
             if (item == null)
                 return;

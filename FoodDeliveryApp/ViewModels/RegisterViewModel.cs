@@ -1,21 +1,12 @@
-﻿using System;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Net.Mail;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using FoodDeliveryApp.Annotations;
-using FoodDeliveryApp.Models;
-using FoodDeliveryApp.Models.AuthModels;
+﻿using FoodDeliveryApp.Models.AuthModels;
 using FoodDeliveryApp.Services;
 using Newtonsoft.Json;
 using Plugin.FacebookClient;
+using System;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Input;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -34,81 +25,82 @@ namespace FoodDeliveryApp.ViewModels
         public bool LoggedIn { get => _loggedIn; }
         public bool IsAppleSignInAvailable { get { return appleSignInService?.IsAvailable ?? false; } }
         public bool IsGoogleSignInAvailable { get { return !appleSignInService?.IsAvailable ?? true; } }
-        public ICommand SignInWithAppleCommand { get; set; }
-        public ICommand SignUpWebCommand { get; set; }
+        public Command SignInWithAppleCommand { get; set; }
+        public Command SignUpWebCommand { get; set; }
 
         public event EventHandler OnSignUpWeb = delegate { };
         public event EventHandler OnSignIn = delegate { };
         public event EventHandler OnSignInFailed = delegate { };
 
         IAppleSignInService appleSignInService;
-        IAuthController authController;
 
         public RegisterViewModel()
         {
             _oidcIdentity = new OidcIdentity();
-            ExecuteLoginGoogle = new Command(LoginWithGoogle);
-            ExecuteLoginFacebook = new Command(LoginWithFacebook);
+            ExecuteLoginGoogle = new Command(async () => await LoginWithGoogle());
+            ExecuteLoginFacebook = new Command(async () => await LoginWithFacebook());
             appleSignInService = DependencyService.Get<IAppleSignInService>();
-            authController = DependencyService.Get<IAuthController>();
-            SignInWithAppleCommand = new Command(OnAppleSignInRequest);
-            SignUpWebCommand = new Command(SignUpWithWeb);
+            SignInWithAppleCommand = new Command(async () => await OnAppleSignInRequest());
+            SignUpWebCommand = new Command(async () => await SignUpWithWeb());
         }
 
-        public ICommand ExecuteLoginGoogle { get; }
-        public ICommand ExecuteLoginFacebook { get; }
+        public Command ExecuteLoginGoogle { get; }
+        public Command ExecuteLoginFacebook { get; }
 
-        private async void SignUpWithWeb()
+        private async Task SignUpWithWeb()
         {
-            var serverResp = await authController.CreateUser(new UserModel
+            var serverResp = await AuthController.CreateUser(new UserModel
             {
                 Email = UserName,
                 Password = Password,
             });
             if (!string.IsNullOrEmpty(serverResp) && !serverResp.Contains("User already exists.")
                 && !serverResp.Contains("Something went wrong during account creation"))
-                OnSignUpWeb?.Invoke(this, default(EventArgs));
+                OnSignUpWeb?.Invoke(this, new EventArgs());
             else
                 OnSignInFailed?.Invoke(this, new EventArgs());
         }
-        private async void LoginWithFacebook()
+        private async Task LoginWithFacebook()
         {
             try
             {
                 FacebookResponse<bool> response = await CrossFacebookClient.Current.LoginAsync(new string[] { "email", "public_profile" });
-                FacebookResponse<string> responseData = await CrossFacebookClient.Current.RequestUserDataAsync(new string[] { "email", "first_name", "gender", "last_name", "birthday" }, new string[] { "email", "user_birthday" });
-                if (responseData != null)
+                if (response != null)
                 {
-                    var settings = new JsonSerializerSettings
+                    FacebookResponse<string> responseData = await CrossFacebookClient.Current.RequestUserDataAsync(new string[] { "email", "first_name", "gender", "last_name", "birthday" }, new string[] { "email", "user_birthday" });
+                    if (responseData != null)
                     {
-                        NullValueHandling = NullValueHandling.Ignore,
-                        MissingMemberHandling = MissingMemberHandling.Ignore
-                    };
-                    var userData = JsonConvert.DeserializeObject<FaceBookAcc>(responseData.Data, settings);
-                    SecureStorage.SetAsync(App.FACEBOOK_ID_EMAIL, userData.Email).Wait();
-                    SecureStorage.SetAsync(App.FACEBOOK_ID_NAME, string.Concat(userData.First_Name, " ", userData.Last_Name)).Wait();
-                    SecureStorage.SetAsync(App.FACEBOOK_ID, userData.Id).Wait();
-                    SecureStorage.SetAsync(App.LOGIN_WITH, "Facebook").Wait();
-                    var serverResp = await authController.CreateUser(new UserModel
-                    {
-                        Email = userData.Email,
-                        FullName = string.Concat(userData.First_Name, " ", userData.Last_Name),
-                        UserIdentification = userData.Id,
-                    });
-                    if (!string.IsNullOrEmpty(serverResp) && await AfterSignIn())
-                        OnSignIn?.Invoke(this, default(EventArgs));
+                        var settings = new JsonSerializerSettings
+                        {
+                            NullValueHandling = NullValueHandling.Ignore,
+                            MissingMemberHandling = MissingMemberHandling.Ignore
+                        };
+                        var userData = JsonConvert.DeserializeObject<FaceBookAcc>(responseData.Data, settings);
+                        SecureStorage.SetAsync(App.FACEBOOK_ID_EMAIL, userData.Email).Wait();
+                        SecureStorage.SetAsync(App.FACEBOOK_ID_NAME, string.Concat(userData.First_Name, " ", userData.Last_Name)).Wait();
+                        SecureStorage.SetAsync(App.FACEBOOK_ID, userData.Id).Wait();
+                        SecureStorage.SetAsync(App.LOGIN_WITH, "Facebook").Wait();
+                        var serverResp = await AuthController.CreateUser(new UserModel
+                        {
+                            Email = userData.Email,
+                            FullName = string.Concat(userData.First_Name, " ", userData.Last_Name),
+                            UserIdentification = userData.Id,
+                        });
+                        if (!string.IsNullOrEmpty(serverResp) && await AfterSignIn())
+                            OnSignIn?.Invoke(this, new EventArgs());
+                        else
+                            OnSignInFailed?.Invoke(this, new EventArgs());
+                    }
                     else
                         OnSignInFailed?.Invoke(this, new EventArgs());
                 }
-                else
-                    OnSignInFailed?.Invoke(this, new EventArgs());
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
             }
         }
-        private async void LoginWithGoogle()
+        private async Task LoginWithGoogle()
         {
             try
             {
@@ -124,14 +116,14 @@ namespace FoodDeliveryApp.ViewModels
                         SecureStorage.SetAsync(App.GOOGLE_ID, userData.FirstOrDefault(claim => claim.Type == "sub").Value).Wait();
                         SecureStorage.SetAsync(App.LOGIN_WITH, "Google").Wait();
 
-                        var serverResp = await authController.CreateUser(new UserModel
+                        var serverResp = await AuthController.CreateUser(new UserModel
                         {
                             Email = userData.FirstOrDefault(claim => claim.Type == "email").Value,
                             FullName = userData.FirstOrDefault(claim => claim.Type == "name").Value,
                             UserIdentification = userData.FirstOrDefault(claim => claim.Type == "sub").Value,
                         });
                         if (!string.IsNullOrEmpty(serverResp) && await AfterSignIn())
-                            OnSignIn?.Invoke(this, default(EventArgs));
+                            OnSignIn?.Invoke(this, new EventArgs());
                         else
                             OnSignInFailed?.Invoke(this, new EventArgs());
                     }
@@ -147,7 +139,7 @@ namespace FoodDeliveryApp.ViewModels
             }
         }
 
-        async void OnAppleSignInRequest()
+        async Task OnAppleSignInRequest()
         {
             try
             {
@@ -159,14 +151,14 @@ namespace FoodDeliveryApp.ViewModels
                     SecureStorage.SetAsync(App.APPLE_ID, account.UserId).Wait();
                     SecureStorage.SetAsync(App.LOGIN_WITH, "Apple").Wait();
 
-                    var serverResp = await authController.CreateUser(new UserModel
+                    var serverResp = await AuthController.CreateUser(new UserModel
                     {
                         Email = account.Email,
                         FullName = account.Name,
                         UserIdentification = account.UserId,
                     });
                     if (!string.IsNullOrEmpty(serverResp) && await AfterSignIn())
-                        OnSignIn?.Invoke(this, default(EventArgs));
+                        OnSignIn?.Invoke(this, new EventArgs());
                     else
                         OnSignInFailed?.Invoke(this, new EventArgs());
                 }
@@ -185,7 +177,6 @@ namespace FoodDeliveryApp.ViewModels
             string loginResult = string.Empty;
             string finalEmail = string.Empty;
             string finalId = string.Empty;
-            var authService = DependencyService.Get<IAuthController>();
             var gMail = await SecureStorage.GetAsync(App.GOOGLE_ID_EMAIL);
             var gMailId = await SecureStorage.GetAsync(App.GOOGLE_ID);
             var fMail = await SecureStorage.GetAsync(App.FACEBOOK_ID_EMAIL);
@@ -197,19 +188,19 @@ namespace FoodDeliveryApp.ViewModels
             {
                 if (lWith.Equals("Google"))
                 {
-                    loginResult = await authService.LoginUser(new UserModel { Email = gMail, UserIdentification = gMailId });
+                    loginResult = await AuthController.LoginUser(new UserModel { Email = gMail, UserIdentification = gMailId });
                     finalEmail = gMail;
                     finalId = gMailId;
                 }
                 else if (lWith.Equals("Facebook"))
                 {
-                    loginResult = await authService.LoginUser(new UserModel { Email = fMail, UserIdentification = fMailId });
+                    loginResult = await AuthController.LoginUser(new UserModel { Email = fMail, UserIdentification = fMailId });
                     finalEmail = fMail;
                     finalId = fMailId;
                 }
                 else if (lWith.Equals("Apple"))
                 {
-                    loginResult = await authService.LoginUser(new UserModel { Email = aMail, UserIdentification = aMailId });
+                    loginResult = await AuthController.LoginUser(new UserModel { Email = aMail, UserIdentification = aMailId });
                     finalEmail = aMail;
                     finalId = aMailId;
                 }

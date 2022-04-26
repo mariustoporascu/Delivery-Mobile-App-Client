@@ -3,13 +3,12 @@
     x:Class="FoodDeliveryApp.Views.RegisterPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:controls="clr-namespace:FoodDeliveryApp.Controls"
     xmlns:d="http://xamarin.com/schemas/2014/forms/design"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModels="clr-namespace:FoodDeliveryApp.ViewModels;assembly=FoodDeliveryApp"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     x:DataType="viewModels:RegisterViewModel"
-    Shell.PresentationMode="Animated"
+    Shell.PresentationMode="ModalAnimated"
     mc:Ignorable="d">
     <StackLayout
         BackgroundColor="{AppThemeBinding Light=LightGray,
@@ -19,12 +18,11 @@
         <StackLayout VerticalOptions="CenterAndExpand">
             <StackLayout Margin="0,0,0,50">
                 <Entry
+                    x:Name="Email"
                     Margin="20"
                     xct:CornerRadiusEffect.CornerRadius="20"
-                    Background="{AppThemeBinding Light=Gray,
-                                                 Dark=LightGray}"
-                    BackgroundColor="{AppThemeBinding Light=Gray,
-                                                      Dark=LightGray}"
+                    Background="LemonChiffon"
+                    BackgroundColor="LemonChiffon"
                     ClearButtonVisibility="WhileEditing"
                     FontSize="Large"
                     HorizontalOptions="FillAndExpand"
@@ -32,22 +30,22 @@
                     Placeholder="Email"
                     PlaceholderColor="Black"
                     Text="{Binding UserName}"
+                    TextChanged="CheckFieldMail"
                     TextColor="Black"
                     VerticalOptions="EndAndExpand">
                     <Entry.Behaviors>
                         <xct:EmailValidationBehavior
                             x:Name="UsernameEntry"
                             DecorationFlags="Trim"
-                            Flags="ValidateOnUnfocusing" />
+                            Flags="ValidateOnValueChanging" />
                     </Entry.Behaviors>
                 </Entry>
                 <Entry
+                    x:Name="Password"
                     Margin="20"
                     xct:CornerRadiusEffect.CornerRadius="20"
-                    Background="{AppThemeBinding Light=Gray,
-                                                 Dark=LightGray}"
-                    BackgroundColor="{AppThemeBinding Light=Gray,
-                                                      Dark=LightGray}"
+                    Background="LemonChiffon"
+                    BackgroundColor="LemonChiffon"
                     ClearButtonVisibility="WhileEditing"
                     FontSize="Large"
                     HorizontalOptions="FillAndExpand"
@@ -56,34 +54,44 @@
                     Placeholder="Parola"
                     PlaceholderColor="Black"
                     Text="{Binding Password}"
+                    TextChanged="CheckFieldPass"
                     TextColor="Black"
                     VerticalOptions="EndAndExpand">
                     <Entry.Behaviors>
                         <xct:TextValidationBehavior
                             x:Name="PasswordEntry"
-                            Flags="ValidateOnUnfocusing"
+                            Flags="ValidateOnValueChanging"
                             MinimumLength="6" />
                     </Entry.Behaviors>
                 </Entry>
-                <Frame
+
+                <Button
                     Padding="10"
+                    xct:CornerRadiusEffect.CornerRadius="20"
                     Background="Cyan"
                     BackgroundColor="Cyan"
-                    CornerRadius="10"
+                    BorderColor="Cyan"
+                    Clicked="CheckFields"
+                    FontAttributes="Bold"
+                    FontSize="18"
                     HorizontalOptions="CenterAndExpand"
-                    VerticalOptions="EndAndExpand">
-                    <Button
-                        Background="Cyan"
-                        BackgroundColor="Cyan"
-                        BorderColor="Cyan"
-                        Clicked="CheckFields"
-                        FontAttributes="Bold"
-                        FontSize="18"
-                        Text="Inregistrare"
-                        TextColor="Black" />
-                </Frame>
+                    Text="Inregistrare"
+                    TextColor="Black" />
             </StackLayout>
             <StackLayout Margin="0,50,0,0">
+                <Image
+                    Margin="0,0,0,10"
+                    Aspect="AspectFit"
+                    BackgroundColor="Transparent"
+                    IsOpaque="False"
+                    IsVisible="{Binding IsAppleSignInAvailable}"
+                    Source="signInWithApple.png"
+                    WidthRequest="220">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SignInWithAppleCommand}" />
+                    </Image.GestureRecognizers>
+                </Image>
+
                 <Image
                     Margin="0,0,0,10"
                     Aspect="AspectFit"
@@ -106,32 +114,23 @@
                         <TapGestureRecognizer Command="{Binding ExecuteLoginFacebook}" />
                     </Image.GestureRecognizers>
                 </Image>
-                <controls:AppleSignInButton
-                    Margin="0,0,0,10"
-                    ButtonStyle="Black"
-                    Command="{Binding SignInWithAppleCommand}"
-                    HorizontalOptions="CenterAndExpand"
-                    IsVisible="{Binding IsAppleSignInAvailable}"
-                    VerticalOptions="CenterAndExpand" />
+
             </StackLayout>
         </StackLayout>
         <StackLayout VerticalOptions="EndAndExpand">
-            <Frame
+
+            <Button
                 Margin="10"
                 Padding="10"
-                Background="Brown"
-                BackgroundColor="Brown"
-                CornerRadius="10"
+                xct:CornerRadiusEffect.CornerRadius="20"
+                Background="Red"
+                BackgroundColor="Red"
+                BorderColor="Red"
+                Clicked="OnDismissButtonClicked"
                 HorizontalOptions="CenterAndExpand"
-                VerticalOptions="EndAndExpand">
-                <Button
-                    Background="Brown"
-                    BackgroundColor="Brown"
-                    BorderColor="Brown"
-                    Clicked="OnDismissButtonClicked"
-                    Text="Anuleaza"
-                    TextColor="Black" />
-            </Frame>
+                Text="Anuleaza"
+                TextColor="Black" />
+
         </StackLayout>
     </StackLayout>
 </ContentPage>

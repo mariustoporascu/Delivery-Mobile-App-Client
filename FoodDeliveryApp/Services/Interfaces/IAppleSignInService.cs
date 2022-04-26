@@ -1,7 +1,5 @@
-﻿using System;
+﻿using FoodDeliveryApp.Models.AuthModels;
 using System.Threading.Tasks;
-using FoodDeliveryApp.Models;
-using FoodDeliveryApp.Models.AuthModels;
 
 namespace FoodDeliveryApp.Services
 {

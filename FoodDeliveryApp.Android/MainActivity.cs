@@ -1,17 +1,16 @@
-﻿using System;
-
+﻿
 using Android.App;
+using Android.Content;
 using Android.Content.PM;
-using Android.Runtime;
 using Android.OS;
+using Android.Runtime;
 using Android.Widget;
 using Plugin.FacebookClient;
-using Android.Content;
-using Xamarin.Essentials;
+
 
 namespace FoodDeliveryApp.Droid
 {
-    [Activity(Label = "FoodDeliveryApp", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize, ScreenOrientation = ScreenOrientation.Portrait)]
+    [Activity(Label = "FoodDeliveryApp", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.Locale | ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize, ScreenOrientation = ScreenOrientation.Portrait)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)
@@ -20,6 +19,7 @@ namespace FoodDeliveryApp.Droid
             ToolbarResource = Resource.Layout.Toolbar;
 
             base.OnCreate(savedInstanceState);
+
             FacebookClientManager.Initialize(this);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
@@ -44,13 +44,14 @@ namespace FoodDeliveryApp.Droid
             base.OnBackPressed();
         }
 
+
         private async void GetLocationPermissions()
         {
-            var status = await Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();
-            if (status == PermissionStatus.Granted)
+            var status = await Xamarin.Essentials.Permissions.CheckStatusAsync<Xamarin.Essentials.Permissions.LocationWhenInUse>();
+            if (status == Xamarin.Essentials.PermissionStatus.Granted)
                 return;
-            var getPerm = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
-            if (getPerm == PermissionStatus.Granted)
+            var getPerm = await Xamarin.Essentials.Permissions.RequestAsync<Xamarin.Essentials.Permissions.LocationWhenInUse>();
+            if (getPerm == Xamarin.Essentials.PermissionStatus.Granted)
                 return;
             else
                 Toast.MakeText(this, "You will not be able to use map features without the permission.", ToastLength.Long);

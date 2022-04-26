@@ -1,9 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
-using FoodDeliveryApp.Constants;
+﻿using FoodDeliveryApp.Constants;
 using FoodDeliveryApp.Models.AuthModels;
 using IdentityModel.OidcClient;
 using IdentityModel.OidcClient.Results;
+using System;
+using System.Threading.Tasks;
 
 namespace FoodDeliveryApp.Services
 {

@@ -1,5 +1,4 @@
 ﻿using FoodDeliveryApp.Constants;
-using FoodDeliveryApp.Models;
 using FoodDeliveryApp.Models.ShopModels;
 using Newtonsoft.Json;
 using System;

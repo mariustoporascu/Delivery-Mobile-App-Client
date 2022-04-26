@@ -1,13 +1,7 @@
-﻿using Android.Widget;
-using FoodDeliveryApp.Models;
-using FoodDeliveryApp.Models.ShopModels;
-using Newtonsoft.Json;
-using System;
+﻿using FoodDeliveryApp.Models.ShopModels;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
-using Xamarin.Essentials;
 
 namespace FoodDeliveryApp.Services
 {
@@ -21,12 +15,16 @@ namespace FoodDeliveryApp.Services
         }
         public async Task Init()
         {
-            await _serverInfo.loadAppInfo();
+            await _serverInfo.loadAppInfo().ConfigureAwait(false);
         }
 
         public Item GetItem(int id)
         {
             return _serverInfo.items.FirstOrDefault(s => s.ProductId == id);
+        }
+        public ServerOrder GetOrder(int id)
+        {
+            return _serverInfo.serverOrders.FirstOrDefault(s => s.OrderId == id);
         }
         public CartItem GetCartItem(int id)
         {
@@ -131,9 +129,9 @@ namespace FoodDeliveryApp.Services
             return _serverInfo.subCateg;
         }
 
-        public IEnumerable<ServerOrder> GetServerOrders(string email)
+        public async Task<IEnumerable<ServerOrder>> GetServerOrders(string email)
         {
-            return _serverInfo.loadServerOrders(email);
+            return await _serverInfo.loadServerOrders(email).ConfigureAwait(false);
         }
     }
 }

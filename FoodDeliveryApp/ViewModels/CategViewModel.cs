@@ -1,13 +1,8 @@
-﻿using FoodDeliveryApp.Constants;
-using FoodDeliveryApp.Models;
-using FoodDeliveryApp.Models.ShopModels;
+﻿using FoodDeliveryApp.Models.ShopModels;
 using FoodDeliveryApp.Views;
 using MvvmHelpers;
 using System;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Diagnostics;
-using System.IO;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -35,12 +30,11 @@ namespace FoodDeliveryApp.ViewModels
             Title = "Categorii";
             Items = new ObservableRangeCollection<Categ>();
             LoadItemsCommand = new Command(ExecuteLoadItemsCommand);
-            ItemTapped = new Command<Categ>(OnItemSelected);
-            AllProductsTapped = new Command(AllProducts);
+            ItemTapped = new Command<Categ>(async (item) => await OnItemSelected(item));
+            AllProductsTapped = new Command(async () => await AllProducts());
         }
         void ExecuteLoadItemsCommand()
         {
-            IsBusy = true;
 
             try
             {
@@ -56,10 +50,6 @@ namespace FoodDeliveryApp.ViewModels
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
-            }
-            finally
-            {
-                IsBusy = false;
             }
         }
         public int Canal
@@ -93,14 +83,14 @@ namespace FoodDeliveryApp.ViewModels
                 OnItemSelected(value);
             }
         }
-        async void OnItemSelected(Categ item)
+        async Task OnItemSelected(Categ item)
         {
             if (item == null)
                 return;
             await Shell.Current.GoToAsync($"{nameof(ItemsPage)}?{nameof(ItemsViewModel.Canal)}={canal}&{nameof(ItemsViewModel.RefId)}={refId}&{nameof(ItemsViewModel.CategId)}={item.CategoryId}");
 
         }
-        async void AllProducts()
+        async Task AllProducts()
         {
             await Shell.Current.GoToAsync($"{nameof(ItemsPage)}?{nameof(ItemsViewModel.Canal)}={canal}&{nameof(ItemsViewModel.RefId)}={refId}&{nameof(ItemsViewModel.CategId)}=0");
         }

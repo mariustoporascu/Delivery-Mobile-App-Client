@@ -1,14 +1,11 @@
-﻿using FoodDeliveryApp.Models;
-using FoodDeliveryApp.Models.AuthModels;
+﻿using FoodDeliveryApp.Models.AuthModels;
 using FoodDeliveryApp.Services;
-using FoodDeliveryApp.Views;
 using Newtonsoft.Json;
-using System;
-using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
+[assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace FoodDeliveryApp
 {
     public partial class App : Application
@@ -16,7 +13,7 @@ namespace FoodDeliveryApp
         public const string CallbackUri = "com.tmiit.fooddeliveryapp";
         public static readonly string CallbackScheme = $"{CallbackUri}:/authenticated";
         public static readonly string SignoutCallbackScheme = $"{CallbackUri}:/signout-callback-oidc";
-        public static UserModel? userInfo;
+        public static UserModel userInfo = new UserModel();
         public const string LOGIN_WITH = "LoginWith";
         public const string APPLE_ID = "AppleId";
         public const string APPLE_ID_EMAIL = "AppleIdEmail";

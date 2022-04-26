@@ -1,8 +1,4 @@
-﻿using FoodDeliveryApp.Models;
-using FoodDeliveryApp.Models.AuthModels;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using FoodDeliveryApp.Models.AuthModels;
 using System.Threading.Tasks;
 
 namespace FoodDeliveryApp.Services
