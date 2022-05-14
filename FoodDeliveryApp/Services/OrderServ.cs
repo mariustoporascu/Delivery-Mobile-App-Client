@@ -48,5 +48,21 @@ namespace FoodDeliveryApp.Services
             HttpResponseMessage httpResponseMessage = await _httpClient.PostAsync(uri, data);
             Debug.WriteLine(httpResponseMessage.IsSuccessStatusCode);
         }
+        public async Task<DriverLocation> LoadDrivers(string driverId, int orderId)
+        {
+            Uri uri = new Uri($"{ServerConstants.BaseUrl}/foodapp/getmydriverlocation/{driverId}/{orderId}");
+            HttpResponseMessage httpResponseMessage = await _httpClient.GetAsync(uri).ConfigureAwait(false);
+            if (httpResponseMessage.IsSuccessStatusCode)
+            {
+                string content = await httpResponseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
+                var settings = new JsonSerializerSettings
+                {
+                    NullValueHandling = NullValueHandling.Ignore,
+                    MissingMemberHandling = MissingMemberHandling.Ignore
+                };
+                return JsonConvert.DeserializeObject<DriverLocation>(content, settings);
+            }
+            return null;
+        }
     }
 }

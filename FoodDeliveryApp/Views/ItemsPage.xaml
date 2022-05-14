@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:FoodDeliveryApp.ViewModels"
     xmlns:model="clr-namespace:FoodDeliveryApp.Models.ShopModels"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     x:Name="ItemsSubCateg"
     Title="{Binding Title}"
     Shell.PresentationMode="Animated">
@@ -83,7 +84,11 @@
                             BackgroundColor="{AppThemeBinding Light=LightCyan,
                                                               Dark=LightCyan}"
                             CornerRadius="10">
-                            <StackLayout BackgroundColor="{AppThemeBinding Light=DarkCyan, Dark=DarkCyan}" HeightRequest="300">
+                            <StackLayout
+                                xct:CornerRadiusEffect.CornerRadius="20"
+                                BackgroundColor="{AppThemeBinding Light=LightCyan,
+                                                                  Dark=LightCyan}"
+                                HeightRequest="300">
 
                                 <StackLayout
                                     Margin="5,5,5,5"

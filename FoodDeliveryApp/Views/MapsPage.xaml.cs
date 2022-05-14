@@ -1,7 +1,10 @@
-﻿using FoodDeliveryApp.ViewModels;
+﻿using FoodDeliveryApp.Models.MapsModels;
+using FoodDeliveryApp.ViewModels;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 
@@ -12,6 +15,7 @@ namespace FoodDeliveryApp.Views
         MapsViewModel mapsViewModel;
         private float totalDistance = 0.0f;
         private int timeToGo = 0;
+        private bool calculateRoute = false;
         public MapsPage()
         {
             InitializeComponent();
@@ -20,15 +24,32 @@ namespace FoodDeliveryApp.Views
         protected override async void OnAppearing()
         {
             base.OnAppearing();
+            calculateRoute = true;
             await mapsViewModel.LoadMyLocation();
             if (mapsViewModel.pinRoute1.Position != null)
             {
-                if (AppMap.Pins.FirstOrDefault(pin => pin.Label == "Adresa mea") == null)
-                    AppMap.Pins.Add(mapsViewModel.pinRoute1);
-                else
-                    AppMap.Pins.FirstOrDefault(pin => pin.Label == "Adresa mea").Position = mapsViewModel.pinRoute1.Position;
-                AppMap.MoveToRegion(new MapSpan(mapsViewModel.pinRoute1.Position, 0.01, 0.01));
+                try
+                {
+                    if (AppMap.Pins.FirstOrDefault(pin => pin.Label == "Adresa mea") == null)
+                        AppMap.Pins.Add(mapsViewModel.pinRoute1);
+                    else
+                        AppMap.Pins.FirstOrDefault(pin => pin.Label == "Adresa mea").Position = mapsViewModel.pinRoute1.Position;
+                    AppMap.MoveToRegion(MapSpan.FromCenterAndRadius(mapsViewModel.pinRoute1.Position, Distance.FromMeters(100)));
+                    TrackPath_Clicked();
+
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
+
             }
+        }
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            calculateRoute = false;
+
         }
 
         void PickupButton_Clicked(object sender, MapClickedEventArgs e)
@@ -50,152 +71,87 @@ namespace FoodDeliveryApp.Views
             };
             AppMap.Pins.Add(goToPin);
         }
-        async void PickupButton_Clicked2(object sender, MapClickedEventArgs e)
+
+
+        void TrackPath_Clicked()
         {
-            //User Actual Location
-            if (AppMap.Pins.Count > 0)
-            {
-                Pin pinTo = AppMap.Pins.FirstOrDefault(pins => pins.Label == "Adresa mea");
-                if (pinTo != null)
-                    AppMap.Pins.Remove(pinTo);
-            }
 
-            Pin goToPin = new Pin()
+            Device.StartTimer(TimeSpan.FromMilliseconds(6000), () =>
             {
-                Label = "Adresa mea",
-                Type = PinType.Place,
-                Position = e.Position,
-
-            };
-            var userLocation = await mapsViewModel.geoCoder.GetAddressesForPositionAsync(e.Position).ConfigureAwait(false);
-            if (!string.IsNullOrWhiteSpace(userLocation.FirstOrDefault()))
-            {
-                var split = userLocation.FirstOrDefault().Split(',');
-                App.userInfo.City = split[split.Count() - 2];
-                App.userInfo.Street = split.FirstOrDefault(str => str.ToLower().StartsWith("str"));
-            }
-            AppMap.Pins.Add(goToPin);
-        }
-
-        async void TrackPath_Clicked(object sender, EventArgs e)
-        {
-            Pin pinTo = AppMap.Pins.FirstOrDefault(pins => pins.Label == "Curier");
-            if (pinTo == null)
-                return;
-            var route = await mapsViewModel.LoadRoute(pinTo);
-            if (route == null)
-                return;
-            var pathcontent = Enumerable.ToList(Models.MapsModels.PolylineHelper.Decode(route.Routes.First().OverviewPolyline.Points));
-            if (pathcontent == null)
-                return;
-            AppMap.MapElements.Clear();
-
-            var polyline = new Polyline();
-            polyline.StrokeColor = Color.Black;
-            polyline.StrokeWidth = 3;
-            totalDistance = 0.0f;
-            for (int i = 0; i < pathcontent.Count; i++)
-            {
-                var line = pathcontent[i];
-                Position nextline;
-                if (i != pathcontent.Count - 1)
+                var routes = mapsViewModel.DrawDriverRoute().GetAwaiter().GetResult();
+                if (routes != null)
                 {
-                    nextline = pathcontent[i + 1];
-                    totalDistance += (float)Distance.BetweenPositions(line, nextline).Kilometers;
-                }
-                polyline.Geopath.Add(line);
-            }
+                    Debug.WriteLine("Drawing routes.");
 
-            AppMap.MapElements.Add(polyline);
-
-            AppMap.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(polyline.Geopath[0].Latitude, polyline.Geopath[0].Longitude), Distance.FromMiles(0.30f)));
-
-            var positionIndex = 1;
-            if (totalDistance < 1.0f)
-            {
-                int convertedDistance = (int)Math.Round(totalDistance * 1000);
-                DistToGo.Text = convertedDistance.ToString() + " m";
-            }
-            else
-            {
-                DistToGo.Text = totalDistance.ToString().Substring(0, totalDistance.ToString().IndexOf(".") + 3) + " km";
-            }
-            timeToGo = (int)Math.Round(((totalDistance * 60) / 40));
-            if (timeToGo > 0)
-                TimeToGo.Text = timeToGo.ToString() + " min";
-            else
-                TimeToGo.Text = "1 min";
-            Device.StartTimer(TimeSpan.FromMilliseconds(1500), () =>
-            {
-                if (pathcontent.Count > positionIndex)
-                {
-                    UpdatePostions(pathcontent[positionIndex]);
-                    positionIndex++;
-                    return true;
+                    UpdatePostions(routes);
+                    return calculateRoute;
                 }
                 else
                 {
-                    return false;
+                    Debug.WriteLine("No routes found.");
+                    calculateRoute = false;
+                    return calculateRoute;
                 }
             });
         }
 
-        async void UpdatePostions(Position position)
+        async void UpdatePostions(Dictionary<int, GoogleDirection> routes)
         {
-            if (AppMap.Pins.Count == 1 && AppMap.MapElements != null && AppMap.MapElements?.Count > 1)
-                return;
-
-            var cPin = AppMap.Pins.FirstOrDefault(pin => pin.Label == "Curier");
-
-            if (cPin != null)
+            AppMap.MapElements.Clear();
+            foreach (var route in routes)
             {
-                cPin.Position = new Position(position.Latitude, position.Longitude);
-                AppMap.MoveToRegion(MapSpan.FromCenterAndRadius(cPin.Position, Distance.FromMeters(200)));
-                var previousPosition = ((Polyline)AppMap.MapElements?.FirstOrDefault()).Geopath.FirstOrDefault();
-                ((Polyline)AppMap.MapElements?.FirstOrDefault()).Geopath?.Remove(previousPosition);
-                var currPosition = ((Polyline)AppMap.MapElements?.FirstOrDefault()).Geopath.FirstOrDefault();
-                try
+                List<Pin> pinTo = AppMap.Pins.Where(pins => pins.Label.Contains("Curier")).ToList();
+                foreach (var pin in pinTo)
+                    AppMap.Pins.Remove(pin);
+                var pathcontent = Enumerable.ToList(Models.MapsModels.PolylineHelper.Decode(route.Value.Routes.First().OverviewPolyline.Points));
+                if (pathcontent == null)
+                    return;
+                AppMap.Pins.Add(new Pin()
                 {
-                    totalDistance -= (float)Distance.BetweenPositions(previousPosition, currPosition).Kilometers;
-                    if (totalDistance > 0.0f)
-                    {
-                        if (totalDistance < 1.0f)
-                        {
-                            var convertedDistance = (int)Math.Round(totalDistance * 1000);
-                            DistToGo.Text = convertedDistance.ToString() + " m";
-                        }
-                        else
-                        {
-                            DistToGo.Text = totalDistance.ToString().Substring(0, totalDistance.ToString().IndexOf(".") + 3) + " km";
-                        }
-                        timeToGo = (int)Math.Round(((totalDistance * 60) / 40));
-                        if (timeToGo > 0)
-                            TimeToGo.Text = timeToGo.ToString() + " min";
-                        else
-                            TimeToGo.Text = "1 min";
-                    }
-                    else
-                    {
-                        AppMap.MapElements?.Clear();
-                        DistToGo.Text = "0 km";
-                        TimeToGo.Text = "0 min";
+                    Label = $"Curier Comanda {route.Key}",
+                    Type = PinType.Place,
+                    Position = new Position(pathcontent[0].Latitude, pathcontent[0].Longitude),
+                });
 
-                    }
-                }
-                catch (Exception ex)
+                var polyline = new Xamarin.Forms.Maps.Polyline();
+                polyline.StrokeColor = Color.Black;
+                polyline.StrokeWidth = 3;
+                totalDistance = 0.0f;
+                for (int i = 0; i < pathcontent.Count; i++)
                 {
-                    Debug.WriteLine(ex.Message);
+                    var line = pathcontent[i];
+                    Position nextline;
+                    if (i != pathcontent.Count - 1)
+                    {
+                        nextline = pathcontent[i + 1];
+                        totalDistance += (float)Distance.BetweenPositions(line, nextline).Kilometers;
+                    }
+                    polyline.Geopath.Add(line);
                 }
 
+                AppMap.MapElements.Add(polyline);
 
-            }
-            else
-            {
-                AppMap.MapElements?.Clear();
-                DistToGo.Text = "0 km";
-                TimeToGo.Text = "0 min";
+                AppMap.MoveToRegion(MapSpan.FromCenterAndRadius(polyline.Geopath[polyline.Geopath.Count / 2], Distance.FromKilometers(totalDistance)));
 
+                var positionIndex = 1;
+                if (totalDistance < 1.0f)
+                {
+                    int convertedDistance = (int)Math.Round(totalDistance * 1000);
+                    DistToGo.Text = convertedDistance.ToString() + " m";
+                }
+                else
+                {
+                    var index = totalDistance.ToString().IndexOf('.');
+                    var indexRo = totalDistance.ToString().IndexOf(',');
+                    DistToGo.Text = totalDistance.ToString().Substring(0, index > 0 ? index : indexRo + 2) + " km";
+                }
+                timeToGo = (int)Math.Round(((totalDistance * 60) / 40));
+                if (timeToGo > 0)
+                    TimeToGo.Text = timeToGo.ToString() + " min";
+                else
+                    TimeToGo.Text = "1 min";
             }
+
         }
     }
 }

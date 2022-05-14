@@ -13,7 +13,7 @@ namespace FoodDeliveryApp.ViewModels
         public IAuthController AuthController => DependencyService.Get<IAuthController>();
         public IOrderServ OrderService => DependencyService.Get<IOrderServ>();
 
-        bool isBusy = false;
+        bool isBusy = true;
         public bool IsBusy
         {
             get { return isBusy; }

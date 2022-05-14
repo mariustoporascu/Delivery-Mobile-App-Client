@@ -16,9 +16,9 @@
     <Shell.Resources>
         <ResourceDictionary>
             <Style x:Key="BaseStyle" TargetType="Element">
-                <Setter Property="Shell.BackgroundColor" Value="{AppThemeBinding Light=LemonChiffon, Dark=LemonChiffon}" />
+                <Setter Property="Shell.BackgroundColor" Value="{AppThemeBinding Light=White, Dark=White}" />
                 <Setter Property="Shell.ForegroundColor" Value="{AppThemeBinding Light=Black, Dark=Black}" />
-                <Setter Property="Shell.TabBarBackgroundColor" Value="{AppThemeBinding Light=LemonChiffon, Dark=LemonChiffon}" />
+                <Setter Property="Shell.TabBarBackgroundColor" Value="{AppThemeBinding Light=White, Dark=White}" />
                 <Setter Property="Shell.TabBarForegroundColor" Value="{AppThemeBinding Light=Black, Dark=Black}" />
                 <Setter Property="Shell.TabBarUnselectedColor" Value="{AppThemeBinding Light=Black, Dark=Black}" />
                 <Setter Property="Shell.TabBarTitleColor" Value="Crimson" />
@@ -32,32 +32,32 @@
             Title="Acasa"
             ContentTemplate="{DataTemplate local:EntryFoodAppPage}"
             Icon="{AppThemeBinding Light=img_home.png,
-                                   Dark=img_home_dark.png}"
+                                   Dark=img_home.png}"
             Route="EntryFoodAppPage" />
 
         <ShellContent
             Title="Cos"
             ContentTemplate="{DataTemplate local:CosContentPage}"
             Icon="{AppThemeBinding Light=img_bigcart.png,
-                                   Dark=img_bigcart_dark.png}"
+                                   Dark=img_bigcart.png}"
             Route="CosContentPage" />
         <ShellContent
             Title="Cont"
             ContentTemplate="{DataTemplate local:UserProfilePage}"
             Icon="{AppThemeBinding Light=account.png,
-                                   Dark=account_dark.png}"
+                                   Dark=account.png}"
             Route="UserProfilePage" />
         <ShellContent
             Title="Harta"
             ContentTemplate="{DataTemplate local:MapsPage}"
             Icon="{AppThemeBinding Light=img_map.png,
-                                   Dark=img_map_dark.png}"
+                                   Dark=img_map.png}"
             Route="MapsPage" />
         <ShellContent
             Title="Comenzi"
             ContentTemplate="{DataTemplate local:OrdersPage}"
             Icon="{AppThemeBinding Light=img_orders.png,
-                                   Dark=img_orders_dark.png}"
+                                   Dark=img_orders.png}"
             Route="OrdersPage" />
     </TabBar>
 

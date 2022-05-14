@@ -233,4 +233,13 @@
   <ItemGroup>
     <BundleResource Include="Resources\signInWithApple.png" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\btn_facebook_signin_pressed.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\btn_google_signin_dark_pressed.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="signInWithApple_pressed.png" />
+  </ItemGroup>
 </Project>

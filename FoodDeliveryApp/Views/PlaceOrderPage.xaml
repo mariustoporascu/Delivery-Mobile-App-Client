@@ -15,10 +15,8 @@
     </ContentPage.Resources>
     <StackLayout
         x:DataType="local:PlaceOrderViewModel"
-        Background="{AppThemeBinding Light=Gray,
-                                     Dark=LightGray}"
-        BackgroundColor="{AppThemeBinding Light=Gray,
-                                          Dark=LightGray}"
+        BackgroundColor="{AppThemeBinding Light=LightGray,
+                                          Dark=Gray}"
         HorizontalOptions="FillAndExpand"
         VerticalOptions="FillAndExpand">
         <Frame
@@ -137,11 +135,10 @@
                 <Label
                     Margin="0,50,0,0"
                     FontAttributes="Bold"
-                    FontSize="Medium"
+                    FontSize="Small"
                     HorizontalOptions="CenterAndExpand"
                     HorizontalTextAlignment="Center"
-                    IsVisible="{Binding HasBothTypes}"
-                    Text="*Produsele din cos vor fi impartite in comenzi separate supermarket/restaurant."
+                    Text="*Produsele din cos vor fi impartite in comenzi separate supermarket/restaurant. Produsele de la mai multe restaurante se vor imparti in comenzi individuale pentru restaurantul din care fac parte."
                     TextColor="Black"
                     VerticalOptions="EndAndExpand" />
             </StackLayout>

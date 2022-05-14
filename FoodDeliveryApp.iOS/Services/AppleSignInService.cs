@@ -4,6 +4,7 @@ using FoodDeliveryApp.Models.AuthModels;
 using FoodDeliveryApp.Services;
 using Foundation;
 using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using UIKit;
 
@@ -81,7 +82,7 @@ namespace FoodDeliveryApp.iOS.Services
             if (error.Code == 1000)
                 return;
             tcsCredential?.TrySetResult(null);
-            Console.WriteLine(error);
+            Debug.WriteLine(error);
         }
 
         #endregion

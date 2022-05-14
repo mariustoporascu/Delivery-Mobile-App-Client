@@ -1,5 +1,6 @@
 ﻿using FoodDeliveryApp.ViewModels;
-
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace FoodDeliveryApp.Views
@@ -12,17 +13,30 @@ namespace FoodDeliveryApp.Views
             InitializeComponent();
             BindingContext = viewModel = new OrdersViewModel();
         }
-        protected override void OnAppearing()
+        protected override async void OnAppearing()
         {
             base.OnAppearing();
             if (App.isLoggedIn)
             {
                 viewModel.IsLoggedIn = true;
-                viewModel.LoadOrdersCommand.Execute(null);
-                ItemsListView.ScrollTo(0, position: ScrollToPosition.Start);
+                await viewModel.ExecuteLoadOrdersCommand();
+                ItemsListView.ItemsSource = viewModel.Orders;
+                if (viewModel.Orders.Count > 0)
+                {
+                    ItemsListView.ScrollTo(0, position: ScrollToPosition.Start);
+                }
             }
             else
+            {
                 viewModel.IsLoggedIn = false;
+                viewModel.IsBusy = false;
+            }
         }
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            ItemsListView.ItemsSource = null;
+        }
+
     }
 }

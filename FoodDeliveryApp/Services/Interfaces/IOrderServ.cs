@@ -9,5 +9,6 @@ namespace FoodDeliveryApp.Services
         Task<int> CreateOrder(Order order);
         Task CreateOrderInfo(OrderInfo orderInfo);
         Task CreateProductsInOrder(List<ProductInOrder> productsInOrder);
+        Task<DriverLocation> LoadDrivers(string driverId, int orderId);
     }
 }

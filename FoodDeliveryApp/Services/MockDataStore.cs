@@ -113,6 +113,10 @@ namespace FoodDeliveryApp.Services
         {
             return _serverInfo.restaurante;
         }
+        public Companie GetRestaurant(int restaurantId)
+        {
+            return _serverInfo.restaurante.FirstOrDefault(r => r.RestaurantId == restaurantId);
+        }
 
         public IEnumerable<Companie> GetSuperMarkets()
         {

@@ -21,23 +21,9 @@
             HasScrollEnabled="True"
             HasZoomEnabled="True"
             IsVisible="True"
-            MapClicked="PickupButton_Clicked"
             MapType="Street" />
         <StackLayout BackgroundColor="{AppThemeBinding Light=LightGray, Dark=Gray}">
 
-            <Button
-                x:Name="TrackPath"
-                Padding="10"
-                xct:CornerRadiusEffect.CornerRadius="10"
-                Background="Cyan"
-                BackgroundColor="Cyan"
-                BorderColor="Cyan"
-                Clicked="TrackPath_Clicked"
-                FontAttributes="Bold"
-                HorizontalOptions="CenterAndExpand"
-                Text="Track Path"
-                TextColor="Black"
-                VerticalOptions="CenterAndExpand" />
             <StackLayout HorizontalOptions="CenterAndExpand" Orientation="Horizontal">
                 <Label
                     FontAttributes="Bold"

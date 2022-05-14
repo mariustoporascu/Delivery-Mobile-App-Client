@@ -87,7 +87,7 @@
                                 WidthRequest="95" />
                         </StackLayout>
                     </StackLayout>
-                    <StackLayout
+                    <!--<StackLayout
                         Padding="5"
                         xct:CornerRadiusEffect.CornerRadius="10"
                         BackgroundColor="{AppThemeBinding Light=LightCyan,
@@ -172,6 +172,111 @@
                                 TextColor="Black"
                                 VerticalTextAlignment="Center"
                                 WidthRequest="95" />
+                        </StackLayout>
+                    </StackLayout>-->
+                    <StackLayout
+                        Margin="5"
+                        Padding="5"
+                        xct:CornerRadiusEffect.CornerRadius="10"
+                        BackgroundColor="{AppThemeBinding Light=LightCyan,
+                                                          Dark=LightCyan}"
+                        HorizontalOptions="FillAndExpand"
+                        IsVisible="{Binding OwnerViewVis}"
+                        Orientation="Horizontal">
+
+                        <StackLayout BackgroundColor="{AppThemeBinding Light=LightCyan, Dark=LightCyan}" Orientation="Horizontal">
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="Small"
+                                HorizontalOptions="CenterAndExpand"
+                                HorizontalTextAlignment="Center"
+                                LineBreakMode="WordWrap"
+                                Style="{DynamicResource ListItemTextStyle}"
+                                Text="Detalii Restaurant:"
+                                TextColor="Black"
+                                VerticalTextAlignment="Center"
+                                WidthRequest="120" />
+
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="Small"
+                                HorizontalOptions="CenterAndExpand"
+                                HorizontalTextAlignment="Center"
+                                LineBreakMode="WordWrap"
+                                Style="{DynamicResource ListItemTextStyle}"
+                                Text="{Binding Restaurant.Name}"
+                                TextColor="Black"
+                                VerticalTextAlignment="Center"
+                                WidthRequest="100" />
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="Small"
+                                HorizontalOptions="CenterAndExpand"
+                                HorizontalTextAlignment="Center"
+                                LineBreakMode="WordWrap"
+                                Style="{DynamicResource ListItemTextStyle}"
+                                Text="{Binding Restaurant.TelefonNo}"
+                                TextColor="Black"
+                                VerticalTextAlignment="Center"
+                                WidthRequest="130" />
+
+                        </StackLayout>
+                    </StackLayout>
+                    <StackLayout
+                        Margin="5"
+                        Padding="5"
+                        xct:CornerRadiusEffect.CornerRadius="10"
+                        BackgroundColor="{AppThemeBinding Light=LightCyan,
+                                                          Dark=LightCyan}"
+                        HorizontalOptions="FillAndExpand"
+                        IsVisible="{Binding HasDriver}"
+                        Orientation="Horizontal">
+                        <StackLayout BackgroundColor="{AppThemeBinding Light=LightCyan, Dark=LightCyan}" Orientation="Horizontal">
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="Small"
+                                HorizontalOptions="CenterAndExpand"
+                                HorizontalTextAlignment="Center"
+                                LineBreakMode="WordWrap"
+                                Style="{DynamicResource ListItemTextStyle}"
+                                Text="Detalii sofer:"
+                                TextColor="Black"
+                                VerticalTextAlignment="Center"
+                                WidthRequest="80" />
+
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="Small"
+                                HorizontalOptions="CenterAndExpand"
+                                HorizontalTextAlignment="Center"
+                                LineBreakMode="WordWrap"
+                                Style="{DynamicResource ListItemTextStyle}"
+                                Text="{Binding CurrOrderDriver.FirstName}"
+                                TextColor="Black"
+                                VerticalTextAlignment="Center"
+                                WidthRequest="75" />
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="Small"
+                                HorizontalOptions="CenterAndExpand"
+                                HorizontalTextAlignment="Center"
+                                LineBreakMode="WordWrap"
+                                Style="{DynamicResource ListItemTextStyle}"
+                                Text="{Binding CurrOrderDriver.LastName}"
+                                TextColor="Black"
+                                VerticalTextAlignment="Center"
+                                WidthRequest="75" />
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="Small"
+                                HorizontalOptions="CenterAndExpand"
+                                HorizontalTextAlignment="Center"
+                                LineBreakMode="WordWrap"
+                                Style="{DynamicResource ListItemTextStyle}"
+                                Text="{Binding CurrOrderDriver.TelefonNo}"
+                                TextColor="Black"
+                                VerticalTextAlignment="Center"
+                                WidthRequest="100" />
                         </StackLayout>
                     </StackLayout>
                 </StackLayout>

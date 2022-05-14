@@ -3,6 +3,7 @@ using FoodDeliveryApp.Models.AuthModels;
 using IdentityModel.OidcClient;
 using IdentityModel.OidcClient.Results;
 using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace FoodDeliveryApp.Services
@@ -24,7 +25,7 @@ namespace FoodDeliveryApp.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
+                Debug.WriteLine(ex);
                 return new Credentials { Error = ex.ToString() };
             }
         }
@@ -38,7 +39,7 @@ namespace FoodDeliveryApp.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
+                Debug.WriteLine(ex);
                 return new UserInfo();
             }
         }

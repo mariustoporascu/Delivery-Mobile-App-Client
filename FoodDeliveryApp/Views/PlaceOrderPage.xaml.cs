@@ -1,5 +1,6 @@
 ﻿using FoodDeliveryApp.ViewModels;
 using System;
+using System.Diagnostics;
 using Xamarin.CommunityToolkit.Extensions;
 using Xamarin.Forms;
 
@@ -23,12 +24,26 @@ namespace FoodDeliveryApp.Views
         }
         private void OnPlaceOrderApple(object sender, EventArgs e)
         {
-            this.DisplayToastAsync("Comanda a fost plasata", 2300);
+            try
+            {
+                this.DisplayToastAsync("Comanda a fost plasata", 2300);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
             Navigation.PopModalAsync(false).ConfigureAwait(false);
         }
         private async void OnPlaceOrder(object sender, EventArgs e)
         {
-            await this.DisplayToastAsync("Comanda a fost plasata", 1300);
+            try
+            {
+                await this.DisplayToastAsync("Comanda a fost plasata", 1300);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
             await Navigation.PopModalAsync(false).ConfigureAwait(false);
         }
         async void OnDismissButtonClicked(object sender, EventArgs args)

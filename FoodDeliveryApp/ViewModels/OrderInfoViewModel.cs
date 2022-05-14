@@ -12,9 +12,19 @@ namespace FoodDeliveryApp.ViewModels
     internal class OrderInfoViewModel : BaseViewModel
     {
         private OrderInfo orderInfo;
+        public OrderInfo CurrOrderInfo { get => orderInfo; set => SetProperty(ref orderInfo, value); }
+
         private Order order;
         public Order CurrOrder { get => order; set => SetProperty(ref order, value); }
-        public OrderInfo CurrOrderInfo { get => orderInfo; set => SetProperty(ref orderInfo, value); }
+        private Companie _restaurant;
+        public Companie Restaurant { get => _restaurant; set => SetProperty(ref _restaurant, value); }
+        private Driver orderDriver;
+        public Driver CurrOrderDriver { get => orderDriver; set => SetProperty(ref orderDriver, value); }
+        private bool _hasDriver = false;
+        public bool HasDriver { get => _hasDriver; set => SetProperty(ref _hasDriver, value); }
+        private bool _ownerViewVis = false;
+        public bool OwnerViewVis { get => _ownerViewVis; set => SetProperty(ref _ownerViewVis, value); }
+
         private ObservableRangeCollection<OrderProductDisplay> _items;
         public ObservableRangeCollection<OrderProductDisplay> Items { get => _items; set => SetProperty(ref _items, value); }
         public Command<OrderProductDisplay> ItemTapped { get; }
@@ -52,13 +62,32 @@ namespace FoodDeliveryApp.ViewModels
                 {
                     Status = order.Status,
                     TotalOrdered = order.TotalOrdered,
-                    TotalOrderedInterfata = order.TotalOrdered + " RON"
+                    TotalOrderedInterfata = order.TotalOrdered + " RON",
+                    DriverRefId = order.DriverRefId,
                 };
                 Items.Clear();
+                if (!string.IsNullOrWhiteSpace(CurrOrder.DriverRefId))
+                {
+                    HasDriver = true;
+                    CurrOrderDriver = order.OrderDriver;
+                }
+                else
+                {
+                    HasDriver = false;
+                }
                 var itemsInOrder = new ObservableRangeCollection<OrderProductDisplay>();
                 foreach (var prodInOrder in order.ProductsInOrder)
                 {
                     var item = DataStore.GetItem(prodInOrder.ProductRefId);
+                    if (item.RestaurantRefId != null && _restaurant == null)
+                    {
+                        Restaurant = DataStore.GetRestaurant((int)item.RestaurantRefId);
+                        OwnerViewVis = true;
+                    }
+                    else if (item.RestaurantRefId == null)
+                    {
+                        OwnerViewVis = false;
+                    }
                     itemsInOrder.Add(new OrderProductDisplay
                     {
                         ProductId = item.ProductId,

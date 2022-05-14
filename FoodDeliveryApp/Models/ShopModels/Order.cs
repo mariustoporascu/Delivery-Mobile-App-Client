@@ -7,5 +7,8 @@
         public decimal TotalOrdered { get; set; }
         public string TotalOrderedInterfata { get; set; }
         public string CustomerId { get; set; }
+        public bool IsRestaurant { get; set; } = false;
+        public int RestaurantRefId { get; set; }
+        public string DriverRefId { get; set; }
     }
 }

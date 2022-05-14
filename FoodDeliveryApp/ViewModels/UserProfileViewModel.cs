@@ -15,6 +15,8 @@ namespace FoodDeliveryApp.ViewModels
         private string _phoneNumber = string.Empty;
         private string _email = string.Empty;
         private string _header = string.Empty;
+        private double _coordX;
+        private double _coordY;
         private bool isLoggedIn = false;
 
         public string FullName { get => _fullName; set => SetProperty(ref _fullName, value); }
@@ -24,6 +26,8 @@ namespace FoodDeliveryApp.ViewModels
         public string PhoneNumber { get => _phoneNumber; set => SetProperty(ref _phoneNumber, value); }
         public string Email { get => _email; set => SetProperty(ref _email, value); }
         public string Header { get => _header; set => SetProperty(ref _header, value); }
+        public double CoordX { get => _coordX; set => SetProperty(ref _coordX, value); }
+        public double CoordY { get => _coordY; set => SetProperty(ref _coordY, value); }
 
         public Command SaveProfile { get; }
         public event EventHandler OnUpdateProfile = delegate { };
@@ -67,6 +71,8 @@ namespace FoodDeliveryApp.ViewModels
             Email = App.userInfo.Email;
             PhoneNumber = App.userInfo.PhoneNumber;
             City = App.userInfo.City;
+            CoordX = App.userInfo.CoordX;
+            CoordY = App.userInfo.CoordY;
         }
         async Task OnSaveProfile()
         {
@@ -78,6 +84,8 @@ namespace FoodDeliveryApp.ViewModels
                 Street = Street,
                 PhoneNumber = PhoneNumber,
                 Email = Email,
+                CoordX = App.userInfo.CoordX,
+                CoordY = App.userInfo.CoordY,
                 UserIdentification = App.userInfo.UserIdentification,
                 Password = App.userInfo.Password,
                 CompleteProfile = true
@@ -89,6 +97,7 @@ namespace FoodDeliveryApp.ViewModels
                 App.userInfo.City = City;
                 App.userInfo.PhoneNumber = PhoneNumber;
                 App.userInfo.Street = Street;
+
                 App.userInfo.CompleteProfile = true;
                 RefreshProfile();
                 OnUpdateProfile(this, new EventArgs());

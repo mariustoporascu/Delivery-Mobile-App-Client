@@ -24,7 +24,7 @@ namespace FoodDeliveryApp.Droid
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             Xamarin.FormsMaps.Init(this, savedInstanceState);
-            GetLocationPermissions();
+            //GetLocationPermissions();
             LoadApplication(new App());
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
@@ -45,17 +45,17 @@ namespace FoodDeliveryApp.Droid
         }
 
 
-        private async void GetLocationPermissions()
-        {
-            var status = await Xamarin.Essentials.Permissions.CheckStatusAsync<Xamarin.Essentials.Permissions.LocationWhenInUse>();
-            if (status == Xamarin.Essentials.PermissionStatus.Granted)
-                return;
-            var getPerm = await Xamarin.Essentials.Permissions.RequestAsync<Xamarin.Essentials.Permissions.LocationWhenInUse>();
-            if (getPerm == Xamarin.Essentials.PermissionStatus.Granted)
-                return;
-            else
-                Toast.MakeText(this, "You will not be able to use map features without the permission.", ToastLength.Long);
-        }
+        //private async void GetLocationPermissions()
+        //{
+        //    var status = await Xamarin.Essentials.Permissions.CheckStatusAsync<Xamarin.Essentials.Permissions.LocationWhenInUse>();
+        //    if (status == Xamarin.Essentials.PermissionStatus.Granted)
+        //        return;
+        //    var getPerm = await Xamarin.Essentials.Permissions.RequestAsync<Xamarin.Essentials.Permissions.LocationWhenInUse>();
+        //    if (getPerm == Xamarin.Essentials.PermissionStatus.Granted)
+        //        return;
+        //    else
+        //        Toast.MakeText(this, "You will not be able to use map features without the permission.", ToastLength.Long);
+        //}
         private void ConfirmWithDialog()
         {
             using (var alert = new AlertDialog.Builder(this))

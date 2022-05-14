@@ -1,5 +1,6 @@
 ﻿using FoodDeliveryApp.ViewModels;
 using System;
+using System.Diagnostics;
 using Xamarin.CommunityToolkit.Extensions;
 using Xamarin.Forms;
 
@@ -86,7 +87,14 @@ namespace FoodDeliveryApp.Views
         }
         private void OnSignUpWebApple(object sender, EventArgs e)
         {
-            this.DisplayToastAsync("Contul tau a fost creat cu succes", 2300);
+            try
+            {
+                this.DisplayToastAsync("Contul tau a fost creat cu succes", 2300);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
             Navigation.PopModalAsync(false).ConfigureAwait(false);
         }
         private async void OnSignIn(object sender, EventArgs e)
@@ -95,7 +103,14 @@ namespace FoodDeliveryApp.Views
         }
         private async void OnSignUpWeb(object sender, EventArgs e)
         {
-            await this.DisplayToastAsync("Contul tau a fost creat cu succes", 1300);
+            try
+            {
+                await this.DisplayToastAsync("Contul tau a fost creat cu succes", 1300);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
             await Navigation.PopModalAsync(false).ConfigureAwait(false);
         }
 
@@ -109,6 +124,37 @@ namespace FoodDeliveryApp.Views
         {
             // Page appearance not animated
             await Navigation.PopModalAsync(false).ConfigureAwait(false);
+        }
+
+        private void FBBtn_Pressed(object sender, EventArgs e)
+        {
+            FBBtn.Scale = 1.1;
+        }
+
+        private void FBBtn_Released(object sender, EventArgs e)
+        {
+            FBBtn.Scale = 1.0;
+
+        }
+        private void GoogleBtn_Pressed(object sender, EventArgs e)
+        {
+            GoogleBtn.Scale = 1.1;
+        }
+
+        private void GoogleBtn_Released(object sender, EventArgs e)
+        {
+            GoogleBtn.Scale = 1.0;
+
+        }
+        private void AppleBtn_Pressed(object sender, EventArgs e)
+        {
+            AppleBtn.Scale = 1.1;
+        }
+
+        private void AppleBtn_Released(object sender, EventArgs e)
+        {
+            AppleBtn.Scale = 1.0;
+
         }
     }
 }

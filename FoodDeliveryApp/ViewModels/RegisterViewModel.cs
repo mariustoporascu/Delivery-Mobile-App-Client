@@ -65,10 +65,10 @@ namespace FoodDeliveryApp.ViewModels
             try
             {
                 FacebookResponse<bool> response = await CrossFacebookClient.Current.LoginAsync(new string[] { "email", "public_profile" });
-                if (response != null)
+                if (response != null && !response.Message.Contains("User cancelled facebook operation"))
                 {
                     FacebookResponse<string> responseData = await CrossFacebookClient.Current.RequestUserDataAsync(new string[] { "email", "first_name", "gender", "last_name", "birthday" }, new string[] { "email", "user_birthday" });
-                    if (responseData != null)
+                    if (responseData != null && !response.Message.Contains("User cancelled facebook login operation"))
                     {
                         var settings = new JsonSerializerSettings
                         {
@@ -94,10 +94,13 @@ namespace FoodDeliveryApp.ViewModels
                     else
                         OnSignInFailed?.Invoke(this, new EventArgs());
                 }
+                else
+                    OnSignInFailed?.Invoke(this, new EventArgs());
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
+                OnSignInFailed?.Invoke(this, new EventArgs());
             }
         }
         private async Task LoginWithGoogle()
@@ -105,7 +108,7 @@ namespace FoodDeliveryApp.ViewModels
             try
             {
                 Credentials credentials = await _oidcIdentity.Authenticate();
-                if (credentials != null && string.IsNullOrEmpty(credentials.Error))
+                if (credentials != null && string.IsNullOrEmpty(credentials.Error) && !string.IsNullOrWhiteSpace(credentials.AccessToken))
                 {
                     UserInfo userInfo = await _oidcIdentity.GetUserInfo(credentials.AccessToken);
                     if (userInfo != null)
@@ -136,6 +139,7 @@ namespace FoodDeliveryApp.ViewModels
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
+                OnSignInFailed?.Invoke(this, new EventArgs());
             }
         }
 
@@ -144,7 +148,7 @@ namespace FoodDeliveryApp.ViewModels
             try
             {
                 var account = await appleSignInService.SignInAsync();
-                if (account != null)
+                if (account != null && !string.IsNullOrWhiteSpace(account.Email))
                 {
                     SecureStorage.SetAsync(App.APPLE_ID_EMAIL, account.Email).Wait();
                     SecureStorage.SetAsync(App.APPLE_ID_NAME, account.Name).Wait();
@@ -169,6 +173,7 @@ namespace FoodDeliveryApp.ViewModels
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
+                OnSignInFailed?.Invoke(this, new EventArgs());
             }
 
         }

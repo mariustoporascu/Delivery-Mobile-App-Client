@@ -3,6 +3,7 @@
     x:Class="FoodDeliveryApp.Views.UserProfilePage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
     xmlns:viewModels="clr-namespace:FoodDeliveryApp.ViewModels;assembly=FoodDeliveryApp"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     Title="Detalii cont"
@@ -14,130 +15,176 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <StackLayout BackgroundColor="{AppThemeBinding Light=LightGray, Dark=Gray}" VerticalOptions="FillAndExpand">
-        <StackLayout IsVisible="{Binding IsLoggedIn}" VerticalOptions="CenterAndExpand">
-            <Label
-                Padding="10,0,10,0"
-                xct:CornerRadiusEffect.CornerRadius="20"
-                Background="LemonChiffon"
-                BackgroundColor="LemonChiffon"
-                FontSize="Large"
-                HorizontalTextAlignment="Center"
-                LineBreakMode="WordWrap"
-                Text="{Binding Header}"
-                TextColor="Black"
-                VerticalOptions="CenterAndExpand"
-                VerticalTextAlignment="Center" />
-            <Label
-                Margin="0,0,0,40"
-                Padding="10,0,10,0"
-                xct:CornerRadiusEffect.CornerRadius="20"
-                Background="LemonChiffon"
-                BackgroundColor="LemonChiffon"
-                FontSize="Medium"
-                HorizontalOptions="CenterAndExpand"
-                Text="{Binding Email}"
-                TextColor="Black" />
-            <Entry
-                x:Name="NumeComplet"
-                xct:CornerRadiusEffect.CornerRadius="20"
-                Background="LemonChiffon"
-                BackgroundColor="LemonChiffon"
-                ClearButtonVisibility="WhileEditing"
-                HorizontalOptions="FillAndExpand"
-                HorizontalTextAlignment="Center"
-                Placeholder="Nume complet"
-                PlaceholderColor="Black"
-                Text="{Binding FullName}"
-                TextChanged="CheckFieldNumeComplet"
-                TextColor="Black">
-                <Entry.Behaviors>
-                    <xct:TextValidationBehavior
-                        x:Name="NumeCompletEntry"
-                        Flags="ValidateOnValueChanging"
-                        MinimumLength="6" />
-                </Entry.Behaviors>
-            </Entry>
-            <Entry
-                x:Name="NrTelefon"
-                xct:CornerRadiusEffect.CornerRadius="20"
-                Background="LemonChiffon"
-                BackgroundColor="LemonChiffon"
-                ClearButtonVisibility="WhileEditing"
-                HorizontalOptions="FillAndExpand"
-                HorizontalTextAlignment="Center"
-                Placeholder="Numar telefon"
-                PlaceholderColor="Black"
-                Text="{Binding PhoneNumber}"
-                TextChanged="CheckFieldNrTelefon"
-                TextColor="Black">
-                <Entry.Behaviors>
-                    <xct:TextValidationBehavior
-                        x:Name="NrTelefonEntry"
-                        Flags="ValidateOnValueChanging"
-                        MinimumLength="10" />
-                </Entry.Behaviors>
-            </Entry>
-            <Entry
-                x:Name="CladireAp"
-                xct:CornerRadiusEffect.CornerRadius="20"
-                Background="LemonChiffon"
-                BackgroundColor="LemonChiffon"
-                ClearButtonVisibility="WhileEditing"
-                HorizontalOptions="FillAndExpand"
-                HorizontalTextAlignment="Center"
-                Placeholder="Nr cladire / apartament"
-                PlaceholderColor="Black"
-                Text="{Binding BuildingInfo}"
-                TextChanged="CheckFieldCladireAp"
-                TextColor="Black">
-                <Entry.Behaviors>
-                    <xct:TextValidationBehavior
-                        x:Name="CladireApEntry"
-                        Flags="ValidateOnValueChanging"
-                        MinimumLength="3" />
-                </Entry.Behaviors>
-            </Entry>
-            <Entry
-                x:Name="NumeNrStrada"
-                xct:CornerRadiusEffect.CornerRadius="20"
-                Background="LemonChiffon"
-                BackgroundColor="LemonChiffon"
-                ClearButtonVisibility="WhileEditing"
-                HorizontalOptions="FillAndExpand"
-                HorizontalTextAlignment="Center"
-                Placeholder="Nume / Nr Strada"
-                PlaceholderColor="Black"
-                Text="{Binding Street}"
-                TextChanged="CheckFieldNumeNrStrada"
-                TextColor="Black">
-                <Entry.Behaviors>
-                    <xct:TextValidationBehavior
-                        x:Name="NumeNrStradaEntry"
-                        Flags="ValidateOnValueChanging"
-                        MinimumLength="6" />
-                </Entry.Behaviors>
-            </Entry>
-            <Entry
-                x:Name="Oras"
-                xct:CornerRadiusEffect.CornerRadius="20"
-                Background="LemonChiffon"
-                BackgroundColor="LemonChiffon"
-                ClearButtonVisibility="WhileEditing"
-                HorizontalOptions="FillAndExpand"
-                HorizontalTextAlignment="Center"
-                Placeholder="Oras"
-                PlaceholderColor="Black"
-                Text="{Binding City}"
-                TextChanged="CheckFieldOras"
-                TextColor="Black">
-                <Entry.Behaviors>
-                    <xct:TextValidationBehavior
-                        x:Name="OrasEntry"
-                        Flags="ValidateOnValueChanging"
-                        MinimumLength="6" />
-                </Entry.Behaviors>
-            </Entry>
+        <StackLayout
+            Margin="0,20,0,0"
+            IsVisible="{Binding IsLoggedIn}"
+            VerticalOptions="CenterAndExpand">
+            <ScrollView VerticalOptions="FillAndExpand">
+                <StackLayout VerticalOptions="FillAndExpand">
+                    <Label
+                        Padding="10,0,10,0"
+                        xct:CornerRadiusEffect.CornerRadius="20"
+                        Background="LemonChiffon"
+                        BackgroundColor="LemonChiffon"
+                        FontSize="Large"
+                        HorizontalTextAlignment="Center"
+                        LineBreakMode="WordWrap"
+                        Text="{Binding Header}"
+                        TextColor="Black"
+                        VerticalOptions="CenterAndExpand"
+                        VerticalTextAlignment="Center" />
+                    <Label
+                        Margin="0,0,0,40"
+                        Padding="10,0,10,0"
+                        xct:CornerRadiusEffect.CornerRadius="20"
+                        Background="LemonChiffon"
+                        BackgroundColor="LemonChiffon"
+                        FontSize="Medium"
+                        HorizontalOptions="CenterAndExpand"
+                        Text="{Binding Email}"
+                        TextColor="Black" />
+                    <Entry
+                        x:Name="NumeComplet"
+                        xct:CornerRadiusEffect.CornerRadius="20"
+                        Background="LemonChiffon"
+                        BackgroundColor="LemonChiffon"
+                        ClearButtonVisibility="WhileEditing"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="Center"
+                        Placeholder="Nume complet"
+                        PlaceholderColor="Black"
+                        Text="{Binding FullName}"
+                        TextChanged="CheckFieldNumeComplet"
+                        TextColor="Black">
+                        <Entry.Behaviors>
+                            <xct:TextValidationBehavior
+                                x:Name="NumeCompletEntry"
+                                Flags="ValidateOnValueChanging"
+                                MinimumLength="6" />
+                        </Entry.Behaviors>
+                    </Entry>
+                    <Entry
+                        x:Name="NrTelefon"
+                        xct:CornerRadiusEffect.CornerRadius="20"
+                        Background="LemonChiffon"
+                        BackgroundColor="LemonChiffon"
+                        ClearButtonVisibility="WhileEditing"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="Center"
+                        Placeholder="Numar telefon"
+                        PlaceholderColor="Black"
+                        Text="{Binding PhoneNumber}"
+                        TextChanged="CheckFieldNrTelefon"
+                        TextColor="Black">
+                        <Entry.Behaviors>
+                            <xct:TextValidationBehavior
+                                x:Name="NrTelefonEntry"
+                                Flags="ValidateOnValueChanging"
+                                MinimumLength="10" />
+                        </Entry.Behaviors>
+                    </Entry>
+                    <Entry
+                        x:Name="CladireAp"
+                        xct:CornerRadiusEffect.CornerRadius="20"
+                        Background="LemonChiffon"
+                        BackgroundColor="LemonChiffon"
+                        ClearButtonVisibility="WhileEditing"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="Center"
+                        Placeholder="Nr cladire / apartament"
+                        PlaceholderColor="Black"
+                        Text="{Binding BuildingInfo}"
+                        TextChanged="CheckFieldCladireAp"
+                        TextColor="Black">
+                        <Entry.Behaviors>
+                            <xct:TextValidationBehavior
+                                x:Name="CladireApEntry"
+                                Flags="ValidateOnValueChanging"
+                                MinimumLength="3" />
+                        </Entry.Behaviors>
+                    </Entry>
+                    <Entry
+                        x:Name="NumeNrStrada"
+                        xct:CornerRadiusEffect.CornerRadius="20"
+                        Background="LemonChiffon"
+                        BackgroundColor="LemonChiffon"
+                        ClearButtonVisibility="WhileEditing"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="Center"
+                        Placeholder="Nume / Nr Strada"
+                        PlaceholderColor="Black"
+                        Text="{Binding Street}"
+                        TextChanged="CheckFieldNumeNrStrada"
+                        TextColor="Black">
+                        <Entry.Behaviors>
+                            <xct:TextValidationBehavior
+                                x:Name="NumeNrStradaEntry"
+                                Flags="ValidateOnValueChanging"
+                                MinimumLength="6" />
+                        </Entry.Behaviors>
+                    </Entry>
+                    <Entry
+                        x:Name="Oras"
+                        xct:CornerRadiusEffect.CornerRadius="20"
+                        Background="LemonChiffon"
+                        BackgroundColor="LemonChiffon"
+                        ClearButtonVisibility="WhileEditing"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="Center"
+                        Placeholder="Oras"
+                        PlaceholderColor="Black"
+                        Text="{Binding City}"
+                        TextChanged="CheckFieldOras"
+                        TextColor="Black">
+                        <Entry.Behaviors>
+                            <xct:TextValidationBehavior
+                                x:Name="OrasEntry"
+                                Flags="ValidateOnValueChanging"
+                                MinimumLength="6" />
+                        </Entry.Behaviors>
+                    </Entry>
+                    <Label
+                        Padding="10,0,10,0"
+                        xct:CornerRadiusEffect.CornerRadius="20"
+                        Background="LemonChiffon"
+                        BackgroundColor="LemonChiffon"
+                        FontSize="Small"
+                        HorizontalOptions="CenterAndExpand"
+                        HorizontalTextAlignment="Center"
+                        Text="* Pentru o mai buna experienta a livrarii te rugam sa ajustezi pe harta locatia ta."
+                        TextColor="Black" />
+
+                </StackLayout>
+            </ScrollView>
         </StackLayout>
+        <StackLayout IsVisible="{Binding IsLoggedIn}">
+            <Button
+                x:Name="ShowHide"
+                Margin="0"
+                Padding="5"
+                xct:CornerRadiusEffect.CornerRadius="10"
+                Clicked="Button_Clicked"
+                HeightRequest="30"
+                HorizontalOptions="Center"
+                Text="Deschide Harta"
+                VerticalOptions="Center" />
+            <maps:Map
+                x:Name="AppMap"
+                Margin="20,0,20,0"
+                AbsoluteLayout.LayoutBounds="1,1,0.5,0.5"
+                AbsoluteLayout.LayoutFlags="All"
+                BackgroundColor="White"
+                HasScrollEnabled="True"
+                HasZoomEnabled="true"
+                HeightRequest="250"
+                IsEnabled="{Binding IsLoggedIn}"
+                IsVisible="False"
+                MapType="Street"
+                PropertyChanged="PickupButton_Clicked"
+                Scale="0" />
+
+        </StackLayout>
+
         <StackLayout
             IsVisible="{Binding IsLoggedIn}"
             Orientation="Horizontal"

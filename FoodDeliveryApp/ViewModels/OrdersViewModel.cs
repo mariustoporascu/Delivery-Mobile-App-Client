@@ -39,10 +39,12 @@ namespace FoodDeliveryApp.ViewModels
             try
             {
                 IEnumerable<ServerOrder> serverOrders;
-                if (Device.RuntimePlatform == Device.Android)
+                serverOrders = await DataStore.GetServerOrders(email).ConfigureAwait(false);
+
+                /*if (Device.RuntimePlatform == Device.Android)
                     serverOrders = await DataStore.GetServerOrders(email).ConfigureAwait(false);
                 else
-                    serverOrders = DataStore.GetServerOrders(email).ConfigureAwait(false).GetAwaiter().GetResult();
+                    serverOrders = DataStore.GetServerOrders(email).ConfigureAwait(false).GetAwaiter().GetResult();*/
 
                 lock (Orders)
                 {

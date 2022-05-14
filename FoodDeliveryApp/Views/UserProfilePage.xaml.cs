@@ -29,7 +29,41 @@ namespace FoodDeliveryApp.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            viewModel.RefreshProfile();
+            if (App.isLoggedIn)
+            {
+                viewModel.RefreshProfile();
+                if (viewModel.CoordX != 0 && viewModel.CoordY != 0)
+                {
+                    try
+                    {
+
+                        if (AppMap.Pins.Count > 0)
+                        {
+                            Pin pinTo = AppMap.Pins.FirstOrDefault(pins => pins.Label == "Adresa mea");
+                            if (pinTo != null)
+                                AppMap.Pins.Remove(pinTo);
+                        }
+
+                        Pin goToPin = new Pin()
+                        {
+                            Label = "Adresa mea",
+                            Type = PinType.Place,
+                            Position = new Position(viewModel.CoordX, viewModel.CoordY),
+
+                        };
+                        AppMap.Pins.Add(goToPin);
+                        AppMap.MoveToRegion(MapSpan.FromCenterAndRadius(goToPin.Position, Distance.FromMeters(100)));
+
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine(ex.Message);
+                    }
+
+
+                }
+            }
+
         }
         private async void RedirSignIn(object sender, EventArgs e)
         {
@@ -37,7 +71,15 @@ namespace FoodDeliveryApp.Views
         }
         private async void OnUpdateProfile(object sender, EventArgs e)
         {
-            await this.DisplayToastAsync("Profilul a fost actualizat.", 1300);
+            try
+            {
+                await this.DisplayToastAsync("Profilul a fost actualizat.", 1300);
+
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
         }
         private void CheckFieldNumeComplet(object sender, TextChangedEventArgs e)
         {
@@ -60,8 +102,6 @@ namespace FoodDeliveryApp.Views
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
-
-
             }
         }
         private void CheckFieldNrTelefon(object sender, TextChangedEventArgs e)
@@ -118,7 +158,7 @@ namespace FoodDeliveryApp.Views
                     NumeNrStrada.TextColor = Color.Red;
                     return;
                 }
-                if (!(await VerifyLocation()))
+                if (!await VerifyLocation(true))
                 {
                     NumeNrStrada.TextColor = Color.Red;
                     return;
@@ -145,7 +185,7 @@ namespace FoodDeliveryApp.Views
                     Oras.TextColor = Color.Red;
                     return;
                 }
-                if (!(await VerifyLocation()))
+                if (!await VerifyLocation(true))
                 {
                     Oras.TextColor = Color.Red;
                     return;
@@ -169,7 +209,7 @@ namespace FoodDeliveryApp.Views
             {
                 if (OrasEntry.IsValid && NumeNrStradaEntry.IsValid &&
                 CladireApEntry.IsValid && NrTelefonEntry.IsValid &&
-                NumeCompletEntry.IsValid && (await VerifyLocation()))
+                NumeCompletEntry.IsValid && await VerifyLocation(false))
                     return true;
                 return false;
 
@@ -182,16 +222,43 @@ namespace FoodDeliveryApp.Views
 
             }
         }
-        private async Task<bool> VerifyLocation()
+        private async Task<bool> VerifyLocation(bool changeLocation)
         {
             try
             {
-                if (OrasEntry.IsValid && NumeNrStradaEntry.IsValid)
+                if (OrasEntry.IsValid && NumeNrStradaEntry.IsValid && App.isLoggedIn)
                 {
 
                     IEnumerable<Position> aproxLocation = await geoCoder.GetPositionsForAddressAsync(NumeNrStrada.Text + ", " + Oras.Text + ", Romania").ConfigureAwait(false);
-                    if (aproxLocation.Count() > 0)
+                    if (aproxLocation.Count() > 0 && !string.IsNullOrWhiteSpace(NumeNrStrada.Text) && !string.IsNullOrWhiteSpace(Oras.Text))
                     {
+                        if (changeLocation && (Oras.Text != App.userInfo.City || NumeNrStrada.Text != App.userInfo.Street))
+                        {
+                            var posn = aproxLocation.First();
+                            await Device.InvokeOnMainThreadAsync(() =>
+                            {
+                                if (AppMap.Pins.Count > 0)
+                                {
+                                    Pin pinTo = AppMap.Pins.FirstOrDefault(pins => pins.Label == "Adresa mea");
+                                    if (pinTo != null)
+                                        AppMap.Pins.Remove(pinTo);
+
+                                }
+                                Pin goToPin = new Pin()
+                                {
+                                    Label = "Adresa mea",
+                                    Type = PinType.Place,
+                                    Position = posn,
+
+                                };
+                                AppMap.Pins.Add(goToPin);
+                                AppMap.MoveToRegion(MapSpan.FromCenterAndRadius(aproxLocation.First(), Distance.FromMeters(100)));
+                            });
+
+                            App.userInfo.CoordX = posn.Latitude;
+                            App.userInfo.CoordY = posn.Longitude;
+                        }
+
                         return true;
                     }
                     return false;
@@ -216,6 +283,76 @@ namespace FoodDeliveryApp.Views
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
+            }
+        }
+        void PickupButton_Clicked(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+
+            try
+            {
+                Pin goToPin;
+                var map = (Map)sender;
+                //User Actual Location
+                if (AppMap.Pins.Count == 0)
+                {
+                    goToPin = new Pin()
+                    {
+                        Label = "Adresa mea",
+                        Type = PinType.Place,
+                        Position = new Position(map.VisibleRegion.Center.Latitude, map.VisibleRegion.Center.Longitude)
+                    };
+                    AppMap.Pins.Add(goToPin);
+
+                }
+                else
+                {
+                    Pin pinTo = AppMap.Pins.FirstOrDefault(pins => pins.Label == "Adresa mea");
+                    pinTo.Position = new Position(map.VisibleRegion.Center.Latitude, map.VisibleRegion.Center.Longitude);
+                }
+                App.userInfo.CoordX = map.VisibleRegion.Center.Latitude;
+                App.userInfo.CoordY = map.VisibleRegion.Center.Longitude;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+
+
+
+        }
+        private async void Button_Clicked(object sender, EventArgs e)
+        {
+            if (!this.AppMap.IsVisible)
+            {
+                this.AppMap.IsVisible = !this.AppMap.IsVisible;
+                this.AppMap.AnchorX = 1;
+                this.AppMap.AnchorY = 1;
+                ShowHide.Text = "Inchide Harta";
+                Animation scaleAnimation = new Animation(
+                    f => this.AppMap.Scale = f,
+                    0.5,
+                    1,
+                    Easing.SinInOut);
+
+                Animation fadeAnimation = new Animation(
+                    f => this.AppMap.Opacity = f,
+                    0.2,
+                    1,
+                    Easing.SinInOut);
+
+                scaleAnimation.Commit(this.AppMap, "popupScaleAnimation", 250);
+                fadeAnimation.Commit(this.AppMap, "popupFadeAnimation", 250);
+            }
+            else
+            {
+
+                await Task.WhenAny<bool>
+                  (
+                    this.AppMap.FadeTo(0, 200, Easing.SinInOut)
+                  );
+                ShowHide.Text = "Deschide Harta";
+
+                this.AppMap.IsVisible = !this.AppMap.IsVisible;
             }
         }
     }
