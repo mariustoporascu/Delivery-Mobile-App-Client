@@ -11,6 +11,15 @@ namespace FoodDeliveryApp.Models.ShopModels
         public decimal TotalOrdered { get; set; }
         public string CustomerId { get; set; }
         public string DriverRefId { get; set; }
+        public bool IsRestaurant { get; set; } = false;
+        public int RestaurantRefId { get; set; }
+        public string EstimatedTime { get; set; }
+        public bool ClientGaveRatingDriver { get; set; } = false;
+        public bool ClientGaveRatingRestaurant { get; set; } = false;
+        public bool? HasUserConfirmedET { get; set; }
+        //public int RatingClient { get; set; }
+        public int RatingDriver { get; set; }
+        public int RatingRestaurant { get; set; }
         public DateTime Created { get; set; }
         [JsonProperty("productsInOrder")]
         public List<ProductInOrder> ProductsInOrder { get; set; }

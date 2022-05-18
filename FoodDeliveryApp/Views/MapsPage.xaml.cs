@@ -25,6 +25,7 @@ namespace FoodDeliveryApp.Views
         {
             base.OnAppearing();
             calculateRoute = true;
+            AppMap.MapElements.Clear();
             await mapsViewModel.LoadMyLocation();
             if (mapsViewModel.pinRoute1.Position != null)
             {
@@ -76,10 +77,10 @@ namespace FoodDeliveryApp.Views
         void TrackPath_Clicked()
         {
 
-            Device.StartTimer(TimeSpan.FromMilliseconds(6000), () =>
+            Device.StartTimer(TimeSpan.FromMilliseconds(3000), () =>
             {
                 var routes = mapsViewModel.DrawDriverRoute().GetAwaiter().GetResult();
-                if (routes != null)
+                if (routes.Count > 0)
                 {
                     Debug.WriteLine("Drawing routes.");
 
@@ -88,6 +89,13 @@ namespace FoodDeliveryApp.Views
                 }
                 else
                 {
+                    if (AppMap.Pins.Count > 0)
+                    {
+                        Pin pinTo = AppMap.Pins.FirstOrDefault(pins => pins.Label.Contains("Curier"));
+                        if (pinTo != null)
+                            AppMap.Pins.Remove(pinTo);
+                    }
+                    AppMap.MapElements.Clear();
                     Debug.WriteLine("No routes found.");
                     calculateRoute = false;
                     return calculateRoute;
@@ -131,7 +139,6 @@ namespace FoodDeliveryApp.Views
 
                 AppMap.MapElements.Add(polyline);
 
-                AppMap.MoveToRegion(MapSpan.FromCenterAndRadius(polyline.Geopath[polyline.Geopath.Count / 2], Distance.FromKilometers(totalDistance)));
 
                 var positionIndex = 1;
                 if (totalDistance < 1.0f)

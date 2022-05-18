@@ -1,5 +1,5 @@
 ﻿using FoodDeliveryApp.Views;
-
+using System;
 using Xamarin.Forms;
 
 namespace FoodDeliveryApp.ViewModels
@@ -8,6 +8,7 @@ namespace FoodDeliveryApp.ViewModels
     {
         public Command SuperMarketCommand { get; }
         public Command RestauranteCommand { get; }
+        public event EventHandler Supermarketpush = delegate { };
         public EntryFoodAppViewModel()
         {
             Title = "Acasa";
@@ -17,8 +18,9 @@ namespace FoodDeliveryApp.ViewModels
 
         private async void SuperMarketClicked(object obj)
         {
+            Supermarketpush?.Invoke(this, new EventArgs());
             // Prefixing with `//` switches to a different navigation stack instead of pushing to the active one
-            await Shell.Current.GoToAsync($"{nameof(CategoryPage)}?{nameof(CategViewModel.Canal)}=1&{nameof(CategViewModel.RefId)}=0");
+            //await Shell.Current.GoToAsync($"{nameof(CategoryPage)}?{nameof(CategViewModel.Canal)}=1&{nameof(CategViewModel.RefId)}=0");
         }
 
         private async void RestauranteClicked(object obj)

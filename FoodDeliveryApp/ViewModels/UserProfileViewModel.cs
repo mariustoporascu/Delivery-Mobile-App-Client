@@ -97,7 +97,8 @@ namespace FoodDeliveryApp.ViewModels
                 App.userInfo.City = City;
                 App.userInfo.PhoneNumber = PhoneNumber;
                 App.userInfo.Street = Street;
-
+                App.userInfo.CoordX = CoordX;
+                App.userInfo.CoordY = CoordY;
                 App.userInfo.CompleteProfile = true;
                 RefreshProfile();
                 OnUpdateProfile(this, new EventArgs());

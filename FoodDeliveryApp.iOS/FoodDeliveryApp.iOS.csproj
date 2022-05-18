@@ -242,4 +242,10 @@
   <ItemGroup>
     <BundleResource Include="signInWithApple_pressed.png" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\filled_star.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\empty_star.png" />
+  </ItemGroup>
 </Project>

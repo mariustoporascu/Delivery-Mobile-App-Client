@@ -9,7 +9,7 @@ using Xamarin.Essentials;
 
 namespace FoodDeliveryApp.Services
 {
-    internal class WebAuthBrowser : IBrowser
+    public class WebAuthBrowser : IBrowser
     {
         private readonly string _callbackUrl;
 

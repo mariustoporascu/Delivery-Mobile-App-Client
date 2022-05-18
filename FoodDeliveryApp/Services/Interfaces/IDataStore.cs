@@ -22,6 +22,6 @@ namespace FoodDeliveryApp.Services
         Companie GetRestaurant(int restaurantId);
         IEnumerable<Companie> GetSuperMarkets();
         IEnumerable<UnitatiMasura> GetUnitatiMasura();
-        Task<IEnumerable<ServerOrder>> GetServerOrders(string email);
+        Task<List<ServerOrder>> GetServerOrders(string email);
     }
 }
