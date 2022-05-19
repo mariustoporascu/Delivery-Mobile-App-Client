@@ -29,7 +29,6 @@ namespace FoodDeliveryApp.Services
         {
             client = new HttpClient();
             client.BaseAddress = new Uri("https://maps.googleapis.com/maps/");
-            client.DefaultRequestHeaders.AcceptLanguage.Add(new StringWithQualityHeaderValue("en-US"));
         }
 
         public async Task<GoogleDirection> GetDirections(Position position1, Position position2)

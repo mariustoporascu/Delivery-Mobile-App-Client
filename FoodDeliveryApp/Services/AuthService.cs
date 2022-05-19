@@ -2,6 +2,7 @@
 using FoodDeliveryApp.Models.AuthModels;
 using Newtonsoft.Json;
 using System;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -11,11 +12,11 @@ namespace FoodDeliveryApp.Services
 {
     public class AuthService : IAuthController
     {
-
+        private HttpClient _httpClient;
 
         public AuthService()
         {
-
+            _httpClient = new HttpClient();
         }
         public async Task<string> CreateUser(UserModel userModel)
         {
@@ -37,11 +38,29 @@ namespace FoodDeliveryApp.Services
             return await sendRequest(userModel, uri);
 
         }
+        private void TryAddHeaders()
+        {
+            try
+            {
+                bool authkey = _httpClient.DefaultRequestHeaders.TryGetValues("authkey", out var val);
+                bool authid = _httpClient.DefaultRequestHeaders.TryGetValues("authid", out var val2);
+                if (!authid && !authkey)
+                {
+                    _httpClient.DefaultRequestHeaders.Add("authkey", App.userInfo.LoginToken);
+                    _httpClient.DefaultRequestHeaders.Add("authid", App.userInfo.Email);
+                }
 
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+
+        }
         private async Task<string> sendRequest(UserModel userModel, Uri uri)
         {
-            var _httpClient = new HttpClient();
-            _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            if (uri.AbsoluteUri.Contains("profile"))
+                TryAddHeaders();
             var json = JsonConvert.SerializeObject(userModel);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
             HttpResponseMessage httpResponseMessage = await _httpClient.PostAsync(uri, data);

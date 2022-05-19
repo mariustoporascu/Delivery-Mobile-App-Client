@@ -1,5 +1,6 @@
 ﻿using FoodDeliveryApp.Models.AuthModels;
 using FoodDeliveryApp.Services;
+using FoodDeliveryApp.Views;
 using Newtonsoft.Json;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -47,7 +48,7 @@ namespace FoodDeliveryApp
             DependencyService.Register<IDataStore, MockDataStore>();
             DependencyService.Register<IAuthController, AuthService>();
             DependencyService.Register<IOrderServ, OrderServ>();
-            MainPage = new AppShell();
+                MainPage = new AppShell();
         }
 
         protected override async void OnStart()

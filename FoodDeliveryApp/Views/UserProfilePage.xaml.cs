@@ -290,27 +290,32 @@ namespace FoodDeliveryApp.Views
 
             try
             {
+                
                 Pin goToPin;
                 var map = (Map)sender;
                 //User Actual Location
-                if (AppMap.Pins.Count == 0)
+                if (map.IsVisible)
                 {
-                    goToPin = new Pin()
+                    if (AppMap.Pins.Count == 0)
                     {
-                        Label = "Adresa mea",
-                        Type = PinType.Place,
-                        Position = new Position(map.VisibleRegion.Center.Latitude, map.VisibleRegion.Center.Longitude)
-                    };
-                    AppMap.Pins.Add(goToPin);
+                        goToPin = new Pin()
+                        {
+                            Label = "Adresa mea",
+                            Type = PinType.Place,
+                            Position = new Position(map.VisibleRegion.Center.Latitude, map.VisibleRegion.Center.Longitude)
+                        };
+                        AppMap.Pins.Add(goToPin);
 
+                    }
+                    else
+                    {
+                        Pin pinTo = AppMap.Pins.FirstOrDefault(pins => pins.Label == "Adresa mea");
+                        pinTo.Position = new Position(map.VisibleRegion.Center.Latitude, map.VisibleRegion.Center.Longitude);
+                    }
+                    App.userInfo.CoordX = map.VisibleRegion.Center.Latitude;
+                    App.userInfo.CoordY = map.VisibleRegion.Center.Longitude;
                 }
-                else
-                {
-                    Pin pinTo = AppMap.Pins.FirstOrDefault(pins => pins.Label == "Adresa mea");
-                    pinTo.Position = new Position(map.VisibleRegion.Center.Latitude, map.VisibleRegion.Center.Longitude);
-                }
-                App.userInfo.CoordX = map.VisibleRegion.Center.Latitude;
-                App.userInfo.CoordY = map.VisibleRegion.Center.Longitude;
+                    
             }
             catch (Exception ex)
             {

@@ -1,5 +1,6 @@
 ﻿using FoodDeliveryApp.Views;
 using System;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace FoodDeliveryApp.ViewModels
@@ -14,6 +15,8 @@ namespace FoodDeliveryApp.ViewModels
             Title = "Acasa";
             SuperMarketCommand = new Command(SuperMarketClicked);
             RestauranteCommand = new Command(RestauranteClicked);
+            Task.Run(async () => await DataStore.Init().ConfigureAwait(false));
+
         }
 
         private async void SuperMarketClicked(object obj)

@@ -31,7 +31,7 @@ namespace FoodDeliveryApp.Views
                 ItemImage.Source = new UriImageSource
                 {
 
-                    Uri = new Uri($"{ServerConstants.BaseUrl}/content/No_image_available.png"),
+                    Uri = new Uri($"{ServerConstants.BaseUrl2}/content/No_image_available.png"),
                     CacheValidity = new TimeSpan(7, 0, 0, 0),
                     CachingEnabled = true,
                 };

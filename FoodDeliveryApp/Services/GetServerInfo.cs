@@ -3,6 +3,7 @@ using FoodDeliveryApp.Models.ShopModels;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
@@ -14,7 +15,7 @@ namespace FoodDeliveryApp.Services
         public List<Item> items;
         public List<Categ> categ;
         public List<SubCateg> subCateg;
-        readonly HttpClient client;
+        private HttpClient client;
         public List<CartItem> cartItems;
         public List<Companie> restaurante;
         public List<Companie> superMarkets;
@@ -28,13 +29,13 @@ namespace FoodDeliveryApp.Services
 
         public async Task loadAppInfo()
         {
+            loadCartPrefs();
             await loadServerCateg().ConfigureAwait(false);
             await loadServerSubCateg().ConfigureAwait(false);
             await loadServerProducts().ConfigureAwait(false);
             await loadServerRestaurante().ConfigureAwait(false);
             await loadServerSuperMarkets().ConfigureAwait(false);
             await loadServerMeasuringUnits().ConfigureAwait(false);
-            loadCartPrefs();
         }
 
         public void loadCartPrefs()
@@ -135,8 +136,28 @@ namespace FoodDeliveryApp.Services
                 superMarkets = JsonConvert.DeserializeObject<List<Companie>>(content, settings);
             }
         }
+        private void TryAddHeaders()
+        {
+            try
+            {
+                bool authkey = client.DefaultRequestHeaders.TryGetValues("authkey", out var val);
+                bool authid = client.DefaultRequestHeaders.TryGetValues("authid", out var val2);
+                if (!authid && !authkey)
+                {
+                    client.DefaultRequestHeaders.Add("authkey", App.userInfo.LoginToken);
+                    client.DefaultRequestHeaders.Add("authid", App.userInfo.Email);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+
+        }
         public async Task<List<ServerOrder>> loadServerOrders(string email)
         {
+            TryAddHeaders();
             Uri uri = new Uri($"{ServerConstants.BaseUrl}/foodapp/getallorders/{email}");
             HttpResponseMessage response = await client.GetAsync(uri).ConfigureAwait(false);
             if (response.IsSuccessStatusCode)
