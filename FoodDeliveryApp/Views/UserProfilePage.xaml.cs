@@ -21,6 +21,7 @@ namespace FoodDeliveryApp.Views
             geoCoder = new Geocoder();
             BindingContext = viewModel = new UserProfileViewModel();
             viewModel.OnUpdateProfile += OnUpdateProfile;
+            viewModel.OnDeleteAcc += OnDeleteAcc;
             if (!App.isLoggedIn)
             {
                 RedirSignIn(this, new EventArgs());
@@ -74,6 +75,18 @@ namespace FoodDeliveryApp.Views
             try
             {
                 await this.DisplayToastAsync("Profilul a fost actualizat.", 1300);
+
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+        }
+        private async void OnDeleteAcc(object sender, EventArgs e)
+        {
+            try
+            {
+                await this.DisplayToastAsync("Contul a fost sters.", 1300);
 
             }
             catch (Exception ex)
@@ -283,6 +296,21 @@ namespace FoodDeliveryApp.Views
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
+            }
+        }
+        private async void DeleteButtonClicked(object sender, EventArgs e)
+        {
+            var prompt = await DisplayAlert("Confirmati", "Apasand acest buton confirmati ca doriti sa stergeti contul definitiv.", "OK", "Cancel");
+            if (prompt)
+            {
+                try
+                {
+                    viewModel.DeleteProfile.Execute(null);
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
             }
         }
         void PickupButton_Clicked(object sender, System.ComponentModel.PropertyChangedEventArgs e)

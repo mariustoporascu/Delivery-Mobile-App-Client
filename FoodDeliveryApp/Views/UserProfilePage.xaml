@@ -189,19 +189,35 @@
             IsVisible="{Binding IsLoggedIn}"
             Orientation="Horizontal"
             VerticalOptions="End">
-            <Button
-                Margin="10"
-                Padding="10"
-                xct:CornerRadiusEffect.CornerRadius="20"
-                Background="Red"
-                BackgroundColor="Red"
-                BorderColor="Red"
-                Command="{Binding Logout}"
-                FontAttributes="Bold"
-                FontSize="18"
-                HorizontalOptions="CenterAndExpand"
-                Text="Log out"
-                TextColor="Black" />
+            <StackLayout>
+                <Button
+                    Margin="10"
+                    Padding="10"
+                    xct:CornerRadiusEffect.CornerRadius="20"
+                    Background="Orange"
+                    BackgroundColor="Orange"
+                    BorderColor="Orange"
+                    Command="{Binding Logout}"
+                    FontAttributes="Bold"
+                    FontSize="18"
+                    HorizontalOptions="FillAndExpand"
+                    Text="Log out"
+                    TextColor="Black" />
+                <Button
+                    Margin="10"
+                    Padding="10"
+                    xct:CornerRadiusEffect.CornerRadius="20"
+                    Background="Red"
+                    BackgroundColor="Red"
+                    BorderColor="Red"
+                    Clicked="DeleteButtonClicked"
+                    FontAttributes="Bold"
+                    FontSize="18"
+                    HorizontalOptions="FillAndExpand"
+                    Text="Sterge Contul"
+                    TextColor="Black" />
+            </StackLayout>
+
             <Button
                 Margin="10"
                 Padding="10"

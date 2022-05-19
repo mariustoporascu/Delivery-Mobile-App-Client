@@ -8,5 +8,6 @@ namespace FoodDeliveryApp.Services
         Task<string> LoginUser(UserModel userModel);
         Task<string> CreateUser(UserModel userModel);
         Task<string> UserProfile(UserModel userModel);
+        Task<string> DeleteProfile(UserModel userModel);
     }
 }

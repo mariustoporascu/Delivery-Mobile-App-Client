@@ -38,6 +38,12 @@ namespace FoodDeliveryApp.Services
             return await sendRequest(userModel, uri);
 
         }
+        public async Task<string> DeleteProfile(UserModel userModel)
+        {
+            Uri uri = new Uri($"{ServerConstants.BaseUrl}/auth/delete");
+            return await sendRequest(userModel, uri);
+
+        }
         private void TryAddHeaders()
         {
             try
@@ -59,7 +65,7 @@ namespace FoodDeliveryApp.Services
         }
         private async Task<string> sendRequest(UserModel userModel, Uri uri)
         {
-            if (uri.AbsoluteUri.Contains("profile"))
+            if (uri.AbsoluteUri.Contains("profile") || uri.AbsoluteUri.Contains("delete"))
                 TryAddHeaders();
             var json = JsonConvert.SerializeObject(userModel);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
