@@ -2,6 +2,7 @@
 using FoodDeliveryApp.Models.MapsModels;
 using Newtonsoft.Json;
 using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -28,18 +29,37 @@ namespace FoodDeliveryApp.Services
         public MapsApiServ()
         {
             client = new HttpClient();
-            client.BaseAddress = new Uri("https://maps.googleapis.com/maps/");
+            client.BaseAddress = new Uri(ServerConstants.BaseUrl);
+        }
+        private void TryAddHeaders()
+        {
+            try
+            {
+                bool authkey = client.DefaultRequestHeaders.TryGetValues("authkey", out var val);
+                bool authid = client.DefaultRequestHeaders.TryGetValues("authid", out var val2);
+                if (!authid && !authkey)
+                {
+                    client.DefaultRequestHeaders.Add("authkey", App.userInfo.LoginToken);
+                    client.DefaultRequestHeaders.Add("authid", App.userInfo.Email);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+
         }
 
         public async Task<GoogleDirection> GetDirections(Position position1, Position position2)
         {
+            TryAddHeaders();
             GoogleDirection googleDirection = new GoogleDirection();
-            var response = await client.GetAsync("api/directions/json?mode=driving&transit_routing_preference=less_driving&origin=" +
-                 position2.Latitude.ToString("N7", CultureInfo.InvariantCulture) + "," +
-                 position2.Longitude.ToString("N7", CultureInfo.InvariantCulture) + "&destination=" +
-                 position1.Latitude.ToString("N7", CultureInfo.InvariantCulture) + "," +
-                 position1.Longitude.ToString("N7", CultureInfo.InvariantCulture) +
-                "&language=ro&region=RO&key=" + GoogleConstants.GeoApiKey).ConfigureAwait(false);
+            var response = await client.GetAsync("api/getdirections/getroute/" +
+                 position2.Latitude.ToString("N7", CultureInfo.InvariantCulture) + "/" +
+                 position2.Longitude.ToString("N7", CultureInfo.InvariantCulture) + "/" +
+                 position1.Latitude.ToString("N7", CultureInfo.InvariantCulture) + "/" +
+                 position1.Longitude.ToString("N7", CultureInfo.InvariantCulture)).ConfigureAwait(false);
             if (response.IsSuccessStatusCode)
             {
                 var json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);

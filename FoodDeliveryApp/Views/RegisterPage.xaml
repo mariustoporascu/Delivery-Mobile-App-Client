@@ -80,13 +80,15 @@
             </StackLayout>
             <StackLayout Margin="0,50,0,0">
                 <ImageButton
-                    x:Name="FBBtn"
+                    x:Name="AppleBtn"
                     xct:TouchEffect.PressedAnimationDuration="100"
                     xct:TouchEffect.PressedScale="1.1"
-                    Command="{Binding ExecuteLoginFacebook}"
+                    Command="{Binding SignInWithAppleCommand}"
                     HorizontalOptions="CenterAndExpand"
-                    Source="btn_facebook_signin.png"
-                    VerticalOptions="CenterAndExpand" />
+                    IsVisible="{Binding IsAppleSignInAvailable}"
+                    Source="signInWithApple.png"
+                    VerticalOptions="CenterAndExpand"
+                    WidthRequest="220" />
                 <ImageButton
                     x:Name="GoogleBtn"
                     xct:TouchEffect.PressedAnimationDuration="100"
@@ -97,15 +99,15 @@
                     Source="btn_google_signin_dark.png"
                     VerticalOptions="CenterAndExpand" />
                 <ImageButton
-                    x:Name="AppleBtn"
+                    x:Name="FBBtn"
                     xct:TouchEffect.PressedAnimationDuration="100"
                     xct:TouchEffect.PressedScale="1.1"
-                    Command="{Binding SignInWithAppleCommand}"
+                    Command="{Binding ExecuteLoginFacebook}"
                     HorizontalOptions="CenterAndExpand"
-                    IsVisible="{Binding IsAppleSignInAvailable}"
-                    Source="signInWithApple.png"
-                    VerticalOptions="CenterAndExpand"
-                    WidthRequest="220" />
+                    Source="btn_facebook_signin.png"
+                    VerticalOptions="CenterAndExpand" />
+                
+                
             </StackLayout>
         </StackLayout>
         <StackLayout VerticalOptions="EndAndExpand">

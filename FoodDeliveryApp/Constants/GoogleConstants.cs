@@ -11,6 +11,5 @@
         public const string GoogleUrl = "https://accounts.google.com";
         public const string ClientId = "121275221168-i230p391b86n5rfu4quoq7b6tijitu72.apps.googleusercontent.com";
         public const string Scope = "openid profile email";
-        public const string GeoApiKey = "AIzaSyAbttuY3AGygrfsJ1ERLxhGr0uCjwvn8fM";
     }
 }

@@ -23,10 +23,8 @@ namespace FoodDeliveryApp.iOS
 
             global::Xamarin.Forms.Forms.Init();
 
-            //RedCorners.Forms.GoogleMapsSystem.Init("AIzaSyA486Be5d_22x57VrAaO3pyz3CjrqO9S-c", platformConfig);
-            //Debug.WriteLine("MAP IS =>>>>>>>> " + RedCorners.Forms.GoogleMapsSystem.IsInitialized);
+            
             global::Xamarin.FormsMaps.Init();
-            //new CLLocationManager().RequestWhenInUseAuthorization();
             LoadApplication(new App());
             FacebookClientManager.Initialize(app, options);
             return base.FinishedLaunching(app, options);
