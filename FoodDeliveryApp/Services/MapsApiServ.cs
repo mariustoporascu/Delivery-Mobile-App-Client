@@ -56,9 +56,9 @@ namespace FoodDeliveryApp.Services
             TryAddHeaders();
             GoogleDirection googleDirection = new GoogleDirection();
             var response = await client.GetAsync("api/getdirections/getroute/" +
-                 position2.Latitude.ToString("N7", CultureInfo.InvariantCulture) + "/" +
-                 position2.Longitude.ToString("N7", CultureInfo.InvariantCulture) + "/" +
-                 position1.Latitude.ToString("N7", CultureInfo.InvariantCulture) + "/" +
+                 position2.Latitude.ToString("N7", CultureInfo.InvariantCulture) + "&" +
+                 position2.Longitude.ToString("N7", CultureInfo.InvariantCulture) + "&" +
+                 position1.Latitude.ToString("N7", CultureInfo.InvariantCulture) + "&" +
                  position1.Longitude.ToString("N7", CultureInfo.InvariantCulture)).ConfigureAwait(false);
             if (response.IsSuccessStatusCode)
             {

@@ -13,7 +13,7 @@ namespace FoodDeliveryApp.Services
 {
     public class OrderServ : IOrderServ
     {
-        private HttpClient _httpClient ;
+        private HttpClient _httpClient;
 
         public OrderServ()
         {
@@ -23,15 +23,16 @@ namespace FoodDeliveryApp.Services
         {
             try
             {
-                bool authkey = _httpClient.DefaultRequestHeaders.TryGetValues("authkey", out var val );
-                bool authid = _httpClient.DefaultRequestHeaders.TryGetValues("authid", out var val2 );
-                if(!authid && !authkey)
+                bool authkey = _httpClient.DefaultRequestHeaders.TryGetValues("authkey", out var val);
+                bool authid = _httpClient.DefaultRequestHeaders.TryGetValues("authid", out var val2);
+                if (!authid && !authkey)
                 {
                     _httpClient.DefaultRequestHeaders.Add("authkey", App.userInfo.LoginToken);
                     _httpClient.DefaultRequestHeaders.Add("authid", App.userInfo.Email);
                 }
-                
-            }catch (Exception ex)
+
+            }
+            catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
             }
@@ -41,7 +42,7 @@ namespace FoodDeliveryApp.Services
         public async Task<bool> AgreeEstTime(int orderId, bool accept)
         {
             TryAddHeaders();
-            Uri uri = new Uri($"{ServerConstants.BaseUrl}/foodapp/agreeesttime/{orderId}/{accept}");
+            Uri uri = new Uri($"{ServerConstants.BaseUrl}/foodapp/agreeesttime/{orderId}&{accept}");
             HttpResponseMessage httpResponseMessage = await _httpClient.GetAsync(uri).ConfigureAwait(false);
 
             if (httpResponseMessage.IsSuccessStatusCode)
@@ -96,7 +97,7 @@ namespace FoodDeliveryApp.Services
         {
             TryAddHeaders();
 
-            Uri uri = new Uri($"{ServerConstants.BaseUrl}/foodapp/ratingdriver/{email}/{orderId}/{rating}");
+            Uri uri = new Uri($"{ServerConstants.BaseUrl}/foodapp/ratingdriver/{email}&{orderId}&{rating}");
             HttpResponseMessage httpResponseMessage = await _httpClient.GetAsync(uri).ConfigureAwait(false);
             if (httpResponseMessage.IsSuccessStatusCode)
             {
@@ -110,7 +111,7 @@ namespace FoodDeliveryApp.Services
         {
             TryAddHeaders();
 
-            Uri uri = new Uri($"{ServerConstants.BaseUrl}/foodapp/ratingrestaurant/{email}/{orderId}/{rating}");
+            Uri uri = new Uri($"{ServerConstants.BaseUrl}/foodapp/ratingrestaurant/{email}&{orderId}&{rating}");
             HttpResponseMessage httpResponseMessage = await _httpClient.GetAsync(uri).ConfigureAwait(false);
             if (httpResponseMessage.IsSuccessStatusCode)
             {
@@ -124,7 +125,7 @@ namespace FoodDeliveryApp.Services
         {
             TryAddHeaders();
 
-            Uri uri = new Uri($"{ServerConstants.BaseUrl}/foodapp/getmydriverlocation/{driverId}/{orderId}");
+            Uri uri = new Uri($"{ServerConstants.BaseUrl}/foodapp/getmydriverlocation/{driverId}&{orderId}");
             HttpResponseMessage httpResponseMessage = await _httpClient.GetAsync(uri).ConfigureAwait(false);
             if (httpResponseMessage.IsSuccessStatusCode)
             {
