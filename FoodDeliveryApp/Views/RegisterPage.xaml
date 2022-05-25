@@ -11,8 +11,7 @@
     Shell.PresentationMode="ModalAnimated"
     mc:Ignorable="d">
     <StackLayout
-        BackgroundColor="{AppThemeBinding Light=LightGray,
-                                          Dark=Gray}"
+        BackgroundColor="PaleGoldenrod"
         IsVisible="{Binding LoggedIn}"
         VerticalOptions="FillAndExpand">
         <StackLayout VerticalOptions="CenterAndExpand">
@@ -21,7 +20,6 @@
                     x:Name="Email"
                     Margin="20"
                     xct:CornerRadiusEffect.CornerRadius="20"
-                    Background="LemonChiffon"
                     BackgroundColor="LemonChiffon"
                     ClearButtonVisibility="WhileEditing"
                     FontSize="Large"
@@ -44,7 +42,6 @@
                     x:Name="Password"
                     Margin="20"
                     xct:CornerRadiusEffect.CornerRadius="20"
-                    Background="LemonChiffon"
                     BackgroundColor="LemonChiffon"
                     ClearButtonVisibility="WhileEditing"
                     FontSize="Large"
@@ -68,9 +65,8 @@
                 <Button
                     Padding="10"
                     xct:CornerRadiusEffect.CornerRadius="20"
-                    Background="Cyan"
-                    BackgroundColor="Cyan"
-                    BorderColor="Cyan"
+                    BackgroundColor="LimeGreen"
+                    BorderColor="LimeGreen"
                     Clicked="CheckFields"
                     FontAttributes="Bold"
                     FontSize="18"
@@ -81,6 +77,7 @@
             <StackLayout Margin="0,50,0,0">
                 <ImageButton
                     x:Name="AppleBtn"
+                    xct:CornerRadiusEffect.CornerRadius="10"
                     xct:TouchEffect.PressedAnimationDuration="100"
                     xct:TouchEffect.PressedScale="1.1"
                     Command="{Binding SignInWithAppleCommand}"
@@ -91,6 +88,7 @@
                     WidthRequest="220" />
                 <ImageButton
                     x:Name="GoogleBtn"
+                    xct:CornerRadiusEffect.CornerRadius="10"
                     xct:TouchEffect.PressedAnimationDuration="100"
                     xct:TouchEffect.PressedScale="1.1"
                     Command="{Binding ExecuteLoginGoogle}"
@@ -100,14 +98,15 @@
                     VerticalOptions="CenterAndExpand" />
                 <ImageButton
                     x:Name="FBBtn"
+                    xct:CornerRadiusEffect.CornerRadius="10"
                     xct:TouchEffect.PressedAnimationDuration="100"
                     xct:TouchEffect.PressedScale="1.1"
                     Command="{Binding ExecuteLoginFacebook}"
                     HorizontalOptions="CenterAndExpand"
                     Source="btn_facebook_signin.png"
                     VerticalOptions="CenterAndExpand" />
-                
-                
+
+
             </StackLayout>
         </StackLayout>
         <StackLayout VerticalOptions="EndAndExpand">
@@ -116,7 +115,6 @@
                 Margin="10"
                 Padding="10"
                 xct:CornerRadiusEffect.CornerRadius="20"
-                Background="Red"
                 BackgroundColor="Red"
                 BorderColor="Red"
                 Clicked="OnDismissButtonClicked"

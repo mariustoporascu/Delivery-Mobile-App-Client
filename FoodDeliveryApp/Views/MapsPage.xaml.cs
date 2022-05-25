@@ -13,9 +13,11 @@ namespace FoodDeliveryApp.Views
     public partial class MapsPage : ContentPage
     {
         MapsViewModel mapsViewModel;
+        Dictionary<int, GoogleDirection> routes;
         private float totalDistance = 0.0f;
         private int timeToGo = 0;
         private bool calculateRoute = false;
+        private bool viewLeaved = false;
         public MapsPage()
         {
             InitializeComponent();
@@ -36,6 +38,7 @@ namespace FoodDeliveryApp.Views
                     else
                         AppMap.Pins.FirstOrDefault(pin => pin.Label == "Adresa mea").Position = mapsViewModel.pinRoute1.Position;
                     AppMap.MoveToRegion(MapSpan.FromCenterAndRadius(mapsViewModel.pinRoute1.Position, Distance.FromMeters(100)));
+                    viewLeaved = false;
                     TrackPath_Clicked();
 
                 }
@@ -50,7 +53,11 @@ namespace FoodDeliveryApp.Views
         {
             base.OnDisappearing();
             calculateRoute = false;
-
+            viewLeaved = true;
+            DistToGo.Text = "";
+            TimeToGo.Text = "";
+            routes = null;
+            mapsViewModel.HasRoute = false;
         }
 
         void PickupButton_Clicked(object sender, MapClickedEventArgs e)
@@ -77,15 +84,30 @@ namespace FoodDeliveryApp.Views
         void TrackPath_Clicked()
         {
 
-            Device.StartTimer(TimeSpan.FromMilliseconds(3000), () =>
+            Device.StartTimer(TimeSpan.FromMilliseconds(3000), () => {
+                if (!viewLeaved)
+                {
+                    RouteAsync();
+                    Device.BeginInvokeOnMainThread(() => DrawElements());
+                }
+                
+                return calculateRoute;
+            });
+        }
+        async void RouteAsync()
+        {
+            routes = await mapsViewModel.DrawDriverRoute().ConfigureAwait(false);
+        }
+        void DrawElements()
+        {
+            if(routes != null)
             {
-                var routes = mapsViewModel.DrawDriverRoute().GetAwaiter().GetResult();
                 if (routes.Count > 0)
                 {
                     Debug.WriteLine("Drawing routes.");
 
                     UpdatePostions(routes);
-                    return calculateRoute;
+                    calculateRoute = true;
                 }
                 else
                 {
@@ -98,12 +120,11 @@ namespace FoodDeliveryApp.Views
                     AppMap.MapElements.Clear();
                     Debug.WriteLine("No routes found.");
                     calculateRoute = false;
-                    return calculateRoute;
                 }
-            });
+            }
         }
 
-        async void UpdatePostions(Dictionary<int, GoogleDirection> routes)
+        void UpdatePostions(Dictionary<int, GoogleDirection> routes)
         {
             AppMap.MapElements.Clear();
             foreach (var route in routes)
@@ -140,7 +161,6 @@ namespace FoodDeliveryApp.Views
                 AppMap.MapElements.Add(polyline);
 
 
-                var positionIndex = 1;
                 if (totalDistance < 1.0f)
                 {
                     int convertedDistance = (int)Math.Round(totalDistance * 1000);

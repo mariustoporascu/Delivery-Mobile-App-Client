@@ -8,13 +8,12 @@
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     x:DataType="local:LoginViewModel"
     Shell.PresentationMode="ModalAnimated">
-    <StackLayout BackgroundColor="{AppThemeBinding Light=LightGray, Dark=Gray}" VerticalOptions="FillAndExpand">
+    <StackLayout BackgroundColor="PaleGoldenrod" VerticalOptions="FillAndExpand">
         <StackLayout VerticalOptions="CenterAndExpand">
 
             <Entry
                 Margin="20"
                 xct:CornerRadiusEffect.CornerRadius="20"
-                Background="LemonChiffon"
                 BackgroundColor="LemonChiffon"
                 ClearButtonVisibility="WhileEditing"
                 FontSize="Large"
@@ -28,7 +27,6 @@
             <Entry
                 Margin="20"
                 xct:CornerRadiusEffect.CornerRadius="20"
-                Background="LemonChiffon"
                 BackgroundColor="LemonChiffon"
                 ClearButtonVisibility="WhileEditing"
                 FontSize="Large"
@@ -44,9 +42,8 @@
                 <Button
                     Padding="10"
                     xct:CornerRadiusEffect.CornerRadius="20"
-                    Background="Orange"
-                    BackgroundColor="Orange"
-                    BorderColor="Orange"
+                    BackgroundColor="Cyan"
+                    BorderColor="Cyan"
                     Clicked="RedirSignUp"
                     FontAttributes="Bold"
                     FontSize="18"
@@ -56,8 +53,7 @@
                 <Button
                     Padding="10"
                     xct:CornerRadiusEffect.CornerRadius="20"
-                    Background="Cyan"
-                    BackgroundColor="Cyan"
+                    BackgroundColor="LimeGreen"
                     BorderColor="Cyan"
                     Command="{Binding Source={RelativeSource AncestorType={x:Type local:LoginViewModel}}, Path=Login}"
                     FontAttributes="Bold"
@@ -74,7 +70,6 @@
                 Margin="10"
                 Padding="10"
                 xct:CornerRadiusEffect.CornerRadius="20"
-                Background="Red"
                 BackgroundColor="Red"
                 BorderColor="Red"
                 Clicked="OnDismissButtonClicked"

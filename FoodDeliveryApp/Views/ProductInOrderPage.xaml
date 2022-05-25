@@ -5,135 +5,101 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:FoodDeliveryApp.ViewModels"
     xmlns:model="clr-namespace:FoodDeliveryApp.Models.ShopModels"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     Title="{Binding Title}"
     x:DataType="local:ProductInOrderViewModel"
     Shell.PresentationMode="Animated">
+    <ScrollView
+        BackgroundColor="PaleGoldenrod"
+        HorizontalOptions="FillAndExpand"
+        VerticalOptions="FillAndExpand">
+        <StackLayout
+            Padding="15"
+            Spacing="10"
+            VerticalOptions="FillAndExpand">
 
-    <StackLayout
-        Padding="15"
-        BackgroundColor="{AppThemeBinding Light=LightGray,
-                                          Dark=Gray}"
-        Spacing="10">
+            <Image
+                x:Name="ItemImage"
+                xct:CornerRadiusEffect.CornerRadius="10"
+                Aspect="AspectFill"
+                BackgroundColor="Transparent"
+                HeightRequest="360" />
+            <StackLayout xct:CornerRadiusEffect.CornerRadius="10" BackgroundColor="{AppThemeBinding Light=LightCyan, Dark=LightCyan}">
+                <StackLayout
+                    Padding="15"
+                    HorizontalOptions="FillAndExpand"
+                    Orientation="Vertical"
+                    Spacing="10">
+                    <Label
+                        FontSize="Medium"
+                        Text="Produs:"
+                        TextColor="Black"
+                        VerticalOptions="CenterAndExpand" />
+                    <Label
+                        FontSize="Large"
+                        Text="{Binding Item.Name}"
+                        TextColor="Black"
+                        VerticalOptions="CenterAndExpand" />
+                </StackLayout>
 
-        <Image
-            x:Name="ItemImage"
-            Margin="5,0,5,0"
-            Aspect="AspectFit"
-            BackgroundColor="Transparent"
-            HeightRequest="200"
-            WidthRequest="200" />
-        <Frame
-            Margin="5"
-            Padding="0"
-            CornerRadius="10">
-            <StackLayout
-                Padding="15"
-                BackgroundColor="{AppThemeBinding Light=LightCyan,
-                                                  Dark=LightCyan}"
-                HorizontalOptions="FillAndExpand"
-                Orientation="Horizontal"
-                Spacing="10">
-                <Label
-                    FontSize="Medium"
-                    HorizontalOptions="Start"
-                    Text="Produs:"
-                    TextColor="Black"
-                    VerticalOptions="CenterAndExpand"
-                    WidthRequest="200" />
-                <Label
-                    FontSize="Small"
+                <StackLayout
+                    Padding="15"
+                    HorizontalOptions="FillAndExpand"
+                    Orientation="Vertical"
+                    Spacing="10">
+                    <Label
+                        FontSize="Medium"
+                        Text="Descriere:"
+                        TextColor="Black"
+                        VerticalOptions="CenterAndExpand" />
+                    <Label
+                        FontSize="Small"
+                        LineBreakMode="WordWrap"
+                        Text="{Binding Item.Description}"
+                        TextColor="Black"
+                        VerticalOptions="CenterAndExpand" />
+                </StackLayout>
+
+                <StackLayout
+                    Padding="15"
                     HorizontalOptions="CenterAndExpand"
-                    HorizontalTextAlignment="Center"
-                    Text="{Binding Item.Name}"
-                    TextColor="Black"
-                    VerticalOptions="CenterAndExpand" />
-            </StackLayout>
-        </Frame>
-        <Frame
-            Margin="5"
-            Padding="0"
-            CornerRadius="10">
-            <StackLayout
-                Padding="15"
-                BackgroundColor="{AppThemeBinding Light=LightCyan,
-                                                  Dark=LightCyan}"
-                HorizontalOptions="FillAndExpand"
-                Orientation="Horizontal"
-                Spacing="10">
-                <Label
-                    FontSize="Medium"
-                    HorizontalOptions="Start"
-                    Text="Descriere:"
-                    TextColor="Black"
-                    VerticalOptions="CenterAndExpand"
-                    WidthRequest="200" />
-                <Label
-                    FontSize="Small"
-                    HorizontalOptions="CenterAndExpand"
-                    HorizontalTextAlignment="Center"
-                    LineBreakMode="WordWrap"
-                    Text="{Binding Item.Description}"
-                    TextColor="Black"
-                    VerticalOptions="CenterAndExpand" />
-            </StackLayout>
-        </Frame>
-        <Frame
-            Margin="5"
-            Padding="0"
-            CornerRadius="10">
-            <StackLayout
-                Padding="15"
-                BackgroundColor="{AppThemeBinding Light=LightCyan,
-                                                  Dark=LightCyan}"
-                HorizontalOptions="FillAndExpand"
-                Orientation="Horizontal"
-                Spacing="10">
-                <Label
-                    FontSize="Medium"
-                    HorizontalOptions="Start"
-                    Text="Gramaj:"
-                    TextColor="Black"
-                    VerticalOptions="CenterAndExpand"
-                    WidthRequest="200" />
-                <Label
-                    FontSize="Small"
-                    HorizontalOptions="CenterAndExpand"
-                    HorizontalTextAlignment="Center"
-                    Text="{Binding Item.GramajInterfata}"
-                    TextColor="Black"
-                    VerticalOptions="CenterAndExpand" />
+                    Orientation="Vertical"
+                    Spacing="10">
+                    <Label
+                        FontSize="Medium"
+                        HorizontalOptions="CenterAndExpand"
+                        Text="Gramaj"
+                        TextColor="Black"
+                        VerticalOptions="CenterAndExpand" />
+                    <Label
+                        FontSize="Medium"
+                        HorizontalOptions="CenterAndExpand"
+                        Text="{Binding Item.GramajInterfata}"
+                        TextColor="Black"
+                        VerticalOptions="CenterAndExpand" />
 
-            </StackLayout>
-        </Frame>
-        <Frame
-            Margin="5"
-            Padding="0"
-            CornerRadius="10">
-            <StackLayout
-                Padding="15"
-                BackgroundColor="{AppThemeBinding Light=LightCyan,
-                                                  Dark=LightCyan}"
-                HorizontalOptions="FillAndExpand"
-                Orientation="Horizontal"
-                Spacing="10">
-                <Label
-                    FontSize="Medium"
-                    HorizontalOptions="Start"
-                    Text="Pret:"
-                    TextColor="Black"
-                    VerticalOptions="CenterAndExpand"
-                    WidthRequest="200" />
-                <Label
-                    FontSize="Small"
+                </StackLayout>
+
+                <StackLayout
+                    Padding="15"
                     HorizontalOptions="CenterAndExpand"
-                    HorizontalTextAlignment="Center"
-                    Text="{Binding Item.PretInterfata}"
-                    TextColor="Black"
-                    VerticalOptions="CenterAndExpand" />
+                    Orientation="Vertical"
+                    Spacing="10">
+                    <Label
+                        FontSize="Medium"
+                        HorizontalOptions="CenterAndExpand"
+                        Text="Pret"
+                        TextColor="Black"
+                        VerticalOptions="CenterAndExpand" />
+                    <Label
+                        FontSize="Medium"
+                        HorizontalOptions="CenterAndExpand"
+                        Text="{Binding Item.PretInterfata}"
+                        TextColor="Black"
+                        VerticalOptions="CenterAndExpand" />
+                </StackLayout>
             </StackLayout>
-        </Frame>
-
-
-    </StackLayout>
+        </StackLayout>
+    </ScrollView>
 
 </ContentPage>

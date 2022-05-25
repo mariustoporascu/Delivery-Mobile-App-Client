@@ -15,60 +15,53 @@
             <xct:InvertedBoolConverter x:Key="invertBoolConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
-    <StackLayout BackgroundColor="{AppThemeBinding Light=Gray, Dark=LightGray}">
+    <StackLayout BackgroundColor="PaleGoldenrod">
         <StackLayout IsVisible="{Binding IsPageVisible}">
+            <StackLayout
+                Margin="2"
+                HorizontalOptions="FillAndExpand"
+                Orientation="Horizontal">
 
-            <StackLayout BackgroundColor="{AppThemeBinding Light=LightGray, Dark=Gray}">
-                <StackLayout Margin="2" BackgroundColor="{AppThemeBinding Light=LightGray, Dark=Gray}">
-                    <StackLayout
-                        Margin="2"
-                        BackgroundColor="{AppThemeBinding Light=LightGray,
-                                                          Dark=Gray}"
-                        HorizontalOptions="FillAndExpand"
-                        Orientation="Horizontal">
-
-                        <Label
-                            FontAttributes="Bold"
-                            FontSize="Small"
-                            HorizontalOptions="CenterAndExpand"
-                            HorizontalTextAlignment="Center"
-                            LineBreakMode="WordWrap"
-                            Style="{DynamicResource ListItemTextStyle}"
-                            Text="Produs"
-                            TextColor="Black"
-                            WidthRequest="90" />
-                        <Label
-                            FontAttributes="Bold"
-                            FontSize="Small"
-                            HorizontalOptions="CenterAndExpand"
-                            HorizontalTextAlignment="Center"
-                            LineBreakMode="WordWrap"
-                            Style="{DynamicResource ListItemTextStyle}"
-                            Text="Gramaj / Pret"
-                            TextColor="Black"
-                            WidthRequest="80" />
-                        <Label
-                            FontAttributes="Bold"
-                            FontSize="Small"
-                            HorizontalOptions="CenterAndExpand"
-                            HorizontalTextAlignment="Center"
-                            LineBreakMode="WordWrap"
-                            Style="{DynamicResource ListItemTextStyle}"
-                            Text="Cantitate"
-                            TextColor="Black"
-                            WidthRequest="95" />
-                        <Label
-                            FontAttributes="Bold"
-                            FontSize="Small"
-                            HorizontalOptions="CenterAndExpand"
-                            HorizontalTextAlignment="Center"
-                            LineBreakMode="WordWrap"
-                            Style="{DynamicResource ListItemTextStyle}"
-                            Text="Sterge din cos"
-                            TextColor="Black"
-                            WidthRequest="100" />
-                    </StackLayout>
-                </StackLayout>
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="Small"
+                    HorizontalOptions="CenterAndExpand"
+                    HorizontalTextAlignment="Center"
+                    LineBreakMode="WordWrap"
+                    Style="{DynamicResource ListItemTextStyle}"
+                    Text="Produs"
+                    TextColor="Black"
+                    WidthRequest="100" />
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="Small"
+                    HorizontalOptions="CenterAndExpand"
+                    HorizontalTextAlignment="Center"
+                    LineBreakMode="WordWrap"
+                    Style="{DynamicResource ListItemTextStyle}"
+                    Text="Pret"
+                    TextColor="Black"
+                    WidthRequest="80" />
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="Small"
+                    HorizontalOptions="CenterAndExpand"
+                    HorizontalTextAlignment="Center"
+                    LineBreakMode="WordWrap"
+                    Style="{DynamicResource ListItemTextStyle}"
+                    Text="Cantitate"
+                    TextColor="Black"
+                    WidthRequest="95" />
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="Small"
+                    HorizontalOptions="CenterAndExpand"
+                    HorizontalTextAlignment="Center"
+                    LineBreakMode="WordWrap"
+                    Style="{DynamicResource ListItemTextStyle}"
+                    Text="Sterge din cos"
+                    TextColor="Black"
+                    WidthRequest="100" />
             </StackLayout>
 
             <!--<RefreshView
@@ -79,119 +72,105 @@
                 IsRefreshing="{Binding IsBusy, Mode=TwoWay}">-->
             <CollectionView
                 x:Name="ItemsListView"
-                BackgroundColor="{AppThemeBinding Light=LightGray,
-                                                  Dark=Gray}"
                 ItemsSource="{Binding Items}"
                 SelectionMode="None">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <StackLayout BackgroundColor="{AppThemeBinding Light=LightCyan, Dark=LightCyan}">
+                        <StackLayout Margin="2" x:DataType="model:CartItem">
                             <StackLayout
                                 Margin="2"
-                                x:DataType="model:CartItem"
-                                BackgroundColor="{AppThemeBinding Light=DarkCyan,
-                                                                  Dark=DarkCyan}">
+                                Padding="2"
+                                xct:CornerRadiusEffect.CornerRadius="10"
+                                BackgroundColor="LightCyan"
+                                HorizontalOptions="FillAndExpand"
+                                Orientation="Horizontal">
                                 <StackLayout
-                                    Margin="2"
-                                    BackgroundColor="{AppThemeBinding Light=LightCyan,
-                                                                      Dark=LightCyan}"
-                                    HorizontalOptions="FillAndExpand"
-                                    Orientation="Horizontal">
-                                    <StackLayout
+                                    HorizontalOptions="CenterAndExpand"
+                                    VerticalOptions="CenterAndExpand"
+                                    WidthRequest="100">
+                                    <Label
+                                        FontSize="Small"
                                         HorizontalOptions="CenterAndExpand"
-                                        VerticalOptions="CenterAndExpand"
-                                        WidthRequest="90">
-                                        <Label
-                                            FontSize="Small"
-                                            HorizontalOptions="CenterAndExpand"
-                                            HorizontalTextAlignment="Center"
-                                            LineBreakMode="WordWrap"
-                                            Style="{DynamicResource ListItemTextStyle}"
-                                            Text="{Binding Name}"
-                                            TextColor="Black" />
-                                        <StackLayout.GestureRecognizers>
-                                            <TapGestureRecognizer
-                                                Command="{Binding Source={RelativeSource AncestorType={x:Type local:CosContentViewModel}}, Path=ItemTapped}"
-                                                CommandParameter="{Binding .}"
-                                                NumberOfTapsRequired="1" />
-                                        </StackLayout.GestureRecognizers>
-                                    </StackLayout>
-                                    <StackLayout
-                                        HorizontalOptions="CenterAndExpand"
-                                        VerticalOptions="CenterAndExpand"
-                                        WidthRequest="80">
-                                        <Label
-                                            FontSize="Small"
-                                            HorizontalTextAlignment="Center"
-                                            LineBreakMode="NoWrap"
-                                            Style="{DynamicResource ListItemTextStyle}"
-                                            Text="{Binding Gramaj}"
-                                            TextColor="Black" />
-                                        <Label
-                                            FontSize="Small"
-                                            HorizontalTextAlignment="Center"
-                                            LineBreakMode="NoWrap"
-                                            Style="{DynamicResource ListItemDetailTextStyle}"
-                                            Text="{Binding Price}"
-                                            TextColor="Black" />
-                                        <StackLayout.GestureRecognizers>
-                                            <TapGestureRecognizer
-                                                Command="{Binding Source={RelativeSource AncestorType={x:Type local:CosContentViewModel}}, Path=ItemTapped}"
-                                                CommandParameter="{Binding .}"
-                                                NumberOfTapsRequired="1" />
-                                        </StackLayout.GestureRecognizers>
-                                    </StackLayout>
-                                    <StackLayout
-                                        HorizontalOptions="CenterAndExpand"
-                                        Orientation="Horizontal"
-                                        WidthRequest="95">
-                                        <ImageButton
-                                            Margin="5,0,5,0"
-                                            Aspect="AspectFit"
-                                            BackgroundColor="Transparent"
-                                            Command="{Binding Source={RelativeSource AncestorType={x:Type local:CosContentViewModel}}, Path=MinusCommand}"
+                                        HorizontalTextAlignment="Center"
+                                        LineBreakMode="WordWrap"
+                                        Style="{DynamicResource ListItemTextStyle}"
+                                        Text="{Binding Name}"
+                                        TextColor="Black" />
+                                    <StackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type local:CosContentViewModel}}, Path=ItemTapped}"
                                             CommandParameter="{Binding .}"
-                                            HeightRequest="15"
-                                            HorizontalOptions="CenterAndExpand"
-                                            Source="minus.png"
-                                            WidthRequest="15" />
-                                        <Label
-                                            Margin="5,0,5,0"
-                                            FontSize="Medium"
-                                            HorizontalOptions="CenterAndExpand"
-                                            HorizontalTextAlignment="Center"
-                                            Text="{Binding Cantitate}"
-                                            TextColor="Blue"
-                                            VerticalTextAlignment="Center" />
-                                        <ImageButton
-                                            Margin="5,0,5,0"
-                                            Aspect="AspectFit"
-                                            BackgroundColor="Transparent"
-                                            Command="{Binding Source={RelativeSource AncestorType={x:Type local:CosContentViewModel}}, Path=PlusCommand}"
+                                            NumberOfTapsRequired="1" />
+                                    </StackLayout.GestureRecognizers>
+                                </StackLayout>
+                                <StackLayout
+                                    HorizontalOptions="CenterAndExpand"
+                                    VerticalOptions="CenterAndExpand"
+                                    WidthRequest="80">
+                                    <Label
+                                        FontSize="Small"
+                                        HorizontalTextAlignment="Center"
+                                        LineBreakMode="NoWrap"
+                                        Style="{DynamicResource ListItemDetailTextStyle}"
+                                        Text="{Binding Price}"
+                                        TextColor="Black" />
+                                    <StackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type local:CosContentViewModel}}, Path=ItemTapped}"
                                             CommandParameter="{Binding .}"
-                                            HeightRequest="15"
-                                            HorizontalOptions="CenterAndExpand"
-                                            Source="plus.png"
-                                            WidthRequest="15" />
-                                    </StackLayout>
+                                            NumberOfTapsRequired="1" />
+                                    </StackLayout.GestureRecognizers>
+                                </StackLayout>
+                                <StackLayout
+                                    HorizontalOptions="CenterAndExpand"
+                                    Orientation="Horizontal"
+                                    WidthRequest="95">
+                                    <ImageButton
+                                        Margin="5,0,5,0"
+                                        Aspect="AspectFit"
+                                        BackgroundColor="Transparent"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type local:CosContentViewModel}}, Path=MinusCommand}"
+                                        CommandParameter="{Binding .}"
+                                        HeightRequest="18"
+                                        HorizontalOptions="CenterAndExpand"
+                                        Source="minus.png"
+                                        WidthRequest="18" />
+                                    <Label
+                                        Margin="5,0,5,0"
+                                        FontSize="Medium"
+                                        HorizontalOptions="CenterAndExpand"
+                                        HorizontalTextAlignment="Center"
+                                        Text="{Binding Cantitate}"
+                                        TextColor="Blue"
+                                        VerticalTextAlignment="Center" />
+                                    <ImageButton
+                                        Margin="5,0,5,0"
+                                        Aspect="AspectFit"
+                                        BackgroundColor="Transparent"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type local:CosContentViewModel}}, Path=PlusCommand}"
+                                        CommandParameter="{Binding .}"
+                                        HeightRequest="18"
+                                        HorizontalOptions="CenterAndExpand"
+                                        Source="plus.png"
+                                        WidthRequest="18" />
+                                </StackLayout>
+                                <StackLayout
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="Center"
+                                    WidthRequest="90">
                                     <StackLayout
+                                        Margin="5"
                                         HorizontalOptions="Center"
-                                        VerticalOptions="Center"
-                                        WidthRequest="100">
-                                        <StackLayout
-                                            Margin="5"
+                                        WidthRequest="40">
+                                        <Button
+                                            xct:CornerRadiusEffect.CornerRadius="50"
+                                            BackgroundColor="Red"
+                                            BorderColor="Red"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type local:CosContentViewModel}}, Path=DeleteCommand}"
+                                            CommandParameter="{Binding .}"
                                             HorizontalOptions="Center"
-                                            WidthRequest="40">
-                                            <Button
-                                                xct:CornerRadiusEffect.CornerRadius="50"
-                                                BackgroundColor="Red"
-                                                BorderColor="Red"
-                                                Command="{Binding Source={RelativeSource AncestorType={x:Type local:CosContentViewModel}}, Path=DeleteCommand}"
-                                                CommandParameter="{Binding .}"
-                                                HorizontalOptions="Center"
-                                                Text="X"
-                                                VerticalOptions="Center" />
-                                        </StackLayout>
+                                            Text="X"
+                                            VerticalOptions="Center" />
                                     </StackLayout>
                                 </StackLayout>
                             </StackLayout>
@@ -200,12 +179,8 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
             <!--</RefreshView>-->
-            <StackLayout BackgroundColor="{AppThemeBinding Light=LightGray, Dark=Gray}">
-                <StackLayout
-                    Margin="0,20,0,20"
-                    BackgroundColor="{AppThemeBinding Light=LightGray,
-                                                      Dark=Gray}"
-                    HorizontalOptions="FillAndExpand">
+            <StackLayout>
+                <StackLayout Margin="0,20,0,20" HorizontalOptions="FillAndExpand">
                     <StackLayout HorizontalOptions="CenterAndExpand" Orientation="Horizontal">
                         <Label
                             FontAttributes="Bold"
@@ -229,7 +204,6 @@
                     Margin="10"
                     Padding="10"
                     xct:CornerRadiusEffect.CornerRadius="20"
-                    Background="Cyan"
                     BackgroundColor="Cyan"
                     BorderColor="Cyan"
                     Clicked="GoToFinalizeOrder"
@@ -242,14 +216,12 @@
                 <Frame
                     Margin="10"
                     Padding="10"
-                    Background="Cyan"
                     BackgroundColor="Cyan"
                     CornerRadius="10"
                     HorizontalOptions="CenterAndExpand"
                     IsVisible="{Binding IsLoggedIn, Converter={StaticResource invertBoolConverter}}"
                     VerticalOptions="EndAndExpand">
                     <Label
-                        Background="Cyan"
                         BackgroundColor="Cyan"
                         FontAttributes="Bold"
                         FontSize="14"
@@ -258,20 +230,14 @@
                 </Frame>
             </StackLayout>
         </StackLayout>
-        <StackLayout
-            BackgroundColor="{AppThemeBinding Light=LightGray,
-                                              Dark=Gray}"
-            IsVisible="{Binding IsPageVisible, Converter={StaticResource invertBoolConverter}}"
-            VerticalOptions="FillAndExpand">
+        <StackLayout IsVisible="{Binding IsPageVisible, Converter={StaticResource invertBoolConverter}}" VerticalOptions="FillAndExpand">
             <Frame
                 Padding="20"
-                Background="Cyan"
                 BackgroundColor="Cyan"
                 CornerRadius="10"
                 HorizontalOptions="CenterAndExpand"
                 VerticalOptions="CenterAndExpand">
                 <Label
-                    Background="Cyan"
                     BackgroundColor="Cyan"
                     FontAttributes="Bold"
                     FontSize="Large"

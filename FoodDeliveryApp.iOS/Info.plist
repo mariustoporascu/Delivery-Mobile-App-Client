@@ -21,7 +21,7 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>CFBundleDisplayName</key>
-	<string>FoodDeliveryApp</string>
+	<string>Livro</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.tmiit.FoodDeliveryApp</string>
 	<key>CFBundleVersion</key>
@@ -30,8 +30,6 @@
 	<string>LaunchScreen</string>
 	<key>CFBundleName</key>
 	<string>FoodDeliveryApp</string>
-	<key>XSAppIconAssets</key>
-	<string>Assets.xcassets/AppIcon.appiconset</string>
 	<key>UIMainStoryboardFile</key>
 	<string>LaunchScreen</string>
 	<key>NSAppTransportSecurity</key>
@@ -110,5 +108,7 @@
 	</array>
 	<key>MinimumOSVersion</key>
 	<string>12.0</string>
+	<key>XSAppIconAssets</key>
+	<string>Assets.xcassets/AppIcon.appiconset</string>
 </dict>
 </plist>

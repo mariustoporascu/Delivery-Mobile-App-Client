@@ -10,11 +10,11 @@
     x:DataType="local:MapsViewModel"
     Shell.PresentationMode="Animated">
 
-    <StackLayout BackgroundColor="{AppThemeBinding Light=LightGray, Dark=Gray}">
+    <StackLayout BackgroundColor="PaleGoldenrod">
         <Label
             FontSize="Large"
             HorizontalOptions="CenterAndExpand"
-            Text="Live Status"
+            Text="Live Tracking"
             TextColor="Black" />
         <maps:Map
             x:Name="AppMap"
@@ -22,13 +22,13 @@
             HasZoomEnabled="True"
             IsVisible="True"
             MapType="Street" />
-        <StackLayout BackgroundColor="{AppThemeBinding Light=LightGray, Dark=Gray}">
+        <StackLayout IsVisible="{Binding HasRoute}">
 
-            <StackLayout HorizontalOptions="CenterAndExpand" Orientation="Horizontal">
+            <StackLayout HorizontalOptions="CenterAndExpand" Orientation="Vertical">
                 <Label
                     FontAttributes="Bold"
                     FontSize="20"
-                    Text="Distanta Ramasa :"
+                    Text="Distanta Ramasa"
                     TextColor="Black" />
                 <Label
                     x:Name="DistToGo"
@@ -36,11 +36,11 @@
                     FontSize="20"
                     TextColor="Black" />
             </StackLayout>
-            <StackLayout HorizontalOptions="CenterAndExpand" Orientation="Horizontal">
+            <StackLayout HorizontalOptions="CenterAndExpand" Orientation="Vertical">
                 <Label
                     FontAttributes="Bold"
                     FontSize="20"
-                    Text="Timp Ramas :"
+                    Text="Timp Ramas"
                     TextColor="Black" />
                 <Label
                     x:Name="TimeToGo"

@@ -1,5 +1,6 @@
 ﻿using FoodDeliveryApp.Models.ShopModels;
 using FoodDeliveryApp.Views;
+using MvvmHelpers;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -11,8 +12,8 @@ namespace FoodDeliveryApp.ViewModels
     public class ListaRestauranteViewModel : BaseViewModel
     {
         private Companie _selectedItem;
-        private ObservableCollection<Companie> _items;
-        public ObservableCollection<Companie> Items
+        private ObservableRangeCollection<Companie> _items;
+        public ObservableRangeCollection<Companie> Items
         {
             get => _items;
             set => SetProperty(ref _items, value);
@@ -23,27 +24,26 @@ namespace FoodDeliveryApp.ViewModels
         public ListaRestauranteViewModel()
         {
             Title = "Lista Restaurante";
-            Items = new ObservableCollection<Companie>();
+            Items = new ObservableRangeCollection<Companie>();
             LoadItemsCommand = new Command(ExecuteLoadItemsCommand);
             ItemTapped = new Command<Companie>(async (item) => await OnItemSelected(item));
         }
 
         void ExecuteLoadItemsCommand()
         {
-
+            IsBusy = true;
             try
             {
                 Items.Clear();
                 var items = DataStore.GetRestaurante();
-                foreach (var item in items)
-                {
-                    Items.Add(item);
-                }
+
+                Items.AddRange(items);
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
             }
+            IsBusy = false;
         }
 
         public Companie SelectedItem

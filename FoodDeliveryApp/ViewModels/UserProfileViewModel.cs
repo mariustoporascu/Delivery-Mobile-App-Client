@@ -95,8 +95,8 @@ namespace FoodDeliveryApp.ViewModels
                 Street = Street,
                 PhoneNumber = PhoneNumber,
                 Email = Email,
-                CoordX = App.userInfo.CoordX,
-                CoordY = App.userInfo.CoordY,
+                CoordX = CoordX,
+                CoordY = CoordY,
                 UserIdentification = App.userInfo.UserIdentification,
                 Password = App.userInfo.Password,
                 CompleteProfile = true

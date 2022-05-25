@@ -172,7 +172,8 @@ namespace FoodDeliveryApp.ViewModels
         }
         void Searching()
         {
-
+            if (string.IsNullOrWhiteSpace(SearchItem))
+                return;
             try
             {
                 Items.Clear();

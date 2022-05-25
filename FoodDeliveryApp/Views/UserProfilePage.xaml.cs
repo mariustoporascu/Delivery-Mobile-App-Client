@@ -27,33 +27,35 @@ namespace FoodDeliveryApp.Views
                 RedirSignIn(this, new EventArgs());
             }
         }
-        protected override void OnAppearing()
+        protected override async void OnAppearing()
         {
             base.OnAppearing();
             if (App.isLoggedIn)
             {
                 viewModel.RefreshProfile();
+                if (AppMap.Pins.Count > 0)
+                {
+                    Pin pinTo = AppMap.Pins.FirstOrDefault(pins => pins.Label == "Adresa mea");
+                    if (pinTo != null)
+                        AppMap.Pins.Remove(pinTo);
+                }
+
+                Pin goToPin = new Pin()
+                {
+                    Label = "Adresa mea",
+                    Type = PinType.Place,
+
+                };
                 if (viewModel.CoordX != 0 && viewModel.CoordY != 0)
                 {
                     try
                     {
 
-                        if (AppMap.Pins.Count > 0)
-                        {
-                            Pin pinTo = AppMap.Pins.FirstOrDefault(pins => pins.Label == "Adresa mea");
-                            if (pinTo != null)
-                                AppMap.Pins.Remove(pinTo);
-                        }
+                        goToPin.Position = new Position(viewModel.CoordX, viewModel.CoordY);
 
-                        Pin goToPin = new Pin()
-                        {
-                            Label = "Adresa mea",
-                            Type = PinType.Place,
-                            Position = new Position(viewModel.CoordX, viewModel.CoordY),
-
-                        };
                         AppMap.Pins.Add(goToPin);
-                        AppMap.MoveToRegion(MapSpan.FromCenterAndRadius(goToPin.Position, Distance.FromMeters(100)));
+                        if(AppMap.IsVisible)
+                            AppMap.MoveToRegion(MapSpan.FromCenterAndRadius(goToPin.Position, Distance.FromMeters(100)));
 
                     }
                     catch (Exception ex)
@@ -63,6 +65,20 @@ namespace FoodDeliveryApp.Views
 
 
                 }
+                else
+                {
+                    IEnumerable<Position> aproxLocation = await geoCoder.GetPositionsForAddressAsync("Centru, Cernavoda, Romania");
+                    if (aproxLocation.Count() > 0)
+                    {
+                        Position position1 = aproxLocation.FirstOrDefault();
+                        goToPin.Position = position1;
+                        AppMap.Pins.Add(goToPin);
+                        if (AppMap.IsVisible)
+                            AppMap.MoveToRegion(MapSpan.FromCenterAndRadius(goToPin.Position, Distance.FromMeters(100)));
+                    }
+                }
+                if(AppMap.IsVisible)
+                    Button_Clicked(this, new EventArgs());
             }
 
         }
@@ -162,7 +178,7 @@ namespace FoodDeliveryApp.Views
 
             }
         }
-        private async void CheckFieldNumeNrStrada(object sender, TextChangedEventArgs e)
+        private async void CheckFieldNumeNrStrada(object sender, EventArgs e)
         {
             try
             {
@@ -189,7 +205,7 @@ namespace FoodDeliveryApp.Views
 
             }
         }
-        private async void CheckFieldOras(object sender, TextChangedEventArgs e)
+        private async void CheckFieldOras(object sender, EventArgs e)
         {
             try
             {
@@ -265,11 +281,12 @@ namespace FoodDeliveryApp.Views
 
                                 };
                                 AppMap.Pins.Add(goToPin);
-                                AppMap.MoveToRegion(MapSpan.FromCenterAndRadius(aproxLocation.First(), Distance.FromMeters(100)));
+                                if(AppMap.IsVisible)
+                                    AppMap.MoveToRegion(MapSpan.FromCenterAndRadius(aproxLocation.First(), Distance.FromMeters(100)));
                             });
 
-                            App.userInfo.CoordX = posn.Latitude;
-                            App.userInfo.CoordY = posn.Longitude;
+                            viewModel.CoordX = posn.Latitude;
+                            viewModel.CoordY = posn.Longitude;
                         }
 
                         return true;
@@ -300,6 +317,12 @@ namespace FoodDeliveryApp.Views
         }
         private async void DeleteButtonClicked(object sender, EventArgs e)
         {
+            var orders = await viewModel.DataStore.GetServerOrders(viewModel.Email);
+            if (orders.Count > 0 && orders.Any(or => or.Status != "Livrata" && or.Status != "Anulata" && or.Status != "Refuzata"))
+            {
+                await DisplayAlert("Eroare", "Nu puteti sterge contul pana nu se onoreaza comenzile nefinalizate.", "OK");
+                return;
+            }
             var prompt = await DisplayAlert("Confirmati", "Apasand acest buton confirmati ca doriti sa stergeti contul definitiv.", "OK", "Cancel");
             if (prompt)
             {
@@ -318,7 +341,7 @@ namespace FoodDeliveryApp.Views
 
             try
             {
-                
+
                 Pin goToPin;
                 var map = (Map)sender;
                 //User Actual Location
@@ -340,10 +363,10 @@ namespace FoodDeliveryApp.Views
                         Pin pinTo = AppMap.Pins.FirstOrDefault(pins => pins.Label == "Adresa mea");
                         pinTo.Position = new Position(map.VisibleRegion.Center.Latitude, map.VisibleRegion.Center.Longitude);
                     }
-                    App.userInfo.CoordX = map.VisibleRegion.Center.Latitude;
-                    App.userInfo.CoordY = map.VisibleRegion.Center.Longitude;
+                    viewModel.CoordX = map.VisibleRegion.Center.Latitude;
+                    viewModel.CoordY = map.VisibleRegion.Center.Longitude;
                 }
-                    
+
             }
             catch (Exception ex)
             {
@@ -386,6 +409,25 @@ namespace FoodDeliveryApp.Views
                 ShowHide.Text = "Deschide Harta";
 
                 this.AppMap.IsVisible = !this.AppMap.IsVisible;
+                var pinLoc = AppMap.Pins.FirstOrDefault(pin => pin.Label == "Adresa mea");
+                if (pinLoc != null)
+                    AppMap.MoveToRegion(MapSpan.FromCenterAndRadius(pinLoc.Position, Distance.FromMeters(100)));
+            }
+        }
+
+        private async void Button_Clicked_1(object sender, EventArgs e)
+        {
+            var prompt = await DisplayAlert("Confirmati", "Esti sigur ca vrei sa te deloghezi?", "OK", "Cancel");
+            if (prompt)
+            {
+                try
+                {
+                    viewModel.Logout.Execute(null);
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
             }
         }
     }

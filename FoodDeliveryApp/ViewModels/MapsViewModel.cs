@@ -16,7 +16,8 @@ namespace FoodDeliveryApp.ViewModels
             Label = "Adresa mea"
         };
         private List<DriverLocation> _driverLocations;
-
+        private bool _hasRoute = false;
+        public bool HasRoute { get { return _hasRoute; } set => SetProperty(ref _hasRoute, value); }
         public MapsViewModel()
         {
             geoCoder = new Geocoder();
@@ -75,11 +76,13 @@ namespace FoodDeliveryApp.ViewModels
                 var googleDirection = await MapsApiServ.ServiceClientInstance.GetDirections(pinRoute1.Position, pin);
                 if (googleDirection.Routes != null && googleDirection.Routes.Count > 0)
                 {
+                    HasRoute = true;
                     return googleDirection;
                 }
+                    HasRoute = false;
                 return null;
-
             }
+            HasRoute = false;
             return null;
         }
     }

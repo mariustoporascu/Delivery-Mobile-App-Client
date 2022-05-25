@@ -10,7 +10,7 @@
     x:DataType="local:EntryFoodAppViewModel"
     Shell.PresentationMode="Animated">
     <ContentPage.Content>
-        <Grid BackgroundColor="{AppThemeBinding Light=LightGray, Dark=Gray}">
+        <Grid BackgroundColor="PaleGoldenrod">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="*" />

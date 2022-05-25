@@ -32,6 +32,8 @@ namespace FoodDeliveryApp.Views
 
         private void Entry_Completed(object sender, EventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(viewModel.SearchItem))
+                return;
             viewModel.SearchCommand.Execute(null);
         }
         //private void Entry_TextChanged(object sender, TextChangedEventArgs e)

@@ -35,22 +35,19 @@ namespace FoodDeliveryApp.ViewModels
         }
         void ExecuteLoadItemsCommand()
         {
-
+            IsBusy = true;
             try
             {
                 Items.Clear();
-                var newItems = new ObservableRangeCollection<Categ>();
                 var items = DataStore.GetCategories(canal, refId);
-                foreach (var item in items)
-                {
-                    newItems.Add(item);
-                }
-                Items.AddRange(newItems);
+
+                Items.AddRange(items);
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
             }
+            IsBusy = false;
         }
         public int Canal
         {

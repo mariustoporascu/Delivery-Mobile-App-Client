@@ -108,9 +108,10 @@ namespace FoodDeliveryApp.Services
             }
         }
 
-
         public IEnumerable<Companie> GetRestaurante()
         {
+            if (_serverInfo.restaurante.Count == 0)
+                Task.Run(async () => await Init().ConfigureAwait(false)).RunSynchronously();
             return _serverInfo.restaurante;
         }
         public Companie GetRestaurant(int restaurantId)

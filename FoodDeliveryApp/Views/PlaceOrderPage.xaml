@@ -15,21 +15,18 @@
     </ContentPage.Resources>
     <StackLayout
         x:DataType="local:PlaceOrderViewModel"
-        BackgroundColor="{AppThemeBinding Light=LightGray,
-                                          Dark=Gray}"
+        BackgroundColor="PaleGoldenrod"
         HorizontalOptions="FillAndExpand"
         VerticalOptions="FillAndExpand">
         <Frame
             Margin="50"
             Padding="10"
-            Background="Cyan"
             BackgroundColor="Cyan"
             CornerRadius="10"
             HorizontalOptions="CenterAndExpand"
             IsVisible="{Binding HasValidProfile, Converter={StaticResource invertBoolConverter}}"
             VerticalOptions="CenterAndExpand">
             <Label
-                Background="Cyan"
                 BackgroundColor="Cyan"
                 FontAttributes="Bold"
                 FontSize="Medium"
@@ -63,7 +60,7 @@
                     VerticalOptions="CenterAndExpand"
                     VerticalTextAlignment="Center"
                     WidthRequest="90" />
-                <StackLayout BackgroundColor="{AppThemeBinding Light=LightCyan, Dark=LightCyan}" Orientation="Horizontal">
+                <StackLayout Orientation="Horizontal">
                     <Label
                         FontAttributes="Bold"
                         FontSize="Small"
@@ -99,7 +96,7 @@
                         VerticalTextAlignment="Center"
                         WidthRequest="95" />
                 </StackLayout>
-                <StackLayout BackgroundColor="{AppThemeBinding Light=LightCyan, Dark=LightCyan}" Orientation="Horizontal">
+                <StackLayout Orientation="Horizontal">
                     <Label
                         FontSize="Small"
                         HorizontalOptions="CenterAndExpand"
@@ -138,7 +135,7 @@
                     FontSize="Small"
                     HorizontalOptions="CenterAndExpand"
                     HorizontalTextAlignment="Center"
-                    Text="*Produsele din cos vor fi impartite in comenzi separate supermarket/restaurant. Produsele de la mai multe restaurante se vor imparti in comenzi individuale pentru restaurantul din care fac parte."
+                    Text="*Produsele de la mai multe restaurante se vor imparti in comenzi individuale pentru restaurantul din care fac parte."
                     TextColor="Black"
                     VerticalOptions="EndAndExpand" />
             </StackLayout>
@@ -146,7 +143,6 @@
                 Margin="10"
                 Padding="10"
                 xct:CornerRadiusEffect.CornerRadius="20"
-                Background="Cyan"
                 BackgroundColor="Cyan"
                 BorderColor="Cyan"
                 Command="{Binding PlaceFinalOrder}"
@@ -162,7 +158,6 @@
                 Margin="10"
                 Padding="10"
                 xct:CornerRadiusEffect.CornerRadius="20"
-                Background="Red"
                 BackgroundColor="Red"
                 BorderColor="Red"
                 Clicked="OnDismissButtonClicked"
