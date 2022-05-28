@@ -109,6 +109,7 @@ namespace FoodDeliveryApp.ViewModels
                     Status = order.Status,
                     TotalOrdered = order.TotalOrdered,
                     TotalOrderedInterfata = order.TotalOrdered + " RON",
+                    TransportFee = order.TransportFee,
                     EstimatedTime = order.EstimatedTime,
                     HasUserConfirmedET = order.HasUserConfirmedET,
                     ClientGaveRatingDriver = order.ClientGaveRatingDriver,

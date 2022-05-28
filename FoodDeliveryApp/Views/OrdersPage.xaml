@@ -16,7 +16,7 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <StackLayout
-        BackgroundColor="PaleGoldenrod"
+        BackgroundColor="white"
         HorizontalOptions="FillAndExpand"
         VerticalOptions="FillAndExpand">
         <StackLayout
@@ -37,7 +37,6 @@
                                 HorizontalOptions="CenterAndExpand"
                                 HorizontalTextAlignment="Center"
                                 LineBreakMode="WordWrap"
-                                Style="{DynamicResource ListItemTextStyle}"
                                 Text="Nr"
                                 TextColor="Black"
                                 WidthRequest="90" />
@@ -47,7 +46,6 @@
                                 HorizontalOptions="CenterAndExpand"
                                 HorizontalTextAlignment="Center"
                                 LineBreakMode="WordWrap"
-                                Style="{DynamicResource ListItemTextStyle}"
                                 Text="Status"
                                 TextColor="Black"
                                 WidthRequest="80" />
@@ -57,7 +55,6 @@
                                 HorizontalOptions="CenterAndExpand"
                                 HorizontalTextAlignment="Center"
                                 LineBreakMode="WordWrap"
-                                Style="{DynamicResource ListItemTextStyle}"
                                 Text="Total"
                                 TextColor="Black"
                                 WidthRequest="95" />
@@ -67,33 +64,37 @@
                                 HorizontalOptions="CenterAndExpand"
                                 HorizontalTextAlignment="Center"
                                 LineBreakMode="WordWrap"
-                                Style="{DynamicResource ListItemTextStyle}"
                                 Text="Data"
                                 TextColor="Black"
-                                WidthRequest="100" />
+                                WidthRequest="120" />
                         </StackLayout>
 
                         <CollectionView x:Name="ItemsListView" SelectionMode="None">
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
                                     <StackLayout>
-                                        <StackLayout Margin="2" x:DataType="model:ServerOrder">
+                                        <StackLayout Margin="2" x:DataType="model:Order">
                                             <StackLayout
                                                 Margin="2"
                                                 xct:CornerRadiusEffect.CornerRadius="10"
-                                                BackgroundColor="LightCyan"
+                                                BackgroundColor="Transparent"
                                                 HorizontalOptions="FillAndExpand"
                                                 Orientation="Horizontal">
                                                 <StackLayout
                                                     HorizontalOptions="CenterAndExpand"
+                                                    Orientation="Horizontal"
                                                     VerticalOptions="CenterAndExpand"
                                                     WidthRequest="90">
+                                                    <Image
+                                                        Margin="10,0,0,0"
+                                                        Aspect="AspectFit"
+                                                        HorizontalOptions="Center"
+                                                        Source="search.png" />
                                                     <Label
                                                         FontSize="Small"
-                                                        HorizontalOptions="CenterAndExpand"
+                                                        HorizontalOptions="Center"
                                                         HorizontalTextAlignment="Center"
                                                         LineBreakMode="WordWrap"
-                                                        Style="{DynamicResource ListItemTextStyle}"
                                                         Text="{Binding OrderId}"
                                                         TextColor="Black" />
 
@@ -106,7 +107,6 @@
                                                         FontSize="Small"
                                                         HorizontalTextAlignment="Center"
                                                         LineBreakMode="WordWrap"
-                                                        Style="{DynamicResource ListItemTextStyle}"
                                                         Text="{Binding Status}"
                                                         TextColor="Black" />
 
@@ -119,7 +119,6 @@
                                                         FontSize="Small"
                                                         HorizontalTextAlignment="Center"
                                                         LineBreakMode="NoWrap"
-                                                        Style="{DynamicResource ListItemTextStyle}"
                                                         Text="{Binding TotalOrdered}"
                                                         TextColor="Black" />
 
@@ -127,20 +126,18 @@
                                                 <StackLayout
                                                     HorizontalOptions="CenterAndExpand"
                                                     VerticalOptions="CenterAndExpand"
-                                                    WidthRequest="100">
+                                                    WidthRequest="120">
                                                     <Label
                                                         FontSize="Small"
                                                         HorizontalTextAlignment="Center"
                                                         LineBreakMode="NoWrap"
-                                                        Style="{DynamicResource ListItemTextStyle}"
                                                         Text="{Binding Created, StringFormat='{0:MMMM dd, yyyy}'}"
                                                         TextColor="Black" />
                                                     <Label
                                                         FontSize="Small"
                                                         HorizontalTextAlignment="Center"
                                                         LineBreakMode="NoWrap"
-                                                        Style="{DynamicResource ListItemTextStyle}"
-                                                        Text="{Binding Created, StringFormat='{}{0:hh\\:mm}'}"
+                                                        Text="{Binding Created, StringFormat='{}{0:HH\\:mm}'}"
                                                         TextColor="Black" />
                                                 </StackLayout>
                                             </StackLayout>
@@ -157,36 +154,31 @@
                             </CollectionView.ItemTemplate>
                         </CollectionView>
                     </StackLayout>
-                    <StackLayout IsVisible="{Binding IsPageVisible, Converter={StaticResource invertBoolConverter}}" VerticalOptions="FillAndExpand">
-                        <Frame
-                            Padding="20"
-                            BackgroundColor="Cyan"
-                            CornerRadius="10"
-                            HorizontalOptions="CenterAndExpand"
-                            VerticalOptions="CenterAndExpand">
-                            <Label
-                                BackgroundColor="Cyan"
-                                FontAttributes="Bold"
-                                FontSize="Large"
-                                Text="Nu ai nici o comanda plasata."
-                                TextColor="Black" />
-                        </Frame>
+                    <StackLayout IsVisible="{Binding IsPageVisible, Converter={StaticResource invertBoolConverter}}" VerticalOptions="CenterAndExpand">
+
+                        <Image
+                            BackgroundColor="Transparent"
+                            HeightRequest="50"
+                            Source="orders.png" />
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="Medium"
+                            HorizontalTextAlignment="Center"
+                            Text="Nu ai nici o comanda plasata."
+                            TextColor="Black" />
                     </StackLayout>
                 </StackLayout>
-                <StackLayout IsVisible="{Binding IsLoggedIn, Converter={StaticResource invertBoolConverter}}" VerticalOptions="FillAndExpand">
-                    <Frame
-                        Padding="20"
-                        BackgroundColor="Cyan"
-                        CornerRadius="10"
-                        HorizontalOptions="CenterAndExpand"
-                        VerticalOptions="CenterAndExpand">
-                        <Label
-                            BackgroundColor="Cyan"
-                            FontAttributes="Bold"
-                            FontSize="Large"
-                            Text="Nu esti autentificat."
-                            TextColor="Black" />
-                    </Frame>
+                <StackLayout IsVisible="{Binding IsLoggedIn, Converter={StaticResource invertBoolConverter}}" VerticalOptions="CenterAndExpand">
+                    <Image
+                        BackgroundColor="Transparent"
+                        HeightRequest="50"
+                        Source="lock.png" />
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="Medium"
+                        HorizontalTextAlignment="Center"
+                        Text="Nu esti autentificat."
+                        TextColor="Black" />
                 </StackLayout>
             </StackLayout>
         </StackLayout>
@@ -194,21 +186,7 @@
             HorizontalOptions="FillAndExpand"
             IsVisible="{Binding IsBusy, Mode=TwoWay}"
             VerticalOptions="FillAndExpand">
-            <!--<Frame
-                Padding="20"
-                Background="Cyan"
-                BackgroundColor="Cyan"
-                CornerRadius="10"
-                HorizontalOptions="CenterAndExpand"
-                VerticalOptions="CenterAndExpand">
-                <Label
-                    Background="Cyan"
-                    BackgroundColor="Cyan"
-                    FontAttributes="Bold"
-                    FontSize="Large"
-                    Text="Loading..."
-                    TextColor="Black" />
-            </Frame>-->
+
             <Image
                 Aspect="AspectFit"
                 BackgroundColor="Transparent"

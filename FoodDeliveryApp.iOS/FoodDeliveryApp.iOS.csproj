@@ -212,6 +212,7 @@
   <ItemGroup>
     <Content Include="ic_launcher.ico" />
     <BundleResource Include="Resources\splash_logo.png" />
+    <BundleResource Include="Resources\splash_auth.png" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\1024.png">

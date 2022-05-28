@@ -1,6 +1,7 @@
 ﻿using FoodDeliveryApp.ViewModels;
 using System;
 using System.Diagnostics;
+using System.Linq;
 using Xamarin.CommunityToolkit.Extensions;
 using Xamarin.Forms;
 
@@ -44,6 +45,30 @@ namespace FoodDeliveryApp.Views
             }
             Email.TextColor = Color.Black;
         }
+        private void CheckFieldNumeComplet(object sender, TextChangedEventArgs e)
+        {
+
+            try
+            {
+                if (FullName.Text.Split(null).Count() < 2)
+                {
+                    FullNameEntry.IsNotValid = true;
+                    FullNameEntry.IsValid = false;
+                }
+                if (!FullNameEntry.IsValid)
+                {
+                    FullName.TextColor = Color.Red;
+                    return;
+                }
+                FullName.TextColor = Color.Black;
+
+
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+        }
         private void CheckFieldPass(object sender, TextChangedEventArgs e)
         {
             if (!PasswordEntry.IsValid)
@@ -53,15 +78,23 @@ namespace FoodDeliveryApp.Views
             }
             Password.TextColor = Color.Black;
         }
-        private async void CheckFields(object sender, EventArgs e)
+        private void CheckFieldConfirmPass(object sender, TextChangedEventArgs e)
         {
-            if (!UsernameEntry.IsValid && !PasswordEntry.IsValid)
+            if (!ConfirmPasswordEntry.IsValid)
             {
-                Email.TextColor = Color.Red;
-                Password.TextColor = Color.Red;
-                await DisplayAlert("Eroare", "Email si parola invalide", "OK");
+                ConfirmPassword.TextColor = Color.Red;
                 return;
             }
+            if (ConfirmPassword.Text != Password.Text)
+            {
+                ConfirmPassword.TextColor = Color.Red;
+                return;
+            }
+            ConfirmPassword.TextColor = Color.Black;
+        }
+        private async void CheckFields(object sender, EventArgs e)
+        {
+
             if (!UsernameEntry.IsValid)
             {
                 Email.TextColor = Color.Red;
@@ -76,8 +109,23 @@ namespace FoodDeliveryApp.Views
                 await DisplayAlert("Eroare", "Parola trebuie sa contina minimum 6 caractere", "OK");
                 return;
             }
+            if (ConfirmPassword.Text != Password.Text)
+            {
+                ConfirmPassword.TextColor = Color.Red;
+                await DisplayAlert("Eroare", "Parolele nu coincid", "OK");
+                return;
+            }
+            if (!FullNameEntry.IsValid)
+            {
+                FullName.TextColor = Color.Red;
+
+                await DisplayAlert("Eroare", "Introduceti numele complet(ex: nume, prenume)", "OK");
+                return;
+            }
             Email.TextColor = Color.Black;
             Password.TextColor = Color.Black;
+            ConfirmPassword.TextColor = Color.Black;
+            FullName.TextColor = Color.Black;
 
             viewModel.SignUpWebCommand.Execute(null);
         }
@@ -126,35 +174,5 @@ namespace FoodDeliveryApp.Views
             await Navigation.PopModalAsync(false).ConfigureAwait(false);
         }
 
-        private void FBBtn_Pressed(object sender, EventArgs e)
-        {
-            FBBtn.Scale = 1.1;
-        }
-
-        private void FBBtn_Released(object sender, EventArgs e)
-        {
-            FBBtn.Scale = 1.0;
-
-        }
-        private void GoogleBtn_Pressed(object sender, EventArgs e)
-        {
-            GoogleBtn.Scale = 1.1;
-        }
-
-        private void GoogleBtn_Released(object sender, EventArgs e)
-        {
-            GoogleBtn.Scale = 1.0;
-
-        }
-        private void AppleBtn_Pressed(object sender, EventArgs e)
-        {
-            AppleBtn.Scale = 1.1;
-        }
-
-        private void AppleBtn_Released(object sender, EventArgs e)
-        {
-            AppleBtn.Scale = 1.0;
-
-        }
     }
 }

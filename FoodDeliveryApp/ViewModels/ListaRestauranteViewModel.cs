@@ -4,8 +4,10 @@ using MvvmHelpers;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+
 
 namespace FoodDeliveryApp.ViewModels
 {
@@ -19,6 +21,7 @@ namespace FoodDeliveryApp.ViewModels
             set => SetProperty(ref _items, value);
         }
         public Command LoadItemsCommand { get; }
+        public Command RefreshCommand { get; }
         public Command<Companie> ItemTapped { get; }
 
         public ListaRestauranteViewModel()
@@ -26,18 +29,36 @@ namespace FoodDeliveryApp.ViewModels
             Title = "Lista Restaurante";
             Items = new ObservableRangeCollection<Companie>();
             LoadItemsCommand = new Command(ExecuteLoadItemsCommand);
+            RefreshCommand = new Command(async () => await RefreshItems());
             ItemTapped = new Command<Companie>(async (item) => await OnItemSelected(item));
         }
 
         void ExecuteLoadItemsCommand()
         {
-            IsBusy = true;
             try
             {
+
                 Items.Clear();
                 var items = DataStore.GetRestaurante();
 
                 Items.AddRange(items);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+            IsBusy = false;
+        }
+        public async Task RefreshItems()
+        {
+            IsBusy = true;
+            try
+            {
+                await ReloadServerData();
+                var items = DataStore.GetRestaurante().ToList();
+                if (items.Count != Items.Count)
+                    ExecuteLoadItemsCommand();
+
             }
             catch (Exception ex)
             {

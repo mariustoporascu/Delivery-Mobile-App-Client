@@ -10,6 +10,10 @@ namespace FoodDeliveryApp.Models.ShopModels
         public string Name { get; set; }
         public string Description { get; set; }
         public string TelefonNo { get; set; }
+        public DateTime Opening { get; set; }
+        public decimal TransporFee { get; set; }
+        public decimal MinimumOrderValue { get; set; }
+        public bool IsActive { get; set; }
         public Uri GetPhotoUri => string.IsNullOrWhiteSpace(Photo) ?
     new Uri($"{ServerConstants.BaseUrl2}/content/No_image_available.png") :
     new Uri($"{ServerConstants.BaseUrl}/WebImage/GetImage/{Photo}");

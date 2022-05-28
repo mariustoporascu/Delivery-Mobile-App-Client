@@ -15,7 +15,7 @@ namespace FoodDeliveryApp.ViewModels
             Title = "Acasa";
             SuperMarketCommand = new Command(SuperMarketClicked);
             RestauranteCommand = new Command(RestauranteClicked);
-            Task.Run(async () => await DataStore.Init().ConfigureAwait(false));
+            
 
         }
 

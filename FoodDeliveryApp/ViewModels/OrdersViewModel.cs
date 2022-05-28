@@ -11,12 +11,12 @@ namespace FoodDeliveryApp.ViewModels
 {
     public class OrdersViewModel : BaseViewModel
     {
-        private ObservableRangeCollection<ServerOrder> _orders;
-        public ObservableRangeCollection<ServerOrder> Orders { get => _orders; set => SetProperty(ref _orders, value); }
+        private ObservableRangeCollection<Order> _orders;
+        public ObservableRangeCollection<Order> Orders { get => _orders; set => SetProperty(ref _orders, value); }
         public Command LoadOrdersCommand { get; }
         private bool isLoggedIn = false;
         public bool IsLoggedIn { get => isLoggedIn; set => SetProperty(ref isLoggedIn, value); }
-        public Command<ServerOrder> ItemTapped { get; }
+        public Command<Order> ItemTapped { get; }
 
         private bool isPageVisible = false;
         public bool IsPageVisible
@@ -26,9 +26,9 @@ namespace FoodDeliveryApp.ViewModels
         }
         public OrdersViewModel()
         {
-            Orders = new ObservableRangeCollection<ServerOrder>();
+            Orders = new ObservableRangeCollection<Order>();
             IsLoggedIn = App.isLoggedIn;
-            ItemTapped = new Command<ServerOrder>(OnItemSelected);
+            ItemTapped = new Command<Order>(OnItemSelected);
 
             LoadOrdersCommand = new Command(async () => await ExecuteLoadOrdersCommand());
         }
@@ -38,8 +38,8 @@ namespace FoodDeliveryApp.ViewModels
             string email = App.userInfo.Email;
             try
             {
-                IEnumerable<ServerOrder> serverOrders;
-                serverOrders = await DataStore.GetServerOrders(email).ConfigureAwait(false);
+                List<Order> uiOrders = new List<Order>();
+                var serverOrders = await DataStore.GetServerOrders(email).ConfigureAwait(false);
 
                 /*if (Device.RuntimePlatform == Device.Android)
                     serverOrders = await DataStore.GetServerOrders(email).ConfigureAwait(false);
@@ -48,9 +48,17 @@ namespace FoodDeliveryApp.ViewModels
 
                 lock (Orders)
                 {
+                    foreach (ServerOrder serverOrder in serverOrders)
+                        uiOrders.Add(new Order
+                        {
+                            OrderId = serverOrder.OrderId,
+                            Status = serverOrder.Status,
+                            TotalOrdered = serverOrder.TotalOrdered + serverOrder.TransportFee,
+                            Created = serverOrder.Created,
+                        });
                     Orders.Clear();
                     if (serverOrders != null)
-                        Orders.AddRange(serverOrders);
+                        Orders.AddRange(uiOrders);
                     if (Orders.Count > 0)
                     {
                         IsPageVisible = true;
@@ -58,7 +66,7 @@ namespace FoodDeliveryApp.ViewModels
                     else
                         IsPageVisible = false;
                 }
-                    await Task.Delay(1000);
+                await Task.Delay(1000);
 
             }
             catch (Exception ex)
@@ -70,7 +78,7 @@ namespace FoodDeliveryApp.ViewModels
                 IsBusy = false;
             }
         }
-        async void OnItemSelected(ServerOrder item)
+        async void OnItemSelected(Order item)
         {
             if (item == null)
                 return;

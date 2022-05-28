@@ -12,7 +12,7 @@
     Shell.PresentationMode="Animated">
     <RefreshView
         x:DataType="local:ListaRestauranteViewModel"
-        Command="{Binding LoadItemsCommand}"
+        Command="{Binding RefreshCommand}"
         IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
         <ScrollView
             x:Name="ItemsListView"
@@ -30,7 +30,7 @@
                     <BindableLayout.ItemTemplate>
                         <DataTemplate>
                             <StackLayout
-                                BackgroundColor="PaleGoldenrod"
+                                BackgroundColor="White"
                                 HorizontalOptions="FillAndExpand"
                                 WidthRequest="2000">
                                 <StackLayout
@@ -61,7 +61,6 @@
                                                 FontSize="Medium"
                                                 HorizontalTextAlignment="Center"
                                                 LineBreakMode="WordWrap"
-                                                Style="{DynamicResource ListItemTextStyle}"
                                                 Text="{Binding Name}"
                                                 TextColor="Black"
                                                 VerticalOptions="CenterAndExpand" />

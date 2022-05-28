@@ -15,7 +15,6 @@ namespace FoodDeliveryApp.Views
         }
         protected override async void OnAppearing()
         {
-            base.OnAppearing();
             if (App.isLoggedIn)
             {
                 viewModel.IsLoggedIn = true;
@@ -31,6 +30,8 @@ namespace FoodDeliveryApp.Views
                 viewModel.IsLoggedIn = false;
                 viewModel.IsBusy = false;
             }
+            base.OnAppearing();
+
         }
         protected override void OnDisappearing()
         {

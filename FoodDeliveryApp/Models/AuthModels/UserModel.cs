@@ -11,9 +11,13 @@
         private string _email = string.Empty;
         private string _password = string.Empty;
         private bool _completeProfile = false;
+        private bool _completeLocation = false;
+        private bool _hasSetPassword = false;
         private double _coordX;
         private double _coordY;
         private string _loginToken;
+        private string _resetTokenPass;
+        private string _newPassword;
         public string Email { get => _email; set => SetProperty(ref _email, value); }
         public string FullName { get => _fullName; set => SetProperty(ref _fullName, value); }
         public string Password { get => _password; set => SetProperty(ref _password, value); }
@@ -24,6 +28,11 @@
         public string BuildingInfo { get => _buildinginfo; set => SetProperty(ref _buildinginfo, value); }
         public string LoginToken { get => _loginToken; set => SetProperty(ref _loginToken, value); }
         public bool CompleteProfile { get => _completeProfile; set => SetProperty(ref _completeProfile, value); }
+        public bool CompleteLocation { get => _completeLocation; set => SetProperty(ref _completeLocation, value); }
+        public bool HasSetPassword { get => _hasSetPassword; set => SetProperty(ref _hasSetPassword, value); }
+        public string ResetTokenPass { get => _resetTokenPass; set => SetProperty(ref _resetTokenPass, value); }
+        public string NewPassword { get => _newPassword; set => SetProperty(ref _newPassword, value); }
+
         public double CoordX { get => _coordX; set => SetProperty(ref _coordX, value); }
         public double CoordY { get => _coordY; set => SetProperty(ref _coordY, value); }
     }

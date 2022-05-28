@@ -18,7 +18,7 @@ namespace FoodDeliveryApp.Views
             else
                 vm.OnPlaceOrder += OnPlaceOrder;
             if (App.isLoggedIn)
-                vm.HasValidProfile = App.userInfo.CompleteProfile;
+                vm.HasValidProfile = App.userInfo.CompleteProfile && App.userInfo.CompleteLocation;
             else
                 vm.HasValidProfile = false;
         }

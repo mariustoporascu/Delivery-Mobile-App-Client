@@ -30,6 +30,13 @@ namespace FoodDeliveryApp.Services
                     _httpClient.DefaultRequestHeaders.Add("authkey", App.userInfo.LoginToken);
                     _httpClient.DefaultRequestHeaders.Add("authid", App.userInfo.Email);
                 }
+                else
+                {
+                    _httpClient.DefaultRequestHeaders.Remove("authkey");
+                    _httpClient.DefaultRequestHeaders.Remove("authid");
+                    _httpClient.DefaultRequestHeaders.Add("authkey", App.userInfo.LoginToken);
+                    _httpClient.DefaultRequestHeaders.Add("authid", App.userInfo.Email);
+                }
 
             }
             catch (Exception ex)

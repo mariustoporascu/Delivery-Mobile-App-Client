@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace FoodDeliveryApp.ViewModels
@@ -26,7 +27,10 @@ namespace FoodDeliveryApp.ViewModels
             get { return title; }
             set { SetProperty(ref title, value); }
         }
-
+        public async Task ReloadServerData()
+        {
+            await DataStore.Init().ConfigureAwait(false);
+        }
         protected bool SetProperty<T>(ref T backingStore, T value,
             [CallerMemberName] string propertyName = "",
             Action onChanged = null)

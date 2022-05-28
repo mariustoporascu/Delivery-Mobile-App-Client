@@ -23,7 +23,7 @@ namespace FoodDeliveryApp.ViewModels
         private decimal totalSuperMarket;
         public PlaceOrderViewModel()
         {
-            HasValidProfile = App.userInfo.CompleteProfile;
+            HasValidProfile = App.userInfo.CompleteProfile && App.userInfo.CompleteLocation;
             LoadPageData();
             PlaceFinalOrder = new Command(async () => await OnClickPlaceOrder());
         }
@@ -65,6 +65,7 @@ namespace FoodDeliveryApp.ViewModels
                     CustomerId = App.userInfo.Email,
                     Status = "Ordered",
                     OrderId = 0,
+                    Created = DateTime.UtcNow.AddHours(3),
                     TotalOrdered = totalSuperMarket
                 };
             }
@@ -76,9 +77,13 @@ namespace FoodDeliveryApp.ViewModels
                         CustomerId = App.userInfo.Email,
                         Status = "Ordered",
                         OrderId = 0,
+                        Created = DateTime.UtcNow.AddHours(3),
                         IsRestaurant = true,
                         RestaurantRefId = Int32.Parse(total.Key),
-                        TotalOrdered = total.Value
+                        NumeCompanie = DataStore.GetRestaurant(Int32.Parse(total.Key)).Name,
+                        TotalOrdered = total.Value,
+                        TransportFee = total.Value >= DataStore.GetRestaurant(Int32.Parse(total.Key)).MinimumOrderValue
+                                ? 0 : DataStore.GetRestaurant(Int32.Parse(total.Key)).TransporFee,
                     });
             }
             OrderInfo = new OrderInfo

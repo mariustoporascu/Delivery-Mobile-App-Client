@@ -19,7 +19,7 @@
         x:DataType="local:OrderInfoViewModel"
         Command="{Binding RefreshCommand}"
         IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
-        <ScrollView BackgroundColor="PaleGoldenrod" VerticalOptions="FillAndExpand">
+        <ScrollView BackgroundColor="White" VerticalOptions="FillAndExpand">
             <StackLayout>
                 <StackLayout
                     Margin="5"
@@ -28,26 +28,25 @@
                     BackgroundColor="{AppThemeBinding Light=LightCyan,
                                                       Dark=LightCyan}"
                     HorizontalOptions="FillAndExpand">
-
+                    <StackLayout
+                        HorizontalOptions="CenterAndExpand"
+                        Orientation="Vertical"
+                        VerticalOptions="CenterAndExpand">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="Small"
+                            HorizontalOptions="CenterAndExpand"
+                            HorizontalTextAlignment="Center"
+                            LineBreakMode="NoWrap"
+                            Text="Detalii Comanda "
+                            TextColor="Black"
+                            WidthRequest="120" />
+                    </StackLayout>
                     <StackLayout
                         Margin="5"
                         HorizontalOptions="FillAndExpand"
                         Orientation="Horizontal">
-                        <StackLayout
-                            HorizontalOptions="StartAndExpand"
-                            Orientation="Vertical"
-                            VerticalOptions="CenterAndExpand">
-                            <Label
-                                FontAttributes="Bold"
-                                FontSize="Small"
-                                HorizontalOptions="StartAndExpand"
-                                HorizontalTextAlignment="Center"
-                                LineBreakMode="NoWrap"
-                                Style="{DynamicResource ListItemTextStyle}"
-                                Text="Detalii Comanda: "
-                                TextColor="Black"
-                                WidthRequest="120" />
-                        </StackLayout>
+
                         <StackLayout
                             HorizontalOptions="CenterAndExpand"
                             Orientation="Vertical"
@@ -57,7 +56,6 @@
                                 FontSize="Small"
                                 HorizontalTextAlignment="Center"
                                 LineBreakMode="WordWrap"
-                                Style="{DynamicResource ListItemTextStyle}"
                                 Text="Status"
                                 TextColor="Black"
                                 WidthRequest="80" />
@@ -65,7 +63,6 @@
                                 FontSize="Small"
                                 HorizontalTextAlignment="Center"
                                 LineBreakMode="WordWrap"
-                                Style="{DynamicResource ListItemTextStyle}"
                                 Text="{Binding CurrOrder.Status}"
                                 TextColor="Black"
                                 WidthRequest="80" />
@@ -79,18 +76,36 @@
                                 FontSize="Small"
                                 HorizontalTextAlignment="Center"
                                 LineBreakMode="WordWrap"
-                                Style="{DynamicResource ListItemTextStyle}"
-                                Text="Total"
+                                Text="Total produse"
                                 TextColor="Black"
                                 WidthRequest="95" />
                             <Label
                                 FontSize="Small"
                                 HorizontalTextAlignment="Center"
                                 LineBreakMode="WordWrap"
-                                Style="{DynamicResource ListItemTextStyle}"
                                 Text="{Binding CurrOrder.TotalOrderedInterfata}"
                                 TextColor="Black"
                                 WidthRequest="95" />
+                        </StackLayout>
+                        <StackLayout
+                            HorizontalOptions="EndAndExpand"
+                            Orientation="Vertical"
+                            VerticalOptions="CenterAndExpand">
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="Small"
+                                HorizontalTextAlignment="Center"
+                                LineBreakMode="WordWrap"
+                                Text="Cost Transport"
+                                TextColor="Black"
+                                WidthRequest="100" />
+                            <Label
+                                FontSize="Small"
+                                HorizontalTextAlignment="Center"
+                                LineBreakMode="WordWrap"
+                                Text="{Binding CurrOrder.TransportFee}"
+                                TextColor="Black"
+                                WidthRequest="100" />
                         </StackLayout>
                     </StackLayout>
                     <StackLayout
@@ -106,7 +121,6 @@
                                 HorizontalOptions="CenterAndExpand"
                                 HorizontalTextAlignment="Center"
                                 LineBreakMode="WordWrap"
-                                Style="{DynamicResource ListItemTextStyle}"
                                 Text="Detalii Restaurant:"
                                 TextColor="Black"
                                 VerticalTextAlignment="Center"
@@ -118,7 +132,6 @@
                                 HorizontalOptions="CenterAndExpand"
                                 HorizontalTextAlignment="Center"
                                 LineBreakMode="WordWrap"
-                                Style="{DynamicResource ListItemTextStyle}"
                                 Text="{Binding Restaurant.Name}"
                                 TextColor="Black"
                                 VerticalTextAlignment="Center"
@@ -129,7 +142,6 @@
                                 HorizontalOptions="CenterAndExpand"
                                 HorizontalTextAlignment="Center"
                                 LineBreakMode="WordWrap"
-                                Style="{DynamicResource ListItemTextStyle}"
                                 Text="{Binding Restaurant.TelefonNo}"
                                 TextColor="Black"
                                 VerticalTextAlignment="Center"
@@ -149,7 +161,6 @@
                                 HorizontalOptions="CenterAndExpand"
                                 HorizontalTextAlignment="Center"
                                 LineBreakMode="WordWrap"
-                                Style="{DynamicResource ListItemTextStyle}"
                                 Text="Detalii sofer:"
                                 TextColor="Black"
                                 VerticalTextAlignment="Center"
@@ -161,7 +172,6 @@
                                 HorizontalOptions="CenterAndExpand"
                                 HorizontalTextAlignment="Center"
                                 LineBreakMode="WordWrap"
-                                Style="{DynamicResource ListItemTextStyle}"
                                 Text="{Binding CurrOrderDriver.FirstName}"
                                 TextColor="Black"
                                 VerticalTextAlignment="Center"
@@ -172,7 +182,6 @@
                                 HorizontalOptions="CenterAndExpand"
                                 HorizontalTextAlignment="Center"
                                 LineBreakMode="WordWrap"
-                                Style="{DynamicResource ListItemTextStyle}"
                                 Text="{Binding CurrOrderDriver.LastName}"
                                 TextColor="Black"
                                 VerticalTextAlignment="Center"
@@ -183,7 +192,6 @@
                                 HorizontalOptions="CenterAndExpand"
                                 HorizontalTextAlignment="Center"
                                 LineBreakMode="WordWrap"
-                                Style="{DynamicResource ListItemTextStyle}"
                                 Text="{Binding CurrOrderDriver.TelefonNo}"
                                 TextColor="Black"
                                 VerticalTextAlignment="Center"
@@ -207,7 +215,6 @@
                             HorizontalOptions="CenterAndExpand"
                             HorizontalTextAlignment="Center"
                             LineBreakMode="WordWrap"
-                            Style="{DynamicResource ListItemTextStyle}"
                             Text="Timp estimate de preparare: "
                             TextColor="Black"
                             VerticalTextAlignment="Center"
@@ -219,7 +226,6 @@
                             HorizontalOptions="CenterAndExpand"
                             HorizontalTextAlignment="Center"
                             LineBreakMode="WordWrap"
-                            Style="{DynamicResource ListItemTextStyle}"
                             Text="{Binding CurrOrder.EstimatedTime}"
                             TextColor="Black"
                             VerticalTextAlignment="Center"
@@ -236,20 +242,27 @@
                         Orientation="Vertical">
                         <StackLayout Orientation="Horizontal">
                             <Button
-                                xct:CornerRadiusEffect.CornerRadius="20"
-                                BackgroundColor="Red"
+                                Margin="0"
+                                Padding="0"
+                                xct:CornerRadiusEffect.CornerRadius="30"
+                                BackgroundColor="OrangeRed"
                                 Clicked="Button_Clicked_1"
+                                FontSize="Medium"
                                 HorizontalOptions="CenterAndExpand"
                                 Text="Refuza"
-                                TextColor="Black" />
+                                TextTransform="None" />
 
                             <Button
-                                xct:CornerRadiusEffect.CornerRadius="20"
-                                BackgroundColor="Cyan"
+                                Margin="0"
+                                Padding="0"
+                                xct:CornerRadiusEffect.CornerRadius="30"
+                                BackgroundColor="LimeGreen"
                                 Clicked="Button_Clicked"
+                                FontSize="Medium"
                                 HorizontalOptions="CenterAndExpand"
                                 Text="Accepta"
-                                TextColor="Black" />
+                                TextColor="Black"
+                                TextTransform="None" />
 
 
                         </StackLayout>
@@ -268,7 +281,6 @@
                         HorizontalOptions="FillAndExpand"
                         HorizontalTextAlignment="Center"
                         LineBreakMode="WordWrap"
-                        Style="{DynamicResource ListItemTextStyle}"
                         Text="Ofera un rating livratorului."
                         TextColor="Black"
                         VerticalOptions="CenterAndExpand"
@@ -279,7 +291,6 @@
                         Command="{Binding ChangeRatingDriver}"
                         EmptyStarImage="empty_star"
                         FillStarImage="filled_star"
-                        FlowDirection="LeftToRight"
                         HorizontalOptions="Center"
                         ImageHeight="30"
                         ImageWidth="30"
@@ -292,7 +303,6 @@
                         HorizontalOptions="FillAndExpand"
                         HorizontalTextAlignment="Center"
                         LineBreakMode="WordWrap"
-                        Style="{DynamicResource ListItemTextStyle}"
                         Text="Ofera un rating restaurantului."
                         TextColor="Black"
                         VerticalOptions="CenterAndExpand"
@@ -303,7 +313,6 @@
                         Command="{Binding ChangeRatingRestaurant}"
                         EmptyStarImage="empty_star"
                         FillStarImage="filled_star"
-                        FlowDirection="LeftToRight"
                         HorizontalOptions="Center"
                         ImageHeight="30"
                         ImageWidth="30"
@@ -326,7 +335,6 @@
                         HorizontalOptions="FillAndExpand"
                         HorizontalTextAlignment="Center"
                         LineBreakMode="WordWrap"
-                        Style="{DynamicResource ListItemTextStyle}"
                         Text="Detalii Livrare"
                         TextColor="Black"
                         VerticalOptions="CenterAndExpand"
@@ -339,7 +347,6 @@
                             HorizontalOptions="CenterAndExpand"
                             HorizontalTextAlignment="Center"
                             LineBreakMode="WordWrap"
-                            Style="{DynamicResource ListItemTextStyle}"
                             Text="Nume complet"
                             TextColor="Black"
                             VerticalTextAlignment="Center"
@@ -351,7 +358,6 @@
                             HorizontalOptions="CenterAndExpand"
                             HorizontalTextAlignment="Center"
                             LineBreakMode="WordWrap"
-                            Style="{DynamicResource ListItemTextStyle}"
                             Text="Nr. Telefon"
                             TextColor="Black"
                             VerticalTextAlignment="Center"
@@ -362,7 +368,6 @@
                             HorizontalOptions="CenterAndExpand"
                             HorizontalTextAlignment="Center"
                             LineBreakMode="WordWrap"
-                            Style="{DynamicResource ListItemTextStyle}"
                             Text="Adresa"
                             TextColor="Black"
                             VerticalTextAlignment="Center"
@@ -374,7 +379,6 @@
                             HorizontalOptions="CenterAndExpand"
                             HorizontalTextAlignment="Center"
                             LineBreakMode="WordWrap"
-                            Style="{DynamicResource ListItemTextStyle}"
                             Text="{Binding CurrOrderInfo.FullName}"
                             TextColor="Black"
                             VerticalTextAlignment="Center"
@@ -385,7 +389,6 @@
                             HorizontalOptions="CenterAndExpand"
                             HorizontalTextAlignment="Center"
                             LineBreakMode="WordWrap"
-                            Style="{DynamicResource ListItemTextStyle}"
                             Text="{Binding CurrOrderInfo.PhoneNo}"
                             TextColor="Black"
                             VerticalTextAlignment="Center"
@@ -395,7 +398,6 @@
                             HorizontalOptions="CenterAndExpand"
                             HorizontalTextAlignment="Center"
                             LineBreakMode="WordWrap"
-                            Style="{DynamicResource ListItemTextStyle}"
                             Text="{Binding CurrOrderInfo.Address}"
                             TextColor="Black"
                             VerticalTextAlignment="Center"
@@ -415,7 +417,6 @@
                         HorizontalOptions="FillAndExpand"
                         HorizontalTextAlignment="Center"
                         LineBreakMode="WordWrap"
-                        Style="{DynamicResource ListItemTextStyle}"
                         Text="Produse comandate"
                         TextColor="Black"
                         VerticalTextAlignment="Center"
@@ -532,19 +533,7 @@
                         </BindableLayout.ItemTemplate>
                     </FlexLayout>
                 </StackLayout>
-                <!--<CollectionView
-                    x:Name="ItemsListView"
-                    BackgroundColor="{AppThemeBinding Light=LightGray,
-                                                      Dark=Gray}"
-                    HorizontalOptions="FillAndExpand"
-                    ItemsSource="{Binding Items}"
-                    SelectionMode="None"
-                    VerticalOptions="FillAndExpand">
 
-                    <CollectionView.ItemTemplate>-->
-
-                <!--</CollectionView.ItemTemplate>
-                </CollectionView>-->
             </StackLayout>
         </ScrollView>
     </RefreshView>

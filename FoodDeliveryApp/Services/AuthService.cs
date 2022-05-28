@@ -13,36 +13,12 @@ namespace FoodDeliveryApp.Services
     public class AuthService : IAuthController
     {
         private HttpClient _httpClient;
+        private static string[] endPoint = { "delete","login","create","profile","userlocation","setpassword","changepassword",
+        "resetpassword","sendtokenpassword","confirmemail"};
 
         public AuthService()
         {
             _httpClient = new HttpClient();
-        }
-        public async Task<string> CreateUser(UserModel userModel)
-        {
-            Uri uri = new Uri($"{ServerConstants.BaseUrl}/auth/create");
-            return await sendRequest(userModel, uri);
-
-        }
-
-        public async Task<string> LoginUser(UserModel userModel)
-        {
-            Uri uri = new Uri($"{ServerConstants.BaseUrl}/auth/login");
-            return await sendRequest(userModel, uri);
-
-        }
-
-        public async Task<string> UserProfile(UserModel userModel)
-        {
-            Uri uri = new Uri($"{ServerConstants.BaseUrl}/auth/profile");
-            return await sendRequest(userModel, uri);
-
-        }
-        public async Task<string> DeleteProfile(UserModel userModel)
-        {
-            Uri uri = new Uri($"{ServerConstants.BaseUrl}/auth/delete");
-            return await sendRequest(userModel, uri);
-
         }
         private void TryAddHeaders()
         {
@@ -55,6 +31,13 @@ namespace FoodDeliveryApp.Services
                     _httpClient.DefaultRequestHeaders.Add("authkey", App.userInfo.LoginToken);
                     _httpClient.DefaultRequestHeaders.Add("authid", App.userInfo.Email);
                 }
+                else
+                {
+                    _httpClient.DefaultRequestHeaders.Remove("authkey");
+                    _httpClient.DefaultRequestHeaders.Remove("authid");
+                    _httpClient.DefaultRequestHeaders.Add("authkey", App.userInfo.LoginToken);
+                    _httpClient.DefaultRequestHeaders.Add("authid", App.userInfo.Email);
+                }
 
             }
             catch (Exception ex)
@@ -63,10 +46,17 @@ namespace FoodDeliveryApp.Services
             }
 
         }
+        public async Task<string> Execute(UserModel userModel, AuthOperations operation)
+        {
+            Uri uri = new Uri($"{ServerConstants.BaseUrl}/auth/{endPoint[(int)operation]}");
+
+            TryAddHeaders();
+            return await sendRequest(userModel, uri);
+        }
+
         private async Task<string> sendRequest(UserModel userModel, Uri uri)
         {
-            if (uri.AbsoluteUri.Contains("profile") || uri.AbsoluteUri.Contains("delete"))
-                TryAddHeaders();
+
             var json = JsonConvert.SerializeObject(userModel);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
             HttpResponseMessage httpResponseMessage = await _httpClient.PostAsync(uri, data);

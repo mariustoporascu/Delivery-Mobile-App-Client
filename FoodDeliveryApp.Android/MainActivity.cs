@@ -5,6 +5,7 @@ using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
 using Android.Widget;
+using AndroidX.AppCompat.App;
 using Plugin.FacebookClient;
 
 
@@ -15,9 +16,10 @@ namespace FoodDeliveryApp.Droid
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {
+            AppCompatDelegate.DefaultNightMode = AppCompatDelegate.ModeNightNo;
+
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
-
             base.OnCreate(savedInstanceState);
 
             FacebookClientManager.Initialize(this);
@@ -58,12 +60,12 @@ namespace FoodDeliveryApp.Droid
         //}
         private void ConfirmWithDialog()
         {
-            using (var alert = new AlertDialog.Builder(this))
+            using (var alert = new Android.App.AlertDialog.Builder(this))
             {
-                alert.SetTitle("Confirm Exit");
-                alert.SetMessage("Are you sure you want to exit?");
-                alert.SetPositiveButton("Yes", (sender, args) => { FinishAffinity(); });
-                alert.SetNegativeButton("No", (sender, args) => { }); // do nothing
+                alert.SetTitle("Confirma inchiderea");
+                alert.SetMessage("Esti sigur ca doresti sa inchizi aplicatia?");
+                alert.SetPositiveButton("Da", (sender, args) => { FinishAffinity(); });
+                alert.SetNegativeButton("Nu", (sender, args) => { }); // do nothing
 
                 var dialog = alert.Create();
                 dialog.Show();

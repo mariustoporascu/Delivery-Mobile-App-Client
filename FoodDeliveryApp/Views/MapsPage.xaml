@@ -10,11 +10,14 @@
     x:DataType="local:MapsViewModel"
     Shell.PresentationMode="Animated">
 
-    <StackLayout BackgroundColor="PaleGoldenrod">
+    <StackLayout
+        BackgroundColor="White"
+        HorizontalOptions="FillAndExpand"
+        VerticalOptions="FillAndExpand">
         <Label
             FontSize="Large"
-            HorizontalOptions="CenterAndExpand"
-            Text="Live Tracking"
+            HorizontalTextAlignment="Center"
+            Text="Urmareste comanda"
             TextColor="Black" />
         <maps:Map
             x:Name="AppMap"
@@ -28,24 +31,28 @@
                 <Label
                     FontAttributes="Bold"
                     FontSize="20"
+                    HorizontalTextAlignment="Center"
                     Text="Distanta Ramasa"
                     TextColor="Black" />
                 <Label
                     x:Name="DistToGo"
                     FontAttributes="Bold"
                     FontSize="20"
+                    HorizontalTextAlignment="Center"
                     TextColor="Black" />
             </StackLayout>
             <StackLayout HorizontalOptions="CenterAndExpand" Orientation="Vertical">
                 <Label
                     FontAttributes="Bold"
                     FontSize="20"
+                    HorizontalTextAlignment="Center"
                     Text="Timp Ramas"
                     TextColor="Black" />
                 <Label
                     x:Name="TimeToGo"
                     FontAttributes="Bold"
                     FontSize="20"
+                    HorizontalTextAlignment="Center"
                     TextColor="Black" />
             </StackLayout>
         </StackLayout>

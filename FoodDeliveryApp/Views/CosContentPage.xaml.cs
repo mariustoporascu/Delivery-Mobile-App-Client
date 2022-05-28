@@ -18,10 +18,10 @@ namespace FoodDeliveryApp.Views
 
         protected override void OnAppearing()
         {
-            base.OnAppearing();
             viewModel.IsLoggedIn = App.isLoggedIn;
             viewModel.LoadItemsCommand.Execute(null);
             ItemsListView.ScrollTo(0, position: ScrollToPosition.Start);
+            base.OnAppearing();
 
         }
         private async void GoToFinalizeOrder(object sender, EventArgs e)

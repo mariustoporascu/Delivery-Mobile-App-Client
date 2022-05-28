@@ -25,7 +25,6 @@ namespace FoodDeliveryApp.Views
         }
         protected override async void OnAppearing()
         {
-            base.OnAppearing();
             calculateRoute = true;
             AppMap.MapElements.Clear();
             await mapsViewModel.LoadMyLocation();
@@ -48,6 +47,8 @@ namespace FoodDeliveryApp.Views
                 }
 
             }
+            base.OnAppearing();
+
         }
         protected override void OnDisappearing()
         {
@@ -84,13 +85,14 @@ namespace FoodDeliveryApp.Views
         void TrackPath_Clicked()
         {
 
-            Device.StartTimer(TimeSpan.FromMilliseconds(3000), () => {
+            Device.StartTimer(TimeSpan.FromMilliseconds(3000), () =>
+            {
                 if (!viewLeaved)
                 {
                     RouteAsync();
                     Device.BeginInvokeOnMainThread(() => DrawElements());
                 }
-                
+
                 return calculateRoute;
             });
         }
@@ -100,7 +102,7 @@ namespace FoodDeliveryApp.Views
         }
         void DrawElements()
         {
-            if(routes != null)
+            if (routes != null)
             {
                 if (routes.Count > 0)
                 {

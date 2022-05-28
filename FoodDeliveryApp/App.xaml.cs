@@ -48,7 +48,7 @@ namespace FoodDeliveryApp
             DependencyService.Register<IDataStore, MockDataStore>();
             DependencyService.Register<IAuthController, AuthService>();
             DependencyService.Register<IOrderServ, OrderServ>();
-                MainPage = new AppShell();
+            MainPage = new AppShell();
         }
 
         protected override async void OnStart()
@@ -71,25 +71,25 @@ namespace FoodDeliveryApp
             {
                 if (lWith.Equals("Google"))
                 {
-                    loginResult = await authService.LoginUser(new UserModel { Email = gMail, UserIdentification = gMailId });
+                    loginResult = await authService.Execute(new UserModel { Email = gMail, UserIdentification = gMailId }, Constants.AuthOperations.Login);
                     finalEmail = gMail;
                     finalId = gMailId;
                 }
                 else if (lWith.Equals("Facebook"))
                 {
-                    loginResult = await authService.LoginUser(new UserModel { Email = fMail, UserIdentification = fMailId });
+                    loginResult = await authService.Execute(new UserModel { Email = fMail, UserIdentification = fMailId }, Constants.AuthOperations.Login);
                     finalEmail = fMail;
                     finalId = fMailId;
                 }
                 else if (lWith.Equals("Apple"))
                 {
-                    loginResult = await authService.LoginUser(new UserModel { Email = aMail, UserIdentification = aMailId });
+                    loginResult = await authService.Execute(new UserModel { Email = aMail, UserIdentification = aMailId }, Constants.AuthOperations.Login);
                     finalEmail = aMail;
                     finalId = aMailId;
                 }
                 else if (lWith.Equals("WebLogin"))
                 {
-                    loginResult = await authService.LoginUser(new UserModel { Email = webMail, Password = webPass });
+                    loginResult = await authService.Execute(new UserModel { Email = webMail, Password = webPass }, Constants.AuthOperations.Login);
                     finalEmail = webMail;
                 }
             }

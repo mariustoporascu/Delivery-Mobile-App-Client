@@ -9,16 +9,18 @@ namespace FoodDeliveryApp.Views
 {
     public partial class LoginPage : ContentPage
     {
+        LoginViewModel viewModel;
         public LoginPage()
         {
             InitializeComponent();
-            var vm = new LoginViewModel();
+            BindingContext = viewModel = new LoginViewModel();
             if (Device.RuntimePlatform == Device.iOS)
-                vm.OnSignIn += OnSignInApple;
+                viewModel.OnSignIn += OnSignInApple;
             else
-                vm.OnSignIn += OnSignIn;
-            vm.OnSignInFailed += OnSignInFailed;
-            BindingContext = vm;
+                viewModel.OnSignIn += OnSignIn;
+            viewModel.OnSignInFailed += OnSignInFailed;
+            viewModel.OnSignInFailed += OnSignInFailed;
+            viewModel.RequireConfirmEmail += RequireConfirmEmail;
             if (App.isLoggedIn)
             {
                 if (Device.RuntimePlatform == Device.iOS)
@@ -29,7 +31,6 @@ namespace FoodDeliveryApp.Views
         }
         protected override void OnAppearing()
         {
-            base.OnAppearing();
             if (App.isLoggedIn)
             {
                 if (Device.RuntimePlatform == Device.iOS)
@@ -37,6 +38,8 @@ namespace FoodDeliveryApp.Views
                 else
                     OnSignIn(this, new EventArgs());
             }
+            base.OnAppearing();
+
         }
 
         private async void RedirSignUp(object sender, EventArgs e)
@@ -71,6 +74,10 @@ namespace FoodDeliveryApp.Views
                 Debug.WriteLine(ex.Message);
             }
             await Navigation.PopModalAsync(false).ConfigureAwait(false);
+        }
+        private async void RequireConfirmEmail(object sender, EventArgs e)
+        {
+            await Navigation.PushModalAsync(new ConfirmEmailPage());
         }
 
         private async void OnSignInFailed(object sender, EventArgs e)

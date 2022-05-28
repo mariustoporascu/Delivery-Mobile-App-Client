@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="FoodDeliveryApp.Views.ConfirmEmailPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:FoodDeliveryApp.ViewModels"
+    xmlns:model="clr-namespace:FoodDeliveryApp.Models.ShopModels"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    x:DataType="local:ConfirmEmailViewModel"
+    Shell.PresentationMode="ModalAnimated">
+    <Grid VerticalOptions="FillAndExpand">
+        <Image
+            Grid.Row="0"
+            Aspect="AspectFill"
+            HorizontalOptions="FillAndExpand"
+            Source="splash_auth.png"
+            VerticalOptions="FillAndExpand" />
+        <StackLayout Grid.Row="0" Margin="35,100,35,5">
+            <StackLayout Margin="0,0,0,0" Padding="0">
+                <Label
+                    FontSize="36"
+                    Text="Confirmare email"
+                    TextColor="Black" />
+                <Label
+                    FontSize="22"
+                    Text="Introdu datele."
+                    TextColor="Gray" />
+            </StackLayout>
+            <StackLayout Margin="0,55,0,0">
+                <StackLayout
+                    Margin="0"
+                    Padding="1"
+                    xct:CornerRadiusEffect.CornerRadius="10"
+                    BackgroundColor="LightGray"
+                    Orientation="Horizontal">
+                    <Image
+                        Aspect="AspectFit"
+                        BackgroundColor="Transparent"
+                        Source="mail.png" />
+
+                    <Entry
+                        xct:CornerRadiusEffect.CornerRadius="10"
+                        BackgroundColor="White"
+                        ClearButtonVisibility="WhileEditing"
+                        FontSize="Medium"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="Center"
+                        Placeholder="Adresa de email"
+                        PlaceholderColor="Gray"
+                        Text="{Binding UserName}"
+                        TextColor="Black" />
+                </StackLayout>
+            </StackLayout>
+            <StackLayout Margin="0,10,0,0">
+                <StackLayout
+                    Margin="0"
+                    Padding="1"
+                    xct:CornerRadiusEffect.CornerRadius="10"
+                    BackgroundColor="LightGray"
+                    Orientation="Horizontal">
+                    <Image
+                        Aspect="AspectFit"
+                        BackgroundColor="Transparent"
+                        Source="lock.png" />
+
+                    <Entry
+                        xct:CornerRadiusEffect.CornerRadius="10"
+                        BackgroundColor="White"
+                        ClearButtonVisibility="WhileEditing"
+                        FontSize="Medium"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="Center"
+                        Placeholder="Cod"
+                        PlaceholderColor="Gray"
+                        Text="{Binding Token}"
+                        TextColor="Black" />
+                </StackLayout>
+            </StackLayout>
+            <StackLayout Margin="0,10,0,0">
+                <Button
+                    Margin="0"
+                    Padding="0"
+                    xct:CornerRadiusEffect.CornerRadius="30"
+                    BackgroundColor="LightCoral"
+                    Command="{Binding Source={RelativeSource AncestorType={x:Type local:ConfirmEmailViewModel}}, Path=ConfirmEmail}"
+                    FontSize="Medium"
+                    Text="Confirma"
+                    TextColor="White"
+                    TextTransform="None" />
+            </StackLayout>
+
+            <StackLayout Margin="0,10,0,0">
+                <Button
+                    BackgroundColor="Transparent"
+                    Clicked="OnDismissButtonClicked"
+                    FontAttributes="None"
+                    FontSize="Medium"
+                    Text="Anuleaza"
+                    TextColor="Black"
+                    TextTransform="None" />
+            </StackLayout>
+        </StackLayout>
+
+    </Grid>
+</ContentPage>
