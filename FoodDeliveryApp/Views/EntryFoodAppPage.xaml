@@ -9,7 +9,7 @@
     Title="{Binding Title}"
     x:DataType="local:EntryFoodAppViewModel"
     Shell.PresentationMode="Animated">
-    <Grid BackgroundColor="White">
+    <Grid BackgroundColor="White" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />

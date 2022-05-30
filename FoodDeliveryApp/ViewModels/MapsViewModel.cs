@@ -26,9 +26,9 @@ namespace FoodDeliveryApp.ViewModels
 
         public async Task LoadMyLocation()
         {
-            if (App.isLoggedIn && App.userInfo.CompleteProfile)
+            if (App.IsLoggedIn && App.UserInfo.Location != null)
             {
-                Position myPosition = new Position(App.userInfo.CoordX, App.userInfo.CoordY);
+                Position myPosition = new Position(App.UserInfo.Location.CoordX, App.UserInfo.Location.CoordY);
                 pinRoute1.Position = myPosition;
 
             }
@@ -44,10 +44,10 @@ namespace FoodDeliveryApp.ViewModels
         }
         public async Task<Dictionary<int, GoogleDirection>> DrawDriverRoute()
         {
-            if (App.isLoggedIn && App.userInfo.CompleteProfile)
+            if (App.IsLoggedIn && App.UserInfo.Location != null)
             {
                 _driverLocations.Clear();
-                var myOrders = await DataStore.GetServerOrders(App.userInfo.Email).ConfigureAwait(false);
+                var myOrders = await DataStore.GetServerOrders(App.UserInfo.Email);
                 foreach (var o in myOrders)
                 {
                     if (o.Status == "In curs de livrare")
@@ -71,7 +71,7 @@ namespace FoodDeliveryApp.ViewModels
         }
         private async Task<GoogleDirection> LoadRoute(Position pin)
         {
-            if (App.isLoggedIn)
+            if (App.IsLoggedIn)
             {
                 var googleDirection = await MapsApiServ.ServiceClientInstance.GetDirections(pinRoute1.Position, pin);
                 if (googleDirection.Routes != null && googleDirection.Routes.Count > 0)
@@ -79,7 +79,7 @@ namespace FoodDeliveryApp.ViewModels
                     HasRoute = true;
                     return googleDirection;
                 }
-                    HasRoute = false;
+                HasRoute = false;
                 return null;
             }
             HasRoute = false;

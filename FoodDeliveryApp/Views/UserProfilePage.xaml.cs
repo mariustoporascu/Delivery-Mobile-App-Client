@@ -1,4 +1,5 @@
-﻿using FoodDeliveryApp.ViewModels;
+﻿using FoodDeliveryApp.Constants;
+using FoodDeliveryApp.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -20,15 +21,14 @@ namespace FoodDeliveryApp.Views
             BindingContext = viewModel = new UserProfileViewModel();
             viewModel.OnDeleteAcc += OnDeleteAcc;
             viewModel.DeleteAccFailed += DeleteAccFailed;
-            if (!App.isLoggedIn)
-            {
-                RedirSignIn(this, new EventArgs());
-            }
+
         }
         protected override void OnAppearing()
         {
-            viewModel.RefreshProfile();
             base.OnAppearing();
+            viewModel.IsBusy = true;
+            viewModel.RefreshProfile();
+            viewModel.IsBusy = false;
 
         }
         private async void RedirSignIn(object sender, EventArgs e)
@@ -52,6 +52,54 @@ namespace FoodDeliveryApp.Views
             try
             {
                 await Navigation.PushModalAsync(new UserDetailsPage());
+
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+        }
+        private async void SetPassword(object sender, EventArgs e)
+        {
+            try
+            {
+                await Navigation.PushModalAsync(new SetPasswordPage());
+
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+        }
+        private async void ChangePassword(object sender, EventArgs e)
+        {
+            try
+            {
+                await Navigation.PushModalAsync(new ChangePasswordPage());
+
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+        }
+        private async void TermeniClicked(object sender, EventArgs e)
+        {
+            try
+            {
+                await Navigation.PushModalAsync(new GoogleDriveViewerPage(ServerConstants.Termeni));
+
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+        }
+        private async void GDPRclicked(object sender, EventArgs e)
+        {
+            try
+            {
+                await Navigation.PushModalAsync(new GoogleDriveViewerPage(ServerConstants.Gdpr));
 
             }
             catch (Exception ex)

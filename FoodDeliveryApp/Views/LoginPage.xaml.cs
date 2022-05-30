@@ -1,4 +1,5 @@
-﻿using FoodDeliveryApp.ViewModels;
+﻿using FoodDeliveryApp.Constants;
+using FoodDeliveryApp.ViewModels;
 
 using System;
 using System.Diagnostics;
@@ -19,9 +20,8 @@ namespace FoodDeliveryApp.Views
             else
                 viewModel.OnSignIn += OnSignIn;
             viewModel.OnSignInFailed += OnSignInFailed;
-            viewModel.OnSignInFailed += OnSignInFailed;
             viewModel.RequireConfirmEmail += RequireConfirmEmail;
-            if (App.isLoggedIn)
+            if (App.IsLoggedIn)
             {
                 if (Device.RuntimePlatform == Device.iOS)
                     OnSignInApple(this, new EventArgs());
@@ -31,17 +31,41 @@ namespace FoodDeliveryApp.Views
         }
         protected override void OnAppearing()
         {
-            if (App.isLoggedIn)
+            base.OnAppearing();
+
+            if (App.IsLoggedIn)
             {
                 if (Device.RuntimePlatform == Device.iOS)
                     OnSignInApple(this, new EventArgs());
                 else
                     OnSignIn(this, new EventArgs());
             }
-            base.OnAppearing();
 
         }
+        private async void TermeniClicked(object sender, EventArgs e)
+        {
+            try
+            {
+                await Navigation.PushModalAsync(new GoogleDriveViewerPage(ServerConstants.Termeni));
 
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+        }
+        private async void GDPRclicked(object sender, EventArgs e)
+        {
+            try
+            {
+                await Navigation.PushModalAsync(new GoogleDriveViewerPage(ServerConstants.Gdpr));
+
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+        }
         private async void RedirSignUp(object sender, EventArgs e)
         {
             await Navigation.PushModalAsync(new RegisterPage());
@@ -49,7 +73,7 @@ namespace FoodDeliveryApp.Views
         async void OnDismissButtonClicked(object sender, EventArgs args)
         {
             // Page appearance not animated
-            await Navigation.PopModalAsync(false).ConfigureAwait(false);
+            await Navigation.PopModalAsync(true);
         }
         private void OnSignInApple(object sender, EventArgs e)
         {
@@ -61,7 +85,7 @@ namespace FoodDeliveryApp.Views
             {
                 Debug.WriteLine(ex.Message);
             }
-            Navigation.PopModalAsync(false).ConfigureAwait(false);
+            Navigation.PopModalAsync(true);
         }
         private async void OnSignIn(object sender, EventArgs e)
         {
@@ -73,7 +97,12 @@ namespace FoodDeliveryApp.Views
             {
                 Debug.WriteLine(ex.Message);
             }
-            await Navigation.PopModalAsync(false).ConfigureAwait(false);
+            await Navigation.PopModalAsync(true);
+        }
+
+        private async void PasswordForgotClicked(object sender, EventArgs e)
+        {
+            await Navigation.PushModalAsync(new GenerateTokenPage());
         }
         private async void RequireConfirmEmail(object sender, EventArgs e)
         {

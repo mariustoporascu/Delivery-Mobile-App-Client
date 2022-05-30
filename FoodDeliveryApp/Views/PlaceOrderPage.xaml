@@ -15,7 +15,7 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <Grid VerticalOptions="FillAndExpand">
+    <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
         <Image
             Grid.Row="0"
             Aspect="AspectFill"
@@ -109,7 +109,7 @@
 
                                     <StackLayout
                                         Margin="0,5,0,5"
-                                        x:DataType="model1:Order"
+                                        x:DataType="model1:ServerOrder"
                                         HorizontalOptions="FillAndExpand"
                                         Orientation="Horizontal">
                                         <Label

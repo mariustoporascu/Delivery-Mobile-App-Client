@@ -10,7 +10,7 @@
     x:DataType="viewModels:RegisterViewModel"
     Shell.PresentationMode="ModalAnimated"
     mc:Ignorable="d">
-    <Grid VerticalOptions="FillAndExpand">
+    <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
         <Image
             Grid.Row="0"
             Aspect="AspectFill"

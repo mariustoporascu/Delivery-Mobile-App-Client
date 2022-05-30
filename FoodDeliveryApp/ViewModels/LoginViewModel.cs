@@ -73,18 +73,18 @@ namespace FoodDeliveryApp.ViewModels
             if (loginResult != string.Empty && !loginResult.Contains("Password is wrong.")
                 && !loginResult.Contains("Email is wrong or user not existing.") && !loginResult.Contains("Login data invalid."))
             {
-                App.isLoggedIn = true;
+                App.IsLoggedIn = true;
                 var settings = new JsonSerializerSettings
                 {
                     NullValueHandling = NullValueHandling.Ignore,
                     MissingMemberHandling = MissingMemberHandling.Ignore
                 };
-                App.userInfo = JsonConvert.DeserializeObject<UserModel>(loginResult.Trim(), settings);
-                App.userInfo.Email = finalEmail;
-                App.userInfo.UserIdentification = finalId;
+                App.UserInfo = JsonConvert.DeserializeObject<UserModel>(loginResult.Trim(), settings);
+                App.UserInfo.Email = finalEmail;
+                App.UserInfo.UserIdentification = finalId;
             }
 
-            return App.isLoggedIn;
+            return App.IsLoggedIn;
         }
         async Task AfterSignIn()
         {
@@ -97,15 +97,15 @@ namespace FoodDeliveryApp.ViewModels
             else if (loginResult != string.Empty && !loginResult.Contains("Password is wrong.")
                 && !loginResult.Contains("Email is wrong or user not existing.") && !loginResult.Contains("Login data invalid."))
             {
-                App.isLoggedIn = true;
+                App.IsLoggedIn = true;
                 var settings = new JsonSerializerSettings
                 {
                     NullValueHandling = NullValueHandling.Ignore,
                     MissingMemberHandling = MissingMemberHandling.Ignore
                 };
-                App.userInfo = JsonConvert.DeserializeObject<UserModel>(loginResult.Trim(), settings);
-                App.userInfo.Email = UserName;
-                App.userInfo.Password = Password;
+                App.UserInfo = JsonConvert.DeserializeObject<UserModel>(loginResult.Trim(), settings);
+                App.UserInfo.Email = UserName;
+                App.UserInfo.Password = Password;
                 SecureStorage.SetAsync(App.WEBEMAIL, UserName).Wait();
                 SecureStorage.SetAsync(App.WEBPASS, Password).Wait();
                 SecureStorage.SetAsync(App.LOGIN_WITH, "WebLogin").Wait();

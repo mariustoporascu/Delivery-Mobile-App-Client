@@ -30,7 +30,7 @@ namespace FoodDeliveryApp.ViewModels
             Items = new ObservableRangeCollection<Companie>();
             LoadItemsCommand = new Command(ExecuteLoadItemsCommand);
             RefreshCommand = new Command(async () => await RefreshItems());
-            ItemTapped = new Command<Companie>(async (item) => await OnItemSelected(item));
+            ItemTapped = new Command<Companie>((item) => OnItemSelected(item));
         }
 
         void ExecuteLoadItemsCommand()
@@ -76,7 +76,7 @@ namespace FoodDeliveryApp.ViewModels
                 OnItemSelected(value);
             }
         }
-        async Task OnItemSelected(Companie item)
+        async void OnItemSelected(Companie item)
         {
             if (item == null)
                 return;

@@ -25,8 +25,8 @@ namespace FoodDeliveryApp.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            viewModel.FullName = App.userInfo.FullName;
-            viewModel.PhoneNumber = App.userInfo.PhoneNumber;
+            viewModel.FullName = App.UserInfo.FullName;
+            viewModel.PhoneNumber = App.UserInfo.PhoneNumber;
         }
         private void CheckFieldNumeComplet(object sender, TextChangedEventArgs e)
         {
@@ -112,7 +112,7 @@ namespace FoodDeliveryApp.Views
             try
             {
                 await this.DisplayToastAsync("Profilul a fost actualizat.", 1300);
-                await Navigation.PopModalAsync(false).ConfigureAwait(false);
+                await Navigation.PopModalAsync(true);
             }
             catch (Exception ex)
             {
@@ -133,7 +133,7 @@ namespace FoodDeliveryApp.Views
         async void OnDismissButtonClicked(object sender, EventArgs args)
         {
             // Page appearance not animated
-            await Navigation.PopModalAsync(false).ConfigureAwait(false);
+            await Navigation.PopModalAsync(true);
         }
     }
 }

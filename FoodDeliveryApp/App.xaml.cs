@@ -11,10 +11,9 @@ namespace FoodDeliveryApp
 {
     public partial class App : Application
     {
-        public const string CallbackUri = "com.tmiit.fooddeliveryapp";
+        public const string CallbackUri = "com.tmiit.livroapp";
         public static readonly string CallbackScheme = $"{CallbackUri}:/authenticated";
         public static readonly string SignoutCallbackScheme = $"{CallbackUri}:/signout-callback-oidc";
-        public static UserModel userInfo = new UserModel();
         public const string LOGIN_WITH = "LoginWith";
         public const string APPLE_ID = "AppleId";
         public const string APPLE_ID_EMAIL = "AppleIdEmail";
@@ -27,7 +26,10 @@ namespace FoodDeliveryApp
         public const string FACEBOOK_ID_NAME = "FacebookIdName";
         public const string WEBEMAIL = "WebEmail";
         public const string WEBPASS = "WebPass";
-        public static bool isLoggedIn = false;
+        public static bool IsLoggedIn = false;
+
+        private static UserModel userInfo;
+        public static UserModel UserInfo { get => userInfo; set => userInfo = value; }
 
         public bool PromptToConfirmExit
         {
@@ -44,11 +46,12 @@ namespace FoodDeliveryApp
         public App()
         {
             InitializeComponent();
-
+            UserInfo = new UserModel();
             DependencyService.Register<IDataStore, MockDataStore>();
             DependencyService.Register<IAuthController, AuthService>();
             DependencyService.Register<IOrderServ, OrderServ>();
             MainPage = new AppShell();
+
         }
 
         protected override async void OnStart()
@@ -97,20 +100,20 @@ namespace FoodDeliveryApp
             if (loginResult != string.Empty && !loginResult.Contains("Password is wrong.")
                 && !loginResult.Contains("Email is wrong or user not existing.") && !loginResult.Contains("Login data invalid."))
             {
-                isLoggedIn = true;
+                App.IsLoggedIn = true;
                 var settings = new JsonSerializerSettings
                 {
                     NullValueHandling = NullValueHandling.Ignore,
                     MissingMemberHandling = MissingMemberHandling.Ignore
                 };
-                userInfo = JsonConvert.DeserializeObject<UserModel>(loginResult.Trim(), settings);
-                userInfo.Email = finalEmail;
+                App.UserInfo = JsonConvert.DeserializeObject<UserModel>(loginResult.Trim(), settings);
+                App.UserInfo.Email = finalEmail;
                 if (string.IsNullOrEmpty(finalId))
                 {
-                    userInfo.Password = webPass;
+                    App.UserInfo.Password = webPass;
                 }
                 else
-                    userInfo.UserIdentification = finalId;
+                    App.UserInfo.UserIdentification = finalId;
             }
         }
 

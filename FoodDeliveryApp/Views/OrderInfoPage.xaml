@@ -18,7 +18,7 @@
     <RefreshView
         x:DataType="local:OrderInfoViewModel"
         Command="{Binding RefreshCommand}"
-        IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+        IsRefreshing="{Binding IsBusy, Mode=TwoWay}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
         <ScrollView BackgroundColor="White" VerticalOptions="FillAndExpand">
             <StackLayout>
                 <StackLayout

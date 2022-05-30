@@ -14,10 +14,10 @@ namespace FoodDeliveryApp.Views
         }
         protected override void OnAppearing()
         {
+            base.OnAppearing();
 
             viewModel.LoadItemsCommand.Execute(null);
             //ItemsListView.ScrollTo(0, position: ScrollToPosition.Start);
-            base.OnAppearing();
 
         }
     }

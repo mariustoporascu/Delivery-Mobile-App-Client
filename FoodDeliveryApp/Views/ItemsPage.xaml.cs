@@ -15,6 +15,7 @@ namespace FoodDeliveryApp.Views
         }
         protected override void OnAppearing()
         {
+            base.OnAppearing();
 
             if (viewModel.Canal == 1)
             {
@@ -26,7 +27,6 @@ namespace FoodDeliveryApp.Views
             }
             viewModel.LoadItemsCommand.Execute(null);
             ItemsListView.ScrollTo(0, 0, position: ScrollToPosition.Start);
-            base.OnAppearing();
 
         }
 

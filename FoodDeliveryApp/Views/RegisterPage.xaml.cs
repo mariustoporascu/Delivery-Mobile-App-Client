@@ -131,7 +131,7 @@ namespace FoodDeliveryApp.Views
         }
         private void OnSignInApple(object sender, EventArgs e)
         {
-            Navigation.PopModalAsync(false).ConfigureAwait(false);
+            Navigation.PopModalAsync(true);
         }
         private void OnSignUpWebApple(object sender, EventArgs e)
         {
@@ -143,11 +143,11 @@ namespace FoodDeliveryApp.Views
             {
                 Debug.WriteLine(ex.Message);
             }
-            Navigation.PopModalAsync(false).ConfigureAwait(false);
+            Navigation.PopModalAsync(true);
         }
         private async void OnSignIn(object sender, EventArgs e)
         {
-            await Navigation.PopModalAsync(false).ConfigureAwait(false);
+            await Navigation.PopModalAsync(true);
         }
         private async void OnSignUpWeb(object sender, EventArgs e)
         {
@@ -159,7 +159,7 @@ namespace FoodDeliveryApp.Views
             {
                 Debug.WriteLine(ex.Message);
             }
-            await Navigation.PopModalAsync(false).ConfigureAwait(false);
+            await Navigation.PopModalAsync(true);
         }
 
 
@@ -171,7 +171,7 @@ namespace FoodDeliveryApp.Views
         async void OnDismissButtonClicked(object sender, EventArgs args)
         {
             // Page appearance not animated
-            await Navigation.PopModalAsync(false).ConfigureAwait(false);
+            await Navigation.PopModalAsync(true);
         }
 
     }

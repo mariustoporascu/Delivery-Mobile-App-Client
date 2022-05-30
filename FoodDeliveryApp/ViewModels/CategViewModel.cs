@@ -30,8 +30,8 @@ namespace FoodDeliveryApp.ViewModels
             Title = "Categorii";
             Items = new ObservableRangeCollection<Categ>();
             LoadItemsCommand = new Command(ExecuteLoadItemsCommand);
-            ItemTapped = new Command<Categ>(async (item) => await OnItemSelected(item));
-            AllProductsTapped = new Command(async () => await AllProducts());
+            ItemTapped = new Command<Categ>((item) => OnItemSelected(item));
+            AllProductsTapped = new Command(AllProducts);
         }
         void ExecuteLoadItemsCommand()
         {
@@ -80,14 +80,14 @@ namespace FoodDeliveryApp.ViewModels
                 OnItemSelected(value);
             }
         }
-        async Task OnItemSelected(Categ item)
+        async void OnItemSelected(Categ item)
         {
             if (item == null)
                 return;
             await Shell.Current.GoToAsync($"{nameof(ItemsPage)}?{nameof(ItemsViewModel.Canal)}={canal}&{nameof(ItemsViewModel.RefId)}={refId}&{nameof(ItemsViewModel.CategId)}={item.CategoryId}");
 
         }
-        async Task AllProducts()
+        async void AllProducts()
         {
             await Shell.Current.GoToAsync($"{nameof(ItemsPage)}?{nameof(ItemsViewModel.Canal)}={canal}&{nameof(ItemsViewModel.RefId)}={refId}&{nameof(ItemsViewModel.CategId)}=0");
         }

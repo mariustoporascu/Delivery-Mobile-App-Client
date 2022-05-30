@@ -15,7 +15,7 @@ namespace FoodDeliveryApp.Services
         }
         public async Task Init()
         {
-            await _serverInfo.loadAppInfo().ConfigureAwait(false);
+            await _serverInfo.loadAppInfo();
         }
 
         public Item GetItem(int id)
@@ -110,7 +110,7 @@ namespace FoodDeliveryApp.Services
 
         public IEnumerable<Companie> GetRestaurante()
         {
-               
+
             return _serverInfo.restaurante;
         }
         public Companie GetRestaurant(int restaurantId)
@@ -135,7 +135,7 @@ namespace FoodDeliveryApp.Services
 
         public async Task<List<ServerOrder>> GetServerOrders(string email)
         {
-            return await _serverInfo.loadServerOrders(email).ConfigureAwait(false);
+            return await _serverInfo.loadServerOrders(email);
         }
     }
 }

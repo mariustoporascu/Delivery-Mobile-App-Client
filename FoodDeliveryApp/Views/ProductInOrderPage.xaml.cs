@@ -15,6 +15,8 @@ namespace FoodDeliveryApp.Views
         }
         protected override void OnAppearing()
         {
+            base.OnAppearing();
+
             if (!string.IsNullOrWhiteSpace(vm.Item.Photo))
             {
                 ItemImage.Source = new UriImageSource
@@ -35,7 +37,6 @@ namespace FoodDeliveryApp.Views
                     CachingEnabled = true,
                 };
             }
-            base.OnAppearing();
 
         }
     }

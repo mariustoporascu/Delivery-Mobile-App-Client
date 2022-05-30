@@ -7,14 +7,15 @@
     xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     Title="Locatia ta"
-    x:DataType="local:UserLocationViewModel">
+    x:DataType="local:UserLocationViewModel"
+    Shell.PresentationMode="ModalAnimated">
     <ContentPage.Resources>
         <ResourceDictionary>
             <xct:InvertedBoolConverter x:Key="invertBoolConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <Grid VerticalOptions="FillAndExpand">
+    <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
         <Image
             Grid.Row="0"
             Aspect="AspectFill"

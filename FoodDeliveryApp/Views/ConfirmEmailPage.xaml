@@ -8,7 +8,7 @@
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     x:DataType="local:ConfirmEmailViewModel"
     Shell.PresentationMode="ModalAnimated">
-    <Grid VerticalOptions="FillAndExpand">
+    <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
         <Image
             Grid.Row="0"
             Aspect="AspectFill"
@@ -62,18 +62,27 @@
                         Aspect="AspectFit"
                         BackgroundColor="Transparent"
                         Source="lock.png" />
-
                     <Entry
+                        x:Name="Token"
                         xct:CornerRadiusEffect.CornerRadius="10"
                         BackgroundColor="White"
                         ClearButtonVisibility="WhileEditing"
                         FontSize="Medium"
                         HorizontalOptions="FillAndExpand"
                         HorizontalTextAlignment="Center"
-                        Placeholder="Cod"
+                        Placeholder="Codul primit"
                         PlaceholderColor="Gray"
                         Text="{Binding Token}"
-                        TextColor="Black" />
+                        TextChanged="CheckFieldToken"
+                        TextColor="Black">
+                        <Entry.Behaviors>
+                            <xct:TextValidationBehavior
+                                x:Name="TokenEntry"
+                                Flags="ValidateOnValueChanging"
+                                MinimumLength="6" />
+                        </Entry.Behaviors>
+                    </Entry>
+
                 </StackLayout>
             </StackLayout>
             <StackLayout Margin="0,10,0,0">
@@ -82,7 +91,7 @@
                     Padding="0"
                     xct:CornerRadiusEffect.CornerRadius="30"
                     BackgroundColor="LightCoral"
-                    Command="{Binding Source={RelativeSource AncestorType={x:Type local:ConfirmEmailViewModel}}, Path=ConfirmEmail}"
+                    Clicked="ConfirmClicked"
                     FontSize="Medium"
                     Text="Confirma"
                     TextColor="White"

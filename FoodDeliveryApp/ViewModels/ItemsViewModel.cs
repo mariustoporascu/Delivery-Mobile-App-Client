@@ -82,7 +82,7 @@ namespace FoodDeliveryApp.ViewModels
             SCateg = new List<Categ>();
             SSubCateg = new List<SubCateg>();
             LoadItemsCommand = new Command(ExecuteLoadItemsCommand);
-            ItemTapped = new Command<Item>(async (item) => await OnItemSelected(item));
+            ItemTapped = new Command<Item>((item) => OnItemSelected(item));
             MinusCommand = new Command<Item>(OnMinus);
             PlusCommand = new Command<Item>(OnPlus);
             SearchCommand = new Command(Searching);
@@ -274,7 +274,7 @@ namespace FoodDeliveryApp.ViewModels
             DataStore.SaveCart(item);
 
         }
-        async Task OnItemSelected(Item item)
+        async void OnItemSelected(Item item)
         {
             if (item == null)
                 return;

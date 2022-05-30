@@ -16,6 +16,8 @@ namespace FoodDeliveryApp.ViewModels
         public Command LoadOrdersCommand { get; }
         private bool isLoggedIn = false;
         public bool IsLoggedIn { get => isLoggedIn; set => SetProperty(ref isLoggedIn, value); }
+        public DateTime SelectedTime { get; set; } = DateTime.UtcNow.AddHours(3);
+        List<Order> uiOrders;
         public Command<Order> ItemTapped { get; }
 
         private bool isPageVisible = false;
@@ -27,7 +29,7 @@ namespace FoodDeliveryApp.ViewModels
         public OrdersViewModel()
         {
             Orders = new ObservableRangeCollection<Order>();
-            IsLoggedIn = App.isLoggedIn;
+            IsLoggedIn = App.IsLoggedIn;
             ItemTapped = new Command<Order>(OnItemSelected);
 
             LoadOrdersCommand = new Command(async () => await ExecuteLoadOrdersCommand());
@@ -35,16 +37,16 @@ namespace FoodDeliveryApp.ViewModels
         public async Task ExecuteLoadOrdersCommand()
         {
             IsBusy = true;
-            string email = App.userInfo.Email;
+            string email = App.UserInfo.Email;
             try
             {
-                List<Order> uiOrders = new List<Order>();
-                var serverOrders = await DataStore.GetServerOrders(email).ConfigureAwait(false);
+                uiOrders = new List<Order>();
+                var serverOrders = await DataStore.GetServerOrders(email);
 
                 /*if (Device.RuntimePlatform == Device.Android)
-                    serverOrders = await DataStore.GetServerOrders(email).ConfigureAwait(false);
+                    serverOrders = await DataStore.GetServerOrders(email);
                 else
-                    serverOrders = DataStore.GetServerOrders(email).ConfigureAwait(false).GetAwaiter().GetResult();*/
+                    serverOrders = DataStore.GetServerOrders(email).GetAwaiter().GetResult();*/
 
                 lock (Orders)
                 {
@@ -56,9 +58,7 @@ namespace FoodDeliveryApp.ViewModels
                             TotalOrdered = serverOrder.TotalOrdered + serverOrder.TransportFee,
                             Created = serverOrder.Created,
                         });
-                    Orders.Clear();
-                    if (serverOrders != null)
-                        Orders.AddRange(uiOrders);
+                    FilterBy(SelectedTime);
                     if (Orders.Count > 0)
                     {
                         IsPageVisible = true;
@@ -77,6 +77,13 @@ namespace FoodDeliveryApp.ViewModels
             {
                 IsBusy = false;
             }
+        }
+        public void FilterBy(DateTime time)
+        {
+            Orders.Clear();
+            if (uiOrders != null)
+                Orders.AddRange(uiOrders.FindAll(or => or.Created.Day == time.Day && or.Created.Month == time.Month));
+
         }
         async void OnItemSelected(Order item)
         {

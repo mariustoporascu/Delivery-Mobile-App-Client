@@ -15,11 +15,11 @@ namespace FoodDeliveryApp.ViewModels
             Title = "Acasa";
             SuperMarketCommand = new Command(SuperMarketClicked);
             RestauranteCommand = new Command(RestauranteClicked);
-            
+
 
         }
 
-        private async void SuperMarketClicked(object obj)
+        private void SuperMarketClicked(object obj)
         {
             Supermarketpush?.Invoke(this, new EventArgs());
             // Prefixing with `//` switches to a different navigation stack instead of pushing to the active one

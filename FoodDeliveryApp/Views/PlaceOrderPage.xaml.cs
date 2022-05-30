@@ -16,9 +16,14 @@ namespace FoodDeliveryApp.Views
             if (Device.RuntimePlatform == Device.iOS)
                 vm.OnPlaceOrder += OnPlaceOrderApple;
             else
+            {
                 vm.OnPlaceOrder += OnPlaceOrder;
-            if (App.isLoggedIn)
-                vm.HasValidProfile = App.userInfo.CompleteProfile && App.userInfo.CompleteLocation;
+                vm.OnPlaceOrderFailed += OnPlaceOrderFailed;
+                vm.OnPlaceOrderMarket += OnPlaceOrderMarket;
+
+            }
+            if (App.IsLoggedIn)
+                vm.HasValidProfile = App.UserInfo.CompleteProfile && App.UserInfo.Location != null;
             else
                 vm.HasValidProfile = false;
         }
@@ -32,7 +37,7 @@ namespace FoodDeliveryApp.Views
             {
                 Debug.WriteLine(ex.Message);
             }
-            Navigation.PopModalAsync(false).ConfigureAwait(false);
+            Navigation.PopModalAsync(true);
         }
         private async void OnPlaceOrder(object sender, EventArgs e)
         {
@@ -44,12 +49,35 @@ namespace FoodDeliveryApp.Views
             {
                 Debug.WriteLine(ex.Message);
             }
-            await Navigation.PopModalAsync(false).ConfigureAwait(false);
+            await Navigation.PopModalAsync(true);
+        }
+        private async void OnPlaceOrderFailed(object sender, EventArgs e)
+        {
+            try
+            {
+
+                await this.DisplayAlert("Eroare", "Comanda nu s-a putut plasa, va rugam sa reincercati", "OK");
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+        }
+        private async void OnPlaceOrderMarket(object sender, EventArgs e)
+        {
+            try
+            {
+                await this.DisplayToastAsync("Comanda pentru supermarket a fost plasata", 1300);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
         }
         async void OnDismissButtonClicked(object sender, EventArgs args)
         {
             // Page appearance not animated
-            await Navigation.PopModalAsync(false).ConfigureAwait(false);
+            await Navigation.PopModalAsync(true);
         }
     }
 }

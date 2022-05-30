@@ -8,25 +8,21 @@
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     x:DataType="local:LoginViewModel"
     Shell.PresentationMode="ModalAnimated">
-    <Grid VerticalOptions="FillAndExpand">
+    <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
         <Image
             Grid.Row="0"
             Aspect="AspectFill"
             HorizontalOptions="FillAndExpand"
             Source="splash_auth.png"
             VerticalOptions="FillAndExpand" />
-        <StackLayout Grid.Row="0" Margin="35,100,35,5">
+        <StackLayout Grid.Row="0" Margin="35,80,35,5">
             <StackLayout Margin="0,0,0,0" Padding="0">
                 <Label
                     FontSize="48"
                     Text="Autentificare"
                     TextColor="Black" />
-                <Label
-                    FontSize="22"
-                    Text="Intra in cont."
-                    TextColor="Gray" />
             </StackLayout>
-            <StackLayout Margin="0,55,0,0">
+            <StackLayout Margin="0,35,0,0">
                 <StackLayout
                     Margin="0"
                     Padding="1"
@@ -94,7 +90,17 @@
                     BackgroundColor="Transparent"
                     FontAttributes="None"
                     FontSize="Medium"
+                    Clicked="PasswordForgotClicked"
                     Text="Ai uitat parola?"
+                    TextColor="Black"
+                    TextTransform="None" />
+                <Label
+                    Margin="0,15,0,0"
+                    BackgroundColor="Transparent"
+                    FontAttributes="None"
+                    FontSize="Medium"
+                    HorizontalTextAlignment="Center"
+                    Text="Sau continua cu:"
                     TextColor="Black"
                     TextTransform="None" />
             </StackLayout>
@@ -111,8 +117,7 @@
                     BackgroundColor="Transparent"
                     Command="{Binding ExecuteLoginGoogle}"
                     IsVisible="{Binding IsGoogleSignInAvailable}"
-                    Source="google.png"
-                    WidthRequest="50" />
+                    Source="google.png" />
 
 
                 <ImageButton
@@ -122,10 +127,45 @@
                     Aspect="AspectFit"
                     BackgroundColor="Transparent"
                     Command="{Binding ExecuteLoginFacebook}"
-                    Source="facebook.png"
-                    WidthRequest="50" />
+                    Source="facebook.png" />
 
 
+            </StackLayout>
+            <StackLayout HorizontalOptions="CenterAndExpand">
+                <Label
+                    HorizontalTextAlignment="Center"
+                    LineBreakMode="WordWrap"
+                    Text="Continuand autentificarea/inregistrarea confirmati faptul ca sunteti de acord cu:"
+                    TextColor="Black" />
+                <StackLayout
+                    HorizontalOptions="CenterAndExpand"
+                    Orientation="Horizontal"
+                    Spacing="20">
+                    <Button
+                        Margin="0"
+                        Padding="0"
+                        xct:CornerRadiusEffect.CornerRadius="30"
+                        BackgroundColor="Transparent"
+                        Clicked="TermeniClicked"
+                        FontSize="Small"
+                        HorizontalOptions="Start"
+                        ImageSource="orders.png"
+                        Text="Termeni si conditii"
+                        TextColor="Black"
+                        TextTransform="None" />
+                    <Button
+                        Margin="0"
+                        Padding="0"
+                        xct:CornerRadiusEffect.CornerRadius="30"
+                        BackgroundColor="Transparent"
+                        Clicked="GDPRclicked"
+                        FontSize="Small"
+                        HorizontalOptions="Start"
+                        ImageSource="lock.png"
+                        Text="Protectia Datelor"
+                        TextColor="Black"
+                        TextTransform="None" />
+                </StackLayout>
             </StackLayout>
             <StackLayout VerticalOptions="EndAndExpand">
                 <Button

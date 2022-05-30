@@ -10,8 +10,8 @@ namespace FoodDeliveryApp.ViewModels
     {
         private bool hasValidProfile = false;
         public bool HasValidProfile { get => hasValidProfile; set => SetProperty(ref hasValidProfile, value); }
-        public Order OrderMarket { get; set; }
-        public Dictionary<string, Order> OrderRestaurant { get; set; }
+        public ServerOrder OrderMarket { get; set; }
+        public Dictionary<string, ServerOrder> OrderRestaurant { get; set; }
         public OrderInfo OrderInfo { get; set; }
         public List<ProductInOrder> ProductsInOrderMarket { get; set; }
         public Dictionary<string, List<ProductInOrder>> ProductsInOrderRestaurant { get; set; }
@@ -19,12 +19,15 @@ namespace FoodDeliveryApp.ViewModels
         public List<CartItem> CartItems { get; set; }
         public Command PlaceFinalOrder { get; set; }
         public event EventHandler OnPlaceOrder = delegate { };
+        public event EventHandler OnPlaceOrderMarket = delegate { };
+        public event EventHandler OnPlaceOrderFailed = delegate { };
 
         private decimal totalSuperMarket;
         public PlaceOrderViewModel()
         {
-            HasValidProfile = App.userInfo.CompleteProfile && App.userInfo.CompleteLocation;
-            LoadPageData();
+            HasValidProfile = App.UserInfo.CompleteProfile && App.UserInfo.Location != null;
+            if (HasValidProfile)
+                LoadPageData();
             PlaceFinalOrder = new Command(async () => await OnClickPlaceOrder());
         }
         void LoadPageData()
@@ -33,7 +36,7 @@ namespace FoodDeliveryApp.ViewModels
             totalSuperMarket = 0.00M;
             totalRestaurant = new Dictionary<string, decimal>();
             ProductsInOrderMarket = new List<ProductInOrder>();
-            OrderRestaurant = new Dictionary<string, Order>();
+            OrderRestaurant = new Dictionary<string, ServerOrder>();
             ProductsInOrderRestaurant = new Dictionary<string, List<ProductInOrder>>();
             foreach (var item in CartItems)
             {
@@ -60,9 +63,9 @@ namespace FoodDeliveryApp.ViewModels
             }
             if (ProductsInOrderMarket.Count > 0)
             {
-                OrderMarket = new Order
+                OrderMarket = new ServerOrder
                 {
-                    CustomerId = App.userInfo.Email,
+                    CustomerId = App.UserInfo.Email,
                     Status = "Ordered",
                     OrderId = 0,
                     Created = DateTime.UtcNow.AddHours(3),
@@ -72,9 +75,9 @@ namespace FoodDeliveryApp.ViewModels
             if (ProductsInOrderRestaurant.Count > 0)
             {
                 foreach (var total in totalRestaurant)
-                    OrderRestaurant.Add(total.Key, new Order
+                    OrderRestaurant.Add(total.Key, new ServerOrder
                     {
-                        CustomerId = App.userInfo.Email,
+                        CustomerId = App.UserInfo.Email,
                         Status = "Ordered",
                         OrderId = 0,
                         Created = DateTime.UtcNow.AddHours(3),
@@ -86,53 +89,66 @@ namespace FoodDeliveryApp.ViewModels
                                 ? 0 : DataStore.GetRestaurant(Int32.Parse(total.Key)).TransporFee,
                     });
             }
+
             OrderInfo = new OrderInfo
             {
-                FullName = App.userInfo.FullName,
+                FullName = App.UserInfo.FullName,
                 OrderInfoId = 0,
-                PhoneNo = App.userInfo.PhoneNumber,
-                Address = String.Concat(App.userInfo.BuildingInfo, ", ", App.userInfo.Street, ", ", App.userInfo.City)
+                PhoneNo = App.UserInfo.PhoneNumber,
+                Address = String.Concat(App.UserInfo.Location.BuildingInfo, ", ", App.UserInfo.Location.Street, ", ", App.UserInfo.Location.City)
             };
+            if (OrderMarket != null)
+            {
+                OrderMarket.ProductsInOrder = ProductsInOrderMarket;
+                OrderMarket.OrderInfos = OrderInfo;
+            }
 
+            foreach (var order in OrderRestaurant)
+            {
+                order.Value.OrderInfos = OrderInfo;
+                order.Value.ProductsInOrder = ProductsInOrderRestaurant[order.Key];
+            }
         }
 
         async Task OnClickPlaceOrder()
         {
+            bool marketOrderOk = false;
+            List<bool> restaurantOrdersplaced = new List<bool>();
             if (ProductsInOrderMarket.Count > 0)
             {
                 var result = await OrderService.CreateOrder(OrderMarket);
-                if (result > 0)
+                if (!string.IsNullOrEmpty(result) && result.Contains("Order placed."))
                 {
-                    OrderInfo.OrderRefId = result;
-                    await OrderService.CreateOrderInfo(OrderInfo);
-                    foreach (var item in ProductsInOrderMarket)
-                    {
-                        item.OrderRefId = result;
-                    }
-                    await OrderService.CreateProductsInOrder(ProductsInOrderMarket);
+                    marketOrderOk = true;
                 }
             }
-
+            if (ProductsInOrderMarket.Count > 0 && marketOrderOk)
+            {
+                OnPlaceOrderMarket?.Invoke(this, new EventArgs());
+            }
             if (ProductsInOrderRestaurant.Count > 0)
             {
-                foreach (var products in ProductsInOrderRestaurant)
+                var iterator = 0;
+                foreach (var order in OrderRestaurant)
                 {
-                    var result = await OrderService.CreateOrder(OrderRestaurant[products.Key]);
-                    if (result > 0)
+                    var result = await OrderService.CreateOrder(OrderRestaurant[order.Key]);
+                    if (!string.IsNullOrEmpty(result) && result.Contains("Order placed."))
                     {
-                        OrderInfo.OrderRefId = result;
-                        await OrderService.CreateOrderInfo(OrderInfo);
-                        foreach (var item in products.Value)
-                        {
-                            item.OrderRefId = result;
-                        }
-                        await OrderService.CreateProductsInOrder(products.Value);
+                        restaurantOrdersplaced.Add(true);
                     }
+                    else
+                        restaurantOrdersplaced.Add(false);
                 }
 
             }
-            DataStore.CleanCart();
-            OnPlaceOrder?.Invoke(this, new EventArgs());
+            if (ProductsInOrderRestaurant.Count > 0 && restaurantOrdersplaced.FindAll(item => item == false).Count == 0)
+            {
+                OnPlaceOrder?.Invoke(this, new EventArgs());
+                DataStore.CleanCart();
+            }
+            else
+                OnPlaceOrderFailed?.Invoke(this, new EventArgs());
+
         }
     }
 }

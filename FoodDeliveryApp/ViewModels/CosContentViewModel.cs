@@ -1,8 +1,11 @@
-﻿using FoodDeliveryApp.Models.ShopModels;
+﻿using FoodDeliveryApp.Constants;
+using FoodDeliveryApp.Models.ShopModels;
 using FoodDeliveryApp.Views;
+using Newtonsoft.Json;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -15,6 +18,7 @@ namespace FoodDeliveryApp.ViewModels
         private ObservableCollection<CartItem> _items;
         public ObservableCollection<CartItem> Items { get => _items; set => SetProperty(ref _items, value); }
         private bool isPageVisible = false;
+        HttpClient _client;
         public bool IsPageVisible
         {
             get => isPageVisible;
@@ -25,6 +29,12 @@ namespace FoodDeliveryApp.ViewModels
         {
             get => isLoggedIn;
             set => SetProperty(ref isLoggedIn, value);
+        }
+        private bool canPlaceOrder = false;
+        public bool CanPlaceOrder
+        {
+            get => canPlaceOrder;
+            set => SetProperty(ref canPlaceOrder, value);
         }
         public Command LoadItemsCommand { get; }
         public Command MinusCommand { get; }
@@ -37,8 +47,9 @@ namespace FoodDeliveryApp.ViewModels
             Title = "Cos cumparaturi";
             Items = new ObservableCollection<CartItem>();
             LoadItemsCommand = new Command(ExecuteLoadItemsCommand);
+            _client = new HttpClient();
 
-            ItemTapped = new Command<CartItem>(async (item) => await OnItemSelected(item));
+            ItemTapped = new Command<CartItem>((item) => OnItemSelected(item));
 
             MinusCommand = new Command<CartItem>(OnMinus);
             PlusCommand = new Command<CartItem>(OnPlus);
@@ -125,13 +136,34 @@ namespace FoodDeliveryApp.ViewModels
                 IsPageVisible = false;
 
         }
-        async Task OnItemSelected(CartItem item)
+        async void OnItemSelected(CartItem item)
         {
             if (item == null)
                 return;
 
             // This will push the ItemDetailPage onto the navigation stack
             await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?{nameof(ItemDetailViewModel.ItemId)}={item.ProductId}");
+        }
+        public async void GetTime()
+        {
+            Uri uri = new Uri(ServerConstants.TimeUrl);
+            HttpResponseMessage response = await _client.GetAsync(uri);
+            if (response.IsSuccessStatusCode)
+            {
+                string content = await response.Content.ReadAsStringAsync();
+                var settings = new JsonSerializerSettings
+                {
+                    NullValueHandling = NullValueHandling.Ignore,
+                    MissingMemberHandling = MissingMemberHandling.Ignore
+                };
+                var timeObject = JsonConvert.DeserializeObject<WorldTime>(content, settings);
+                CanPlaceOrder = timeObject.DateTime.Hour >= 9 && timeObject.DateTime.Hour < 23;
+            }
+            else { CanPlaceOrder = false; }
+        }
+        partial class WorldTime
+        {
+            public DateTime DateTime { get; set; }
         }
     }
 }

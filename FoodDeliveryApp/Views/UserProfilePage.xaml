@@ -13,147 +13,154 @@
             <xct:InvertedBoolConverter x:Key="invertBoolConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
-    <StackLayout Margin="35,0,35,0">
-        <StackLayout Margin="0,50,0,0" IsVisible="{Binding IsLoggedIn}">
+    <RefreshView IsRefreshing="{Binding IsBusy, Mode=TwoWay}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+        <StackLayout Margin="35,0,35,0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+            <StackLayout Margin="0,50,0,0" IsVisible="{Binding IsLoggedIn}">
 
-            <Label
-                FontSize="Large"
-                HorizontalTextAlignment="Center"
-                Text="{Binding Header}"
-                TextColor="Black" />
-            <Label
-                FontSize="Medium"
-                HorizontalTextAlignment="Center"
-                Text="{Binding PhoneNumber}"
-                TextColor="Black" />
-            <Button
-                Margin="0"
-                Padding="0"
-                xct:CornerRadiusEffect.CornerRadius="30"
-                BackgroundColor="Transparent"
-                Clicked="EditInfo"
-                FontSize="Small"
-                HorizontalOptions="Center"
-                ImageSource="edit.png"
-                Text="Editeaza datele"
-                TextColor="Black"
-                TextTransform="None" />
-            <Button
-                Margin="0,50,0,0"
-                Padding="0"
-                xct:CornerRadiusEffect.CornerRadius="30"
-                BackgroundColor="Transparent"
-                FontSize="Small"
-                HorizontalOptions="Start"
-                ImageSource="password.png"
-                IsVisible="{Binding HasPasswordSet, Converter={StaticResource invertBoolConverter}}"
-                Text="Seteaza o parola"
-                TextColor="Black"
-                TextTransform="None" />
-            <Button
-                Margin="0"
-                Padding="0"
-                xct:CornerRadiusEffect.CornerRadius="30"
-                BackgroundColor="Transparent"
-                FontSize="Small"
-                HorizontalOptions="Start"
-                ImageSource="password.png"
-                IsVisible="{Binding HasPasswordSet}"
-                Text="Schimba parola"
-                TextColor="Black"
-                TextTransform="None" />
-            <Button
-                Margin="0"
-                Padding="0"
-                xct:CornerRadiusEffect.CornerRadius="30"
-                BackgroundColor="Transparent"
-                Clicked="EditLocation"
-                FontSize="Small"
-                HorizontalOptions="Start"
-                ImageSource="location.png"
-                Text="Adauga locatia ta"
-                TextColor="Black"
-                TextTransform="None" />
-            <Button
-                Margin="0"
-                Padding="0"
-                xct:CornerRadiusEffect.CornerRadius="30"
-                BackgroundColor="Transparent"
-                FontSize="Small"
-                HorizontalOptions="Start"
-                ImageSource="orders.png"
-                Text="Termeni si conditii"
-                TextColor="Black"
-                TextTransform="None" />
-            <Button
-                Margin="0"
-                Padding="0"
-                xct:CornerRadiusEffect.CornerRadius="30"
-                BackgroundColor="Transparent"
-                FontSize="Small"
-                HorizontalOptions="Start"
-                ImageSource="lock.png"
-                Text="Protectia Datelor"
-                TextColor="Black"
-                TextTransform="None" />
-            <Button
-                Margin="0"
-                Padding="0"
-                xct:CornerRadiusEffect.CornerRadius="30"
-                BackgroundColor="Transparent"
-                FontSize="Small"
-                HorizontalOptions="Start"
-                ImageSource="info.png"
-                Text="Intrebari frecvente "
-                TextColor="Black"
-                TextTransform="None" />
-            <Button
-                Margin="0"
-                Padding="0"
-                xct:CornerRadiusEffect.CornerRadius="30"
-                BackgroundColor="Transparent"
-                Clicked="Deconectare_clicked"
-                FontSize="Small"
-                HorizontalOptions="Start"
-                ImageSource="logout.png"
-                Text="Deconecteazate"
-                TextColor="Black"
-                TextTransform="None" />
-            <Button
-                Margin="0"
-                Padding="0"
-                xct:CornerRadiusEffect.CornerRadius="30"
-                BackgroundColor="Transparent"
-                Clicked="DeleteButtonClicked"
-                FontSize="Small"
-                HorizontalOptions="Start"
-                ImageSource="delete.png"
-                Text="Sterge contul"
-                TextColor="Black"
-                TextTransform="None" />
-        </StackLayout>
-        <StackLayout
-            IsVisible="{Binding IsLoggedIn, Converter={StaticResource invertBoolConverter}}"
-            Spacing="30"
-            VerticalOptions="CenterAndExpand">
+                <Label
+                    FontSize="Large"
+                    HorizontalTextAlignment="Center"
+                    Text="{Binding Header}"
+                    TextColor="Black" />
+                <Label
+                    FontSize="Medium"
+                    HorizontalTextAlignment="Center"
+                    Text="{Binding PhoneNumber}"
+                    TextColor="Black" />
+                <Button
+                    Margin="0"
+                    Padding="0"
+                    xct:CornerRadiusEffect.CornerRadius="30"
+                    BackgroundColor="Transparent"
+                    Clicked="EditInfo"
+                    FontSize="Small"
+                    HorizontalOptions="Center"
+                    ImageSource="edit.png"
+                    Text="Editeaza datele"
+                    TextColor="Black"
+                    TextTransform="None" />
+                <Button
+                    Margin="0,50,0,0"
+                    Padding="0"
+                    xct:CornerRadiusEffect.CornerRadius="30"
+                    BackgroundColor="Transparent"
+                    Clicked="SetPassword"
+                    FontSize="Small"
+                    HorizontalOptions="Start"
+                    ImageSource="password.png"
+                    IsVisible="{Binding HasPasswordSet, Converter={StaticResource invertBoolConverter}}"
+                    Text="Seteaza o parola"
+                    TextColor="Black"
+                    TextTransform="None" />
+                <Button
+                    Margin="0"
+                    Padding="0"
+                    xct:CornerRadiusEffect.CornerRadius="30"
+                    BackgroundColor="Transparent"
+                    Clicked="ChangePassword"
+                    FontSize="Small"
+                    HorizontalOptions="Start"
+                    ImageSource="password.png"
+                    IsVisible="{Binding CanChangePass}"
+                    Text="Schimba parola"
+                    TextColor="Black"
+                    TextTransform="None" />
+                <Button
+                    Margin="0"
+                    Padding="0"
+                    xct:CornerRadiusEffect.CornerRadius="30"
+                    BackgroundColor="Transparent"
+                    Clicked="EditLocation"
+                    FontSize="Small"
+                    HorizontalOptions="Start"
+                    ImageSource="location.png"
+                    IsEnabled="{Binding CanEditLocation}"
+                    Text="Adauga locatia ta"
+                    TextColor="Black"
+                    TextTransform="None" />
+                <Button
+                    Margin="0"
+                    Padding="0"
+                    xct:CornerRadiusEffect.CornerRadius="30"
+                    BackgroundColor="Transparent"
+                    FontSize="Small"
+                    HorizontalOptions="Start"
+                    ImageSource="orders.png"
+                    Clicked="TermeniClicked"
+                    Text="Termeni si conditii"
+                    TextColor="Black"
+                    TextTransform="None" />
+                <Button
+                    Margin="0"
+                    Padding="0"
+                    xct:CornerRadiusEffect.CornerRadius="30"
+                    BackgroundColor="Transparent"
+                    FontSize="Small"
+                    HorizontalOptions="Start"
+                    ImageSource="lock.png"
+                    Clicked="GDPRclicked"
+                    Text="Protectia Datelor"
+                    TextColor="Black"
+                    TextTransform="None" />
+                <Button
+                    Margin="0"
+                    Padding="0"
+                    xct:CornerRadiusEffect.CornerRadius="30"
+                    BackgroundColor="Transparent"
+                    FontSize="Small"
+                    HorizontalOptions="Start"
+                    ImageSource="info.png"
+                    Text="Intrebari frecvente "
+                    TextColor="Black"
+                    TextTransform="None" />
+                <Button
+                    Margin="0"
+                    Padding="0"
+                    xct:CornerRadiusEffect.CornerRadius="30"
+                    BackgroundColor="Transparent"
+                    Clicked="Deconectare_clicked"
+                    FontSize="Small"
+                    HorizontalOptions="Start"
+                    ImageSource="logout.png"
+                    Text="Deconecteazate"
+                    TextColor="Black"
+                    TextTransform="None" />
+                <Button
+                    Margin="0"
+                    Padding="0"
+                    xct:CornerRadiusEffect.CornerRadius="30"
+                    BackgroundColor="Transparent"
+                    Clicked="DeleteButtonClicked"
+                    FontSize="Small"
+                    HorizontalOptions="Start"
+                    ImageSource="delete.png"
+                    Text="Sterge contul"
+                    TextColor="Black"
+                    TextTransform="None" />
+            </StackLayout>
+            <StackLayout
+                IsVisible="{Binding IsLoggedIn, Converter={StaticResource invertBoolConverter}}"
+                Spacing="30"
+                VerticalOptions="CenterAndExpand">
 
-            <Label
-                FontAttributes="Bold"
-                FontSize="Large"
-                HorizontalOptions="CenterAndExpand"
-                Text="Nu esti autentificat."
-                TextColor="Black"
-                VerticalOptions="CenterAndExpand" />
-            <Button
-                Margin="0"
-                Padding="0"
-                xct:CornerRadiusEffect.CornerRadius="30"
-                BackgroundColor="LightCoral"
-                Clicked="RedirSignIn"
-                FontSize="Medium"
-                Text="Autentificate"
-                TextColor="White"
-                TextTransform="None" />
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="Large"
+                    HorizontalOptions="CenterAndExpand"
+                    Text="Nu esti autentificat."
+                    TextColor="Black"
+                    VerticalOptions="CenterAndExpand" />
+                <Button
+                    Margin="0"
+                    Padding="0"
+                    xct:CornerRadiusEffect.CornerRadius="30"
+                    BackgroundColor="LightCoral"
+                    Clicked="RedirSignIn"
+                    FontSize="Medium"
+                    Text="Autentificate"
+                    TextColor="White"
+                    TextTransform="None" />
+            </StackLayout>
         </StackLayout>
-    </StackLayout>
+    </RefreshView>
 </ContentPage>

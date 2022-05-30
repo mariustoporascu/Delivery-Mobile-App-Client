@@ -15,7 +15,9 @@ namespace FoodDeliveryApp.Views
         }
         protected override async void OnAppearing()
         {
-            if (App.isLoggedIn)
+            base.OnAppearing();
+
+            if (App.IsLoggedIn)
             {
                 viewModel.IsLoggedIn = true;
                 await viewModel.ExecuteLoadOrdersCommand();
@@ -30,13 +32,18 @@ namespace FoodDeliveryApp.Views
                 viewModel.IsLoggedIn = false;
                 viewModel.IsBusy = false;
             }
-            base.OnAppearing();
 
         }
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
             ItemsListView.ItemsSource = null;
+        }
+
+        private void DatePicker_DateSelected(object sender, DateChangedEventArgs e)
+        {
+            viewModel.SelectedTime = e.NewDate;
+            viewModel.FilterBy(e.NewDate);
         }
 
     }

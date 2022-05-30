@@ -42,15 +42,15 @@
             Icon="cart.png"
             Route="CosContentPage" />
         <ShellContent
-            Title="Cont"
-            ContentTemplate="{DataTemplate local:UserProfilePage}"
-            Icon="user.png"
-            Route="UserProfilePage" />
-        <ShellContent
             Title="Harta"
             ContentTemplate="{DataTemplate local:MapsPage}"
             Icon="location.png"
             Route="MapsPage" />
+        <ShellContent
+            Title="Cont"
+            ContentTemplate="{DataTemplate local:UserProfilePage}"
+            Icon="user.png"
+            Route="UserProfilePage" />
         <ShellContent
             Title="Comenzi"
             ContentTemplate="{DataTemplate local:OrdersPage}"

@@ -13,7 +13,7 @@
     <RefreshView
         x:DataType="local:ListaRestauranteViewModel"
         Command="{Binding RefreshCommand}"
-        IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+        IsRefreshing="{Binding IsBusy, Mode=TwoWay}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
         <ScrollView
             x:Name="ItemsListView"
             HorizontalOptions="FillAndExpand"

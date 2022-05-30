@@ -1,6 +1,9 @@
-﻿using FoodDeliveryApp.ViewModels;
+﻿using FoodDeliveryApp.Constants;
+using FoodDeliveryApp.ViewModels;
+using Newtonsoft.Json;
 using System;
-
+using System.Net.Http;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace FoodDeliveryApp.Views
@@ -8,6 +11,7 @@ namespace FoodDeliveryApp.Views
     public partial class CosContentPage : ContentPage
     {
         CosContentViewModel viewModel;
+
 
         public CosContentPage()
         {
@@ -18,15 +22,18 @@ namespace FoodDeliveryApp.Views
 
         protected override void OnAppearing()
         {
-            viewModel.IsLoggedIn = App.isLoggedIn;
+            base.OnAppearing();
+
+            viewModel.IsLoggedIn = App.IsLoggedIn;
             viewModel.LoadItemsCommand.Execute(null);
             ItemsListView.ScrollTo(0, position: ScrollToPosition.Start);
-            base.OnAppearing();
+            viewModel.GetTime();
 
         }
         private async void GoToFinalizeOrder(object sender, EventArgs e)
         {
             await Navigation.PushModalAsync(new PlaceOrderPage());
         }
+
     }
 }

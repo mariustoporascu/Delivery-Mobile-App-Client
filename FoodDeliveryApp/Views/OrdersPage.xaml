@@ -39,6 +39,7 @@
                                 LineBreakMode="WordWrap"
                                 Text="Nr"
                                 TextColor="Black"
+                                VerticalOptions="CenterAndExpand"
                                 WidthRequest="90" />
                             <Label
                                 FontAttributes="Bold"
@@ -48,6 +49,7 @@
                                 LineBreakMode="WordWrap"
                                 Text="Status"
                                 TextColor="Black"
+                                VerticalOptions="CenterAndExpand"
                                 WidthRequest="80" />
                             <Label
                                 FontAttributes="Bold"
@@ -57,16 +59,16 @@
                                 LineBreakMode="WordWrap"
                                 Text="Total"
                                 TextColor="Black"
+                                VerticalOptions="CenterAndExpand"
                                 WidthRequest="95" />
-                            <Label
-                                FontAttributes="Bold"
+                            <DatePicker
+                                x:Name="Datapick"
+                                DateSelected="DatePicker_DateSelected"
                                 FontSize="Small"
-                                HorizontalOptions="CenterAndExpand"
-                                HorizontalTextAlignment="Center"
-                                LineBreakMode="WordWrap"
-                                Text="Data"
+                                HorizontalOptions="Center"
                                 TextColor="Black"
-                                WidthRequest="120" />
+                                TextTransform="None"
+                                WidthRequest="100" />
                         </StackLayout>
 
                         <CollectionView x:Name="ItemsListView" SelectionMode="None">
@@ -126,7 +128,7 @@
                                                 <StackLayout
                                                     HorizontalOptions="CenterAndExpand"
                                                     VerticalOptions="CenterAndExpand"
-                                                    WidthRequest="120">
+                                                    WidthRequest="100">
                                                     <Label
                                                         FontSize="Small"
                                                         HorizontalTextAlignment="Center"

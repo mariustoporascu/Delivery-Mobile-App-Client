@@ -15,7 +15,10 @@
             <xct:InvertedBoolConverter x:Key="invertBoolConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
-    <StackLayout Margin="10,10,10,0" VerticalOptions="FillAndExpand">
+    <StackLayout
+        Margin="10,10,10,0"
+        HorizontalOptions="FillAndExpand"
+        VerticalOptions="FillAndExpand">
         <StackLayout IsVisible="{Binding IsPageVisible}">
             <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal">
 
@@ -168,25 +171,36 @@
                             TextColor="Black" />
                     </StackLayout>
                 </StackLayout>
-                <Button
-                    Margin="0"
-                    Padding="0"
-                    xct:CornerRadiusEffect.CornerRadius="30"
-                    BackgroundColor="LightCoral"
-                    Clicked="GoToFinalizeOrder"
-                    FontSize="Medium"
-                    IsVisible="{Binding IsLoggedIn}"
-                    Text="Plaseaza comanda"
-                    TextColor="White"
-                    TextTransform="None" />
-                <Label
-                    Margin="0,0,0,10"
-                    FontAttributes="Bold"
-                    FontSize="Default"
-                    HorizontalTextAlignment="Center"
-                    IsVisible="{Binding IsLoggedIn, Converter={StaticResource invertBoolConverter}}"
-                    Text="Pentru plasare comanda trebuie sa fii autentificat."
-                    TextColor="Black" />
+                <StackLayout IsVisible="{Binding CanPlaceOrder}">
+                    <Button
+                        Margin="0"
+                        Padding="0"
+                        xct:CornerRadiusEffect.CornerRadius="30"
+                        BackgroundColor="LightCoral"
+                        Clicked="GoToFinalizeOrder"
+                        FontSize="Medium"
+                        IsVisible="{Binding IsLoggedIn}"
+                        Text="Plaseaza comanda"
+                        TextColor="White"
+                        TextTransform="None" />
+                    <Label
+                        Margin="0,0,0,10"
+                        FontAttributes="Bold"
+                        FontSize="Default"
+                        HorizontalTextAlignment="Center"
+                        IsVisible="{Binding IsLoggedIn, Converter={StaticResource invertBoolConverter}}"
+                        Text="Pentru plasare comanda trebuie sa fii autentificat."
+                        TextColor="Black" />
+                </StackLayout>
+                <StackLayout IsVisible="{Binding CanPlaceOrder, Converter={StaticResource invertBoolConverter}}">
+                    <Label
+                        Margin="0,0,0,10"
+                        FontAttributes="Bold"
+                        FontSize="Default"
+                        HorizontalTextAlignment="Center"
+                        Text="Comenzile se pot plasa numai in intervalul orar 09:00 - 23:00."
+                        TextColor="Black" />
+                </StackLayout>
 
             </StackLayout>
         </StackLayout>

@@ -20,26 +20,26 @@ namespace FoodDeliveryApp.ViewModels
 
         public UserDetailsViewModel()
         {
-            //FullName = App.userInfo.FullName;
-            //PhoneNumber = App.userInfo.PhoneNumber;
+            //FullName = App.UserInfo.FullName;
+            //PhoneNumber = App.UserInfo.PhoneNumber;
             SaveProfile = new Command(async () => await OnSaveProfile());
         }
         async Task OnSaveProfile()
         {
             var result = await AuthController.Execute(new UserModel
             {
-                Email = App.userInfo.Email,
-                Password = App.userInfo.Password,
-                UserIdentification = App.userInfo.UserIdentification,
+                Email = App.UserInfo.Email,
+                Password = App.UserInfo.Password,
+                UserIdentification = App.UserInfo.UserIdentification,
                 FullName = FullName,
                 PhoneNumber = PhoneNumber,
                 CompleteProfile = true,
             }, Constants.AuthOperations.Profile);
             if (!string.IsNullOrWhiteSpace(result) && result.Contains("Profile updated."))
             {
-                App.userInfo.FullName = FullName;
-                App.userInfo.PhoneNumber = PhoneNumber;
-                App.userInfo.CompleteProfile = true;
+                App.UserInfo.FullName = FullName;
+                App.UserInfo.PhoneNumber = PhoneNumber;
+                App.UserInfo.CompleteProfile = true;
                 OnUpdateProfile?.Invoke(this, new EventArgs());
             }
             else

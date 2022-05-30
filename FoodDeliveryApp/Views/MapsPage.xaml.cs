@@ -25,6 +25,8 @@ namespace FoodDeliveryApp.Views
         }
         protected override async void OnAppearing()
         {
+            base.OnAppearing();
+
             calculateRoute = true;
             AppMap.MapElements.Clear();
             await mapsViewModel.LoadMyLocation();
@@ -47,7 +49,6 @@ namespace FoodDeliveryApp.Views
                 }
 
             }
-            base.OnAppearing();
 
         }
         protected override void OnDisappearing()
@@ -98,7 +99,7 @@ namespace FoodDeliveryApp.Views
         }
         async void RouteAsync()
         {
-            routes = await mapsViewModel.DrawDriverRoute().ConfigureAwait(false);
+            routes = await mapsViewModel.DrawDriverRoute();
         }
         void DrawElements()
         {

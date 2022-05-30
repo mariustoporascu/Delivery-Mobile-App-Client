@@ -13,7 +13,7 @@
         x:DataType enables compiled bindings for better performance and compile time validation of binding expressions.
         https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/data-binding/compiled-bindings
     -->
-    <StackLayout BackgroundColor="White">
+    <StackLayout BackgroundColor="White" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
         <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal">
             <Entry
                 ClearButtonVisibility="WhileEditing"

@@ -35,24 +35,28 @@ namespace FoodDeliveryApp.ViewModels
         {
             var result = await AuthController.Execute(new UserModel
             {
-                City = City,
-                BuildingInfo = BuildingInfo,
-                Street = Street,
-                CoordX = CoordX,
-                CoordY = CoordY,
-                Email = App.userInfo.Email,
-                UserIdentification = App.userInfo.UserIdentification,
-                Password = App.userInfo.Password,
-                CompleteLocation = true
+                Location = new UserLocation
+                {
+                    City = City,
+                    BuildingInfo = BuildingInfo,
+                    Street = Street,
+                    CoordX = CoordX,
+                    CoordY = CoordY,
+                },
+
+                Email = App.UserInfo.Email,
+                UserIdentification = App.UserInfo.UserIdentification,
+                Password = App.UserInfo.Password,
             }, Constants.AuthOperations.Location);
             if (!string.IsNullOrWhiteSpace(result) && result.Contains("Location updated."))
             {
-                App.userInfo.BuildingInfo = BuildingInfo;
-                App.userInfo.City = City;
-                App.userInfo.Street = Street;
-                App.userInfo.CoordX = CoordX;
-                App.userInfo.CoordY = CoordY;
-                App.userInfo.CompleteLocation = true;
+                App.UserInfo.Location = new UserLocation();
+                App.UserInfo.Location.BuildingInfo = BuildingInfo;
+                App.UserInfo.Location.City = City;
+                App.UserInfo.Location.Street = Street;
+                App.UserInfo.Location.CoordX = CoordX;
+                App.UserInfo.Location.CoordY = CoordY;
+
                 OnUpdateLocation?.Invoke(this, new EventArgs());
             }
             else

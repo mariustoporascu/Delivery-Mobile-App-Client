@@ -84,7 +84,7 @@ namespace FoodDeliveryApp.ViewModels
             {
                 if (OrderId > 0)
                 {
-                    var serverOrders = await DataStore.GetServerOrders(App.userInfo.Email);
+                    var serverOrders = await DataStore.GetServerOrders(App.UserInfo.Email);
 
                     if (serverOrders.Count > 0)
                         LoadOrder(OrderId);
@@ -175,7 +175,7 @@ namespace FoodDeliveryApp.ViewModels
         }
         public async Task<bool> GiveDriverRating(int rating)
         {
-            if (await OrderService.GiveRatingDriver(App.userInfo.Email, OrderId, rating))
+            if (await OrderService.GiveRatingDriver(App.UserInfo.Email, OrderId, rating))
             {
                 CurrOrder.ClientGaveRatingDriver = true;
                 CurrOrder.RatingDriver = rating;
@@ -189,7 +189,7 @@ namespace FoodDeliveryApp.ViewModels
         }
         public async Task<bool> GiveRestaurantRating(int rating)
         {
-            if (await OrderService.GiveRatingRestaurant(App.userInfo.Email, OrderId, rating))
+            if (await OrderService.GiveRatingRestaurant(App.UserInfo.Email, OrderId, rating))
             {
                 CurrOrder.ClientGaveRatingRestaurant = true;
                 CurrOrder.RatingRestaurant = rating;

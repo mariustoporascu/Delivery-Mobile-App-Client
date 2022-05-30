@@ -26,11 +26,16 @@ namespace FoodDeliveryApp.Views
         }
         protected override async void OnAppearing()
         {
-            viewModel.City = App.userInfo.City;
-            viewModel.BuildingInfo = App.userInfo.BuildingInfo;
-            viewModel.Street = App.userInfo.Street;
-            viewModel.CoordX = App.userInfo.CoordX;
-            viewModel.CoordY = App.userInfo.CoordY;
+            base.OnAppearing();
+            if (App.UserInfo.Location != null)
+            {
+                viewModel.City = App.UserInfo.Location.City;
+                viewModel.BuildingInfo = App.UserInfo.Location.BuildingInfo;
+                viewModel.Street = App.UserInfo.Location.Street;
+                viewModel.CoordX = App.UserInfo.Location.CoordX;
+                viewModel.CoordY = App.UserInfo.Location.CoordY;
+            }
+
             if (AppMap.Pins.Count > 0)
             {
                 Pin pinTo = AppMap.Pins.FirstOrDefault(pins => pins.Label == "Adresa mea");
@@ -74,7 +79,6 @@ namespace FoodDeliveryApp.Views
                         AppMap.MoveToRegion(MapSpan.FromCenterAndRadius(goToPin.Position, Distance.FromMeters(100)));
                 }
             }
-            base.OnAppearing();
         }
         private void CheckFieldCladireAp(object sender, TextChangedEventArgs e)
         {
@@ -172,14 +176,15 @@ namespace FoodDeliveryApp.Views
         {
             try
             {
-                if (OrasEntry.IsValid && NumeNrStradaEntry.IsValid && App.isLoggedIn)
+                if (OrasEntry.IsValid && NumeNrStradaEntry.IsValid && App.IsLoggedIn)
                 {
 
-                    IEnumerable<Position> aproxLocation = await geoCoder.GetPositionsForAddressAsync(NumeNrStrada.Text + ", " + Oras.Text + ", Romania").ConfigureAwait(false);
+                    IEnumerable<Position> aproxLocation = await geoCoder.GetPositionsForAddressAsync(NumeNrStrada.Text + ", " + Oras.Text + ", Romania");
                     if (aproxLocation.Count() > 0 && !string.IsNullOrWhiteSpace(NumeNrStrada.Text) && !string.IsNullOrWhiteSpace(Oras.Text))
                     {
-                        if (changeLocation && (Oras.Text != App.userInfo.City || NumeNrStrada.Text != App.userInfo.Street))
+                        if (changeLocation)
                         {
+
                             var posn = aproxLocation.First();
                             await Device.InvokeOnMainThreadAsync(() =>
                             {
@@ -271,7 +276,7 @@ namespace FoodDeliveryApp.Views
             try
             {
                 await this.DisplayToastAsync("Locatia a fost actualizata.", 1300);
-                await Navigation.PopModalAsync(false).ConfigureAwait(false);
+                await Navigation.PopModalAsync(true);
             }
             catch (Exception ex)
             {
@@ -293,7 +298,7 @@ namespace FoodDeliveryApp.Views
         {
             try
             {
-                await Navigation.PopModalAsync(false).ConfigureAwait(false);
+                await Navigation.PopModalAsync(true);
             }
             catch (Exception ex)
             {

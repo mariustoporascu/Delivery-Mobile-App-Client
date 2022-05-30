@@ -1,6 +1,9 @@
-﻿using FoodDeliveryApp.Services;
+﻿using FoodDeliveryApp.Models.AuthModels;
+using FoodDeliveryApp.Services;
 using FoodDeliveryApp.Views;
+using Newtonsoft.Json;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace FoodDeliveryApp
@@ -22,7 +25,11 @@ namespace FoodDeliveryApp
             Routing.RegisterRoute(nameof(UserDetailsPage), typeof(UserDetailsPage));
             Routing.RegisterRoute(nameof(UserLocationPage), typeof(UserLocationPage));
             Routing.RegisterRoute(nameof(ConfirmEmailPage), typeof(ConfirmEmailPage));
-            Task.Run(async () => await DependencyService.Get<IDataStore>().Init().ConfigureAwait(false));
+            Routing.RegisterRoute(nameof(SetPasswordPage), typeof(SetPasswordPage));
+            Routing.RegisterRoute(nameof(ChangePasswordPage), typeof(ChangePasswordPage));
+            Routing.RegisterRoute(nameof(GenerateTokenPage), typeof(GenerateTokenPage));
+            Routing.RegisterRoute(nameof(ResetPasswordPage), typeof(ResetPasswordPage));
+            Task.Run(async () => await DependencyService.Get<IDataStore>().Init());
         }
 
     }

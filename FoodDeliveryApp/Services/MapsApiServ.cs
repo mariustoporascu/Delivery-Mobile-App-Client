@@ -39,15 +39,15 @@ namespace FoodDeliveryApp.Services
                 bool authid = client.DefaultRequestHeaders.TryGetValues("authid", out var val2);
                 if (!authid && !authkey)
                 {
-                    client.DefaultRequestHeaders.Add("authkey", App.userInfo.LoginToken);
-                    client.DefaultRequestHeaders.Add("authid", App.userInfo.Email);
+                    client.DefaultRequestHeaders.Add("authkey", App.UserInfo.LoginToken);
+                    client.DefaultRequestHeaders.Add("authid", App.UserInfo.Email);
                 }
                 else
                 {
                     client.DefaultRequestHeaders.Remove("authkey");
                     client.DefaultRequestHeaders.Remove("authid");
-                    client.DefaultRequestHeaders.Add("authkey", App.userInfo.LoginToken);
-                    client.DefaultRequestHeaders.Add("authid", App.userInfo.Email);
+                    client.DefaultRequestHeaders.Add("authkey", App.UserInfo.LoginToken);
+                    client.DefaultRequestHeaders.Add("authid", App.UserInfo.Email);
                 }
 
             }
@@ -66,15 +66,15 @@ namespace FoodDeliveryApp.Services
                  position2.Latitude.ToString("N7", CultureInfo.InvariantCulture) + "&" +
                  position2.Longitude.ToString("N7", CultureInfo.InvariantCulture) + "&" +
                  position1.Latitude.ToString("N7", CultureInfo.InvariantCulture) + "&" +
-                 position1.Longitude.ToString("N7", CultureInfo.InvariantCulture)).ConfigureAwait(false);
+                 position1.Longitude.ToString("N7", CultureInfo.InvariantCulture));
             if (response.IsSuccessStatusCode)
             {
-                var json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                var json = await response.Content.ReadAsStringAsync();
                 if (!string.IsNullOrWhiteSpace(json))
                 {
                     googleDirection = await Task.Run(() =>
                        JsonConvert.DeserializeObject<GoogleDirection>(json)
-                    ).ConfigureAwait(false);
+                    );
 
                 }
 

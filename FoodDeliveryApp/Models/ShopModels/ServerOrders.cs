@@ -16,6 +16,8 @@ namespace FoodDeliveryApp.Models.ShopModels
         public bool IsRestaurant { get; set; } = false;
         public int RestaurantRefId { get; set; }
         public string EstimatedTime { get; set; }
+        public string NumeCompanie { get; set; }
+
         public bool ClientGaveRatingDriver { get; set; } = false;
         public bool ClientGaveRatingRestaurant { get; set; } = false;
         public bool? HasUserConfirmedET { get; set; }

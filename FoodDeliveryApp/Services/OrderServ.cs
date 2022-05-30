@@ -27,15 +27,15 @@ namespace FoodDeliveryApp.Services
                 bool authid = _httpClient.DefaultRequestHeaders.TryGetValues("authid", out var val2);
                 if (!authid && !authkey)
                 {
-                    _httpClient.DefaultRequestHeaders.Add("authkey", App.userInfo.LoginToken);
-                    _httpClient.DefaultRequestHeaders.Add("authid", App.userInfo.Email);
+                    _httpClient.DefaultRequestHeaders.Add("authkey", App.UserInfo.LoginToken);
+                    _httpClient.DefaultRequestHeaders.Add("authid", App.UserInfo.Email);
                 }
                 else
                 {
                     _httpClient.DefaultRequestHeaders.Remove("authkey");
                     _httpClient.DefaultRequestHeaders.Remove("authid");
-                    _httpClient.DefaultRequestHeaders.Add("authkey", App.userInfo.LoginToken);
-                    _httpClient.DefaultRequestHeaders.Add("authid", App.userInfo.Email);
+                    _httpClient.DefaultRequestHeaders.Add("authkey", App.UserInfo.LoginToken);
+                    _httpClient.DefaultRequestHeaders.Add("authid", App.UserInfo.Email);
                 }
 
             }
@@ -50,7 +50,7 @@ namespace FoodDeliveryApp.Services
         {
             TryAddHeaders();
             Uri uri = new Uri($"{ServerConstants.BaseUrl}/foodapp/agreeesttime/{orderId}&{accept}");
-            HttpResponseMessage httpResponseMessage = await _httpClient.GetAsync(uri).ConfigureAwait(false);
+            HttpResponseMessage httpResponseMessage = await _httpClient.GetAsync(uri);
 
             if (httpResponseMessage.IsSuccessStatusCode)
             {
@@ -63,7 +63,7 @@ namespace FoodDeliveryApp.Services
             return false;
         }
 
-        public async Task<int> CreateOrder(Order order)
+        public async Task<string> CreateOrder(ServerOrder order)
         {
             TryAddHeaders();
             Uri uri = new Uri($"{ServerConstants.BaseUrl}/foodapp/createorder");
@@ -73,9 +73,9 @@ namespace FoodDeliveryApp.Services
             if (httpResponseMessage.IsSuccessStatusCode)
             {
                 var respInfo = await httpResponseMessage.Content.ReadAsStringAsync();
-                return int.Parse(respInfo);
+                return respInfo;
             }
-            return 0;
+            return string.Empty;
         }
 
         public async Task CreateOrderInfo(OrderInfo orderInfo)
@@ -105,7 +105,7 @@ namespace FoodDeliveryApp.Services
             TryAddHeaders();
 
             Uri uri = new Uri($"{ServerConstants.BaseUrl}/foodapp/ratingdriver/{email}&{orderId}&{rating}");
-            HttpResponseMessage httpResponseMessage = await _httpClient.GetAsync(uri).ConfigureAwait(false);
+            HttpResponseMessage httpResponseMessage = await _httpClient.GetAsync(uri);
             if (httpResponseMessage.IsSuccessStatusCode)
             {
 
@@ -119,7 +119,7 @@ namespace FoodDeliveryApp.Services
             TryAddHeaders();
 
             Uri uri = new Uri($"{ServerConstants.BaseUrl}/foodapp/ratingrestaurant/{email}&{orderId}&{rating}");
-            HttpResponseMessage httpResponseMessage = await _httpClient.GetAsync(uri).ConfigureAwait(false);
+            HttpResponseMessage httpResponseMessage = await _httpClient.GetAsync(uri);
             if (httpResponseMessage.IsSuccessStatusCode)
             {
 
@@ -133,10 +133,10 @@ namespace FoodDeliveryApp.Services
             TryAddHeaders();
 
             Uri uri = new Uri($"{ServerConstants.BaseUrl}/foodapp/getmydriverlocation/{driverId}&{orderId}");
-            HttpResponseMessage httpResponseMessage = await _httpClient.GetAsync(uri).ConfigureAwait(false);
+            HttpResponseMessage httpResponseMessage = await _httpClient.GetAsync(uri);
             if (httpResponseMessage.IsSuccessStatusCode)
             {
-                string content = await httpResponseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
+                string content = await httpResponseMessage.Content.ReadAsStringAsync();
                 var settings = new JsonSerializerSettings
                 {
                     NullValueHandling = NullValueHandling.Ignore,

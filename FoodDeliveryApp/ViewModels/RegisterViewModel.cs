@@ -24,7 +24,7 @@ namespace FoodDeliveryApp.ViewModels
         public string ConfirmPassword { get => confirmPassword; set => SetProperty(ref confirmPassword, value); }
         public string Password { get => password; set => SetProperty(ref password, value); }
 
-        public bool _loggedIn = !App.isLoggedIn;
+        public bool _loggedIn = !App.IsLoggedIn;
         public bool LoggedIn { get => _loggedIn; }
         public bool IsAppleSignInAvailable { get { return appleSignInService?.IsAvailable ?? false; } }
         public Command SignInWithAppleCommand { get; set; }

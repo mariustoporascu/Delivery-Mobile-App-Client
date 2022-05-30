@@ -29,7 +29,7 @@ namespace FoodDeliveryApp.ViewModels
         }
         public async Task ReloadServerData()
         {
-            await DataStore.Init().ConfigureAwait(false);
+            await DataStore.Init();
         }
         protected bool SetProperty<T>(ref T backingStore, T value,
             [CallerMemberName] string propertyName = "",
