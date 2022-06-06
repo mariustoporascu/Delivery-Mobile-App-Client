@@ -1,6 +1,8 @@
-﻿using FoodDeliveryApp.Models.MapsModels;
+﻿using FoodDeliveryApp.Controls;
+using FoodDeliveryApp.Models.MapsModels;
 using FoodDeliveryApp.Models.ShopModels;
 using FoodDeliveryApp.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,10 +13,8 @@ namespace FoodDeliveryApp.ViewModels
     public class MapsViewModel : BaseViewModel
     {
         public Geocoder geoCoder;
-        public Pin pinRoute1 = new Pin
-        {
-            Label = "Adresa mea"
-        };
+        public List<CustomPin> MyLocations { get; set; }
+
         private List<DriverLocation> _driverLocations;
         private bool _hasRoute = false;
         public bool HasRoute { get { return _hasRoute; } set => SetProperty(ref _hasRoute, value); }
@@ -22,58 +22,90 @@ namespace FoodDeliveryApp.ViewModels
         {
             geoCoder = new Geocoder();
             _driverLocations = new List<DriverLocation>();
+            MyLocations = new List<CustomPin>();
         }
 
         public async Task LoadMyLocation()
         {
-            if (App.IsLoggedIn && App.UserInfo.Location != null)
+            if (App.IsLoggedIn && App.UserInfo.Locations != null)
             {
-                Position myPosition = new Position(App.UserInfo.Location.CoordX, App.UserInfo.Location.CoordY);
-                pinRoute1.Position = myPosition;
+                MyLocations.Clear();
+                foreach (var loc in App.UserInfo.Locations)
+                {
+                    Position myPosition = new Position(loc.CoordX, loc.CoordY);
+                    var pin = new CustomPin
+                    {
+                        Label = loc.LocationName,
+                        Type = PinType.Place,
+                        LocationId = loc.LocationId,
+                        Position = myPosition
+                    };
+                    MyLocations.Add(pin);
+                }
 
             }
             else
             {
-                IEnumerable<Position> aproxLocation = await geoCoder.GetPositionsForAddressAsync("Centru, Cernavoda, Romania");
+                IEnumerable<Position> aproxLocation = await geoCoder.GetPositionsForAddressAsync("Centru, Cernavoda, Constanta, Romania");
                 if (aproxLocation.Count() > 0)
                 {
                     Position position1 = aproxLocation.FirstOrDefault();
-                    pinRoute1.Position = position1;
+                    var pin = new CustomPin
+                    {
+                        Label = "Cernavoda",
+                        Type = PinType.Place,
+                        Position = position1
+                    };
+                    MyLocations.Add(pin);
                 }
             }
         }
         public async Task<Dictionary<int, GoogleDirection>> DrawDriverRoute()
         {
-            if (App.IsLoggedIn && App.UserInfo.Location != null)
+            try
             {
-                _driverLocations.Clear();
-                var myOrders = await DataStore.GetServerOrders(App.UserInfo.Email);
-                foreach (var o in myOrders)
+                if (App.IsLoggedIn && App.UserInfo.Location != null)
                 {
-                    if (o.Status == "In curs de livrare")
+                    _driverLocations.Clear();
+                    var myOrders = await DataStore.GetServerOrders(App.UserInfo.Email);
+                    foreach (var o in myOrders)
                     {
-                        var driverloc = await OrderService.LoadDrivers(o.DriverRefId, o.OrderId);
-                        if (driverloc != null)
+                        if (o.Status == "In curs de livrare")
                         {
-                            _driverLocations.Add(driverloc);
+                            var driverloc = await OrderService.LoadDrivers(o.DriverRefId, o.OrderId);
+                            if (driverloc != null)
+                            {
+                                driverloc.OrderId = o.OrderId;
+                                _driverLocations.Add(driverloc);
+                            }
                         }
                     }
                 }
+                Dictionary<int, GoogleDirection> directions = new Dictionary<int, GoogleDirection>();
+                foreach (var o in _driverLocations)
+                {
+                    var order = DataStore.GetOrder(o.OrderId);
+                    var locationInOrder = App.UserInfo.Locations.Find(loc => loc.LocationId == order.UserLocationId);
+                    var route = await LoadRoute(new Position(locationInOrder.CoordX, locationInOrder.CoordY),
+                        new Position(o.CoordX, o.CoordY));
+                    if (route != null)
+                        directions.Add(o.OrderId, route);
+                }
+                return directions;
+
             }
-            Dictionary<int, GoogleDirection> directions = new Dictionary<int, GoogleDirection>();
-            foreach (var o in _driverLocations)
+            catch (Exception)
             {
-                var route = await LoadRoute(new Position(o.CoordX, o.CoordY));
-                if (route != null)
-                    directions.Add(o.OrderId, route);
+                return null;
+
             }
-            return directions;
+
         }
-        private async Task<GoogleDirection> LoadRoute(Position pin)
+        private async Task<GoogleDirection> LoadRoute(Position customer, Position driver)
         {
             if (App.IsLoggedIn)
             {
-                var googleDirection = await MapsApiServ.ServiceClientInstance.GetDirections(pinRoute1.Position, pin);
+                var googleDirection = await MapsApiServ.ServiceClientInstance.GetDirections(customer, driver);
                 if (googleDirection.Routes != null && googleDirection.Routes.Count > 0)
                 {
                     HasRoute = true;

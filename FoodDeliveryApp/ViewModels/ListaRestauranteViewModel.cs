@@ -11,14 +11,29 @@ using Xamarin.Forms;
 
 namespace FoodDeliveryApp.ViewModels
 {
+    [QueryProperty(nameof(TipId), nameof(TipId))]
     public class ListaRestauranteViewModel : BaseViewModel
     {
         private Companie _selectedItem;
+        public event EventHandler NotOpen = delegate { };
+
         private ObservableRangeCollection<Companie> _items;
         public ObservableRangeCollection<Companie> Items
         {
             get => _items;
             set => SetProperty(ref _items, value);
+        }
+        private int tipId;
+        public int TipId
+        {
+            get
+            {
+                return tipId;
+            }
+            set
+            {
+                tipId = value;
+            }
         }
         public Command LoadItemsCommand { get; }
         public Command RefreshCommand { get; }
@@ -26,7 +41,6 @@ namespace FoodDeliveryApp.ViewModels
 
         public ListaRestauranteViewModel()
         {
-            Title = "Lista Restaurante";
             Items = new ObservableRangeCollection<Companie>();
             LoadItemsCommand = new Command(ExecuteLoadItemsCommand);
             RefreshCommand = new Command(async () => await RefreshItems());
@@ -39,7 +53,8 @@ namespace FoodDeliveryApp.ViewModels
             {
 
                 Items.Clear();
-                var items = DataStore.GetRestaurante();
+                var items = DataStore.GetCompanii(TipId);
+                Title = "Lista " + DataStore.GetTipCompanii().First(tip => tip.TipCompanieId == TipId).Name;
 
                 Items.AddRange(items);
             }
@@ -55,7 +70,7 @@ namespace FoodDeliveryApp.ViewModels
             try
             {
                 await ReloadServerData();
-                var items = DataStore.GetRestaurante().ToList();
+                var items = DataStore.GetCompanii(TipId).ToList();
                 if (items.Count != Items.Count)
                     ExecuteLoadItemsCommand();
 
@@ -80,7 +95,12 @@ namespace FoodDeliveryApp.ViewModels
         {
             if (item == null)
                 return;
-            await Shell.Current.GoToAsync($"{nameof(CategoryPage)}?{nameof(CategViewModel.Canal)}=2&{nameof(CategViewModel.RefId)}={item.RestaurantId}");
+            if (!item.IsActive)
+            {
+                NotOpen?.Invoke(this, new EventArgs());
+                return;
+            }
+            await Shell.Current.GoToAsync($"{nameof(CategoryPage)}?{nameof(CategViewModel.RefId)}={item.CompanieId}");
         }
     }
 }

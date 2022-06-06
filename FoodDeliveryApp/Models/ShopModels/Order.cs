@@ -10,8 +10,9 @@ namespace FoodDeliveryApp.Models.ShopModels
         public decimal TransportFee { get; set; }
         public string TotalOrderedInterfata { get; set; }
         public string CustomerId { get; set; }
-        public bool IsRestaurant { get; set; } = false;
-        public int RestaurantRefId { get; set; }
+        public string PaymentMethod { get; set; }
+
+        public int CompanieRefId { get; set; }
         public string NumeCompanie { get; set; }
         public string EstimatedTime { get; set; }
         public string DriverRefId { get; set; }
@@ -23,12 +24,12 @@ namespace FoodDeliveryApp.Models.ShopModels
         public bool ClientGaveRatingDriver { get => _giveratingdriver; set => SetProperty(ref _giveratingdriver, value); }
 
         private bool _giveratingrestaurant;
-        public bool ClientGaveRatingRestaurant { get => _giveratingrestaurant; set => SetProperty(ref _giveratingrestaurant, value); }
+        public bool ClientGaveRatingCompanie { get => _giveratingrestaurant; set => SetProperty(ref _giveratingrestaurant, value); }
         //public int _ratingClient;
         private int _ratingDriver;
         private int _ratingRestaurant;
         //public int RatingClient { get => _ratingClient; set => SetProperty(ref _ratingClient, value); }
         public int RatingDriver { get => _ratingDriver; set => SetProperty(ref _ratingDriver, value); }
-        public int RatingRestaurant { get => _ratingRestaurant; set => SetProperty(ref _ratingRestaurant, value); }
+        public int RatingCompanie { get => _ratingRestaurant; set => SetProperty(ref _ratingRestaurant, value); }
     }
 }

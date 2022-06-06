@@ -18,7 +18,9 @@
     <RefreshView
         x:DataType="local:OrderInfoViewModel"
         Command="{Binding RefreshCommand}"
-        IsRefreshing="{Binding IsBusy, Mode=TwoWay}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+        HorizontalOptions="FillAndExpand"
+        IsRefreshing="{Binding IsBusy, Mode=TwoWay}"
+        VerticalOptions="FillAndExpand">
         <ScrollView BackgroundColor="White" VerticalOptions="FillAndExpand">
             <StackLayout>
                 <StackLayout
@@ -108,6 +110,27 @@
                                 WidthRequest="100" />
                         </StackLayout>
                     </StackLayout>
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="Small"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="Center"
+                        LineBreakMode="WordWrap"
+                        Text="Modalitate de plata aleasa"
+                        TextColor="Black"
+                        VerticalOptions="CenterAndExpand"
+                        VerticalTextAlignment="Center"
+                        WidthRequest="90" />
+                    <Label
+                        Margin="0,0,0,10"
+                        FontSize="Small"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="Center"
+                        LineBreakMode="WordWrap"
+                        Text="{Binding CurrOrder.PaymentMethod}"
+                        TextColor="Black"
+                        VerticalOptions="CenterAndExpand"
+                        VerticalTextAlignment="Center" />
                     <StackLayout
                         Margin="5"
                         HorizontalOptions="FillAndExpand"
@@ -316,8 +339,8 @@
                         HorizontalOptions="Center"
                         ImageHeight="30"
                         ImageWidth="30"
-                        IsEnabled="{Binding CurrOrder.ClientGaveRatingRestaurant, Converter={StaticResource invertBoolConverter}}"
-                        SelectedStarValue="{Binding CurrOrder.RatingRestaurant}" />
+                        IsEnabled="{Binding CurrOrder.ClientGaveRatingCompanie, Converter={StaticResource invertBoolConverter}}"
+                        SelectedStarValue="{Binding CurrOrder.RatingCompanie}" />
 
 
 
@@ -476,11 +499,16 @@
                         Wrap="Wrap">
                         <BindableLayout.ItemTemplate>
                             <DataTemplate>
-                                <StackLayout HorizontalOptions="FillAndExpand">
+                                <StackLayout
+                                    Margin="0,5,0,5"
+                                    x:DataType="model:OrderProductDisplay"
+                                    xct:CornerRadiusEffect.CornerRadius="15"
+                                    BackgroundColor="LightSeaGreen"
+                                    HorizontalOptions="FillAndExpand"
+                                    Orientation="Vertical">
 
                                     <StackLayout
                                         Margin="5"
-                                        x:DataType="model:OrderProductDisplay"
                                         HorizontalOptions="FillAndExpand"
                                         Orientation="Horizontal">
                                         <Label
@@ -527,7 +555,27 @@
                                                 NumberOfTapsRequired="1" />
                                         </StackLayout.GestureRecognizers>
                                     </StackLayout>
-
+                                    <StackLayout
+                                        Margin="5"
+                                        HorizontalOptions="FillAndExpand"
+                                        IsVisible="{Binding HasComments}"
+                                        Orientation="Horizontal">
+                                        <Label
+                                            FontSize="Small"
+                                            HorizontalOptions="Start"
+                                            LineBreakMode="WordWrap"
+                                            Text="Comentarii client produs: "
+                                            TextColor="Black"
+                                            VerticalOptions="CenterAndExpand"
+                                            WidthRequest="100" />
+                                        <Label
+                                            FontSize="Small"
+                                            HorizontalOptions="Start"
+                                            LineBreakMode="WordWrap"
+                                            Text="{Binding ClientComments}"
+                                            TextColor="Black"
+                                            VerticalOptions="CenterAndExpand" />
+                                    </StackLayout>
                                 </StackLayout>
                             </DataTemplate>
                         </BindableLayout.ItemTemplate>

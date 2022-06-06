@@ -3,8 +3,10 @@ using FoodDeliveryApp.Models.ShopModels;
 using FoodDeliveryApp.Views;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -18,6 +20,7 @@ namespace FoodDeliveryApp.ViewModels
         private ObservableCollection<CartItem> _items;
         public ObservableCollection<CartItem> Items { get => _items; set => SetProperty(ref _items, value); }
         private bool isPageVisible = false;
+        private List<Item> SItems;
         HttpClient _client;
         public bool IsPageVisible
         {
@@ -48,7 +51,7 @@ namespace FoodDeliveryApp.ViewModels
             Items = new ObservableCollection<CartItem>();
             LoadItemsCommand = new Command(ExecuteLoadItemsCommand);
             _client = new HttpClient();
-
+            SItems = new List<Item>();
             ItemTapped = new Command<CartItem>((item) => OnItemSelected(item));
 
             MinusCommand = new Command<CartItem>(OnMinus);
@@ -68,10 +71,12 @@ namespace FoodDeliveryApp.ViewModels
                 Items.Clear();
                 Total = 0;
                 var items = DataStore.GetCartItems();
+                if (SItems.Count == 0)
+                    SItems.AddRange(DataStore.GetItems(0, 0));
                 foreach (var item in items)
                 {
                     Items.Add(item);
-                    Total = Total + item.Cantitate * item.Price;
+                    Total = Total + item.PriceTotal;
                 }
                 if (items.Count > 0)
                     IsPageVisible = true;
@@ -105,6 +110,7 @@ namespace FoodDeliveryApp.ViewModels
             if (item == null)
                 return;
             item.Cantitate--;
+            item.PriceTotal = item.Cantitate * SItems.Find(prod => prod.ProductId == item.ProductId).Price;
             if (item.Cantitate == 0)
             {
                 DataStore.DeleteFromCart(item);
@@ -112,7 +118,7 @@ namespace FoodDeliveryApp.ViewModels
             }
             else
                 DataStore.SaveCart(item);
-
+            GetTime();
             RefreshCanExecutes();
         }
         void OnPlus(CartItem item)
@@ -120,6 +126,8 @@ namespace FoodDeliveryApp.ViewModels
             if (item == null)
                 return;
             item.Cantitate++;
+            item.PriceTotal = item.Cantitate * SItems.Find(prod => prod.ProductId == item.ProductId).Price;
+
             DataStore.SaveCart(item);
             RefreshCanExecutes();
         }
@@ -128,7 +136,7 @@ namespace FoodDeliveryApp.ViewModels
             Total = 0;
             foreach (var item in Items)
             {
-                Total = Total + item.Cantitate * item.Price;
+                Total = Total + item.PriceTotal;
             }
             if (Items.Count > 0)
                 IsPageVisible = true;
@@ -157,7 +165,32 @@ namespace FoodDeliveryApp.ViewModels
                     MissingMemberHandling = MissingMemberHandling.Ignore
                 };
                 var timeObject = JsonConvert.DeserializeObject<WorldTime>(content, settings);
-                CanPlaceOrder = timeObject.DateTime.Hour >= 9 && timeObject.DateTime.Hour < 23;
+                CanPlaceOrder = true;
+                var tipCompanii = DataStore.GetTipCompanii().ToList();
+                var companii = DataStore.GetCompanii(0).ToList();
+                foreach (var item in Items)
+                    if (CanPlaceOrder)
+                    {
+                        var companie = companii.Find(comp => comp.CompanieId == item.CompanieRefId);
+                        var tipCompanie = tipCompanii.Find(tip => tip.TipCompanieId == companie.TipCompanieRefId);
+                        if (tipCompanie.StartHour <= tipCompanie.EndHour)
+                        {
+                            // start and stop times are in the same day
+                            if (!(timeObject.DateTime.Hour >= tipCompanie.StartHour && timeObject.DateTime.Hour <= tipCompanie.EndHour))
+                            {
+                                CanPlaceOrder = false;
+                            }
+                        }
+                        else
+                        {
+                            // start and stop times are in different days
+                            if (!(timeObject.DateTime.Hour >= tipCompanie.StartHour || timeObject.DateTime.Hour <= tipCompanie.EndHour))
+                            {
+                                CanPlaceOrder = false;
+                            }
+                        }
+
+                    }
             }
             else { CanPlaceOrder = false; }
         }

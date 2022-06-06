@@ -10,10 +10,17 @@
     Title="{Binding Title}"
     x:DataType="local:ListaRestauranteViewModel"
     Shell.PresentationMode="Animated">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <xct:InvertedBoolConverter x:Key="invertBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <RefreshView
         x:DataType="local:ListaRestauranteViewModel"
         Command="{Binding RefreshCommand}"
-        IsRefreshing="{Binding IsBusy, Mode=TwoWay}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+        HorizontalOptions="FillAndExpand"
+        IsRefreshing="{Binding IsBusy, Mode=TwoWay}"
+        VerticalOptions="FillAndExpand">
         <ScrollView
             x:Name="ItemsListView"
             HorizontalOptions="FillAndExpand"
@@ -38,7 +45,7 @@
                                     xct:CornerRadiusEffect.CornerRadius="20"
                                     BackgroundColor="LightCyan"
                                     HorizontalOptions="FillAndExpand">
-                                    <StackLayout HeightRequest="180" HorizontalOptions="FillAndExpand">
+                                    <StackLayout HeightRequest="200" HorizontalOptions="FillAndExpand">
                                         <StackLayout
                                             x:DataType="model:Companie"
                                             HorizontalOptions="FillAndExpand"
@@ -64,6 +71,23 @@
                                                 Text="{Binding Name}"
                                                 TextColor="Black"
                                                 VerticalOptions="CenterAndExpand" />
+                                            <StackLayout
+                                                HorizontalOptions="CenterAndExpand"
+                                                IsVisible="{Binding IsActive, Converter={StaticResource invertBoolConverter}}"
+                                                Orientation="Horizontal">
+                                                <Label
+                                                    FontSize="Small"
+                                                    HorizontalTextAlignment="Center"
+                                                    LineBreakMode="NoWrap"
+                                                    Text="Se deschide la data de"
+                                                    TextColor="Black" />
+                                                <Label
+                                                    FontSize="Small"
+                                                    HorizontalTextAlignment="Center"
+                                                    LineBreakMode="NoWrap"
+                                                    Text="{Binding Opening, StringFormat='{0:MMMM dd, yyyy}'}"
+                                                    TextColor="Black" />
+                                            </StackLayout>
                                             <StackLayout.GestureRecognizers>
                                                 <TapGestureRecognizer
                                                     Command="{Binding Source={RelativeSource AncestorType={x:Type local:ListaRestauranteViewModel}}, Path=ItemTapped}"

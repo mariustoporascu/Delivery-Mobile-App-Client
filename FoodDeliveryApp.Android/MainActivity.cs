@@ -1,5 +1,4 @@
-﻿
-using Android.App;
+﻿using Android.App;
 using Android.Content;
 using Android.Content.PM;
 using Android.OS;
@@ -7,11 +6,11 @@ using Android.Runtime;
 using Android.Widget;
 using AndroidX.AppCompat.App;
 using Plugin.FacebookClient;
-
+using System;
 
 namespace FoodDeliveryApp.Droid
 {
-    [Activity(Label = "FoodDeliveryApp", Icon = "@mipmap/ic_launcher", Theme = "@style/MainTheme", ConfigurationChanges = ConfigChanges.Locale | ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize | ConfigChanges.ColorMode, ScreenOrientation = ScreenOrientation.Portrait)]
+    [Activity(Label = "FoodDeliveryApp", Icon = "@mipmap/ic_launcher", Theme = "@style/MainTheme", ConfigurationChanges = ConfigChanges.Locale | ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize | ConfigChanges.ColorMode, ScreenOrientation = ScreenOrientation.Portrait, Exported = true)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)
@@ -28,6 +27,7 @@ namespace FoodDeliveryApp.Droid
             Xamarin.FormsMaps.Init(this, savedInstanceState);
             //GetLocationPermissions();
             LoadApplication(new App());
+
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
@@ -60,7 +60,7 @@ namespace FoodDeliveryApp.Droid
         //}
         private void ConfirmWithDialog()
         {
-            using (var alert = new Android.App.AlertDialog.Builder(this))
+            using (var alert = new AndroidX.AppCompat.App.AlertDialog.Builder(this))
             {
                 alert.SetTitle("Confirma inchiderea");
                 alert.SetMessage("Esti sigur ca doresti sa inchizi aplicatia?");

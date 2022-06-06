@@ -1,5 +1,9 @@
-﻿using FoodDeliveryApp.Views;
+﻿using FoodDeliveryApp.Models.ShopModels;
+using FoodDeliveryApp.Views;
+using MvvmHelpers;
 using System;
+using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -7,29 +11,79 @@ namespace FoodDeliveryApp.ViewModels
 {
     public class EntryFoodAppViewModel : BaseViewModel
     {
-        public Command SuperMarketCommand { get; }
-        public Command RestauranteCommand { get; }
-        public event EventHandler Supermarketpush = delegate { };
+        public Command<TipCompanie> ItemTapped { get; }
+        private TipCompanie _selectedItem;
+        private ObservableRangeCollection<TipCompanie> _items;
+        public ObservableRangeCollection<TipCompanie> Items
+        {
+            get => _items;
+            set => SetProperty(ref _items, value);
+        }
+        public Command LoadItemsCommand { get; }
+        public Command RefreshCommand { get; }
+        public event EventHandler NotOpen = delegate { };
+
         public EntryFoodAppViewModel()
         {
             Title = "Acasa";
-            SuperMarketCommand = new Command(SuperMarketClicked);
-            RestauranteCommand = new Command(RestauranteClicked);
-
-
+            Items = new ObservableRangeCollection<TipCompanie>();
+            ItemTapped = new Command<TipCompanie>((item) => OnItemSelected(item));
+            LoadItemsCommand = new Command(ExecuteLoadItemsCommand);
+            RefreshCommand = new Command(async () => await RefreshItems());
         }
-
-        private void SuperMarketClicked(object obj)
+        void ExecuteLoadItemsCommand()
         {
-            Supermarketpush?.Invoke(this, new EventArgs());
-            // Prefixing with `//` switches to a different navigation stack instead of pushing to the active one
-            //await Shell.Current.GoToAsync($"{nameof(CategoryPage)}?{nameof(CategViewModel.Canal)}=1&{nameof(CategViewModel.RefId)}=0");
+            try
+            {
+
+                Items.Clear();
+                var items = DataStore.GetTipCompanii();
+
+                Items.AddRange(items);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+            IsBusy = false;
         }
-
-        private async void RestauranteClicked(object obj)
+        public async Task RefreshItems()
         {
-            // Prefixing with `//` switches to a different navigation stack instead of pushing to the active one
-            await Shell.Current.GoToAsync($"{nameof(ListaRestaurantePage)}");
+            IsBusy = true;
+            try
+            {
+                await ReloadServerData();
+                var items = DataStore.GetTipCompanii().ToList();
+                if (items.Count != Items.Count)
+                    ExecuteLoadItemsCommand();
+
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+            IsBusy = false;
+        }
+        public TipCompanie SelectedItem
+        {
+            get => _selectedItem;
+            set
+            {
+                SetProperty(ref _selectedItem, value);
+                OnItemSelected(value);
+            }
+        }
+        async void OnItemSelected(TipCompanie item)
+        {
+            if (item == null)
+                return;
+            if (!item.IsOpen)
+            {
+                NotOpen?.Invoke(this, new EventArgs());
+                return;
+            }
+
+            await Shell.Current.GoToAsync($"{nameof(ListaRestaurantePage)}?{nameof(ListaRestauranteViewModel.TipId)}={item.TipCompanieId}");
         }
     }
 }

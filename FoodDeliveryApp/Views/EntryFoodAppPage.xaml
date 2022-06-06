@@ -4,73 +4,84 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:FoodDeliveryApp.ViewModels"
-    xmlns:model="clr-namespace:FoodDeliveryApp.Models"
+    xmlns:model="clr-namespace:FoodDeliveryApp.Models.ShopModels"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     Title="{Binding Title}"
     x:DataType="local:EntryFoodAppViewModel"
     Shell.PresentationMode="Animated">
-    <Grid BackgroundColor="White" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+    <RefreshView
+        Command="{Binding RefreshCommand}"
+        HorizontalOptions="FillAndExpand"
+        IsRefreshing="{Binding IsBusy, Mode=TwoWay}"
+        VerticalOptions="FillAndExpand">
+        <ScrollView
+            x:Name="ItemsListView"
+            HorizontalOptions="FillAndExpand"
+            VerticalOptions="FillAndExpand">
+            <StackLayout HorizontalOptions="FillAndExpand">
+                <FlexLayout
+                    AlignContent="SpaceAround"
+                    AlignItems="Start"
+                    BindableLayout.ItemsSource="{Binding Items}"
+                    Direction="Row"
+                    HorizontalOptions="FillAndExpand"
+                    JustifyContent="SpaceAround"
+                    Wrap="Wrap">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout
+                                BackgroundColor="White"
+                                HorizontalOptions="FillAndExpand"
+                                WidthRequest="2000">
+                                <StackLayout
+                                    Margin="20"
+                                    xct:CornerRadiusEffect.CornerRadius="20"
+                                    BackgroundColor="DarkCyan"
+                                    HorizontalOptions="FillAndExpand">
+                                    <StackLayout
+                                        x:DataType="model:TipCompanie"
+                                        HeightRequest="280"
+                                        HorizontalOptions="FillAndExpand">
+                                        <StackLayout
+                                            HorizontalOptions="FillAndExpand"
+                                            Orientation="Vertical"
+                                            VerticalOptions="FillAndExpand">
+                                            <Label
+                                                FontAttributes="Bold"
+                                                FontSize="Medium"
+                                                HorizontalTextAlignment="Center"
+                                                LineBreakMode="WordWrap"
+                                                Text="{Binding Name}"
+                                                TextColor="Black"
+                                                VerticalOptions="CenterAndExpand" />
+                                            <Image
+                                                xct:CornerRadiusEffect.CornerRadius="20"
+                                                Aspect="AspectFill"
+                                                BackgroundColor="Transparent"
+                                                HeightRequest="235">
+                                                <Image.Source>
+                                                    <UriImageSource
+                                                        CacheValidity="7"
+                                                        CachingEnabled="True"
+                                                        Uri="{Binding GetPhotoUri}" />
 
-        <Image
-            Grid.Row="0"
-            Margin="21"
-            xct:CornerRadiusEffect.CornerRadius="20"
-            Aspect="AspectFill"
-            Source="cover_supermarket.png">
-            <Image.GestureRecognizers>
-                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type local:EntryFoodAppViewModel}}, Path=SuperMarketCommand}" NumberOfTapsRequired="1" />
-            </Image.GestureRecognizers>
-        </Image>
+                                                </Image.Source>
+                                            </Image>
 
-
-        <Image
-            Grid.Row="1"
-            Margin="21"
-            xct:CornerRadiusEffect.CornerRadius="20"
-            Aspect="AspectFill"
-            Source="rest_photo.png">
-            <Image.GestureRecognizers>
-                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type local:EntryFoodAppViewModel}}, Path=RestauranteCommand}" NumberOfTapsRequired="1" />
-            </Image.GestureRecognizers>
-        </Image>
-
-        <StackLayout
-            Grid.Row="0"
-            Margin="10"
-            Padding="10"
-            BackgroundColor="Transparent">
-            <Frame BackgroundColor="DarkCyan" CornerRadius="20">
-                <Label
-                    FontAttributes="Bold"
-                    FontSize="Medium"
-                    Text="SuperMarket"
-                    TextColor="Black"
-                    TextDecorations="Underline" />
-            </Frame>
-            <StackLayout.GestureRecognizers>
-                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type local:EntryFoodAppViewModel}}, Path=SuperMarketCommand}" NumberOfTapsRequired="1" />
-            </StackLayout.GestureRecognizers>
-        </StackLayout>
-        <StackLayout
-            Grid.Row="1"
-            Margin="10"
-            Padding="10"
-            BackgroundColor="Transparent">
-            <Frame BackgroundColor="Coral" CornerRadius="20">
-                <Label
-                    FontAttributes="Bold"
-                    FontSize="Medium"
-                    Text="Restaurante"
-                    TextColor="Black"
-                    TextDecorations="Underline" />
-            </Frame>
-            <StackLayout.GestureRecognizers>
-                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type local:EntryFoodAppViewModel}}, Path=RestauranteCommand}" NumberOfTapsRequired="1" />
-            </StackLayout.GestureRecognizers>
-        </StackLayout>
-    </Grid>
+                                            <StackLayout.GestureRecognizers>
+                                                <TapGestureRecognizer
+                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type local:EntryFoodAppViewModel}}, Path=ItemTapped}"
+                                                    CommandParameter="{Binding .}"
+                                                    NumberOfTapsRequired="1" />
+                                            </StackLayout.GestureRecognizers>
+                                        </StackLayout>
+                                    </StackLayout>
+                                </StackLayout>
+                            </StackLayout>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </FlexLayout>
+            </StackLayout>
+        </ScrollView>
+    </RefreshView>
 </ContentPage>

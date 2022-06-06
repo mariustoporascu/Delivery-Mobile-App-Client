@@ -32,8 +32,9 @@ namespace FoodDeliveryApp.Views
         }
         private async void GoToFinalizeOrder(object sender, EventArgs e)
         {
-            await Navigation.PushModalAsync(new PlaceOrderPage());
+            await Navigation.PushModalAsync(new SelectLocationAndPaymentPage());
         }
+
 
     }
 }

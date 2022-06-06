@@ -61,7 +61,7 @@
                     <Image
                         Aspect="AspectFit"
                         BackgroundColor="Transparent"
-                        Source="lock.png" />
+                        Source="code.png" />
                     <Entry
                         x:Name="Token"
                         xct:CornerRadiusEffect.CornerRadius="10"

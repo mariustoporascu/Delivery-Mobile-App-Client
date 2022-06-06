@@ -14,7 +14,7 @@ namespace FoodDeliveryApp.Services
     {
         private HttpClient _httpClient;
         private static string[] endPoint = { "delete","login","create","profile","userlocation","setpassword","changepassword",
-        "resetpassword","sendtokenpassword","confirmemail"};
+        "resetpassword","sendtokenpassword","confirmemail","deletelocation"};
 
         public AuthService()
         {
@@ -53,7 +53,6 @@ namespace FoodDeliveryApp.Services
             TryAddHeaders();
             return await sendRequest(userModel, uri);
         }
-
         private async Task<string> sendRequest(UserModel userModel, Uri uri)
         {
 

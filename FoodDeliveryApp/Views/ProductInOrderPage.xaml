@@ -10,7 +10,7 @@
     x:DataType="local:ProductInOrderViewModel"
     Shell.PresentationMode="Animated">
     <ScrollView
-        BackgroundColor="PaleGoldenrod"
+        BackgroundColor="White"
         HorizontalOptions="FillAndExpand"
         VerticalOptions="FillAndExpand">
         <StackLayout

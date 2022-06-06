@@ -20,7 +20,7 @@ namespace FoodDeliveryApp.Views
             if (App.IsLoggedIn)
             {
                 viewModel.IsLoggedIn = true;
-                await viewModel.ExecuteLoadOrdersCommand();
+                viewModel.LoadOrdersCommand.Execute(null);
                 ItemsListView.ItemsSource = viewModel.Orders;
                 if (viewModel.Orders.Count > 0)
                 {

@@ -59,7 +59,7 @@
                         HorizontalOptions="FillAndExpand"
                         HorizontalTextAlignment="Center"
                         LineBreakMode="WordWrap"
-                        Text="Detalii Comenzi"
+                        Text="Detalii Comanda"
                         TextColor="Black"
                         VerticalOptions="CenterAndExpand"
                         VerticalTextAlignment="Center"
@@ -93,56 +93,61 @@
                             VerticalTextAlignment="Center"
                             WidthRequest="80" />
                     </StackLayout>
-                    <FlexLayout
-                        Margin="0"
-                        Padding="0"
-                        AlignContent="Start"
-                        AlignItems="Start"
-                        BindableLayout.ItemsSource="{Binding OrderRestaurant.Values}"
-                        Direction="Row"
+                    <StackLayout Margin="0" HorizontalOptions="FillAndExpand">
+
+                        <StackLayout
+                            Margin="0,5,0,5"
+                            HorizontalOptions="FillAndExpand"
+                            Orientation="Horizontal">
+                            <Label
+                                FontSize="Small"
+                                HorizontalTextAlignment="Center"
+                                LineBreakMode="WordWrap"
+                                Text="{Binding OrderCompanie.NumeCompanie}"
+                                TextColor="Black"
+                                VerticalTextAlignment="Center"
+                                WidthRequest="125" />
+                            <Label
+                                FontSize="Small"
+                                HorizontalTextAlignment="Center"
+                                LineBreakMode="WordWrap"
+                                Text="{Binding OrderCompanie.TotalOrdered}"
+                                TextColor="Black"
+                                VerticalTextAlignment="Center"
+                                WidthRequest="80" />
+                            <Label
+                                FontSize="Small"
+                                HorizontalTextAlignment="Center"
+                                LineBreakMode="WordWrap"
+                                Text="{Binding OrderCompanie.TransportFee}"
+                                TextColor="Black"
+                                VerticalTextAlignment="Center"
+                                WidthRequest="80" />
+
+                        </StackLayout>
+
+                    </StackLayout>
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="Small"
                         HorizontalOptions="FillAndExpand"
-                        JustifyContent="Start"
-                        Wrap="Wrap">
-                        <BindableLayout.ItemTemplate>
-                            <DataTemplate>
-                                <StackLayout Margin="0" HorizontalOptions="FillAndExpand">
-
-                                    <StackLayout
-                                        Margin="0,5,0,5"
-                                        x:DataType="model1:ServerOrder"
-                                        HorizontalOptions="FillAndExpand"
-                                        Orientation="Horizontal">
-                                        <Label
-                                            FontSize="Small"
-                                            HorizontalTextAlignment="Center"
-                                            LineBreakMode="WordWrap"
-                                            Text="{Binding NumeCompanie}"
-                                            TextColor="Black"
-                                            VerticalTextAlignment="Center"
-                                            WidthRequest="125" />
-                                        <Label
-                                            FontSize="Small"
-                                            HorizontalTextAlignment="Center"
-                                            LineBreakMode="WordWrap"
-                                            Text="{Binding TotalOrdered}"
-                                            TextColor="Black"
-                                            VerticalTextAlignment="Center"
-                                            WidthRequest="80" />
-                                        <Label
-                                            FontSize="Small"
-                                            HorizontalTextAlignment="Center"
-                                            LineBreakMode="WordWrap"
-                                            Text="{Binding TransportFee}"
-                                            TextColor="Black"
-                                            VerticalTextAlignment="Center"
-                                            WidthRequest="80" />
-
-                                    </StackLayout>
-
-                                </StackLayout>
-                            </DataTemplate>
-                        </BindableLayout.ItemTemplate>
-                    </FlexLayout>
+                        HorizontalTextAlignment="Center"
+                        LineBreakMode="WordWrap"
+                        Text="Modalitate de plata aleasa"
+                        TextColor="Black"
+                        VerticalOptions="CenterAndExpand"
+                        VerticalTextAlignment="Center"
+                        WidthRequest="90" />
+                    <Label
+                        Margin="0,0,0,10"
+                        FontSize="Small"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="Center"
+                        LineBreakMode="WordWrap"
+                        Text="{Binding OrderCompanie.PaymentMethod}"
+                        TextColor="Black"
+                        VerticalOptions="CenterAndExpand"
+                        VerticalTextAlignment="Center" />
                 </StackLayout>
                 <StackLayout
                     x:DataType="local:PlaceOrderViewModel"
@@ -226,15 +231,7 @@
                             VerticalTextAlignment="Center"
                             WidthRequest="95" />
                     </StackLayout>
-                    <Label
-                        Margin="0,10,0,0"
-                        FontAttributes="Bold"
-                        FontSize="Small"
-                        HorizontalOptions="CenterAndExpand"
-                        HorizontalTextAlignment="Center"
-                        Text="*Produsele de la mai multe restaurante se vor imparti in comenzi individuale pentru restaurantul din care fac parte."
-                        TextColor="Black"
-                        VerticalOptions="EndAndExpand" />
+
                 </StackLayout>
 
                 <StackLayout Margin="0,10,0,0" VerticalOptions="CenterAndExpand">

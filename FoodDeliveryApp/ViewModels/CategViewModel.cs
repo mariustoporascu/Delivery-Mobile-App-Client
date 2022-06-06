@@ -8,12 +8,10 @@ using Xamarin.Forms;
 
 namespace FoodDeliveryApp.ViewModels
 {
-    [QueryProperty(nameof(Canal), nameof(Canal))]
     [QueryProperty(nameof(RefId), nameof(RefId))]
     public class CategViewModel : BaseViewModel
     {
         private Categ _selectedItem;
-        private int canal;
         private int refId;
         private ObservableRangeCollection<Categ> _items;
         public ObservableRangeCollection<Categ> Items
@@ -39,7 +37,7 @@ namespace FoodDeliveryApp.ViewModels
             try
             {
                 Items.Clear();
-                var items = DataStore.GetCategories(canal, refId);
+                var items = DataStore.GetCategories(refId);
 
                 Items.AddRange(items);
             }
@@ -48,17 +46,6 @@ namespace FoodDeliveryApp.ViewModels
                 Debug.WriteLine(ex);
             }
             IsBusy = false;
-        }
-        public int Canal
-        {
-            get
-            {
-                return canal;
-            }
-            set
-            {
-                canal = value;
-            }
         }
         public int RefId
         {
@@ -84,12 +71,12 @@ namespace FoodDeliveryApp.ViewModels
         {
             if (item == null)
                 return;
-            await Shell.Current.GoToAsync($"{nameof(ItemsPage)}?{nameof(ItemsViewModel.Canal)}={canal}&{nameof(ItemsViewModel.RefId)}={refId}&{nameof(ItemsViewModel.CategId)}={item.CategoryId}");
+            await Shell.Current.GoToAsync($"{nameof(ItemsPage)}?{nameof(ItemsViewModel.RefId)}={refId}&{nameof(ItemsViewModel.CategId)}={item.CategoryId}");
 
         }
         async void AllProducts()
         {
-            await Shell.Current.GoToAsync($"{nameof(ItemsPage)}?{nameof(ItemsViewModel.Canal)}={canal}&{nameof(ItemsViewModel.RefId)}={refId}&{nameof(ItemsViewModel.CategId)}=0");
+            await Shell.Current.GoToAsync($"{nameof(ItemsPage)}?{nameof(ItemsViewModel.RefId)}={refId}&{nameof(ItemsViewModel.CategId)}=0");
         }
     }
 }

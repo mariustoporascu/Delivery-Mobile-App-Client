@@ -13,7 +13,10 @@
         x:DataType enables compiled bindings for better performance and compile time validation of binding expressions.
         https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/data-binding/compiled-bindings
     -->
-    <StackLayout BackgroundColor="White" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+    <StackLayout
+        BackgroundColor="White"
+        HorizontalOptions="FillAndExpand"
+        VerticalOptions="FillAndExpand">
         <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal">
             <Entry
                 ClearButtonVisibility="WhileEditing"
@@ -142,6 +145,13 @@
                                         Margin="5,0,5,0"
                                         Aspect="AspectFit"
                                         BackgroundColor="Transparent"
+                                        Clicked="OnAddItem"
+                                        CommandParameter="{Binding .}"
+                                        Source="buy.png" />
+                                    <!--<ImageButton
+                                        Margin="5,0,5,0"
+                                        Aspect="AspectFit"
+                                        BackgroundColor="Transparent"
                                         Command="{Binding Source={RelativeSource AncestorType={x:Type local:ItemsViewModel}}, Path=MinusCommand}"
                                         CommandParameter="{Binding .}"
                                         HeightRequest="28"
@@ -157,11 +167,11 @@
                                         Margin="5,0,5,0"
                                         Aspect="AspectFit"
                                         BackgroundColor="Transparent"
-                                        Command="{Binding Source={RelativeSource AncestorType={x:Type local:ItemsViewModel}}, Path=PlusCommand}"
+                                        Clicked="OnAddItem"
                                         CommandParameter="{Binding .}"
                                         HeightRequest="28"
                                         Source="plus.png"
-                                        WidthRequest="28" />
+                                        WidthRequest="28" />-->
                                 </StackLayout>
                             </StackLayout>
                         </StackLayout>

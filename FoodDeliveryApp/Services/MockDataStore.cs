@@ -31,24 +31,29 @@ namespace FoodDeliveryApp.Services
             return _serverInfo.cartItems.FirstOrDefault(s => s.ProductId == id);
         }
 
-        public List<Item> GetItems(int canal, int refId, int? categId)
+        public List<Item> GetItems(int refId, int? categId)
         {
-            if (canal == 1)
+            if (refId == 0)
+                return _serverInfo.items;
+            if (categId > 0)
             {
-                if (categId > 0)
-                {
-                    return _serverInfo.items.FindAll(items => items.CategoryRefId == categId && items.SuperMarketRefId != null);
-                }
-                return _serverInfo.items.FindAll(items => items.SuperMarketRefId != null);
+                var subCateg = _serverInfo.subCateg.FindAll(sub => sub.CategoryRefId == categId);
+                var items = new List<Item>();
+                foreach (var sub in subCateg)
+                    items.AddRange(_serverInfo.items.FindAll(prod => prod.SubCategoryRefId == sub.SubCategoryId));
+                return items;
             }
-            else
+            var categs = _serverInfo.categ.FindAll(ctg => ctg.CompanieRefId == refId);
+            var subCategAll = new List<SubCateg>();
+            foreach (var ctg in categs)
             {
-                if (categId > 0)
-                {
-                    return _serverInfo.items.FindAll(items => items.CategoryRefId == categId && items.RestaurantRefId == refId);
-                }
-                return _serverInfo.items.FindAll(items => items.RestaurantRefId == refId);
+                subCategAll.AddRange(_serverInfo.subCateg.FindAll(sub => sub.CategoryRefId == ctg.CategoryId));
             }
+            var itemsAll = new List<Item>();
+            foreach (var sub in subCategAll)
+                itemsAll.AddRange(_serverInfo.items.FindAll(prod => prod.SubCategoryRefId == sub.SubCategoryId));
+            return itemsAll;
+
         }
 
         public void SaveCart(CartItem item)
@@ -56,13 +61,13 @@ namespace FoodDeliveryApp.Services
 
             if (_serverInfo.cartItems.Find(citem => citem.ProductId == item.ProductId) != null)
             {
-                _serverInfo.items.Find(sItem => sItem.ProductId == item.ProductId).Cantitate = item.Cantitate;
-
-                _serverInfo.cartItems.Find(citem => citem.ProductId == item.ProductId).Cantitate = item.Cantitate;
+                var itemInside = _serverInfo.cartItems.Find(citem => citem.ProductId == item.ProductId);
+                itemInside.Cantitate = item.Cantitate;
+                itemInside.PriceTotal = item.PriceTotal;
+                itemInside.ClientComments = item.ClientComments;
             }
             else
             {
-                _serverInfo.items.Find(sItem => sItem.ProductId == item.ProductId).Cantitate = 1;
 
                 _serverInfo.cartItems.Add(item);
             }
@@ -72,7 +77,6 @@ namespace FoodDeliveryApp.Services
         {
             if (item != null)
             {
-                _serverInfo.items.Find(sItem => sItem.ProductId == item.ProductId).Cantitate = 0;
                 _serverInfo.cartItems.Remove(item);
             }
 
@@ -82,54 +86,52 @@ namespace FoodDeliveryApp.Services
         public void CleanCart()
         {
             _serverInfo.cartItems.Clear();
-            foreach (var item in _serverInfo.items)
-            {
-                item.Cantitate = 0;
-            }
+
             _serverInfo.saveCartPrefs(_serverInfo.cartItems);
         }
 
         public List<CartItem> GetCartItems()
         {
             _serverInfo.loadCartPrefs();
-
+            foreach (var item in _serverInfo.cartItems)
+                if (_serverInfo.items.Find(prod => prod.ProductId == item.ProductId) == null)
+                    DeleteFromCart(item);
             return _serverInfo.cartItems;
         }
 
-        public IEnumerable<Categ> GetCategories(int canal, int refId)
+        public IEnumerable<Categ> GetCategories(int refId)
         {
-            if (canal == 1)
-            {
-                return _serverInfo.categ.FindAll(categ => categ.SuperMarketRefId != null);
-            }
-            else
-            {
-                return _serverInfo.categ.FindAll(categ => categ.RestaurantRefId == refId);
-            }
+            return _serverInfo.categ.FindAll(categ => categ.CompanieRefId == refId);
         }
 
-        public IEnumerable<Companie> GetRestaurante()
+        public IEnumerable<Companie> GetCompanii(int tipCompanie)
         {
-
-            return _serverInfo.restaurante;
+            if (tipCompanie == 0)
+                return _serverInfo.companii;
+            return _serverInfo.companii.FindAll(comp => comp.TipCompanieRefId == tipCompanie);
         }
-        public Companie GetRestaurant(int restaurantId)
+        public Companie GetCompanie(int restaurantId)
         {
-            return _serverInfo.restaurante.FirstOrDefault(r => r.RestaurantId == restaurantId);
-        }
-
-        public IEnumerable<Companie> GetSuperMarkets()
-        {
-            return _serverInfo.superMarkets;
+            return _serverInfo.companii.FirstOrDefault(r => r.CompanieId == restaurantId);
         }
 
+        public IEnumerable<TipCompanie> GetTipCompanii()
+        {
+            return _serverInfo.tipCompanii;
+        }
+        public IEnumerable<AvailableCity> GetAvailableCities()
+        {
+            return _serverInfo.cities;
+        }
         public IEnumerable<UnitatiMasura> GetUnitatiMasura()
         {
             return _serverInfo.unitati;
         }
 
-        public IEnumerable<SubCateg> GetSubCategories()
+        public IEnumerable<SubCateg> GetSubCategories(int? categId)
         {
+            if (categId > 0)
+                return _serverInfo.subCateg.FindAll(sub => sub.CategoryRefId == categId);
             return _serverInfo.subCateg;
         }
 

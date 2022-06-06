@@ -14,14 +14,15 @@ namespace FoodDeliveryApp.Services
         List<CartItem> GetCartItems();
         Item GetItem(int id);
         ServerOrder GetOrder(int id);
-        List<Item> GetItems(int canal, int refId, int? categId);
+        List<Item> GetItems(int refId, int? categId);
         //IEnumerable<Item> SearchItems(int canal, int refId, int? categId, string itemName = "");
-        IEnumerable<Categ> GetCategories(int canal, int refId);
-        IEnumerable<SubCateg> GetSubCategories();
-        IEnumerable<Companie> GetRestaurante();
-        Companie GetRestaurant(int restaurantId);
-        IEnumerable<Companie> GetSuperMarkets();
+        IEnumerable<Categ> GetCategories(int refId);
+        IEnumerable<SubCateg> GetSubCategories(int? categId);
+        IEnumerable<Companie> GetCompanii(int tipCompanie);
+        IEnumerable<AvailableCity> GetAvailableCities();
+        Companie GetCompanie(int companieId);
         IEnumerable<UnitatiMasura> GetUnitatiMasura();
+        IEnumerable<TipCompanie> GetTipCompanii();
         Task<List<ServerOrder>> GetServerOrders(string email);
     }
 }

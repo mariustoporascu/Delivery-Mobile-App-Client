@@ -5,6 +5,8 @@ using Newtonsoft.Json;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using System;
+using OneSignalSDK.Xamarin;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace FoodDeliveryApp
@@ -26,7 +28,9 @@ namespace FoodDeliveryApp
         public const string FACEBOOK_ID_NAME = "FacebookIdName";
         public const string WEBEMAIL = "WebEmail";
         public const string WEBPASS = "WebPass";
+        public const string FBToken = "FBToken";
         public static bool IsLoggedIn = false;
+        public static string FirebaseUserToken = string.Empty;
 
         private static UserModel userInfo;
         public static UserModel UserInfo { get => userInfo; set => userInfo = value; }
@@ -51,9 +55,19 @@ namespace FoodDeliveryApp
             DependencyService.Register<IAuthController, AuthService>();
             DependencyService.Register<IOrderServ, OrderServ>();
             MainPage = new AppShell();
+            OneSignal.Default.Initialize("67b1b944-bcf4-467a-a6ae-4f0f0512b038");
+            OneSignal.Default.PromptForPushNotificationsWithUserResponse();
+            FirebaseUserToken = OneSignal.Default.DeviceState.userId;
+            try
+            {
+                SecureStorage.SetAsync(App.FBToken, FirebaseUserToken).Wait();
 
+            }
+            catch (Exception)
+            {
+
+            }
         }
-
         protected override async void OnStart()
         {
             base.OnStart();
@@ -69,30 +83,32 @@ namespace FoodDeliveryApp
             var aMailId = await SecureStorage.GetAsync(App.APPLE_ID);
             var webMail = await SecureStorage.GetAsync(App.WEBEMAIL);
             var webPass = await SecureStorage.GetAsync(App.WEBPASS);
+            FirebaseUserToken = await SecureStorage.GetAsync(App.FBToken);
             var lWith = await SecureStorage.GetAsync(App.LOGIN_WITH);
             if (!string.IsNullOrEmpty(lWith))
             {
+
                 if (lWith.Equals("Google"))
                 {
-                    loginResult = await authService.Execute(new UserModel { Email = gMail, UserIdentification = gMailId }, Constants.AuthOperations.Login);
+                    loginResult = await authService.Execute(new UserModel { Email = gMail, UserIdentification = gMailId, FireBaseToken = FirebaseUserToken }, Constants.AuthOperations.Login);
                     finalEmail = gMail;
                     finalId = gMailId;
                 }
                 else if (lWith.Equals("Facebook"))
                 {
-                    loginResult = await authService.Execute(new UserModel { Email = fMail, UserIdentification = fMailId }, Constants.AuthOperations.Login);
+                    loginResult = await authService.Execute(new UserModel { Email = fMail, UserIdentification = fMailId, FireBaseToken = FirebaseUserToken }, Constants.AuthOperations.Login);
                     finalEmail = fMail;
                     finalId = fMailId;
                 }
                 else if (lWith.Equals("Apple"))
                 {
-                    loginResult = await authService.Execute(new UserModel { Email = aMail, UserIdentification = aMailId }, Constants.AuthOperations.Login);
+                    loginResult = await authService.Execute(new UserModel { Email = aMail, UserIdentification = aMailId, FireBaseToken = FirebaseUserToken }, Constants.AuthOperations.Login);
                     finalEmail = aMail;
                     finalId = aMailId;
                 }
                 else if (lWith.Equals("WebLogin"))
                 {
-                    loginResult = await authService.Execute(new UserModel { Email = webMail, Password = webPass }, Constants.AuthOperations.Login);
+                    loginResult = await authService.Execute(new UserModel { Email = webMail, Password = webPass, FireBaseToken = FirebaseUserToken }, Constants.AuthOperations.Login);
                     finalEmail = webMail;
                 }
             }

@@ -1,9 +1,10 @@
 ﻿using FoodDeliveryApp.Constants;
 using FoodDeliveryApp.ViewModels;
-
+using OneSignalSDK.Xamarin;
 using System;
 using System.Diagnostics;
 using Xamarin.CommunityToolkit.Extensions;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace FoodDeliveryApp.Views
@@ -21,6 +22,7 @@ namespace FoodDeliveryApp.Views
                 viewModel.OnSignIn += OnSignIn;
             viewModel.OnSignInFailed += OnSignInFailed;
             viewModel.RequireConfirmEmail += RequireConfirmEmail;
+
             if (App.IsLoggedIn)
             {
                 if (Device.RuntimePlatform == Device.iOS)
@@ -32,7 +34,19 @@ namespace FoodDeliveryApp.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
+            if (string.IsNullOrWhiteSpace(App.FirebaseUserToken))
+            {
+                App.FirebaseUserToken = OneSignal.Default.DeviceState.userId;
+                try
+                {
+                    SecureStorage.SetAsync(App.FBToken, App.FirebaseUserToken).Wait();
 
+                }
+                catch (Exception)
+                {
+
+                }
+            }
             if (App.IsLoggedIn)
             {
                 if (Device.RuntimePlatform == Device.iOS)

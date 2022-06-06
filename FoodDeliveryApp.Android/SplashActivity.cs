@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace FoodDeliveryApp.Droid
 {
-    [Activity(Theme = "@style/MyTheme.Splash", MainLauncher = true, NoHistory = true)]
+    [Activity(Theme = "@style/MyTheme.Splash", MainLauncher = true, NoHistory = true, Exported = true)]
     public class SplashActivity : AppCompatActivity
     {
 
@@ -26,14 +26,29 @@ namespace FoodDeliveryApp.Droid
         protected override void OnResume()
         {
             base.OnResume();
-            Task startupWork = new Task(() => { SimulateStartup(); });
-            startupWork.Start();
+            try
+            {
+                Task startupWork = new Task(() => { SimulateStartup(); });
+                startupWork.Start();
+            }
+            catch (Exception)
+            {
+
+            }
         }
 
         // Simulates background work that happens behind the splash screen
         void SimulateStartup()
         {
-            StartActivity(new Intent(Application.Context, typeof(MainActivity)));
+            try
+            {
+                StartActivity(new Intent(Application.Context, typeof(MainActivity)));
+
+            }
+            catch (Exception)
+            {
+
+            }
         }
         public override void OnBackPressed() { }
     }

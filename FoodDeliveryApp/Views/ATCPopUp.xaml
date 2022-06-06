@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<xct:Popup
+    x:Class="FoodDeliveryApp.Views.ATCPopUp"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewmodels="clr-namespace:FoodDeliveryApp.ViewModels"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    x:Name="AddToCart"
+    x:DataType="viewmodels:ATCPopUpVM"
+    IsLightDismissEnabled="False"
+    Size="300,500">
+
+    <StackLayout
+        BackgroundColor="White"
+        HorizontalOptions="FillAndExpand"
+        VerticalOptions="FillAndExpand">
+        <Label
+            Margin="0,20,0,0"
+            FontSize="Large"
+            HorizontalTextAlignment="Center"
+            Text="Cantitate"
+            TextColor="Black" />
+        <StackLayout HorizontalOptions="CenterAndExpand" Orientation="Horizontal">
+            <ImageButton
+                Margin="5,0,5,0"
+                Aspect="AspectFit"
+                BackgroundColor="Transparent"
+                Clicked="MinusClicked"
+                HeightRequest="28"
+                Source="minus.png"
+                WidthRequest="28" />
+            <Label
+                Margin="20,0,20,0"
+                FontSize="Large"
+                Text="{Binding Item.Cantitate}"
+                TextColor="Blue"
+                VerticalTextAlignment="Center" />
+            <ImageButton
+                Margin="5,0,5,0"
+                Aspect="AspectFit"
+                BackgroundColor="Transparent"
+                Clicked="PlusClicked"
+                HeightRequest="28"
+                Source="plus.png"
+                WidthRequest="28" />
+        </StackLayout>
+        <StackLayout
+            Margin="0,20,0,0"
+            HorizontalOptions="Center"
+            Orientation="Horizontal">
+            <Label
+                FontSize="Medium"
+                Text="Pret total"
+                TextColor="Black" />
+            <Label
+                FontSize="Medium"
+                Text="{Binding Item.PriceTotal}"
+                TextColor="Black" />
+        </StackLayout>
+        <Editor
+            Margin="0,10,0,0"
+            BackgroundColor="White"
+            HeightRequest="250"
+            Placeholder="Detalii pe care doresti sa le transmiti in legatura cu produsul(ex: alergii, fara vreun ingredient,etc)"
+            PlaceholderColor="Black"
+            Text="{Binding Item.ClientComments}"
+            TextColor="Black"
+            VerticalOptions="CenterAndExpand" />
+        <StackLayout
+            Margin="10"
+            HorizontalOptions="CenterAndExpand"
+            Orientation="Horizontal"
+            Spacing="20"
+            VerticalOptions="EndAndExpand">
+            <Button
+                Padding="5"
+                xct:CornerRadiusEffect.CornerRadius="30"
+                BackgroundColor="Transparent"
+                Clicked="OnDismissButtonClicked"
+                FontAttributes="None"
+                FontSize="Medium"
+                Text="Inapoi"
+                TextColor="OrangeRed"
+                TextTransform="None" />
+            <Button
+                Padding="5"
+                xct:CornerRadiusEffect.CornerRadius="30"
+                BackgroundColor="Transparent"
+                Clicked="AddClicked"
+                FontAttributes="None"
+                FontSize="Medium"
+                Text="Adauga / Modifica"
+                TextColor="SeaGreen"
+                TextTransform="None" />
+        </StackLayout>
+    </StackLayout>
+</xct:Popup>

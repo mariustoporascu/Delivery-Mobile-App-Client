@@ -6,18 +6,21 @@ using Xamarin.Forms;
 namespace FoodDeliveryApp.ViewModels
 {
     [QueryProperty(nameof(ItemId), nameof(ItemId))]
+    [QueryProperty(nameof(RefId), nameof(RefId))]
     public class ItemDetailViewModel : BaseViewModel
     {
         private CartItem cItem;
         private Item item;
         private int itemId;
+        private int refId;
+
         public Command MinusCommand { get; }
         public Command PlusCommand { get; }
 
         public ItemDetailViewModel()
         {
-            MinusCommand = new Command(OnMinus);
-            PlusCommand = new Command(OnPlus);
+            /*            MinusCommand = new Command(OnMinus);
+                        PlusCommand = new Command(OnPlus);*/
         }
         public Item Item
         {
@@ -41,12 +44,24 @@ namespace FoodDeliveryApp.ViewModels
                 LoadItem(value);
             }
         }
-        void OnMinus()
+        public int RefId
+        {
+            get
+            {
+                return refId;
+            }
+            set
+            {
+                refId = value;
+            }
+        }
+        /*void OnMinus()
         {
             if (Item.Cantitate == 0)
                 return;
             Item.Cantitate--;
             CItem.Cantitate--;
+            CItem.PriceTotal = Item.Price * CItem.Cantitate;
             if (CItem.Cantitate == 0)
             {
                 DataStore.DeleteFromCart(CItem);
@@ -66,20 +81,18 @@ namespace FoodDeliveryApp.ViewModels
                 CItem = new CartItem
                 {
                     ProductId = Item.ProductId,
-                    Description = Item.Description,
                     Gramaj = Item.Gramaj,
                     Name = Item.Name,
-                    Price = Item.Price,
                     Cantitate = Item.Cantitate,
-                    Canal = Item.SuperMarketRefId != null ? 1 : 2,
-                    ShopId = Item.SuperMarketRefId != null ? Item.SuperMarketRefId : Item.RestaurantRefId
+                    CompanieRefId = RefId
                 };
             }
             Item.Cantitate++;
             CItem.Cantitate++;
+            CItem.PriceTotal = Item.Price * CItem.Cantitate;
             DataStore.SaveCart(CItem);
 
-        }
+        }*/
         public void LoadItem(int itemId)
         {
             try
@@ -87,8 +100,7 @@ namespace FoodDeliveryApp.ViewModels
                 Item = DataStore.GetItem(itemId);
                 Title = "Detalii " + Item.Name;
                 CItem = DataStore.GetCartItem(itemId);
-                if (CItem != null)
-                    Item.Cantitate = CItem.Cantitate;
+
             }
             catch (Exception)
             {

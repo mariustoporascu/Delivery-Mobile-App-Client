@@ -13,31 +13,34 @@ namespace FoodDeliveryApp.Views
             InitializeComponent();
             BindingContext = vm = new ProductInOrderViewModel();
         }
-        protected override void OnAppearing()
+        protected override async void OnAppearing()
         {
             base.OnAppearing();
-
-            if (!string.IsNullOrWhiteSpace(vm.Item.Photo))
-            {
-                ItemImage.Source = new UriImageSource
-                {
-
-                    Uri = new Uri($"{ServerConstants.BaseUrl}/WebImage/GetImage/{vm.Item.Photo}"),
-                    CacheValidity = new TimeSpan(7, 0, 0, 0),
-                    CachingEnabled = true,
-                };
-            }
+            if (!App.IsLoggedIn)
+                await Shell.Current.Navigation.PopToRootAsync();
             else
             {
-                ItemImage.Source = new UriImageSource
+                if (!string.IsNullOrWhiteSpace(vm.Item.Photo))
                 {
+                    ItemImage.Source = new UriImageSource
+                    {
 
-                    Uri = new Uri($"{ServerConstants.BaseUrl2}/content/No_image_available.png"),
-                    CacheValidity = new TimeSpan(7, 0, 0, 0),
-                    CachingEnabled = true,
-                };
+                        Uri = new Uri($"{ServerConstants.BaseUrl}/WebImage/GetImage/{vm.Item.Photo}"),
+                        CacheValidity = new TimeSpan(7, 0, 0, 0),
+                        CachingEnabled = true,
+                    };
+                }
+                else
+                {
+                    ItemImage.Source = new UriImageSource
+                    {
+
+                        Uri = new Uri($"{ServerConstants.BaseUrl2}/content/No_image_available.png"),
+                        CacheValidity = new TimeSpan(7, 0, 0, 0),
+                        CachingEnabled = true,
+                    };
+                }
             }
-
         }
     }
 }

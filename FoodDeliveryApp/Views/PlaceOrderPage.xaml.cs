@@ -9,23 +9,19 @@ namespace FoodDeliveryApp.Views
     public partial class PlaceOrderPage : ContentPage
     {
         PlaceOrderViewModel vm;
-        public PlaceOrderPage()
+        public PlaceOrderPage(int locationId, string paymentMethod)
         {
             InitializeComponent();
-            BindingContext = vm = new PlaceOrderViewModel();
+            BindingContext = vm = new PlaceOrderViewModel(locationId, paymentMethod);
             if (Device.RuntimePlatform == Device.iOS)
                 vm.OnPlaceOrder += OnPlaceOrderApple;
             else
             {
                 vm.OnPlaceOrder += OnPlaceOrder;
                 vm.OnPlaceOrderFailed += OnPlaceOrderFailed;
-                vm.OnPlaceOrderMarket += OnPlaceOrderMarket;
 
             }
-            if (App.IsLoggedIn)
-                vm.HasValidProfile = App.UserInfo.CompleteProfile && App.UserInfo.Location != null;
-            else
-                vm.HasValidProfile = false;
+
         }
         private void OnPlaceOrderApple(object sender, EventArgs e)
         {
@@ -49,13 +45,12 @@ namespace FoodDeliveryApp.Views
             {
                 Debug.WriteLine(ex.Message);
             }
-            await Navigation.PopModalAsync(true);
+            await Shell.Current.Navigation.PopToRootAsync();
         }
         private async void OnPlaceOrderFailed(object sender, EventArgs e)
         {
             try
             {
-
                 await this.DisplayAlert("Eroare", "Comanda nu s-a putut plasa, va rugam sa reincercati", "OK");
             }
             catch (Exception ex)
@@ -63,17 +58,7 @@ namespace FoodDeliveryApp.Views
                 Debug.WriteLine(ex.Message);
             }
         }
-        private async void OnPlaceOrderMarket(object sender, EventArgs e)
-        {
-            try
-            {
-                await this.DisplayToastAsync("Comanda pentru supermarket a fost plasata", 1300);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
-        }
+
         async void OnDismissButtonClicked(object sender, EventArgs args)
         {
             // Page appearance not animated

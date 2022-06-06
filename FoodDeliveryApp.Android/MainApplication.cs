@@ -1,7 +1,8 @@
-﻿
-using Android.App;
+﻿using Android.App;
+using Android.OS;
 using Android.Runtime;
 using System;
+
 #if DEBUG
 [Application(Debuggable = true)]
 #else
@@ -17,5 +18,6 @@ public class MainApplication : Application
     public override void OnCreate()
     {
         base.OnCreate();
+
     }
 }

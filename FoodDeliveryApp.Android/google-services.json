@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "314135899919",
+    "project_id": "livroapp-cc5f4",
+    "storage_bucket": "livroapp-cc5f4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:314135899919:android:caddd86043f056fedcd87a",
+        "android_client_info": {
+          "package_name": "com.tmiit.livroapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "314135899919-gucrmlevfone1cf8h34dhpqmm1ipjtjn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvmAh9Tmlaq24JXdaG6iHHyzppEMLSDv0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "314135899919-gucrmlevfone1cf8h34dhpqmm1ipjtjn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:314135899919:android:e0f2a456522261f9dcd87a",
+        "android_client_info": {
+          "package_name": "com.tmiit.livroappmng"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "314135899919-gucrmlevfone1cf8h34dhpqmm1ipjtjn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvmAh9Tmlaq24JXdaG6iHHyzppEMLSDv0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "314135899919-gucrmlevfone1cf8h34dhpqmm1ipjtjn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

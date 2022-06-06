@@ -111,11 +111,12 @@ namespace FoodDeliveryApp.ViewModels
                     TotalOrderedInterfata = order.TotalOrdered + " RON",
                     TransportFee = order.TransportFee,
                     EstimatedTime = order.EstimatedTime,
+                    PaymentMethod = order.PaymentMethod,
                     HasUserConfirmedET = order.HasUserConfirmedET,
                     ClientGaveRatingDriver = order.ClientGaveRatingDriver,
-                    ClientGaveRatingRestaurant = order.ClientGaveRatingRestaurant,
+                    ClientGaveRatingCompanie = order.ClientGaveRatingCompanie,
                     RatingDriver = order.RatingDriver,
-                    RatingRestaurant = order.RatingRestaurant,
+                    RatingCompanie = order.RatingCompanie,
                     DriverRefId = order.DriverRefId,
                 };
                 if (CurrOrder.Status.Contains("Livrata") || CurrOrder.Status.Contains("Refuzata"))
@@ -132,13 +133,8 @@ namespace FoodDeliveryApp.ViewModels
                 {
                     HasDriver = false;
                 }
-                if (order.IsRestaurant)
-                {
-                    Restaurant = DataStore.GetRestaurant((int)order.RestaurantRefId);
-                    OwnerViewVis = true;
-                }
-                else
-                    OwnerViewVis = false;
+                Restaurant = DataStore.GetCompanie((int)order.CompanieRefId);
+                OwnerViewVis = true;
                 if (order.HasUserConfirmedET != null)
                     HasUserResponded = true;
                 else
@@ -159,7 +155,9 @@ namespace FoodDeliveryApp.ViewModels
                         Name = item.Name,
                         GramajInterfata = item.GramajInterfata,
                         PretInterfata = (item.Price * prodInOrder.UsedQuantity).ToString() + " RON",
-                        Cantitate = prodInOrder.UsedQuantity
+                        Cantitate = prodInOrder.UsedQuantity,
+                        ClientComments = prodInOrder.ClientComments,
+                        HasComments = !string.IsNullOrWhiteSpace(prodInOrder.ClientComments)
                     });
                 }
                 Items.AddRange(itemsInOrder);
@@ -191,8 +189,8 @@ namespace FoodDeliveryApp.ViewModels
         {
             if (await OrderService.GiveRatingRestaurant(App.UserInfo.Email, OrderId, rating))
             {
-                CurrOrder.ClientGaveRatingRestaurant = true;
-                CurrOrder.RatingRestaurant = rating;
+                CurrOrder.ClientGaveRatingCompanie = true;
+                CurrOrder.RatingCompanie = rating;
                 return true;
             }
             return false;

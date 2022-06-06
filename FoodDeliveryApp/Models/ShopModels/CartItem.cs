@@ -1,14 +1,17 @@
-﻿namespace FoodDeliveryApp.Models.ShopModels
+﻿using System;
+
+namespace FoodDeliveryApp.Models.ShopModels
 {
     public class CartItem : BaseModel
     {
         public int ProductId { get; set; }
         public string Name { get; set; }
-        public string Description { get; set; }
         public string Gramaj { get; set; }
-        public decimal Price { get; set; }
-        public int? ShopId { get; set; }
-        public int Canal { get; set; }
+        private decimal _priceTotal;
+        public decimal PriceTotal { get => _priceTotal; set => SetProperty(ref _priceTotal, value); }
+        public int CompanieRefId { get; set; }
+        private string _clientComments;
+        public string ClientComments { get => _clientComments; set => SetProperty(ref _clientComments, value); }
 
         private int _cantitate;
         public int Cantitate

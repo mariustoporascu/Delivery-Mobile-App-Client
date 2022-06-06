@@ -12,23 +12,12 @@ namespace FoodDeliveryApp.Models.ShopModels
         public string GramajInterfata { get; set; }
         public decimal Price { get; set; }
         public string PretInterfata { get; set; }
-        public int CategoryRefId { get; set; }
-
         public int MeasuringUnitId { get; set; }
-        public int? SubCategoryRefId { get; set; }
-        public int? RestaurantRefId { get; set; }
-        public int? SuperMarketRefId { get; set; }
+        public int SubCategoryRefId { get; set; }
         public string Photo { get; set; }
         public Uri GetPhotoUri => string.IsNullOrWhiteSpace(Photo) ?
     new Uri($"{ServerConstants.BaseUrl2}/content/No_image_available.png") :
     new Uri($"{ServerConstants.BaseUrl}/WebImage/GetImage/{Photo}");
-
-        private int _cantitate;
-        public int Cantitate
-        {
-            get => _cantitate;
-            set => SetProperty(ref _cantitate, value);
-        }
 
     }
 }

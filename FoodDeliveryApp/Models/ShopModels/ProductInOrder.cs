@@ -7,5 +7,6 @@
         public int ProductRefId { get; set; }
 
         public int UsedQuantity { get; set; }
+        public string ClientComments { get; set; }
     }
 }

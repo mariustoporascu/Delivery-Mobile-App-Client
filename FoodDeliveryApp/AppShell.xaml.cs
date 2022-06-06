@@ -29,6 +29,9 @@ namespace FoodDeliveryApp
             Routing.RegisterRoute(nameof(ChangePasswordPage), typeof(ChangePasswordPage));
             Routing.RegisterRoute(nameof(GenerateTokenPage), typeof(GenerateTokenPage));
             Routing.RegisterRoute(nameof(ResetPasswordPage), typeof(ResetPasswordPage));
+            Routing.RegisterRoute(nameof(GoogleDriveViewerPage), typeof(GoogleDriveViewerPage));
+            Routing.RegisterRoute(nameof(UserLocationsListPage), typeof(UserLocationsListPage));
+            Routing.RegisterRoute(nameof(SelectLocationAndPaymentPage), typeof(SelectLocationAndPaymentPage));
             Task.Run(async () => await DependencyService.Get<IDataStore>().Init());
         }
 

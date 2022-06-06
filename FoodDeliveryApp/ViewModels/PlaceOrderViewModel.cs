@@ -1,6 +1,7 @@
 ﻿using FoodDeliveryApp.Models.ShopModels;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -8,143 +9,88 @@ namespace FoodDeliveryApp.ViewModels
 {
     public class PlaceOrderViewModel : BaseViewModel
     {
+
         private bool hasValidProfile = false;
         public bool HasValidProfile { get => hasValidProfile; set => SetProperty(ref hasValidProfile, value); }
-        public ServerOrder OrderMarket { get; set; }
-        public Dictionary<string, ServerOrder> OrderRestaurant { get; set; }
+        public ServerOrder OrderCompanie { get; set; }
         public OrderInfo OrderInfo { get; set; }
-        public List<ProductInOrder> ProductsInOrderMarket { get; set; }
-        public Dictionary<string, List<ProductInOrder>> ProductsInOrderRestaurant { get; set; }
-        private Dictionary<string, decimal> totalRestaurant;
+        public List<ProductInOrder> ProductsInOrderCompanie { get; set; }
+        private decimal totalCompanie = 0.00M;
         public List<CartItem> CartItems { get; set; }
         public Command PlaceFinalOrder { get; set; }
         public event EventHandler OnPlaceOrder = delegate { };
-        public event EventHandler OnPlaceOrderMarket = delegate { };
         public event EventHandler OnPlaceOrderFailed = delegate { };
-
-        private decimal totalSuperMarket;
-        public PlaceOrderViewModel()
+        private int locationId;
+        private string paymentMethod;
+        public int LocationId { get => locationId; set => SetProperty(ref locationId, value); }
+        public string PaymentMethod { get => paymentMethod; set => SetProperty(ref paymentMethod, value); }
+        public PlaceOrderViewModel(int locationId, string paymentMethod)
         {
-            HasValidProfile = App.UserInfo.CompleteProfile && App.UserInfo.Location != null;
+            HasValidProfile = App.UserInfo.CompleteProfile && (App.UserInfo.Locations != null && App.UserInfo.Locations.Count > 0);
+            LocationId = locationId;
+            PaymentMethod = paymentMethod;
+            PlaceFinalOrder = new Command(async () => await OnClickPlaceOrder());
             if (HasValidProfile)
                 LoadPageData();
-            PlaceFinalOrder = new Command(async () => await OnClickPlaceOrder());
         }
-        void LoadPageData()
+
+        public void LoadPageData()
         {
             CartItems = DataStore.GetCartItems();
-            totalSuperMarket = 0.00M;
-            totalRestaurant = new Dictionary<string, decimal>();
-            ProductsInOrderMarket = new List<ProductInOrder>();
-            OrderRestaurant = new Dictionary<string, ServerOrder>();
-            ProductsInOrderRestaurant = new Dictionary<string, List<ProductInOrder>>();
+            ProductsInOrderCompanie = new List<ProductInOrder>();
             foreach (var item in CartItems)
             {
-                if (item.Canal == 1)
-                {
-                    totalSuperMarket += item.Cantitate * item.Price;
-                    ProductsInOrderMarket.Add(new ProductInOrder { ProductRefId = item.ProductId, UsedQuantity = item.Cantitate });
-                }
-                else
-                {
-                    if (!totalRestaurant.ContainsKey(((int)item.ShopId).ToString()))
-                        totalRestaurant.Add(((int)item.ShopId).ToString(), item.Cantitate * item.Price);
-                    else
-                        totalRestaurant[((int)item.ShopId).ToString()] += item.Cantitate * item.Price;
-                    if (!ProductsInOrderRestaurant.ContainsKey(((int)item.ShopId).ToString()))
-                    {
-                        ProductsInOrderRestaurant.Add(((int)item.ShopId).ToString(), new List<ProductInOrder>());
-                        ProductsInOrderRestaurant[((int)item.ShopId).ToString()].Add(new ProductInOrder { ProductRefId = item.ProductId, UsedQuantity = item.Cantitate });
-                    }
-                    else
-                        ProductsInOrderRestaurant[((int)item.ShopId).ToString()].Add(new ProductInOrder { ProductRefId = item.ProductId, UsedQuantity = item.Cantitate });
-                }
+                totalCompanie += item.PriceTotal;
+                ProductsInOrderCompanie.Add(new ProductInOrder { ProductRefId = item.ProductId, UsedQuantity = item.Cantitate, ClientComments = item.ClientComments });
 
             }
-            if (ProductsInOrderMarket.Count > 0)
+
+            if (ProductsInOrderCompanie.Count > 0)
             {
-                OrderMarket = new ServerOrder
+                OrderCompanie = new ServerOrder
                 {
                     CustomerId = App.UserInfo.Email,
-                    Status = "Ordered",
+                    Status = "Plasata",
                     OrderId = 0,
                     Created = DateTime.UtcNow.AddHours(3),
-                    TotalOrdered = totalSuperMarket
+                    CompanieRefId = CartItems[0].CompanieRefId,
+                    UserLocationId = LocationId,
+                    PaymentMethod = PaymentMethod,
+                    NumeCompanie = DataStore.GetCompanie(CartItems[0].CompanieRefId).Name,
+                    TotalOrdered = totalCompanie,
+                    TransportFee = totalCompanie >= DataStore.GetCompanie(CartItems[0].CompanieRefId)
+                        .TransportFees.Find(fee => fee.CityRefId == DataStore.GetAvailableCities().ToList()
+                        .Find(city => city.Name == App.UserInfo.Locations.Find(loc => loc.LocationId == LocationId).City).CityId)
+                        .MinimumOrderValue ? 0 : DataStore.GetCompanie(CartItems[0].CompanieRefId)
+                        .TransportFees.Find(fee => fee.CityRefId == DataStore.GetAvailableCities().ToList()
+                        .Find(city => city.Name == App.UserInfo.Locations.Find(loc => loc.LocationId == LocationId).City).CityId).TransporFee,
                 };
             }
-            if (ProductsInOrderRestaurant.Count > 0)
+            if (OrderCompanie != null)
             {
-                foreach (var total in totalRestaurant)
-                    OrderRestaurant.Add(total.Key, new ServerOrder
-                    {
-                        CustomerId = App.UserInfo.Email,
-                        Status = "Ordered",
-                        OrderId = 0,
-                        Created = DateTime.UtcNow.AddHours(3),
-                        IsRestaurant = true,
-                        RestaurantRefId = Int32.Parse(total.Key),
-                        NumeCompanie = DataStore.GetRestaurant(Int32.Parse(total.Key)).Name,
-                        TotalOrdered = total.Value,
-                        TransportFee = total.Value >= DataStore.GetRestaurant(Int32.Parse(total.Key)).MinimumOrderValue
-                                ? 0 : DataStore.GetRestaurant(Int32.Parse(total.Key)).TransporFee,
-                    });
+                OrderInfo = new OrderInfo
+                {
+                    FullName = App.UserInfo.FullName,
+                    OrderInfoId = 0,
+                    PhoneNo = App.UserInfo.PhoneNumber,
+                    Address = String.Concat(App.UserInfo.Locations.Find(loc => loc.LocationId == LocationId).BuildingInfo, ", ", App.UserInfo.Locations.Find(loc => loc.LocationId == LocationId).Street, ", ", App.UserInfo.Locations.Find(loc => loc.LocationId == LocationId).City)
+                };
+
+                OrderCompanie.OrderInfos = OrderInfo;
+                OrderCompanie.ProductsInOrder = ProductsInOrderCompanie;
             }
 
-            OrderInfo = new OrderInfo
-            {
-                FullName = App.UserInfo.FullName,
-                OrderInfoId = 0,
-                PhoneNo = App.UserInfo.PhoneNumber,
-                Address = String.Concat(App.UserInfo.Location.BuildingInfo, ", ", App.UserInfo.Location.Street, ", ", App.UserInfo.Location.City)
-            };
-            if (OrderMarket != null)
-            {
-                OrderMarket.ProductsInOrder = ProductsInOrderMarket;
-                OrderMarket.OrderInfos = OrderInfo;
-            }
 
-            foreach (var order in OrderRestaurant)
-            {
-                order.Value.OrderInfos = OrderInfo;
-                order.Value.ProductsInOrder = ProductsInOrderRestaurant[order.Key];
-            }
         }
 
         async Task OnClickPlaceOrder()
         {
-            bool marketOrderOk = false;
-            List<bool> restaurantOrdersplaced = new List<bool>();
-            if (ProductsInOrderMarket.Count > 0)
-            {
-                var result = await OrderService.CreateOrder(OrderMarket);
-                if (!string.IsNullOrEmpty(result) && result.Contains("Order placed."))
-                {
-                    marketOrderOk = true;
-                }
-            }
-            if (ProductsInOrderMarket.Count > 0 && marketOrderOk)
-            {
-                OnPlaceOrderMarket?.Invoke(this, new EventArgs());
-            }
-            if (ProductsInOrderRestaurant.Count > 0)
-            {
-                var iterator = 0;
-                foreach (var order in OrderRestaurant)
-                {
-                    var result = await OrderService.CreateOrder(OrderRestaurant[order.Key]);
-                    if (!string.IsNullOrEmpty(result) && result.Contains("Order placed."))
-                    {
-                        restaurantOrdersplaced.Add(true);
-                    }
-                    else
-                        restaurantOrdersplaced.Add(false);
-                }
 
-            }
-            if (ProductsInOrderRestaurant.Count > 0 && restaurantOrdersplaced.FindAll(item => item == false).Count == 0)
+            var result = await OrderService.CreateOrder(OrderCompanie);
+            if (!string.IsNullOrEmpty(result) && result.Contains("Order placed."))
             {
-                OnPlaceOrder?.Invoke(this, new EventArgs());
                 DataStore.CleanCart();
+                OnPlaceOrder?.Invoke(this, new EventArgs());
             }
             else
                 OnPlaceOrderFailed?.Invoke(this, new EventArgs());

@@ -52,19 +52,19 @@ namespace FoodDeliveryApp.ViewModels
             {
                 if (lWith.Equals("Google"))
                 {
-                    loginResult = await AuthController.Execute(new UserModel { Email = gMail, UserIdentification = gMailId }, Constants.AuthOperations.Login);
+                    loginResult = await AuthController.Execute(new UserModel { Email = gMail, UserIdentification = gMailId, FireBaseToken = App.FirebaseUserToken }, Constants.AuthOperations.Login);
                     finalEmail = gMail;
                     finalId = gMailId;
                 }
                 else if (lWith.Equals("Facebook"))
                 {
-                    loginResult = await AuthController.Execute(new UserModel { Email = fMail, UserIdentification = fMailId }, Constants.AuthOperations.Login);
+                    loginResult = await AuthController.Execute(new UserModel { Email = fMail, UserIdentification = fMailId, FireBaseToken = App.FirebaseUserToken }, Constants.AuthOperations.Login);
                     finalEmail = fMail;
                     finalId = fMailId;
                 }
                 else if (lWith.Equals("Apple"))
                 {
-                    loginResult = await AuthController.Execute(new UserModel { Email = aMail, UserIdentification = aMailId }, Constants.AuthOperations.Login);
+                    loginResult = await AuthController.Execute(new UserModel { Email = aMail, UserIdentification = aMailId, FireBaseToken = App.FirebaseUserToken }, Constants.AuthOperations.Login);
                     finalEmail = aMail;
                     finalId = aMailId;
                 }
@@ -89,7 +89,7 @@ namespace FoodDeliveryApp.ViewModels
         async Task AfterSignIn()
         {
             var authService = DependencyService.Get<IAuthController>();
-            string loginResult = await authService.Execute(new UserModel { Email = UserName, Password = Password }, Constants.AuthOperations.Login);
+            string loginResult = await authService.Execute(new UserModel { Email = UserName, Password = Password, FireBaseToken = App.FirebaseUserToken }, Constants.AuthOperations.Login);
             if (loginResult != string.Empty && loginResult.Contains("Email not confirmed"))
             {
                 RequireConfirmEmail?.Invoke(this, new EventArgs());
@@ -141,6 +141,7 @@ namespace FoodDeliveryApp.ViewModels
                             Email = userData.Email,
                             FullName = string.Concat(userData.First_Name, " ", userData.Last_Name),
                             UserIdentification = userData.Id,
+                            FireBaseToken = App.FirebaseUserToken
                         }, Constants.AuthOperations.Create);
                         if (!string.IsNullOrEmpty(serverResp) &&
                             (serverResp.Contains("Account created, you can now login.") || serverResp.Contains("Reused previous loginwithothers."))
@@ -182,6 +183,7 @@ namespace FoodDeliveryApp.ViewModels
                             Email = userData.FirstOrDefault(claim => claim.Type == "email").Value,
                             FullName = userData.FirstOrDefault(claim => claim.Type == "name").Value,
                             UserIdentification = userData.FirstOrDefault(claim => claim.Type == "sub").Value,
+                            FireBaseToken = App.FirebaseUserToken
                         }, Constants.AuthOperations.Create);
                         if (!string.IsNullOrEmpty(serverResp) &&
                             (serverResp.Contains("Account created, you can now login.") || serverResp.Contains("Reused previous loginwithothers."))

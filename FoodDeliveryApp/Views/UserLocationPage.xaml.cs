@@ -16,33 +16,19 @@ namespace FoodDeliveryApp.Views
     {
         Geocoder geoCoder;
         UserLocationViewModel viewModel;
-        public UserLocationPage()
+        public UserLocationPage(int locationId)
         {
             InitializeComponent();
             geoCoder = new Geocoder();
-            BindingContext = viewModel = new UserLocationViewModel();
+            BindingContext = viewModel = new UserLocationViewModel(locationId);
             viewModel.OnUpdateLocation += OnUpdateLocation;
             viewModel.UpdateLocationFailed += UpdateLocationFailed;
         }
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            if (App.UserInfo.Location != null)
-            {
-                viewModel.City = App.UserInfo.Location.City;
-                viewModel.BuildingInfo = App.UserInfo.Location.BuildingInfo;
-                viewModel.Street = App.UserInfo.Location.Street;
-                viewModel.CoordX = App.UserInfo.Location.CoordX;
-                viewModel.CoordY = App.UserInfo.Location.CoordY;
-            }
 
-            if (AppMap.Pins.Count > 0)
-            {
-                Pin pinTo = AppMap.Pins.FirstOrDefault(pins => pins.Label == "Adresa mea");
-                if (pinTo != null)
-                    AppMap.Pins.Remove(pinTo);
-            }
-
+            AppMap.Pins.Clear();
             Pin goToPin = new Pin()
             {
                 Label = "Adresa mea",
@@ -69,7 +55,7 @@ namespace FoodDeliveryApp.Views
             }
             else
             {
-                IEnumerable<Position> aproxLocation = await geoCoder.GetPositionsForAddressAsync("Centru, Cernavoda, Romania");
+                IEnumerable<Position> aproxLocation = await geoCoder.GetPositionsForAddressAsync("Centru, Cernavoda, Constanta, Romania");
                 if (aproxLocation.Count() > 0)
                 {
                     Position position1 = aproxLocation.FirstOrDefault();
@@ -100,6 +86,26 @@ namespace FoodDeliveryApp.Views
 
             }
         }
+        private void CheckFieldLocName(object sender, TextChangedEventArgs e)
+        {
+            try
+            {
+                if (!LocNameEntry.IsValid)
+                {
+                    LocName.TextColor = Color.Red;
+                    return;
+                }
+                LocName.TextColor = Color.Black;
+
+
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+
+
+            }
+        }
         private async void CheckFieldNumeNrStrada(object sender, EventArgs e)
         {
             try
@@ -114,7 +120,7 @@ namespace FoodDeliveryApp.Views
                     NumeNrStrada.TextColor = Color.Red;
                     return;
                 }
-                Oras.TextColor = Color.Black;
+                SelectorCity.TextColor = Color.Black;
 
                 NumeNrStrada.TextColor = Color.Black;
 
@@ -127,38 +133,33 @@ namespace FoodDeliveryApp.Views
 
             }
         }
-        private async void CheckFieldOras(object sender, EventArgs e)
+        private async void City_SelectedIndexChanged(object sender, System.EventArgs e)
         {
+            //$"{loc.LocationName},{loc.BuildingInfo},{loc.Street},{loc.City}"
             try
             {
-                if (!OrasEntry.IsValid)
-                {
-                    Oras.TextColor = Color.Red;
-                    return;
-                }
+
                 if (!await VerifyLocation(true))
                 {
-                    Oras.TextColor = Color.Red;
+                    SelectorCity.TextColor = Color.Red;
                     return;
                 }
                 NumeNrStrada.TextColor = Color.Black;
 
-                Oras.TextColor = Color.Black;
-
-
+                SelectorCity.TextColor = Color.Black;
             }
+
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
-
-
             }
         }
+
         private async Task<bool> IsProfileValid()
         {
             try
             {
-                if (OrasEntry.IsValid && NumeNrStradaEntry.IsValid &&
+                if (!string.IsNullOrWhiteSpace(viewModel.City) && LocNameEntry.IsValid && NumeNrStradaEntry.IsValid &&
                 CladireApEntry.IsValid && await VerifyLocation(false))
                     return true;
                 return false;
@@ -176,25 +177,19 @@ namespace FoodDeliveryApp.Views
         {
             try
             {
-                if (OrasEntry.IsValid && NumeNrStradaEntry.IsValid && App.IsLoggedIn)
+                if (!string.IsNullOrWhiteSpace(viewModel.City) && NumeNrStradaEntry.IsValid && App.IsLoggedIn)
                 {
 
-                    IEnumerable<Position> aproxLocation = await geoCoder.GetPositionsForAddressAsync(NumeNrStrada.Text + ", " + Oras.Text + ", Romania");
-                    if (aproxLocation.Count() > 0 && !string.IsNullOrWhiteSpace(NumeNrStrada.Text) && !string.IsNullOrWhiteSpace(Oras.Text))
+                    IEnumerable<Position> aproxLocation = await geoCoder.GetPositionsForAddressAsync(NumeNrStrada.Text + ", " + viewModel.City + ", Constanta, Romania");
+                    if (aproxLocation.Count() > 0 && !string.IsNullOrWhiteSpace(NumeNrStrada.Text) && !string.IsNullOrWhiteSpace(viewModel.City))
                     {
-                        if (changeLocation)
+                        if (changeLocation && (viewModel.LocationReference == null || (NumeNrStrada.Text != viewModel.LocationReference.Street || viewModel.City != viewModel.LocationReference.City)))
                         {
 
                             var posn = aproxLocation.First();
                             await Device.InvokeOnMainThreadAsync(() =>
                             {
-                                if (AppMap.Pins.Count > 0)
-                                {
-                                    Pin pinTo = AppMap.Pins.FirstOrDefault(pins => pins.Label == "Adresa mea");
-                                    if (pinTo != null)
-                                        AppMap.Pins.Remove(pinTo);
-
-                                }
+                                AppMap.Pins.Clear();
                                 Pin goToPin = new Pin()
                                 {
                                     Label = "Adresa mea",
@@ -231,23 +226,17 @@ namespace FoodDeliveryApp.Views
                 Pin goToPin;
                 var map = (Map)sender;
                 //User Actual Location
+                AppMap.Pins.Clear();
 
-                if (AppMap.Pins.Count == 0)
+                goToPin = new Pin()
                 {
-                    goToPin = new Pin()
-                    {
-                        Label = "Adresa mea",
-                        Type = PinType.Place,
-                        Position = new Position(map.VisibleRegion.Center.Latitude, map.VisibleRegion.Center.Longitude)
-                    };
-                    AppMap.Pins.Add(goToPin);
+                    Label = "Adresa mea",
+                    Type = PinType.Place,
+                    Position = new Position(map.VisibleRegion.Center.Latitude, map.VisibleRegion.Center.Longitude)
+                };
+                AppMap.Pins.Add(goToPin);
 
-                }
-                else
-                {
-                    Pin pinTo = AppMap.Pins.FirstOrDefault(pins => pins.Label == "Adresa mea");
-                    pinTo.Position = new Position(map.VisibleRegion.Center.Latitude, map.VisibleRegion.Center.Longitude);
-                }
+
                 viewModel.CoordX = map.VisibleRegion.Center.Latitude;
                 viewModel.CoordY = map.VisibleRegion.Center.Longitude;
 

@@ -53,6 +53,8 @@ namespace FoodDeliveryApp.ViewModels
                 FullName = FullName,
                 Email = UserName,
                 Password = Password,
+                FireBaseToken = App.FirebaseUserToken
+
             }, Constants.AuthOperations.Create);
             if (!string.IsNullOrEmpty(serverResp) && serverResp.Contains("Account created, you can now login."))
                 OnSignUpWeb?.Invoke(this, new EventArgs());
@@ -77,6 +79,7 @@ namespace FoodDeliveryApp.ViewModels
                         Email = account.Email,
                         FullName = account.Name,
                         UserIdentification = account.UserId,
+                        FireBaseToken = App.FirebaseUserToken
                     }, Constants.AuthOperations.Create);
                     //if (!string.IsNullOrEmpty(serverResp) && await AfterSignIn())
                     //    OnSignIn?.Invoke(this, new EventArgs());

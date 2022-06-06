@@ -32,9 +32,9 @@ namespace FoodDeliveryApp.ViewModels
             IsLoggedIn = App.IsLoggedIn;
             ItemTapped = new Command<Order>(OnItemSelected);
 
-            LoadOrdersCommand = new Command(async () => await ExecuteLoadOrdersCommand());
+            LoadOrdersCommand = new Command(ExecuteLoadOrdersCommand);
         }
-        public async Task ExecuteLoadOrdersCommand()
+        public async void ExecuteLoadOrdersCommand()
         {
             IsBusy = true;
             string email = App.UserInfo.Email;

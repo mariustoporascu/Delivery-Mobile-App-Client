@@ -29,16 +29,15 @@ namespace FoodDeliveryApp.Views
 
             calculateRoute = true;
             AppMap.MapElements.Clear();
+            AppMap.Pins.Clear();
             await mapsViewModel.LoadMyLocation();
-            if (mapsViewModel.pinRoute1.Position != null)
+            if (mapsViewModel.MyLocations != null && mapsViewModel.MyLocations.Count > 0)
             {
                 try
                 {
-                    if (AppMap.Pins.FirstOrDefault(pin => pin.Label == "Adresa mea") == null)
-                        AppMap.Pins.Add(mapsViewModel.pinRoute1);
-                    else
-                        AppMap.Pins.FirstOrDefault(pin => pin.Label == "Adresa mea").Position = mapsViewModel.pinRoute1.Position;
-                    AppMap.MoveToRegion(MapSpan.FromCenterAndRadius(mapsViewModel.pinRoute1.Position, Distance.FromMeters(100)));
+                    foreach (var pin in mapsViewModel.MyLocations)
+                        AppMap.Pins.Add(pin);
+                    AppMap.MoveToRegion(MapSpan.FromCenterAndRadius(mapsViewModel.MyLocations.First().Position, Distance.FromMeters(100)));
                     viewLeaved = false;
                     TrackPath_Clicked();
 
@@ -99,7 +98,7 @@ namespace FoodDeliveryApp.Views
         }
         async void RouteAsync()
         {
-            routes = await mapsViewModel.DrawDriverRoute();
+            routes = await mapsViewModel.DrawDriverRoute().ConfigureAwait(false);
         }
         void DrawElements()
         {

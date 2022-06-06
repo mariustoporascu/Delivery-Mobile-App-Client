@@ -39,7 +39,7 @@ namespace FoodDeliveryApp.Views
         {
             try
             {
-                await Navigation.PushModalAsync(new UserLocationPage());
+                await Navigation.PushModalAsync(new UserLocationsListPage());
 
             }
             catch (Exception ex)
@@ -88,6 +88,18 @@ namespace FoodDeliveryApp.Views
             try
             {
                 await Navigation.PushModalAsync(new GoogleDriveViewerPage(ServerConstants.Termeni));
+
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+        }
+        private async void IntrebariClicked(object sender, EventArgs e)
+        {
+            try
+            {
+                await Navigation.PushModalAsync(new GoogleDriveViewerPage(ServerConstants.Intrebari));
 
             }
             catch (Exception ex)

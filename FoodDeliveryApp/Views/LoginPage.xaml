@@ -87,15 +87,27 @@
             </StackLayout>
             <StackLayout Margin="0,5,0,0">
                 <Button
+                    Margin="0"
                     BackgroundColor="Transparent"
+                    Clicked="RedirSignUp"
                     FontAttributes="None"
                     FontSize="Medium"
+                    Text="Creaza cont nou"
+                    TextColor="Black"
+                    TextTransform="None" />
+            </StackLayout>
+            <StackLayout Margin="0,5,0,0">
+                <Button
+                    Margin="0"
+                    BackgroundColor="Transparent"
                     Clicked="PasswordForgotClicked"
+                    FontAttributes="None"
+                    FontSize="Medium"
                     Text="Ai uitat parola?"
                     TextColor="Black"
                     TextTransform="None" />
                 <Label
-                    Margin="0,15,0,0"
+                    Margin="0,10,0,0"
                     BackgroundColor="Transparent"
                     FontAttributes="None"
                     FontSize="Medium"
@@ -116,6 +128,7 @@
                     Aspect="AspectFit"
                     BackgroundColor="Transparent"
                     Command="{Binding ExecuteLoginGoogle}"
+                    HeightRequest="50"
                     IsVisible="{Binding IsGoogleSignInAvailable}"
                     Source="google.png" />
 
@@ -127,11 +140,12 @@
                     Aspect="AspectFit"
                     BackgroundColor="Transparent"
                     Command="{Binding ExecuteLoginFacebook}"
+                    HeightRequest="50"
                     Source="facebook.png" />
 
 
             </StackLayout>
-            <StackLayout HorizontalOptions="CenterAndExpand">
+            <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="EndAndExpand">
                 <Label
                     HorizontalTextAlignment="Center"
                     LineBreakMode="WordWrap"
@@ -144,39 +158,32 @@
                     <Button
                         Margin="0"
                         Padding="0"
-                        xct:CornerRadiusEffect.CornerRadius="30"
                         BackgroundColor="Transparent"
                         Clicked="TermeniClicked"
                         FontSize="Small"
+                        HeightRequest="50"
                         HorizontalOptions="Start"
                         ImageSource="orders.png"
                         Text="Termeni si conditii"
                         TextColor="Black"
-                        TextTransform="None" />
+                        TextTransform="None"
+                        WidthRequest="130" />
                     <Button
                         Margin="0"
                         Padding="0"
-                        xct:CornerRadiusEffect.CornerRadius="30"
                         BackgroundColor="Transparent"
                         Clicked="GDPRclicked"
                         FontSize="Small"
+                        HeightRequest="50"
                         HorizontalOptions="Start"
                         ImageSource="lock.png"
                         Text="Protectia Datelor"
                         TextColor="Black"
-                        TextTransform="None" />
+                        TextTransform="None"
+                        WidthRequest="130" />
                 </StackLayout>
             </StackLayout>
-            <StackLayout VerticalOptions="EndAndExpand">
-                <Button
-                    BackgroundColor="Transparent"
-                    Clicked="RedirSignUp"
-                    FontAttributes="None"
-                    FontSize="Medium"
-                    Text="Creaza cont nou"
-                    TextColor="Black"
-                    TextTransform="None" />
-            </StackLayout>
+
             <StackLayout Margin="0,10,0,0">
                 <Button
                     BackgroundColor="Transparent"

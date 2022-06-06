@@ -20,7 +20,10 @@
         HorizontalOptions="FillAndExpand"
         VerticalOptions="FillAndExpand">
         <StackLayout IsVisible="{Binding IsPageVisible}">
-            <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal">
+            <StackLayout
+                HorizontalOptions="FillAndExpand"
+                Orientation="Horizontal"
+                VerticalOptions="FillAndExpand">
 
                 <Label
                     FontAttributes="Bold"
@@ -82,12 +85,7 @@
                                     LineBreakMode="WordWrap"
                                     Text="{Binding Name}"
                                     TextColor="Black" />
-                                <StackLayout.GestureRecognizers>
-                                    <TapGestureRecognizer
-                                        Command="{Binding Source={RelativeSource AncestorType={x:Type local:CosContentViewModel}}, Path=ItemTapped}"
-                                        CommandParameter="{Binding .}"
-                                        NumberOfTapsRequired="1" />
-                                </StackLayout.GestureRecognizers>
+
                             </StackLayout>
                             <StackLayout
                                 HorizontalOptions="CenterAndExpand"
@@ -123,14 +121,9 @@
                                     FontSize="Small"
                                     HorizontalTextAlignment="Center"
                                     LineBreakMode="NoWrap"
-                                    Text="{Binding Price}"
+                                    Text="{Binding PriceTotal}"
                                     TextColor="Black" />
-                                <StackLayout.GestureRecognizers>
-                                    <TapGestureRecognizer
-                                        Command="{Binding Source={RelativeSource AncestorType={x:Type local:CosContentViewModel}}, Path=ItemTapped}"
-                                        CommandParameter="{Binding .}"
-                                        NumberOfTapsRequired="1" />
-                                </StackLayout.GestureRecognizers>
+
                             </StackLayout>
 
                             <StackLayout
@@ -146,7 +139,10 @@
                                     HorizontalOptions="CenterAndExpand"
                                     Source="delete.png" />
                             </StackLayout>
+
                         </StackLayout>
+
+
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
@@ -173,7 +169,7 @@
                 </StackLayout>
                 <StackLayout IsVisible="{Binding CanPlaceOrder}">
                     <Button
-                        Margin="0"
+                        Margin="0,0,0,30"
                         Padding="0"
                         xct:CornerRadiusEffect.CornerRadius="30"
                         BackgroundColor="LightCoral"
@@ -184,7 +180,7 @@
                         TextColor="White"
                         TextTransform="None" />
                     <Label
-                        Margin="0,0,0,10"
+                        Margin="0,0,0,30"
                         FontAttributes="Bold"
                         FontSize="Default"
                         HorizontalTextAlignment="Center"
@@ -194,11 +190,11 @@
                 </StackLayout>
                 <StackLayout IsVisible="{Binding CanPlaceOrder, Converter={StaticResource invertBoolConverter}}">
                     <Label
-                        Margin="0,0,0,10"
+                        Margin="0,0,0,30"
                         FontAttributes="Bold"
                         FontSize="Default"
                         HorizontalTextAlignment="Center"
-                        Text="Comenzile se pot plasa numai in intervalul orar 09:00 - 23:00."
+                        Text="Ai produse in cos care nu se pot livra la ora aceasta."
                         TextColor="Black" />
                 </StackLayout>
 

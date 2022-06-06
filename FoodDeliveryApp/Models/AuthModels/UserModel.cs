@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace FoodDeliveryApp.Models.AuthModels
 {
@@ -13,11 +14,13 @@ namespace FoodDeliveryApp.Models.AuthModels
         private bool _hasSetPassword = false;
         private string _loginToken;
         private string _resetTokenPass;
+        private string _fireBaseToken;
         private string _newPassword;
-        private UserLocation _location;
-
-        [JsonProperty("location")]
-        public UserLocation Location { get => _location; set => SetProperty(ref _location, value); }
+        public UserLocation Location { get; set; }
+        private List<UserLocation> _locations;
+        public int LocationDeleteId { get; set; }
+        [JsonProperty("locations")]
+        public List<UserLocation> Locations { get => _locations; set => SetProperty(ref _locations, value); }
         public string Email { get => _email; set => SetProperty(ref _email, value); }
         public string FullName { get => _fullName; set => SetProperty(ref _fullName, value); }
         public string Password { get => _password; set => SetProperty(ref _password, value); }
@@ -27,6 +30,7 @@ namespace FoodDeliveryApp.Models.AuthModels
         public bool CompleteProfile { get => _completeProfile; set => SetProperty(ref _completeProfile, value); }
         public bool HasSetPassword { get => _hasSetPassword; set => SetProperty(ref _hasSetPassword, value); }
         public string ResetTokenPass { get => _resetTokenPass; set => SetProperty(ref _resetTokenPass, value); }
+        public string FireBaseToken { get => _fireBaseToken; set => SetProperty(ref _fireBaseToken, value); }
         public string NewPassword { get => _newPassword; set => SetProperty(ref _newPassword, value); }
 
     }

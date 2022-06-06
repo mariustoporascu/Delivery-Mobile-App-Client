@@ -16,5 +16,6 @@ namespace FoodDeliveryApp.Constants
         ResetPassword = 7,
         GenerateToken = 8,
         ConfirmEmail = 9,
+        DeleteLocation = 10,
     }
 }

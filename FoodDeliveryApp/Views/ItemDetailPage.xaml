@@ -99,7 +99,7 @@
                         VerticalOptions="CenterAndExpand" />
                 </StackLayout>
             </StackLayout>
-            <Frame
+            <!--<Frame
                 Padding="20"
                 BackgroundColor="LightCyan"
                 CornerRadius="10"
@@ -111,6 +111,15 @@
                     Orientation="Horizontal"
                     VerticalOptions="EndAndExpand">
                     <ImageButton
+                        Margin="5,0,5,0"
+                        Aspect="AspectFit"
+                        BackgroundColor="Transparent"
+                        Command="{Binding Source={RelativeSource AncestorType={x:Type local:ItemDetailViewModel}}, Path=MinusCommand}"
+                        HeightRequest="28"
+                        Source="minus.png"
+                        WidthRequest="28" />
+            -->
+            <!--<ImageButton
                         Margin="5,0,5,0"
                         Aspect="AspectFit"
                         BackgroundColor="Transparent"
@@ -131,9 +140,10 @@
                         Command="{Binding Source={RelativeSource AncestorType={x:Type local:ItemDetailViewModel}}, Path=PlusCommand}"
                         HeightRequest="28"
                         Source="plus.png"
-                        WidthRequest="28" />
+                        WidthRequest="28" />-->
+            <!--
                 </StackLayout>
-            </Frame>
+            </Frame>-->
 
         </StackLayout>
     </ScrollView>

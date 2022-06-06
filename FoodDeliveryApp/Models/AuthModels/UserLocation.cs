@@ -11,6 +11,9 @@ namespace FoodDeliveryApp.Models.AuthModels
         private string _city = string.Empty;
         private string _buildinginfo = string.Empty;
         private string _street = string.Empty;
+        private string _name = string.Empty;
+        public int LocationId { get; set; }
+        public string LocationName { get => _name; set => SetProperty(ref _name, value); }
         public string Street { get => _street; set => SetProperty(ref _street, value); }
         public string City { get => _city; set => SetProperty(ref _city, value); }
         public string BuildingInfo { get => _buildinginfo; set => SetProperty(ref _buildinginfo, value); }

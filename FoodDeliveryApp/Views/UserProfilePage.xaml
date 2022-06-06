@@ -13,9 +13,15 @@
             <xct:InvertedBoolConverter x:Key="invertBoolConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
-    <RefreshView IsRefreshing="{Binding IsBusy, Mode=TwoWay}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-        <StackLayout Margin="35,0,35,0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-            <StackLayout Margin="0,50,0,0" IsVisible="{Binding IsLoggedIn}">
+    <RefreshView
+        HorizontalOptions="FillAndExpand"
+        IsRefreshing="{Binding IsBusy, Mode=TwoWay}"
+        VerticalOptions="FillAndExpand">
+        <StackLayout
+            Margin="35,0,35,0"
+            HorizontalOptions="FillAndExpand"
+            VerticalOptions="FillAndExpand">
+            <StackLayout Margin="0,20,0,0" IsVisible="{Binding IsLoggedIn}">
 
                 <Label
                     FontSize="Large"
@@ -40,7 +46,7 @@
                     TextColor="Black"
                     TextTransform="None" />
                 <Button
-                    Margin="0,50,0,0"
+                    Margin="0,20,0,0"
                     Padding="0"
                     xct:CornerRadiusEffect.CornerRadius="30"
                     BackgroundColor="Transparent"
@@ -75,7 +81,7 @@
                     HorizontalOptions="Start"
                     ImageSource="location.png"
                     IsEnabled="{Binding CanEditLocation}"
-                    Text="Adauga locatia ta"
+                    Text="Locatiile tale"
                     TextColor="Black"
                     TextTransform="None" />
                 <Button
@@ -83,10 +89,10 @@
                     Padding="0"
                     xct:CornerRadiusEffect.CornerRadius="30"
                     BackgroundColor="Transparent"
+                    Clicked="TermeniClicked"
                     FontSize="Small"
                     HorizontalOptions="Start"
                     ImageSource="orders.png"
-                    Clicked="TermeniClicked"
                     Text="Termeni si conditii"
                     TextColor="Black"
                     TextTransform="None" />
@@ -95,11 +101,23 @@
                     Padding="0"
                     xct:CornerRadiusEffect.CornerRadius="30"
                     BackgroundColor="Transparent"
+                    Clicked="GDPRclicked"
                     FontSize="Small"
                     HorizontalOptions="Start"
                     ImageSource="lock.png"
-                    Clicked="GDPRclicked"
                     Text="Protectia Datelor"
+                    TextColor="Black"
+                    TextTransform="None" />
+                <Button
+                    Margin="0"
+                    Padding="0"
+                    xct:CornerRadiusEffect.CornerRadius="30"
+                    BackgroundColor="Transparent"
+                    Clicked="IntrebariClicked"
+                    FontSize="Small"
+                    HorizontalOptions="Start"
+                    ImageSource="info.png"
+                    Text="Intrebari frecvente"
                     TextColor="Black"
                     TextTransform="None" />
                 <Button
@@ -109,8 +127,8 @@
                     BackgroundColor="Transparent"
                     FontSize="Small"
                     HorizontalOptions="Start"
-                    ImageSource="info.png"
-                    Text="Intrebari frecvente "
+                    ImageSource="send.png"
+                    Text="Cere ajutor"
                     TextColor="Black"
                     TextTransform="None" />
                 <Button

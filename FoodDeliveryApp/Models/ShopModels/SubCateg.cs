@@ -7,7 +7,6 @@ namespace FoodDeliveryApp.Models.ShopModels
     {
         public int SubCategoryId { get; set; }
         public string Name { get; set; }
-        public string Description { get; set; }
         public int CategoryRefId { get; set; }
         public Uri GetPhotoUri => string.IsNullOrWhiteSpace(Photo) ?
     new Uri($"{ServerConstants.BaseUrl2}/content/No_image_available.png") :

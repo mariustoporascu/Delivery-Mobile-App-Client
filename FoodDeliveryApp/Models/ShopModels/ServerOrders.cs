@@ -10,20 +10,21 @@ namespace FoodDeliveryApp.Models.ShopModels
         public string Status { get; set; }
         public decimal TotalOrdered { get; set; }
         public decimal TransportFee { get; set; }
-
+        public string PaymentMethod { get; set; }
+        public string Comments { get; set; }
         public string CustomerId { get; set; }
         public string DriverRefId { get; set; }
-        public bool IsRestaurant { get; set; } = false;
-        public int RestaurantRefId { get; set; }
+        public int CompanieRefId { get; set; }
         public string EstimatedTime { get; set; }
         public string NumeCompanie { get; set; }
-
+        public bool IsOrderPayed { get; set; }
         public bool ClientGaveRatingDriver { get; set; } = false;
-        public bool ClientGaveRatingRestaurant { get; set; } = false;
+        public bool ClientGaveRatingCompanie { get; set; } = false;
         public bool? HasUserConfirmedET { get; set; }
         //public int RatingClient { get; set; }
+        public int UserLocationId { get; set; }
         public int RatingDriver { get; set; }
-        public int RatingRestaurant { get; set; }
+        public int RatingCompanie { get; set; }
         public DateTime Created { get; set; }
         [JsonProperty("productsInOrder")]
         public List<ProductInOrder> ProductsInOrder { get; set; }

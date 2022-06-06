@@ -4,7 +4,7 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:FoodDeliveryApp.ViewModels"
-    xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
+    xmlns:controls="clr-namespace:FoodDeliveryApp.Controls"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     Title="Harta"
     x:DataType="local:MapsViewModel"
@@ -19,7 +19,7 @@
             HorizontalTextAlignment="Center"
             Text="Urmareste comanda"
             TextColor="Black" />
-        <maps:Map
+        <controls:CustomMap
             x:Name="AppMap"
             HasScrollEnabled="True"
             HasZoomEnabled="True"

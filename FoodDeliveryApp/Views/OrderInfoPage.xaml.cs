@@ -16,7 +16,12 @@ namespace FoodDeliveryApp.Views
             viewModel.GetRatRest += GetRestRat;
 
         }
-
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+            if (!App.IsLoggedIn)
+                await Shell.Current.Navigation.PopToRootAsync();
+        }
         private async void Button_Clicked(object sender, System.EventArgs e)
         {
             var prompt = await DisplayAlert("Confirmati", "Apasand acest buton confirmati ca ati acceptat timpul estimat de pregatire.", "OK", "Cancel");
