@@ -74,22 +74,29 @@ namespace FoodDeliveryApp.Droid
             var customPin = GetCustomPin(e.Marker);
             if (customPin == null)
             {
-                throw new Exception("Custom pin not found");
             }
 
         }
 
         CustomPin GetCustomPin(Marker annotation)
         {
-            var position = new Position(annotation.Position.Latitude, annotation.Position.Longitude);
-            foreach (var pin in customPins)
+            try
             {
-                if (pin.Position == position)
+                var position = new Position(annotation.Position.Latitude, annotation.Position.Longitude);
+                foreach (var pin in customPins)
                 {
-                    return pin;
+                    if (pin.Position == position)
+                    {
+                        return pin;
+                    }
                 }
+                return null;
+
             }
-            return null;
+            catch (Exception)
+            {
+                return null;
+            }
         }
         public Android.Views.View GetInfoWindow(Marker marker)
         {

@@ -46,7 +46,7 @@ namespace FoodDeliveryApp.ViewModels
             }
             else
             {
-                IEnumerable<Position> aproxLocation = await geoCoder.GetPositionsForAddressAsync("Centru, Cernavoda, Constanta, Romania");
+                IEnumerable<Position> aproxLocation = await geoCoder.GetPositionsForAddressAsync("Dacia, Cernavoda, Constanta, Romania");
                 if (aproxLocation.Count() > 0)
                 {
                     Position position1 = aproxLocation.FirstOrDefault();
@@ -64,7 +64,7 @@ namespace FoodDeliveryApp.ViewModels
         {
             try
             {
-                if (App.IsLoggedIn && App.UserInfo.Location != null)
+                if (App.IsLoggedIn && App.UserInfo.Locations != null)
                 {
                     _driverLocations.Clear();
                     var myOrders = await DataStore.GetServerOrders(App.UserInfo.Email);

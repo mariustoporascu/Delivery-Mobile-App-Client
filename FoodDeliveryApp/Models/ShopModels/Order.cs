@@ -11,8 +11,9 @@ namespace FoodDeliveryApp.Models.ShopModels
         public string TotalOrderedInterfata { get; set; }
         public string CustomerId { get; set; }
         public string PaymentMethod { get; set; }
-
         public int CompanieRefId { get; set; }
+        public string Comments { get; set; }
+
         public string NumeCompanie { get; set; }
         public string EstimatedTime { get; set; }
         public string DriverRefId { get; set; }

@@ -176,7 +176,8 @@ namespace FoodDeliveryApp.ViewModels
                         if (tipCompanie.StartHour <= tipCompanie.EndHour)
                         {
                             // start and stop times are in the same day
-                            if (!(timeObject.DateTime.Hour >= tipCompanie.StartHour && timeObject.DateTime.Hour <= tipCompanie.EndHour))
+                            if (!(new TimeSpan(timeObject.DateTime.Hour, timeObject.DateTime.Minute, 0) >= new TimeSpan(tipCompanie.StartHour, 30, 0)
+                                    && new TimeSpan(timeObject.DateTime.Hour, timeObject.DateTime.Minute, 0) <= new TimeSpan(tipCompanie.EndHour, 30, 0)))
                             {
                                 CanPlaceOrder = false;
                             }
@@ -184,7 +185,8 @@ namespace FoodDeliveryApp.ViewModels
                         else
                         {
                             // start and stop times are in different days
-                            if (!(timeObject.DateTime.Hour >= tipCompanie.StartHour || timeObject.DateTime.Hour <= tipCompanie.EndHour))
+                            if (!(new TimeSpan(timeObject.DateTime.Hour, timeObject.DateTime.Minute, 0) >= new TimeSpan(tipCompanie.StartHour, 30, 0)
+                                || new TimeSpan(timeObject.DateTime.Hour, timeObject.DateTime.Minute, 0) <= new TimeSpan(tipCompanie.EndHour, 30, 0)))
                             {
                                 CanPlaceOrder = false;
                             }

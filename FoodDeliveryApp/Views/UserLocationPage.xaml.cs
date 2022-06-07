@@ -55,7 +55,7 @@ namespace FoodDeliveryApp.Views
             }
             else
             {
-                IEnumerable<Position> aproxLocation = await geoCoder.GetPositionsForAddressAsync("Centru, Cernavoda, Constanta, Romania");
+                IEnumerable<Position> aproxLocation = await geoCoder.GetPositionsForAddressAsync("Dacia, Cernavoda, Constanta, Romania");
                 if (aproxLocation.Count() > 0)
                 {
                     Position position1 = aproxLocation.FirstOrDefault();

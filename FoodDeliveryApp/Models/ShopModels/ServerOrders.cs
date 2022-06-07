@@ -15,8 +15,10 @@ namespace FoodDeliveryApp.Models.ShopModels
         public string CustomerId { get; set; }
         public string DriverRefId { get; set; }
         public int CompanieRefId { get; set; }
+        public bool TelephoneOrdered { get; set; }
         public string EstimatedTime { get; set; }
         public string NumeCompanie { get; set; }
+
         public bool IsOrderPayed { get; set; }
         public bool ClientGaveRatingDriver { get; set; } = false;
         public bool ClientGaveRatingCompanie { get; set; } = false;

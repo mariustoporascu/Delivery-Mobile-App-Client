@@ -30,6 +30,7 @@ namespace FoodDeliveryApp.Views
             calculateRoute = true;
             AppMap.MapElements.Clear();
             AppMap.Pins.Clear();
+            mapsViewModel.MyLocations.Clear();
             await mapsViewModel.LoadMyLocation();
             if (mapsViewModel.MyLocations != null && mapsViewModel.MyLocations.Count > 0)
             {

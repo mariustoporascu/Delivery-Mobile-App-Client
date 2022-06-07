@@ -83,6 +83,10 @@ namespace FoodDeliveryApp.Views
                 Debug.WriteLine(ex.Message);
             }
         }
+        private void AskHelpClicked(object sender, EventArgs e)
+        {
+            Navigation.ShowPopup(new AskHelpPopUp());
+        }
         private async void TermeniClicked(object sender, EventArgs e)
         {
             try

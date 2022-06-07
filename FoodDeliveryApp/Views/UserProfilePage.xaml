@@ -28,11 +28,18 @@
                     HorizontalTextAlignment="Center"
                     Text="{Binding Header}"
                     TextColor="Black" />
-                <Label
-                    FontSize="Medium"
-                    HorizontalTextAlignment="Center"
-                    Text="{Binding PhoneNumber}"
-                    TextColor="Black" />
+                <StackLayout HorizontalOptions="Center" Orientation="Horizontal">
+                    <Image
+                        Aspect="AspectFit"
+                        BackgroundColor="Transparent"
+                        Source="phone.png" />
+                    <Label
+                        FontSize="Medium"
+                        HorizontalTextAlignment="Center"
+                        Text="{Binding PhoneNumber}"
+                        TextColor="Black" />
+                </StackLayout>
+
                 <Button
                     Margin="0"
                     Padding="0"
@@ -125,6 +132,7 @@
                     Padding="0"
                     xct:CornerRadiusEffect.CornerRadius="30"
                     BackgroundColor="Transparent"
+                    Clicked="AskHelpClicked"
                     FontSize="Small"
                     HorizontalOptions="Start"
                     ImageSource="send.png"
@@ -177,6 +185,28 @@
                     FontSize="Medium"
                     Text="Autentificate"
                     TextColor="White"
+                    TextTransform="None" />
+                <Button
+                    Margin="0"
+                    Padding="0"
+                    BackgroundColor="Transparent"
+                    Clicked="IntrebariClicked"
+                    FontSize="Small"
+                    HorizontalOptions="Center"
+                    ImageSource="info.png"
+                    Text="Intrebari frecvente"
+                    TextColor="Black"
+                    TextTransform="None" />
+                <Button
+                    Margin="0"
+                    Padding="0"
+                    BackgroundColor="Transparent"
+                    Clicked="AskHelpClicked"
+                    FontSize="Small"
+                    HorizontalOptions="Center"
+                    ImageSource="send.png"
+                    Text="Cere ajutor"
+                    TextColor="Black"
                     TextTransform="None" />
             </StackLayout>
         </StackLayout>

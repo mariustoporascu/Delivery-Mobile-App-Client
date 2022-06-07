@@ -30,6 +30,8 @@ namespace FoodDeliveryApp.ViewModels
         public bool HasUserResponded { get => _hasUserResponded; set => SetProperty(ref _hasUserResponded, value); }
         private bool _canGiveRating = false;
         public bool CanGiveRating { get => _canGiveRating; set => SetProperty(ref _canGiveRating, value); }
+        private bool _hasComments = false;
+        public bool HasComments { get => _hasComments; set => SetProperty(ref _hasComments, value); }
 
         private ObservableRangeCollection<OrderProductDisplay> _items;
         public ObservableRangeCollection<OrderProductDisplay> Items { get => _items; set => SetProperty(ref _items, value); }
@@ -110,6 +112,7 @@ namespace FoodDeliveryApp.ViewModels
                     TotalOrdered = order.TotalOrdered,
                     TotalOrderedInterfata = order.TotalOrdered + " RON",
                     TransportFee = order.TransportFee,
+                    Comments = order.Comments,
                     EstimatedTime = order.EstimatedTime,
                     PaymentMethod = order.PaymentMethod,
                     HasUserConfirmedET = order.HasUserConfirmedET,
@@ -143,7 +146,7 @@ namespace FoodDeliveryApp.ViewModels
                     HasEstimatedTime = true;
                 else
                     HasEstimatedTime = false;
-
+                HasComments = !string.IsNullOrWhiteSpace(order.Comments);
                 var itemsInOrder = new ObservableRangeCollection<OrderProductDisplay>();
                 foreach (var prodInOrder in order.ProductsInOrder)
                 {

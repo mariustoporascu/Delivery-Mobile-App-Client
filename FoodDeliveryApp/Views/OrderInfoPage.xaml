@@ -3,6 +3,7 @@
     x:Class="FoodDeliveryApp.Views.OrderInfoPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:FoodDeliveryApp.Controls"
     xmlns:fRating="clr-namespace:Rating;assembly=Rating"
     xmlns:local="clr-namespace:FoodDeliveryApp.ViewModels"
     xmlns:model="clr-namespace:FoodDeliveryApp.Models.ShopModels"
@@ -144,7 +145,7 @@
                                 HorizontalOptions="CenterAndExpand"
                                 HorizontalTextAlignment="Center"
                                 LineBreakMode="WordWrap"
-                                Text="Detalii Restaurant:"
+                                Text="Detalii companie:"
                                 TextColor="Black"
                                 VerticalTextAlignment="Center"
                                 WidthRequest="120" />
@@ -159,7 +160,7 @@
                                 TextColor="Black"
                                 VerticalTextAlignment="Center"
                                 WidthRequest="100" />
-                            <Label
+                            <controls:AwesomeHyperLinkLabel
                                 FontAttributes="Bold"
                                 FontSize="Small"
                                 HorizontalOptions="CenterAndExpand"
@@ -187,7 +188,7 @@
                                 Text="Detalii sofer:"
                                 TextColor="Black"
                                 VerticalTextAlignment="Center"
-                                WidthRequest="80" />
+                                WidthRequest="100" />
 
                             <Label
                                 FontAttributes="Bold"
@@ -199,17 +200,7 @@
                                 TextColor="Black"
                                 VerticalTextAlignment="Center"
                                 WidthRequest="75" />
-                            <Label
-                                FontAttributes="Bold"
-                                FontSize="Small"
-                                HorizontalOptions="CenterAndExpand"
-                                HorizontalTextAlignment="Center"
-                                LineBreakMode="WordWrap"
-                                Text="{Binding CurrOrderDriver.LastName}"
-                                TextColor="Black"
-                                VerticalTextAlignment="Center"
-                                WidthRequest="75" />
-                            <Label
+                            <controls:AwesomeHyperLinkLabel
                                 FontAttributes="Bold"
                                 FontSize="Small"
                                 HorizontalOptions="CenterAndExpand"
@@ -407,7 +398,7 @@
                             VerticalTextAlignment="Center"
                             WidthRequest="80" />
 
-                        <Label
+                        <controls:AwesomeHyperLinkLabel
                             FontSize="Small"
                             HorizontalOptions="CenterAndExpand"
                             HorizontalTextAlignment="Center"
@@ -426,6 +417,31 @@
                             VerticalTextAlignment="Center"
                             WidthRequest="95" />
                     </StackLayout>
+                </StackLayout>
+                <StackLayout
+                    Margin="5"
+                    Padding="5"
+                    xct:CornerRadiusEffect.CornerRadius="10"
+                    BackgroundColor="{AppThemeBinding Light=LightCyan,
+                                                      Dark=LightCyan}"
+                    IsVisible="{Binding HasComments}">
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="Medium"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="Center"
+                        LineBreakMode="WordWrap"
+                        Text="Comentarii comanda"
+                        TextColor="Black"
+                        VerticalTextAlignment="Center" />
+                    <Label
+                        FontSize="Default"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="Center"
+                        LineBreakMode="WordWrap"
+                        Text="{Binding CurrOrder.Comments}"
+                        TextColor="Black"
+                        VerticalTextAlignment="Center" />
                 </StackLayout>
                 <StackLayout
                     Margin="5"

@@ -96,6 +96,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Renderers\AwesomeHyperLinkLabelRenderer.cs" />
     <Compile Include="Renderers\CustomMapRenderer.cs" />
     <Compile Include="Renderers\GoogleDriveViewerWebViewRenderer.cs" />
     <Compile Include="MainActivity.cs" />

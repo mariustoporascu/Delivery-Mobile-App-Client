@@ -54,6 +54,7 @@ namespace FoodDeliveryApp.ViewModels
                     OrderId = 0,
                     Created = DateTime.UtcNow.AddHours(3),
                     CompanieRefId = CartItems[0].CompanieRefId,
+                    TelephoneOrdered = false,
                     UserLocationId = LocationId,
                     PaymentMethod = PaymentMethod,
                     NumeCompanie = DataStore.GetCompanie(CartItems[0].CompanieRefId).Name,
