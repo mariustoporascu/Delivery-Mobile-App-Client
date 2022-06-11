@@ -184,5 +184,10 @@ namespace FoodDeliveryApp.Views
                 }
             }
         }
+
+        private void RefreshView_Refreshing(object sender, EventArgs e)
+        {
+            viewModel.IsBusy = false;
+        }
     }
 }

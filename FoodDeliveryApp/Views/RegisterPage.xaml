@@ -10,295 +10,183 @@
     x:DataType="viewModels:RegisterViewModel"
     Shell.PresentationMode="ModalAnimated"
     mc:Ignorable="d">
-    <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-        <Image
-            Grid.Row="0"
-            Aspect="AspectFill"
-            HorizontalOptions="FillAndExpand"
-            Source="splash_auth.png"
-            VerticalOptions="FillAndExpand" />
-        <StackLayout Grid.Row="0" Margin="35,100,35,5">
-            <StackLayout Margin="0,0,0,0" Padding="0">
-                <Label
-                    FontSize="48"
-                    Text="Inregistrare"
-                    TextColor="Black" />
-                <Label
-                    FontSize="22"
-                    Text="Creaza cont."
-                    TextColor="Gray" />
-            </StackLayout>
-            <StackLayout Margin="0,55,0,0">
-                <StackLayout
-                    Margin="0"
-                    Padding="1"
-                    xct:CornerRadiusEffect.CornerRadius="10"
-                    BackgroundColor="LightGray"
-                    Orientation="Horizontal">
-                    <Image
-                        Aspect="AspectFit"
-                        BackgroundColor="Transparent"
-                        Source="mail.png" />
-                    <Entry
-                        x:Name="Email"
+    <ScrollView HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+        <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+            <Image
+                Grid.Row="0"
+                Aspect="AspectFill"
+                HorizontalOptions="FillAndExpand"
+                Source="splash_auth.png"
+                VerticalOptions="FillAndExpand" />
+            <StackLayout Grid.Row="0" Margin="35,80,35,5">
+                <StackLayout Margin="0,0,0,0" Padding="0">
+                    <Label
+                        FontSize="44"
+                        Text="Inregistrare"
+                        TextColor="Black" />
+                    <Label
+                        FontSize="22"
+                        Text="Creaza cont."
+                        TextColor="Gray" />
+                </StackLayout>
+                <StackLayout Margin="0,55,0,0">
+                    <StackLayout
+                        Margin="0"
+                        Padding="1"
                         xct:CornerRadiusEffect.CornerRadius="10"
-                        BackgroundColor="White"
-                        ClearButtonVisibility="WhileEditing"
+                        BackgroundColor="LightGray"
+                        Orientation="Horizontal">
+                        <Image
+                            Aspect="AspectFit"
+                            BackgroundColor="Transparent"
+                            Source="mail.png" />
+                        <Entry
+                            x:Name="Email"
+                            xct:CornerRadiusEffect.CornerRadius="10"
+                            BackgroundColor="White"
+                            ClearButtonVisibility="WhileEditing"
+                            FontSize="Medium"
+                            HorizontalOptions="FillAndExpand"
+                            HorizontalTextAlignment="Center"
+                            Placeholder="Adresa de email"
+                            PlaceholderColor="Gray"
+                            Text="{Binding UserName}"
+                            TextChanged="CheckFieldMail"
+                            TextColor="Black">
+                            <Entry.Behaviors>
+                                <xct:EmailValidationBehavior
+                                    x:Name="UsernameEntry"
+                                    DecorationFlags="Trim"
+                                    Flags="ValidateOnValueChanging" />
+                            </Entry.Behaviors>
+                        </Entry>
+                    </StackLayout>
+                </StackLayout>
+                <StackLayout Margin="0,10,0,0">
+                    <StackLayout
+                        Margin="0"
+                        Padding="1"
+                        xct:CornerRadiusEffect.CornerRadius="10"
+                        BackgroundColor="LightGray"
+                        Orientation="Horizontal">
+                        <Image
+                            Aspect="AspectFit"
+                            BackgroundColor="Transparent"
+                            Source="user.png" />
+                        <Entry
+                            x:Name="FullName"
+                            xct:CornerRadiusEffect.CornerRadius="10"
+                            BackgroundColor="White"
+                            ClearButtonVisibility="WhileEditing"
+                            FontSize="Medium"
+                            HorizontalOptions="FillAndExpand"
+                            HorizontalTextAlignment="Center"
+                            Placeholder="Nume complet"
+                            PlaceholderColor="Gray"
+                            Text="{Binding FullName}"
+                            TextChanged="CheckFieldNumeComplet"
+                            TextColor="Black">
+                            <Entry.Behaviors>
+                                <xct:TextValidationBehavior
+                                    x:Name="FullNameEntry"
+                                    Flags="ValidateOnValueChanging"
+                                    MinimumLength="6" />
+                            </Entry.Behaviors>
+                        </Entry>
+                    </StackLayout>
+                </StackLayout>
+                <StackLayout Margin="0,10,0,0">
+                    <StackLayout
+                        Margin="0"
+                        Padding="1"
+                        xct:CornerRadiusEffect.CornerRadius="10"
+                        BackgroundColor="LightGray"
+                        Orientation="Horizontal">
+                        <Image
+                            Aspect="AspectFit"
+                            BackgroundColor="Transparent"
+                            Source="lock.png" />
+                        <Entry
+                            x:Name="Password"
+                            xct:CornerRadiusEffect.CornerRadius="10"
+                            BackgroundColor="White"
+                            ClearButtonVisibility="WhileEditing"
+                            FontSize="Medium"
+                            HorizontalOptions="FillAndExpand"
+                            HorizontalTextAlignment="Center"
+                            IsPassword="True"
+                            Placeholder="Parola"
+                            PlaceholderColor="Gray"
+                            Text="{Binding Password}"
+                            TextChanged="CheckFieldPass"
+                            TextColor="Black">
+                            <Entry.Behaviors>
+                                <xct:TextValidationBehavior
+                                    x:Name="PasswordEntry"
+                                    Flags="ValidateOnValueChanging"
+                                    MinimumLength="6" />
+                            </Entry.Behaviors>
+                        </Entry>
+                    </StackLayout>
+                </StackLayout>
+                <StackLayout Margin="0,10,0,0">
+                    <StackLayout
+                        Margin="0"
+                        Padding="1"
+                        xct:CornerRadiusEffect.CornerRadius="10"
+                        BackgroundColor="LightGray"
+                        Orientation="Horizontal">
+                        <Image
+                            Aspect="AspectFit"
+                            BackgroundColor="Transparent"
+                            Source="lock.png" />
+
+                        <Entry
+                            x:Name="ConfirmPassword"
+                            xct:CornerRadiusEffect.CornerRadius="10"
+                            BackgroundColor="White"
+                            ClearButtonVisibility="WhileEditing"
+                            FontSize="Medium"
+                            HorizontalOptions="FillAndExpand"
+                            HorizontalTextAlignment="Center"
+                            IsPassword="True"
+                            Placeholder="Confirma parola"
+                            PlaceholderColor="Gray"
+                            Text="{Binding ConfirmPassword}"
+                            TextChanged="CheckFieldConfirmPass"
+                            TextColor="Black">
+                            <Entry.Behaviors>
+                                <xct:TextValidationBehavior
+                                    x:Name="ConfirmPasswordEntry"
+                                    Flags="ValidateOnValueChanging"
+                                    MinimumLength="6" />
+                            </Entry.Behaviors>
+                        </Entry>
+                    </StackLayout>
+                </StackLayout>
+                <StackLayout Margin="0,10,0,0">
+                    <Button
+                        Margin="0"
+                        Padding="0"
+                        xct:CornerRadiusEffect.CornerRadius="30"
+                        BackgroundColor="LightCoral"
+                        Clicked="CheckFields"
                         FontSize="Medium"
-                        HorizontalOptions="FillAndExpand"
-                        HorizontalTextAlignment="Center"
-                        Placeholder="Adresa de email"
-                        PlaceholderColor="Gray"
-                        Text="{Binding UserName}"
-                        TextChanged="CheckFieldMail"
-                        TextColor="Black">
-                        <Entry.Behaviors>
-                            <xct:EmailValidationBehavior
-                                x:Name="UsernameEntry"
-                                DecorationFlags="Trim"
-                                Flags="ValidateOnValueChanging" />
-                        </Entry.Behaviors>
-                    </Entry>
+                        Text="Creaza"
+                        TextColor="White"
+                        TextTransform="None" />
+                </StackLayout>
+                <StackLayout Margin="0,0,0,50" VerticalOptions="EndAndExpand">
+                    <Button
+                        BackgroundColor="Transparent"
+                        Clicked="OnDismissButtonClicked"
+                        FontAttributes="None"
+                        FontSize="Medium"
+                        Text="Am deja cont"
+                        TextColor="Black"
+                        TextTransform="None" />
                 </StackLayout>
             </StackLayout>
-            <StackLayout Margin="0,10,0,0">
-                <StackLayout
-                    Margin="0"
-                    Padding="1"
-                    xct:CornerRadiusEffect.CornerRadius="10"
-                    BackgroundColor="LightGray"
-                    Orientation="Horizontal">
-                    <Image
-                        Aspect="AspectFit"
-                        BackgroundColor="Transparent"
-                        Source="user.png" />
-                    <Entry
-                        x:Name="FullName"
-                        xct:CornerRadiusEffect.CornerRadius="10"
-                        BackgroundColor="White"
-                        ClearButtonVisibility="WhileEditing"
-                        FontSize="Medium"
-                        HorizontalOptions="FillAndExpand"
-                        HorizontalTextAlignment="Center"
-                        Placeholder="Nume complet"
-                        PlaceholderColor="Gray"
-                        Text="{Binding FullName}"
-                        TextChanged="CheckFieldNumeComplet"
-                        TextColor="Black">
-                        <Entry.Behaviors>
-                            <xct:TextValidationBehavior
-                                x:Name="FullNameEntry"
-                                Flags="ValidateOnValueChanging"
-                                MinimumLength="6" />
-                        </Entry.Behaviors>
-                    </Entry>
-                </StackLayout>
-            </StackLayout>
-            <StackLayout Margin="0,10,0,0">
-                <StackLayout
-                    Margin="0"
-                    Padding="1"
-                    xct:CornerRadiusEffect.CornerRadius="10"
-                    BackgroundColor="LightGray"
-                    Orientation="Horizontal">
-                    <Image
-                        Aspect="AspectFit"
-                        BackgroundColor="Transparent"
-                        Source="lock.png" />
-                    <Entry
-                        x:Name="Password"
-                        xct:CornerRadiusEffect.CornerRadius="10"
-                        BackgroundColor="White"
-                        ClearButtonVisibility="WhileEditing"
-                        FontSize="Medium"
-                        HorizontalOptions="FillAndExpand"
-                        HorizontalTextAlignment="Center"
-                        IsPassword="True"
-                        Placeholder="Parola"
-                        PlaceholderColor="Gray"
-                        Text="{Binding Password}"
-                        TextChanged="CheckFieldPass"
-                        TextColor="Black">
-                        <Entry.Behaviors>
-                            <xct:TextValidationBehavior
-                                x:Name="PasswordEntry"
-                                Flags="ValidateOnValueChanging"
-                                MinimumLength="6" />
-                        </Entry.Behaviors>
-                    </Entry>
-                </StackLayout>
-            </StackLayout>
-            <StackLayout Margin="0,10,0,0">
-                <StackLayout
-                    Margin="0"
-                    Padding="1"
-                    xct:CornerRadiusEffect.CornerRadius="10"
-                    BackgroundColor="LightGray"
-                    Orientation="Horizontal">
-                    <Image
-                        Aspect="AspectFit"
-                        BackgroundColor="Transparent"
-                        Source="lock.png" />
-
-                    <Entry
-                        x:Name="ConfirmPassword"
-                        xct:CornerRadiusEffect.CornerRadius="10"
-                        BackgroundColor="White"
-                        ClearButtonVisibility="WhileEditing"
-                        FontSize="Medium"
-                        HorizontalOptions="FillAndExpand"
-                        HorizontalTextAlignment="Center"
-                        IsPassword="True"
-                        Placeholder="Confirma parola"
-                        PlaceholderColor="Gray"
-                        Text="{Binding ConfirmPassword}"
-                        TextChanged="CheckFieldConfirmPass"
-                        TextColor="Black">
-                        <Entry.Behaviors>
-                            <xct:TextValidationBehavior
-                                x:Name="ConfirmPasswordEntry"
-                                Flags="ValidateOnValueChanging"
-                                MinimumLength="6" />
-                        </Entry.Behaviors>
-                    </Entry>
-                </StackLayout>
-            </StackLayout>
-            <StackLayout Margin="0,10,0,0">
-                <Button
-                    Margin="0"
-                    Padding="0"
-                    xct:CornerRadiusEffect.CornerRadius="30"
-                    BackgroundColor="LightCoral"
-                    Clicked="CheckFields"
-                    FontSize="Medium"
-                    Text="Creaza"
-                    TextColor="White"
-                    TextTransform="None" />
-            </StackLayout>
-            <StackLayout VerticalOptions="EndAndExpand">
-                <Button
-                    BackgroundColor="Transparent"
-                    Clicked="OnDismissButtonClicked"
-                    FontAttributes="None"
-                    FontSize="Medium"
-                    Text="Am deja cont"
-                    TextColor="Black"
-                    TextTransform="None" />
-            </StackLayout>
-        </StackLayout>
-    </Grid>
-    <!--<StackLayout
-        BackgroundColor="PaleGoldenrod"
-        IsVisible="{Binding LoggedIn}"
-        VerticalOptions="FillAndExpand">
-        <StackLayout VerticalOptions="CenterAndExpand">
-            <StackLayout Margin="0,0,0,50">
-                <Entry
-                    x:Name="Email"
-                    Margin="20"
-                    xct:CornerRadiusEffect.CornerRadius="20"
-                    BackgroundColor="LemonChiffon"
-                    ClearButtonVisibility="WhileEditing"
-                    FontSize="Large"
-                    HorizontalOptions="FillAndExpand"
-                    HorizontalTextAlignment="Center"
-                    Placeholder="Email"
-                    PlaceholderColor="Black"
-                    Text="{Binding UserName}"
-                    TextChanged="CheckFieldMail"
-                    TextColor="Black"
-                    VerticalOptions="EndAndExpand">
-                    <Entry.Behaviors>
-                        <xct:EmailValidationBehavior
-                            x:Name="UsernameEntry"
-                            DecorationFlags="Trim"
-                            Flags="ValidateOnValueChanging" />
-                    </Entry.Behaviors>
-                </Entry>
-                <Entry
-                    x:Name="Password"
-                    Margin="20"
-                    xct:CornerRadiusEffect.CornerRadius="20"
-                    BackgroundColor="LemonChiffon"
-                    ClearButtonVisibility="WhileEditing"
-                    FontSize="Large"
-                    HorizontalOptions="FillAndExpand"
-                    HorizontalTextAlignment="Center"
-                    IsPassword="True"
-                    Placeholder="Parola"
-                    PlaceholderColor="Black"
-                    Text="{Binding Password}"
-                    TextChanged="CheckFieldPass"
-                    TextColor="Black"
-                    VerticalOptions="EndAndExpand">
-                    <Entry.Behaviors>
-                        <xct:TextValidationBehavior
-                            x:Name="PasswordEntry"
-                            Flags="ValidateOnValueChanging"
-                            MinimumLength="6" />
-                    </Entry.Behaviors>
-                </Entry>
-
-                <Button
-                    Padding="10"
-                    xct:CornerRadiusEffect.CornerRadius="20"
-                    BackgroundColor="LimeGreen"
-                    BorderColor="LimeGreen"
-                    Clicked="CheckFields"
-                    FontAttributes="Bold"
-                    FontSize="18"
-                    HorizontalOptions="CenterAndExpand"
-                    Text="Inregistrare"
-                    TextColor="Black" />
-            </StackLayout>
-            <StackLayout Margin="0,50,0,0">
-                <ImageButton
-                    x:Name="AppleBtn"
-                    xct:CornerRadiusEffect.CornerRadius="10"
-                    xct:TouchEffect.PressedAnimationDuration="100"
-                    xct:TouchEffect.PressedScale="1.1"
-                    Command="{Binding SignInWithAppleCommand}"
-                    HorizontalOptions="CenterAndExpand"
-                    IsVisible="{Binding IsAppleSignInAvailable}"
-                    Source="signInWithApple.png"
-                    VerticalOptions="CenterAndExpand"
-                    WidthRequest="220" />
-                <ImageButton
-                    x:Name="GoogleBtn"
-                    xct:CornerRadiusEffect.CornerRadius="10"
-                    xct:TouchEffect.PressedAnimationDuration="100"
-                    xct:TouchEffect.PressedScale="1.1"
-                    Command="{Binding ExecuteLoginGoogle}"
-                    HorizontalOptions="CenterAndExpand"
-                    IsVisible="{Binding IsGoogleSignInAvailable}"
-                    Source="btn_google_signin_dark.png"
-                    VerticalOptions="CenterAndExpand" />
-                <ImageButton
-                    x:Name="FBBtn"
-                    xct:CornerRadiusEffect.CornerRadius="10"
-                    xct:TouchEffect.PressedAnimationDuration="100"
-                    xct:TouchEffect.PressedScale="1.1"
-                    Command="{Binding ExecuteLoginFacebook}"
-                    HorizontalOptions="CenterAndExpand"
-                    Source="btn_facebook_signin.png"
-                    VerticalOptions="CenterAndExpand" />
-
-
-            </StackLayout>
-        </StackLayout>
-        <StackLayout VerticalOptions="EndAndExpand">
-
-            <Button
-                Margin="10"
-                Padding="10"
-                xct:CornerRadiusEffect.CornerRadius="20"
-                BackgroundColor="Red"
-                BorderColor="Red"
-                Clicked="OnDismissButtonClicked"
-                HorizontalOptions="CenterAndExpand"
-                Text="Anuleaza"
-                TextColor="Black" />
-
-        </StackLayout>
-    </StackLayout>-->
+        </Grid>
+    </ScrollView>
 </ContentPage>

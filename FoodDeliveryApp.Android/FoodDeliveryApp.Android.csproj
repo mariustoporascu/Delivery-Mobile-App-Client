@@ -40,6 +40,7 @@
     <MandroidI18n />
     <JavaMaximumHeapSize>1G</JavaMaximumHeapSize>
     <PlatformTarget>x64</PlatformTarget>
+    <AndroidEnableMultiDex>true</AndroidEnableMultiDex>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>false</DebugSymbols>
@@ -65,10 +66,11 @@
     <JavaMaximumHeapSize>6G</JavaMaximumHeapSize>
     <AndroidDexTool>d8</AndroidDexTool>
     <AndroidUseAapt2>true</AndroidUseAapt2>
-    <AndroidEnableMultiDex>false</AndroidEnableMultiDex>
+    <AndroidEnableMultiDex>true</AndroidEnableMultiDex>
     <AndroidStoreUncompressedFileExtensions>.dll</AndroidStoreUncompressedFileExtensions>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
-    <AndroidLinkTool>r8</AndroidLinkTool>
+    <AndroidPackageFormat>apk</AndroidPackageFormat>
+    <AndroidCreatePackagePerAbi>false</AndroidCreatePackagePerAbi>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Mono.Android" />

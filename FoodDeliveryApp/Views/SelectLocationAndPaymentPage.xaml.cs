@@ -55,7 +55,7 @@ namespace FoodDeliveryApp.Views
             try
             {
                 var selLocationString = SelectorLocations.ItemsSource[SelectorLocations.SelectedIndex].ToString();
-                var location = App.UserInfo.Locations.Find(loc => $"{loc.LocationName},{loc.BuildingInfo},{loc.Street},{loc.City}" == selLocationString);
+                var location = App.UserInfo.Locations.Find(loc => $"{App.UserInfo.Locations.IndexOf(loc) + 1} - {loc.LocationName}, {loc.BuildingInfo}, {loc.Street}, {loc.City}" == selLocationString);
                 if (location != null)
                     viewModel.SelLocation = location.LocationId;
             }

@@ -10,7 +10,10 @@
     Title="{Binding Title}"
     x:DataType="local:CategViewModel"
     Shell.PresentationMode="Animated">
-    <StackLayout BackgroundColor="White" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+    <StackLayout
+        BackgroundColor="White"
+        HorizontalOptions="FillAndExpand"
+        VerticalOptions="FillAndExpand">
         <StackLayout Padding="0,5,0,5">
 
             <StackLayout
@@ -34,21 +37,11 @@
             </StackLayout>
 
         </StackLayout>
-        <RefreshView
-            x:DataType="local:CategViewModel"
-            BackgroundColor="{AppThemeBinding Light=LightGray,
-                                              Dark=Gray}"
-            Command="{Binding LoadItemsCommand}"
-            IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
-            <CollectionView
-                x:Name="ItemsListView"
-                ItemsLayout="VerticalGrid,2"
-                ItemsSource="{Binding Items}"
-                SelectionMode="None"
-                VerticalOptions="FillAndExpand">
+        <RefreshView Command="{Binding LoadItemsCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+            <CollectionView ItemsLayout="VerticalGrid,2" ItemsSource="{Binding Items}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <StackLayout>
+                        <StackLayout BackgroundColor="White" HorizontalOptions="FillAndExpand">
 
                             <StackLayout
                                 Margin="5"

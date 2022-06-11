@@ -76,6 +76,8 @@
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <Compile Include="Renderers\AppleSignInButtonRenderer.cs" />
+    <Compile Include="Renderers\CustomMapRenderer.cs" />
+    <Compile Include="Renderers\CustomMKAnnotationView.cs" />
     <Compile Include="Renderers\TabIconRenderer.cs" />
     <Compile Include="Services\AppleSignInService.cs" />
     <None Include="Entitlements.plist" />
@@ -216,6 +218,36 @@
     <Content Include="ic_launcher.ico" />
     <BundleResource Include="Resources\splash_logo.png" />
     <BundleResource Include="Resources\splash_auth.png" />
+    <BundleResource Include="Resources\buy.png" />
+    <BundleResource Include="Resources\cart.png" />
+    <BundleResource Include="Resources\code.png" />
+    <BundleResource Include="Resources\delete.png" />
+    <BundleResource Include="Resources\discovery.png" />
+    <BundleResource Include="Resources\edit.png" />
+    <BundleResource Include="Resources\facebook.png" />
+    <BundleResource Include="Resources\google.png" />
+    <BundleResource Include="Resources\home.png" />
+    <BundleResource Include="Resources\ic_notif.png" />
+    <BundleResource Include="Resources\info.png" />
+    <BundleResource Include="Resources\location.png" />
+    <BundleResource Include="Resources\loccar.png" />
+    <BundleResource Include="Resources\lock.png" />
+    <BundleResource Include="Resources\locowner.png" />
+    <BundleResource Include="Resources\Login.png" />
+    <BundleResource Include="Resources\logout.png" />
+    <BundleResource Include="Resources\mail.png" />
+    <BundleResource Include="Resources\orders.png" />
+    <BundleResource Include="Resources\password.png" />
+    <BundleResource Include="Resources\phone.png" />
+    <BundleResource Include="Resources\Register.png" />
+    <BundleResource Include="Resources\rest_photo.jpg" />
+    <BundleResource Include="Resources\save.png" />
+    <BundleResource Include="Resources\search.png" />
+    <BundleResource Include="Resources\send.png" />
+    <BundleResource Include="Resources\signInWithApple_pressed.png" />
+    <BundleResource Include="Resources\splash_screen.xml" />
+    <BundleResource Include="Resources\unlock.png" />
+    <BundleResource Include="Resources\user.png" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\1024.png">

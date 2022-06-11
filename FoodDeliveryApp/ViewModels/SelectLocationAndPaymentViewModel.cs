@@ -24,7 +24,7 @@ namespace FoodDeliveryApp.ViewModels
             PaymentMethods.Add("Plata cu cardul la livrare");
             Locations = new List<string>();
             foreach (var loc in App.UserInfo.Locations)
-                Locations.Add($"{loc.LocationName},{loc.BuildingInfo},{loc.Street},{loc.City}");
+                Locations.Add($"{App.UserInfo.Locations.IndexOf(loc) + 1} - {loc.LocationName}, {loc.BuildingInfo}, {loc.Street}, {loc.City}");
         }
 
     }

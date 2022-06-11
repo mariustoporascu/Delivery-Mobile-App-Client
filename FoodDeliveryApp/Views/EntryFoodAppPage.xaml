@@ -14,74 +14,58 @@
         HorizontalOptions="FillAndExpand"
         IsRefreshing="{Binding IsBusy, Mode=TwoWay}"
         VerticalOptions="FillAndExpand">
-        <ScrollView
-            x:Name="ItemsListView"
-            HorizontalOptions="FillAndExpand"
-            VerticalOptions="FillAndExpand">
-            <StackLayout HorizontalOptions="FillAndExpand">
-                <FlexLayout
-                    AlignContent="SpaceAround"
-                    AlignItems="Start"
-                    BindableLayout.ItemsSource="{Binding Items}"
-                    Direction="Row"
-                    HorizontalOptions="FillAndExpand"
-                    JustifyContent="SpaceAround"
-                    Wrap="Wrap">
-                    <BindableLayout.ItemTemplate>
-                        <DataTemplate>
+        <CollectionView ItemsSource="{Binding Items}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout BackgroundColor="White" HorizontalOptions="FillAndExpand">
+                        <StackLayout
+                            Margin="20"
+                            xct:CornerRadiusEffect.CornerRadius="20"
+                            BackgroundColor="DarkCyan"
+                            HorizontalOptions="FillAndExpand">
                             <StackLayout
-                                BackgroundColor="White"
-                                HorizontalOptions="FillAndExpand"
-                                WidthRequest="2000">
+                                x:DataType="model:TipCompanie"
+                                HeightRequest="280"
+                                HorizontalOptions="FillAndExpand">
                                 <StackLayout
-                                    Margin="20"
-                                    xct:CornerRadiusEffect.CornerRadius="20"
-                                    BackgroundColor="DarkCyan"
-                                    HorizontalOptions="FillAndExpand">
-                                    <StackLayout
-                                        x:DataType="model:TipCompanie"
-                                        HeightRequest="280"
-                                        HorizontalOptions="FillAndExpand">
-                                        <StackLayout
-                                            HorizontalOptions="FillAndExpand"
-                                            Orientation="Vertical"
-                                            VerticalOptions="FillAndExpand">
-                                            <Label
-                                                FontAttributes="Bold"
-                                                FontSize="Medium"
-                                                HorizontalTextAlignment="Center"
-                                                LineBreakMode="WordWrap"
-                                                Text="{Binding Name}"
-                                                TextColor="Black"
-                                                VerticalOptions="CenterAndExpand" />
-                                            <Image
-                                                xct:CornerRadiusEffect.CornerRadius="20"
-                                                Aspect="AspectFill"
-                                                BackgroundColor="Transparent"
-                                                HeightRequest="235">
-                                                <Image.Source>
-                                                    <UriImageSource
-                                                        CacheValidity="7"
-                                                        CachingEnabled="True"
-                                                        Uri="{Binding GetPhotoUri}" />
+                                    HorizontalOptions="FillAndExpand"
+                                    Orientation="Vertical"
+                                    VerticalOptions="FillAndExpand">
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="Medium"
+                                        HorizontalTextAlignment="Center"
+                                        LineBreakMode="WordWrap"
+                                        Text="{Binding Name}"
+                                        TextColor="Black"
+                                        VerticalOptions="CenterAndExpand" />
+                                    <Image
+                                        xct:CornerRadiusEffect.CornerRadius="20"
+                                        Aspect="AspectFill"
+                                        BackgroundColor="Transparent"
+                                        HeightRequest="235">
+                                        <Image.Source>
+                                            <UriImageSource
+                                                CacheValidity="7"
+                                                CachingEnabled="True"
+                                                Uri="{Binding GetPhotoUri}" />
 
-                                                </Image.Source>
-                                            </Image>
+                                        </Image.Source>
+                                    </Image>
 
-                                            <StackLayout.GestureRecognizers>
-                                                <TapGestureRecognizer
-                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type local:EntryFoodAppViewModel}}, Path=ItemTapped}"
-                                                    CommandParameter="{Binding .}"
-                                                    NumberOfTapsRequired="1" />
-                                            </StackLayout.GestureRecognizers>
-                                        </StackLayout>
-                                    </StackLayout>
+                                    <StackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type local:EntryFoodAppViewModel}}, Path=ItemTapped}"
+                                            CommandParameter="{Binding .}"
+                                            NumberOfTapsRequired="1" />
+                                    </StackLayout.GestureRecognizers>
                                 </StackLayout>
                             </StackLayout>
-                        </DataTemplate>
-                    </BindableLayout.ItemTemplate>
-                </FlexLayout>
-            </StackLayout>
-        </ScrollView>
+                        </StackLayout>
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+        </CollectionView>
     </RefreshView>
 </ContentPage>

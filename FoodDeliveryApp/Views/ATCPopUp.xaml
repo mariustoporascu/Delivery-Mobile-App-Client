@@ -78,7 +78,7 @@
                 BackgroundColor="Transparent"
                 Clicked="OnDismissButtonClicked"
                 FontAttributes="None"
-                FontSize="Medium"
+                FontSize="Default"
                 Text="Inapoi"
                 TextColor="OrangeRed"
                 TextTransform="None" />
@@ -88,7 +88,7 @@
                 BackgroundColor="Transparent"
                 Clicked="AddClicked"
                 FontAttributes="None"
-                FontSize="Medium"
+                FontSize="Default"
                 Text="Adauga / Modifica"
                 TextColor="SeaGreen"
                 TextTransform="None" />

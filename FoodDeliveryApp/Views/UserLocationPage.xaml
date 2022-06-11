@@ -3,6 +3,7 @@
     x:Class="FoodDeliveryApp.Views.UserLocationPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:FoodDeliveryApp.Controls"
     xmlns:local="clr-namespace:FoodDeliveryApp.ViewModels"
     xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
@@ -31,7 +32,7 @@
                     TextColor="Black" />
 
             </StackLayout>
-            <maps:Map
+            <controls:CustomMap
                 x:Name="AppMap"
                 BackgroundColor="White"
                 HasScrollEnabled="True"
@@ -184,7 +185,7 @@
                             TextTransform="None" />
                     </StackLayout>
 
-                    <StackLayout Margin="0,10,0,0">
+                    <StackLayout Margin="0,10,0,20">
                         <Button
                             BackgroundColor="Transparent"
                             Clicked="DismissClicked"

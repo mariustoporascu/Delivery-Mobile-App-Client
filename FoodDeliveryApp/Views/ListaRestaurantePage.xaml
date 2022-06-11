@@ -21,87 +21,71 @@
         HorizontalOptions="FillAndExpand"
         IsRefreshing="{Binding IsBusy, Mode=TwoWay}"
         VerticalOptions="FillAndExpand">
-        <ScrollView
-            x:Name="ItemsListView"
-            HorizontalOptions="FillAndExpand"
-            VerticalOptions="FillAndExpand">
-            <StackLayout HorizontalOptions="FillAndExpand">
-                <FlexLayout
-                    AlignContent="SpaceAround"
-                    AlignItems="Start"
-                    BindableLayout.ItemsSource="{Binding Items}"
-                    Direction="Row"
-                    HorizontalOptions="FillAndExpand"
-                    JustifyContent="SpaceAround"
-                    Wrap="Wrap">
-                    <BindableLayout.ItemTemplate>
-                        <DataTemplate>
-                            <StackLayout
-                                BackgroundColor="White"
-                                HorizontalOptions="FillAndExpand"
-                                WidthRequest="2000">
+        <CollectionView ItemsSource="{Binding Items}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout BackgroundColor="White" HorizontalOptions="FillAndExpand">
+                        <StackLayout
+                            Margin="5"
+                            xct:CornerRadiusEffect.CornerRadius="20"
+                            BackgroundColor="LightCyan"
+                            HorizontalOptions="FillAndExpand">
+                            <StackLayout HeightRequest="200" HorizontalOptions="FillAndExpand">
                                 <StackLayout
-                                    Margin="5"
-                                    xct:CornerRadiusEffect.CornerRadius="20"
-                                    BackgroundColor="LightCyan"
-                                    HorizontalOptions="FillAndExpand">
-                                    <StackLayout HeightRequest="200" HorizontalOptions="FillAndExpand">
-                                        <StackLayout
-                                            x:DataType="model:Companie"
-                                            HorizontalOptions="FillAndExpand"
-                                            Orientation="Vertical"
-                                            VerticalOptions="FillAndExpand">
-                                            <Image
-                                                xct:CornerRadiusEffect.CornerRadius="20"
-                                                Aspect="AspectFill"
-                                                BackgroundColor="Transparent"
-                                                HeightRequest="140">
-                                                <Image.Source>
-                                                    <UriImageSource
-                                                        CacheValidity="7"
-                                                        CachingEnabled="True"
-                                                        Uri="{Binding GetPhotoUri}" />
+                                    x:DataType="model:Companie"
+                                    HorizontalOptions="FillAndExpand"
+                                    Orientation="Vertical"
+                                    VerticalOptions="FillAndExpand">
+                                    <Image
+                                        xct:CornerRadiusEffect.CornerRadius="20"
+                                        Aspect="AspectFill"
+                                        BackgroundColor="Transparent"
+                                        HeightRequest="140">
+                                        <Image.Source>
+                                            <UriImageSource
+                                                CacheValidity="7"
+                                                CachingEnabled="True"
+                                                Uri="{Binding GetPhotoUri}" />
 
-                                                </Image.Source>
-                                            </Image>
-                                            <Label
-                                                FontSize="Medium"
-                                                HorizontalTextAlignment="Center"
-                                                LineBreakMode="WordWrap"
-                                                Text="{Binding Name}"
-                                                TextColor="Black"
-                                                VerticalOptions="CenterAndExpand" />
-                                            <StackLayout
-                                                HorizontalOptions="CenterAndExpand"
-                                                IsVisible="{Binding IsActive, Converter={StaticResource invertBoolConverter}}"
-                                                Orientation="Horizontal">
-                                                <Label
-                                                    FontSize="Small"
-                                                    HorizontalTextAlignment="Center"
-                                                    LineBreakMode="NoWrap"
-                                                    Text="Se deschide la data de"
-                                                    TextColor="Black" />
-                                                <Label
-                                                    FontSize="Small"
-                                                    HorizontalTextAlignment="Center"
-                                                    LineBreakMode="NoWrap"
-                                                    Text="{Binding Opening, StringFormat='{0:MMMM dd, yyyy}'}"
-                                                    TextColor="Black" />
-                                            </StackLayout>
-                                            <StackLayout.GestureRecognizers>
-                                                <TapGestureRecognizer
-                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type local:ListaRestauranteViewModel}}, Path=ItemTapped}"
-                                                    CommandParameter="{Binding .}"
-                                                    NumberOfTapsRequired="1" />
-                                            </StackLayout.GestureRecognizers>
-                                        </StackLayout>
+                                        </Image.Source>
+                                    </Image>
+                                    <Label
+                                        FontSize="Medium"
+                                        HorizontalTextAlignment="Center"
+                                        LineBreakMode="WordWrap"
+                                        Text="{Binding Name}"
+                                        TextColor="Black"
+                                        VerticalOptions="CenterAndExpand" />
+                                    <StackLayout
+                                        HorizontalOptions="CenterAndExpand"
+                                        IsVisible="{Binding IsActive, Converter={StaticResource invertBoolConverter}}"
+                                        Orientation="Horizontal">
+                                        <Label
+                                            FontSize="Small"
+                                            HorizontalTextAlignment="Center"
+                                            LineBreakMode="NoWrap"
+                                            Text="Se deschide la data de"
+                                            TextColor="Black" />
+                                        <Label
+                                            FontSize="Small"
+                                            HorizontalTextAlignment="Center"
+                                            LineBreakMode="NoWrap"
+                                            Text="{Binding Opening, StringFormat='{0:MMMM dd, yyyy}'}"
+                                            TextColor="Black" />
                                     </StackLayout>
+                                    <StackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type local:ListaRestauranteViewModel}}, Path=ItemTapped}"
+                                            CommandParameter="{Binding .}"
+                                            NumberOfTapsRequired="1" />
+                                    </StackLayout.GestureRecognizers>
                                 </StackLayout>
                             </StackLayout>
-                        </DataTemplate>
-                    </BindableLayout.ItemTemplate>
-                </FlexLayout>
-            </StackLayout>
-        </ScrollView>
+                        </StackLayout>
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+        </CollectionView>
     </RefreshView>
 </ContentPage>
