@@ -9,7 +9,6 @@
     xmlns:model="clr-namespace:FoodDeliveryApp.Models.ShopModels"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     Title="{Binding Title}"
-    x:DataType="local:OrderInfoViewModel"
     Shell.PresentationMode="Animated">
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -28,8 +27,7 @@
                     Margin="5"
                     x:DataType="local:OrderInfoViewModel"
                     xct:CornerRadiusEffect.CornerRadius="10"
-                    BackgroundColor="{AppThemeBinding Light=LightCyan,
-                                                      Dark=LightCyan}"
+                    BackgroundColor="Goldenrod"
                     HorizontalOptions="FillAndExpand">
                     <StackLayout
                         HorizontalOptions="CenterAndExpand"
@@ -60,18 +58,16 @@
                                 HorizontalTextAlignment="Center"
                                 LineBreakMode="WordWrap"
                                 Text="Status"
-                                TextColor="Black"
-                                WidthRequest="80" />
+                                TextColor="Black" />
                             <Label
                                 FontSize="Small"
                                 HorizontalTextAlignment="Center"
                                 LineBreakMode="WordWrap"
                                 Text="{Binding CurrOrder.Status}"
-                                TextColor="Black"
-                                WidthRequest="80" />
+                                TextColor="Black" />
                         </StackLayout>
                         <StackLayout
-                            HorizontalOptions="EndAndExpand"
+                            HorizontalOptions="CenterAndExpand"
                             Orientation="Vertical"
                             VerticalOptions="CenterAndExpand">
                             <Label
@@ -80,18 +76,16 @@
                                 HorizontalTextAlignment="Center"
                                 LineBreakMode="WordWrap"
                                 Text="Total produse"
-                                TextColor="Black"
-                                WidthRequest="95" />
+                                TextColor="Black" />
                             <Label
                                 FontSize="Small"
                                 HorizontalTextAlignment="Center"
                                 LineBreakMode="WordWrap"
                                 Text="{Binding CurrOrder.TotalOrderedInterfata}"
-                                TextColor="Black"
-                                WidthRequest="95" />
+                                TextColor="Black" />
                         </StackLayout>
                         <StackLayout
-                            HorizontalOptions="EndAndExpand"
+                            HorizontalOptions="CenterAndExpand"
                             Orientation="Vertical"
                             VerticalOptions="CenterAndExpand">
                             <Label
@@ -100,15 +94,13 @@
                                 HorizontalTextAlignment="Center"
                                 LineBreakMode="WordWrap"
                                 Text="Cost Transport"
-                                TextColor="Black"
-                                WidthRequest="100" />
+                                TextColor="Black" />
                             <Label
                                 FontSize="Small"
                                 HorizontalTextAlignment="Center"
                                 LineBreakMode="WordWrap"
                                 Text="{Binding CurrOrder.TransportFee}"
-                                TextColor="Black"
-                                WidthRequest="100" />
+                                TextColor="Black" />
                         </StackLayout>
                     </StackLayout>
                     <Label

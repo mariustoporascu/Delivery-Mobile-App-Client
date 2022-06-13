@@ -123,7 +123,7 @@ namespace FoodDeliveryApp.ViewModels
                 FacebookResponse<bool> response = await CrossFacebookClient.Current.LoginAsync(new string[] { "email", "public_profile" });
                 if (response != null && !response.Message.Contains("User cancelled facebook operation"))
                 {
-                    FacebookResponse<string> responseData = await CrossFacebookClient.Current.RequestUserDataAsync(new string[] { "email", "first_name", "gender", "last_name", "birthday" }, new string[] { "email", "user_birthday" });
+                    FacebookResponse<string> responseData = await CrossFacebookClient.Current.RequestUserDataAsync(new string[] { "email", "first_name", "gender", "last_name" }, new string[] { "email" });
                     if (responseData != null && !response.Message.Contains("User cancelled facebook login operation"))
                     {
                         var settings = new JsonSerializerSettings

@@ -1,4 +1,5 @@
-﻿using FoodDeliveryApp.Models.MapsModels;
+﻿using FoodDeliveryApp.Controls;
+using FoodDeliveryApp.Models.MapsModels;
 using FoodDeliveryApp.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -48,6 +49,22 @@ namespace FoodDeliveryApp.Views
                     Debug.WriteLine(ex.Message);
                 }
 
+            }
+            else
+            {
+                IEnumerable<Position> aproxLocation = await mapsViewModel.geoCoder.GetPositionsForAddressAsync("Dacia, Cernavoda, Constanta, Romania");
+                if (aproxLocation.Count() > 0)
+                {
+                    Position position1 = aproxLocation.FirstOrDefault();
+                    var pin = new CustomPin
+                    {
+                        Label = "Cernavoda",
+                        Type = PinType.Place,
+                        Position = position1
+                    };
+                    AppMap.Pins.Add(pin);
+                    AppMap.MoveToRegion(MapSpan.FromCenterAndRadius(pin.Position, Distance.FromMeters(100)));
+                }
             }
 
         }

@@ -150,7 +150,7 @@
                         FontSize="Small"
                         HorizontalOptions="Start"
                         ImageSource="logout.png"
-                        Text="Deconecteazate"
+                        Text="Deconecteaza-te"
                         TextColor="Black"
                         TextTransform="None" />
                     <Button
@@ -185,7 +185,7 @@
                         BackgroundColor="LightCoral"
                         Clicked="RedirSignIn"
                         FontSize="Medium"
-                        Text="Autentificate"
+                        Text="Autentifica-te"
                         TextColor="White"
                         TextTransform="None" />
                     <Button

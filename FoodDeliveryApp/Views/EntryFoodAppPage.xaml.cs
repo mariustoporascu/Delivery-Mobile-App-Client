@@ -19,7 +19,7 @@ namespace FoodDeliveryApp.Views
         {
             try
             {
-                await this.DisplayAlert("Info", "Pastreaza-ti pofta, se va deschide in curand.", "OK");
+                await this.DisplayAlert("Info", "Indisponibil momentan, se va deschide in curand.", "OK");
             }
             catch (Exception ex)
             {

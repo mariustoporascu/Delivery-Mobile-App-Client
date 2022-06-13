@@ -13,7 +13,7 @@
     <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
         <Image
             Grid.Row="0"
-            Aspect="AspectFill"
+            Aspect="Fill"
             HorizontalOptions="FillAndExpand"
             Source="splash_auth.png"
             VerticalOptions="FillAndExpand" />
@@ -26,7 +26,7 @@
             </StackLayout>
 
             <StackLayout
-                Margin="0,50,0,0"
+                Margin="0,30,0,0"
                 Padding="10"
                 xct:CornerRadiusEffect.CornerRadius="10"
                 BackgroundColor="LightCyan"
@@ -62,7 +62,7 @@
 
             <StackLayout Margin="0,10,0,0" VerticalOptions="EndAndExpand">
                 <Button
-                    Margin="0,0,0,30"
+                    Margin="0,0,0,20"
                     Padding="0"
                     xct:CornerRadiusEffect.CornerRadius="30"
                     BackgroundColor="LightCoral"
@@ -72,6 +72,7 @@
                     TextColor="White"
                     TextTransform="None" />
                 <Button
+                    Margin="0,0,0,30"
                     BackgroundColor="Transparent"
                     Clicked="OnDismissButtonClicked"
                     FontAttributes="None"

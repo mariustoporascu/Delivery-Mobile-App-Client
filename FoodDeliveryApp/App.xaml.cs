@@ -54,7 +54,7 @@ namespace FoodDeliveryApp
             DependencyService.Register<IDataStore, MockDataStore>();
             DependencyService.Register<IAuthController, AuthService>();
             DependencyService.Register<IOrderServ, OrderServ>();
-            MainPage = new AppShell();
+            MainPage = new LoadingPage();
             if (Device.RuntimePlatform == Device.Android)
             {
                 OneSignal.Default.Initialize("67b1b944-bcf4-467a-a6ae-4f0f0512b038");

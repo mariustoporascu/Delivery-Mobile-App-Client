@@ -32,7 +32,8 @@
                     LineBreakMode="WordWrap"
                     Text="Produs"
                     TextColor="Black"
-                    WidthRequest="130" />
+                    VerticalTextAlignment="Center"
+                    WidthRequest="120" />
                 <Label
                     FontAttributes="Bold"
                     FontSize="Small"
@@ -40,7 +41,8 @@
                     LineBreakMode="WordWrap"
                     Text="Cantitate"
                     TextColor="Black"
-                    WidthRequest="95" />
+                    VerticalTextAlignment="Center"
+                    WidthRequest="100" />
                 <Label
                     FontAttributes="Bold"
                     FontSize="Small"
@@ -48,16 +50,18 @@
                     LineBreakMode="WordWrap"
                     Text="Pret produs"
                     TextColor="Black"
-                    WidthRequest="80" />
+                    VerticalTextAlignment="Center"
+                    WidthRequest="70" />
 
                 <Label
                     FontAttributes="Bold"
                     FontSize="Small"
+                    HorizontalOptions="CenterAndExpand"
                     HorizontalTextAlignment="Center"
                     LineBreakMode="WordWrap"
                     Text="Renunta"
                     TextColor="Black"
-                    WidthRequest="60" />
+                    VerticalTextAlignment="Center" />
             </StackLayout>
 
             <!--<RefreshView
@@ -77,7 +81,7 @@
                             x:DataType="model:CartItem"
                             HorizontalOptions="FillAndExpand"
                             Orientation="Horizontal">
-                            <StackLayout VerticalOptions="CenterAndExpand" WidthRequest="130">
+                            <StackLayout VerticalOptions="CenterAndExpand" WidthRequest="120">
                                 <Label
                                     FontSize="Small"
                                     HorizontalOptions="CenterAndExpand"
@@ -88,9 +92,9 @@
 
                             </StackLayout>
                             <StackLayout
-                                HorizontalOptions="CenterAndExpand"
                                 Orientation="Horizontal"
-                                WidthRequest="95">
+                                VerticalOptions="CenterAndExpand"
+                                WidthRequest="100">
                                 <ImageButton
                                     Margin="5,0,5,0"
                                     Aspect="AspectFit"
@@ -116,7 +120,7 @@
                                     HorizontalOptions="CenterAndExpand"
                                     Source="plus.png" />
                             </StackLayout>
-                            <StackLayout VerticalOptions="CenterAndExpand" WidthRequest="80">
+                            <StackLayout VerticalOptions="CenterAndExpand" WidthRequest="70">
                                 <Label
                                     FontSize="Small"
                                     HorizontalTextAlignment="Center"
@@ -126,12 +130,8 @@
 
                             </StackLayout>
 
-                            <StackLayout
-                                HorizontalOptions="Center"
-                                VerticalOptions="Center"
-                                WidthRequest="60">
+                            <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
                                 <ImageButton
-                                    Margin="5,0,5,0"
                                     Aspect="AspectFit"
                                     BackgroundColor="Transparent"
                                     Command="{Binding Source={RelativeSource AncestorType={x:Type local:CosContentViewModel}}, Path=DeleteCommand}"

@@ -20,12 +20,7 @@ namespace FoodDeliveryApp.Views
             if (App.IsLoggedIn)
             {
                 viewModel.IsLoggedIn = true;
-                viewModel.LoadOrdersCommand.Execute(null);
-                ItemsListView.ItemsSource = viewModel.Orders;
-                if (viewModel.Orders.Count > 0)
-                {
-                    ItemsListView.ScrollTo(0, position: ScrollToPosition.Start);
-                }
+                //viewModel.LoadOrdersCommand.Execute(null);
             }
             else
             {
@@ -37,7 +32,6 @@ namespace FoodDeliveryApp.Views
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
-            ItemsListView.ItemsSource = null;
         }
 
         private void DatePicker_DateSelected(object sender, DateChangedEventArgs e)
