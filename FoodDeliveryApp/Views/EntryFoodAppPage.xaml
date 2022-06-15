@@ -41,7 +41,7 @@
                                         VerticalOptions="CenterAndExpand" />
                                     <Image
                                         xct:CornerRadiusEffect.CornerRadius="20"
-                                        Aspect="AspectFill"
+                                        Aspect="Fill"
                                         BackgroundColor="Transparent"
                                         HeightRequest="235">
                                         <Image.Source>

@@ -82,10 +82,10 @@
                                 Orientation="Vertical"
                                 VerticalOptions="FillAndExpand">
 
-                                <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand">
+                                <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand">
                                     <Image
                                         xct:CornerRadiusEffect.CornerRadius="20"
-                                        Aspect="AspectFill"
+                                        Aspect="Fill"
                                         BackgroundColor="Transparent">
                                         <Image.Source>
                                             <UriImageSource
@@ -103,37 +103,38 @@
                                             NumberOfTapsRequired="1" />
                                     </StackLayout.GestureRecognizers>
                                 </StackLayout>
-                                <StackLayout
-                                    HeightRequest="150"
-                                    HorizontalOptions="CenterAndExpand"
-                                    Orientation="Vertical"
-                                    VerticalOptions="EndAndExpand">
-                                    <Label
-                                        FontSize="Medium"
-                                        HorizontalTextAlignment="Center"
-                                        LineBreakMode="WordWrap"
-                                        Text="{Binding Name}"
-                                        TextColor="Black" />
-                                    <Label
-                                        FontSize="Medium"
-                                        HorizontalTextAlignment="Center"
-                                        LineBreakMode="NoWrap"
-                                        Text="{Binding GramajInterfata}"
-                                        TextColor="Black"
-                                        VerticalOptions="End" />
-                                    <Label
-                                        FontSize="Medium"
-                                        HorizontalTextAlignment="Center"
-                                        LineBreakMode="NoWrap"
-                                        Text="{Binding PretInterfata}"
-                                        TextColor="Black"
-                                        VerticalOptions="End" />
-                                    <StackLayout.GestureRecognizers>
-                                        <TapGestureRecognizer
-                                            Command="{Binding Source={RelativeSource AncestorType={x:Type local:ItemsViewModel}}, Path=ItemTapped}"
-                                            CommandParameter="{Binding .}"
-                                            NumberOfTapsRequired="1" />
-                                    </StackLayout.GestureRecognizers>
+                                <StackLayout HeightRequest="150" VerticalOptions="CenterAndExpand">
+                                    <StackLayout
+                                        HorizontalOptions="CenterAndExpand"
+                                        Orientation="Vertical"
+                                        VerticalOptions="CenterAndExpand">
+                                        <Label
+                                            FontSize="Medium"
+                                            HorizontalTextAlignment="Center"
+                                            LineBreakMode="WordWrap"
+                                            Text="{Binding Name}"
+                                            TextColor="Black" />
+                                        <Label
+                                            FontSize="Medium"
+                                            HorizontalTextAlignment="Center"
+                                            LineBreakMode="NoWrap"
+                                            Text="{Binding GramajInterfata}"
+                                            TextColor="Black"
+                                            VerticalOptions="End" />
+                                        <Label
+                                            FontSize="Medium"
+                                            HorizontalTextAlignment="Center"
+                                            LineBreakMode="NoWrap"
+                                            Text="{Binding PretInterfata}"
+                                            TextColor="Black"
+                                            VerticalOptions="End" />
+                                        <StackLayout.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type local:ItemsViewModel}}, Path=ItemTapped}"
+                                                CommandParameter="{Binding .}"
+                                                NumberOfTapsRequired="1" />
+                                        </StackLayout.GestureRecognizers>
+                                    </StackLayout>
                                 </StackLayout>
                                 <StackLayout
                                     Margin="0,0,0,10"

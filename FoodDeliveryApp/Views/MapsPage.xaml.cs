@@ -73,9 +73,8 @@ namespace FoodDeliveryApp.Views
             base.OnDisappearing();
             calculateRoute = false;
             viewLeaved = true;
-            DistToGo.Text = "";
-            TimeToGo.Text = "";
             routes = null;
+            mapsViewModel.DisplayStats.Clear();
             mapsViewModel.HasRoute = false;
         }
 
@@ -103,12 +102,12 @@ namespace FoodDeliveryApp.Views
         void TrackPath_Clicked()
         {
 
-            Device.StartTimer(TimeSpan.FromMilliseconds(3000), () =>
+            Device.StartTimer(TimeSpan.FromMilliseconds(5000), () =>
             {
                 if (!viewLeaved)
                 {
                     RouteAsync();
-                    Device.BeginInvokeOnMainThread(() => DrawElements());
+                    DrawElements();
                 }
 
                 return calculateRoute;
@@ -147,6 +146,8 @@ namespace FoodDeliveryApp.Views
         void UpdatePostions(Dictionary<int, GoogleDirection> routes)
         {
             AppMap.MapElements.Clear();
+            mapsViewModel.DisplayStats.Clear();
+            List<StatsModel> dict = new List<StatsModel>();
             foreach (var route in routes)
             {
                 List<Pin> pinTo = AppMap.Pins.Where(pins => pins.Label.Contains("Curier")).ToList();
@@ -180,25 +181,33 @@ namespace FoodDeliveryApp.Views
 
                 AppMap.MapElements.Add(polyline);
 
-
+                var distTG = string.Empty;
                 if (totalDistance < 1.0f)
                 {
                     int convertedDistance = (int)Math.Round(totalDistance * 1000);
-                    DistToGo.Text = convertedDistance.ToString() + " m";
+                    distTG = convertedDistance.ToString() + " m";
                 }
                 else
                 {
                     var index = totalDistance.ToString().IndexOf('.');
                     var indexRo = totalDistance.ToString().IndexOf(',');
-                    DistToGo.Text = totalDistance.ToString().Substring(0, index > 0 ? index : indexRo + 2) + " km";
+                    distTG = totalDistance.ToString().Substring(0, index > 0 ? index : indexRo + 2) + " km";
                 }
                 timeToGo = (int)Math.Round(((totalDistance * 60) / 40));
+                var timeTG = string.Empty;
                 if (timeToGo > 0)
-                    TimeToGo.Text = timeToGo.ToString() + " min";
+                    timeTG = timeToGo.ToString() + " min";
                 else
-                    TimeToGo.Text = "1 min";
-            }
+                    timeTG = "1 min";
+                dict.Add(new StatsModel
+                {
+                    Title = $"Comanda {route.Key}",
+                    DistToGo = $"Distanta ramasa {distTG}",
+                    TimeToGo = $"Timp ramas {timeTG}"
+                });
 
+            }
+            mapsViewModel.DisplayStats.AddRange(dict);
         }
     }
 }

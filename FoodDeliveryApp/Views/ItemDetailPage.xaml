@@ -21,7 +21,7 @@
             <Image
                 x:Name="ItemImage"
                 xct:CornerRadiusEffect.CornerRadius="10"
-                Aspect="AspectFill"
+                Aspect="Fill"
                 BackgroundColor="Transparent"
                 HeightRequest="360" />
             <StackLayout xct:CornerRadiusEffect.CornerRadius="10" BackgroundColor="{AppThemeBinding Light=LightCyan, Dark=LightCyan}">

@@ -2,6 +2,7 @@
 using FoodDeliveryApp.Models.MapsModels;
 using FoodDeliveryApp.Models.ShopModels;
 using FoodDeliveryApp.Services;
+using MvvmHelpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,8 @@ namespace FoodDeliveryApp.ViewModels
     {
         public Geocoder geoCoder;
         public List<CustomPin> MyLocations { get; set; }
-
+        private ObservableRangeCollection<StatsModel> _displayStats;
+        public ObservableRangeCollection<StatsModel> DisplayStats { get => _displayStats; set => SetProperty(ref _displayStats, value); }
         private List<DriverLocation> _driverLocations;
         private bool _hasRoute = false;
         public bool HasRoute { get { return _hasRoute; } set => SetProperty(ref _hasRoute, value); }
@@ -22,6 +24,7 @@ namespace FoodDeliveryApp.ViewModels
         {
             geoCoder = new Geocoder();
             _driverLocations = new List<DriverLocation>();
+            DisplayStats = new ObservableRangeCollection<StatsModel>();
             MyLocations = new List<CustomPin>();
         }
 

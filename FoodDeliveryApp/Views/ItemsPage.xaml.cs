@@ -21,7 +21,6 @@ namespace FoodDeliveryApp.Views
 
             ItemsListView.ItemsSource = viewModel.ItemsSubCateg;
             viewModel.LoadItemsCommand.Execute(null);
-            ItemsListView.ScrollTo(0, 0, position: ScrollToPosition.Start);
             viewModel.CItems = viewModel.DataStore.GetCartItems();
         }
 
