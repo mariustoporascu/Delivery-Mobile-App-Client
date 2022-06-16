@@ -10,7 +10,7 @@
 	</array>
 	<key>keychain-access-groups</key>
 	<array>
-		<string>{YB847G5ND6}.{com.tmiit.FoodDeliveryApp}</string>
+		<string>{YB847G5ND6}.{com.tmiit.livroapp}</string>
 	</array>
 </dict>
 </plist>

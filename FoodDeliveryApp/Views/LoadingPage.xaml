@@ -7,7 +7,7 @@
     <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
         <Image
             Grid.Row="0"
-            Aspect="AspectFill"
+            Aspect="Fill"
             HorizontalOptions="FillAndExpand"
             Source="splash_auth.png"
             VerticalOptions="FillAndExpand" />

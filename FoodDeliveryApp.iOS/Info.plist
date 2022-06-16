@@ -10,8 +10,6 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
@@ -22,20 +20,27 @@
 	</array>
 	<key>CFBundleDisplayName</key>
 	<string>Livro</string>
-	<key>CFBundleIdentifier</key>
-	<string>com.tmiit.FoodDeliveryApp</string>
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
-	<key>CFBundleName</key>
-	<string>FoodDeliveryApp</string>
 	<key>UIMainStoryboardFile</key>
 	<string>LaunchScreen</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSExceptionDomains</key>
 		<dict>
+			<key>sytes.net</key>
+			<dict>
+				<key>NSExceptionMinimumTLSVersion</key>
+				<string>TLSv1.0</string>
+				<key>NSExceptionRequiresForwardSecrecy</key>
+				<false/>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+			</dict>
 			<key>facebook.com</key>
 			<dict>
 				<key>NSIncludesSubdomains</key>
@@ -79,8 +84,6 @@
 		<string>fbauth2</string>
 		<string>fbshareextension</string>
 	</array>
-	<key>FacebookDisplayName</key>
-	<string>[Food Delivery App]</string>
 	<key>FacebookAppID</key>
 	<string>2128162117322333</string>
 	<key>CLIENT_ID</key>
@@ -89,8 +92,6 @@
 	<string>com.googleusercontent.apps.121275221168-m5ng9m5r5mhdlcj31r9pl0c21m63gr6b</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
-	<key>BUNDLE_ID</key>
-	<string>com.tmiit.FoodDeliveryApp</string>
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
@@ -110,5 +111,15 @@
 	<string>12.0</string>
 	<key>XSAppIconAssets</key>
 	<string>Assets.xcassets/AppIcon.appiconset</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.tmiit.livroapp</string>
+	<key>CFBundleName</key>
+	<string>Livro</string>
+	<key>FacebookDisplayName</key>
+	<string>[Livro]</string>
+	<key>BUNDLE_ID</key>
+	<string>com.tmiit.livroapp</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1</string>
 </dict>
 </plist>
