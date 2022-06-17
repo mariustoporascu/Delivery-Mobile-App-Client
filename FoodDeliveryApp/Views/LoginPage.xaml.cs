@@ -34,20 +34,18 @@ namespace FoodDeliveryApp.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            if (Device.RuntimePlatform == Device.Android)
+
+            if (string.IsNullOrWhiteSpace(App.FirebaseUserToken))
             {
-                if (string.IsNullOrWhiteSpace(App.FirebaseUserToken))
+                App.FirebaseUserToken = OneSignal.Default.DeviceState.userId;
+                try
                 {
-                    App.FirebaseUserToken = OneSignal.Default.DeviceState.userId;
-                    try
-                    {
-                        SecureStorage.SetAsync(App.FBToken, App.FirebaseUserToken).Wait();
+                    SecureStorage.SetAsync(App.FBToken, App.FirebaseUserToken).Wait();
 
-                    }
-                    catch (Exception)
-                    {
+                }
+                catch (Exception)
+                {
 
-                    }
                 }
             }
             if (App.IsLoggedIn)

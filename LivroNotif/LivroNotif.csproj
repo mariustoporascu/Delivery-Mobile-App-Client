@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
+    <ProjectGuid>{5755D1B8-62AD-4F96-8DD8-B925F2088C98}</ProjectGuid>
+    <ProjectTypeGuids>{EE2C853D-36AF-4FDB-B1AD-8E90477E2198};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <RootNamespace>LivroNotif</RootNamespace>
+    <AssemblyName>LivroNotif</AssemblyName>
+    <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <ProvisioningType>manual</ProvisioningType>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\iPhoneSimulator\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodesignKey>iPhone Developer</CodesignKey>
+    <MtouchDebug>true</MtouchDebug>
+    <MtouchFastDev>false</MtouchFastDev>
+    <MtouchUseSGen>true</MtouchUseSGen>
+    <MtouchUseRefCounting>true</MtouchUseRefCounting>
+    <MtouchLink>None</MtouchLink>
+    <MtouchArch>x86_64</MtouchArch>
+    <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
+    <MtouchTlsProvider>Default</MtouchTlsProvider>
+    <MtouchEnableSGenConc>true</MtouchEnableSGenConc>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\iPhoneSimulator\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodesignKey>iPhone Developer</CodesignKey>
+    <MtouchUseSGen>true</MtouchUseSGen>
+    <MtouchUseRefCounting>true</MtouchUseRefCounting>
+    <MtouchLink>None</MtouchLink>
+    <MtouchArch>i386</MtouchArch>
+    <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
+    <MtouchTlsProvider>Default</MtouchTlsProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\iPhone\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodesignKey>iPhone Developer</CodesignKey>
+    <DeviceSpecificBuild>true</DeviceSpecificBuild>
+    <MtouchDebug>true</MtouchDebug>
+    <MtouchFastDev>true</MtouchFastDev>
+    <MtouchUseSGen>true</MtouchUseSGen>
+    <MtouchUseRefCounting>true</MtouchUseRefCounting>
+    <MtouchFloat32>true</MtouchFloat32>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <IOSDebuggerPort>10001</IOSDebuggerPort>
+    <MtouchLink>SdkOnly</MtouchLink>
+    <MtouchArch>ARM64</MtouchArch>
+    <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
+    <MtouchTlsProvider>Default</MtouchTlsProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\iPhone\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodesignKey>iPhone Developer</CodesignKey>
+    <MtouchUseSGen>true</MtouchUseSGen>
+    <MtouchUseRefCounting>true</MtouchUseRefCounting>
+    <MtouchFloat32>true</MtouchFloat32>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <MtouchLink>SdkOnly</MtouchLink>
+    <MtouchArch>ARM64</MtouchArch>
+    <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
+    <MtouchTlsProvider>Default</MtouchTlsProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'Default' ">
+    <AppExtensionDebugBundleId />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="OneSignal.iOS.Binding, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\OneSignalSDK.Xamarin.4.0.0\lib\Xamarin.iOS\OneSignal.iOS.Binding.dll</HintPath>
+    </Reference>
+    <Reference Include="OneSignalSDK.Xamarin, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\OneSignalSDK.Xamarin.4.0.0\lib\Xamarin.iOS\OneSignalSDK.Xamarin.dll</HintPath>
+    </Reference>
+    <Reference Include="OneSignalSDK.Xamarin.Core, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\OneSignalSDK.Xamarin.4.0.0\lib\Xamarin.iOS\OneSignalSDK.Xamarin.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="Xamarin.iOS" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Info.plist" />
+    <None Include="Entitlements.plist" />
+    <None Include="OneSignalSDK.Xamarin.iOS.resources\manifest" />
+    <None Include="OneSignalSDK.Xamarin.iOS.resources\OneSignal.xcframework\Info.plist" />
+    <None Include="OneSignalSDK.Xamarin.iOS.resources\OneSignal.xcframework\ios-arm64_armv7_armv7s\OneSignal.framework\Info.plist" />
+    <None Include="OneSignalSDK.Xamarin.iOS.resources\OneSignal.xcframework\ios-arm64_armv7_armv7s\OneSignal.framework\Modules\module.modulemap" />
+    <None Include="OneSignalSDK.Xamarin.iOS.resources\OneSignal.xcframework\ios-arm64_armv7_armv7s\OneSignal.framework\OneSignal" />
+    <None Include="OneSignalSDK.Xamarin.iOS.resources\OneSignal.xcframework\ios-arm64_i386_x86_64-simulator\OneSignal.framework\Info.plist" />
+    <None Include="OneSignalSDK.Xamarin.iOS.resources\OneSignal.xcframework\ios-arm64_i386_x86_64-simulator\OneSignal.framework\Modules\module.modulemap" />
+    <None Include="OneSignalSDK.Xamarin.iOS.resources\OneSignal.xcframework\ios-arm64_i386_x86_64-simulator\OneSignal.framework\OneSignal" />
+    <None Include="OneSignalSDK.Xamarin.iOS.resources\OneSignal.xcframework\ios-arm64_i386_x86_64-simulator\OneSignal.framework\_CodeSignature\CodeResources" />
+    <None Include="OneSignalSDK.Xamarin.iOS.resources\OneSignal.xcframework\ios-arm64_x86_64-maccatalyst\OneSignal.framework\Modules\module.modulemap" />
+    <None Include="OneSignalSDK.Xamarin.iOS.resources\OneSignal.xcframework\ios-arm64_x86_64-maccatalyst\OneSignal.framework\OneSignal" />
+    <None Include="OneSignalSDK.Xamarin.iOS.resources\OneSignal.xcframework\ios-arm64_x86_64-maccatalyst\OneSignal.framework\Resources\Info.plist" />
+    <None Include="OneSignalSDK.Xamarin.iOS.resources\OneSignal.xcframework\ios-arm64_x86_64-maccatalyst\OneSignal.framework\Versions\A\Modules\module.modulemap" />
+    <None Include="OneSignalSDK.Xamarin.iOS.resources\OneSignal.xcframework\ios-arm64_x86_64-maccatalyst\OneSignal.framework\Versions\A\OneSignal" />
+    <None Include="OneSignalSDK.Xamarin.iOS.resources\OneSignal.xcframework\ios-arm64_x86_64-maccatalyst\OneSignal.framework\Versions\A\Resources\Info.plist" />
+    <None Include="OneSignalSDK.Xamarin.iOS.resources\OneSignal.xcframework\ios-arm64_x86_64-maccatalyst\OneSignal.framework\Versions\Current\Modules\module.modulemap" />
+    <None Include="OneSignalSDK.Xamarin.iOS.resources\OneSignal.xcframework\ios-arm64_x86_64-maccatalyst\OneSignal.framework\Versions\Current\OneSignal" />
+    <None Include="OneSignalSDK.Xamarin.iOS.resources\OneSignal.xcframework\ios-arm64_x86_64-maccatalyst\OneSignal.framework\Versions\Current\Resources\Info.plist" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="NotificationService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="OneSignalSDK.Xamarin.iOS.resources\OneSignal.xcframework\ios-arm64_armv7_armv7s\OneSignal.framework\Headers\OneSignal.h" />
+    <Content Include="OneSignalSDK.Xamarin.iOS.resources\OneSignal.xcframework\ios-arm64_i386_x86_64-simulator\OneSignal.framework\Headers\OneSignal.h" />
+    <Content Include="OneSignalSDK.Xamarin.iOS.resources\OneSignal.xcframework\ios-arm64_x86_64-maccatalyst\OneSignal.framework\Headers\OneSignal.h" />
+    <Content Include="OneSignalSDK.Xamarin.iOS.resources\OneSignal.xcframework\ios-arm64_x86_64-maccatalyst\OneSignal.framework\Versions\A\Headers\OneSignal.h" />
+    <Content Include="OneSignalSDK.Xamarin.iOS.resources\OneSignal.xcframework\ios-arm64_x86_64-maccatalyst\OneSignal.framework\Versions\Current\Headers\OneSignal.h" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.AppExtension.CSharp.targets" />
+  <Import Project="..\packages\OneSignalSDK.Xamarin.4.0.0\build\Xamarin.iOS\OneSignalSDK.Xamarin.targets" Condition="Exists('..\packages\OneSignalSDK.Xamarin.4.0.0\build\Xamarin.iOS\OneSignalSDK.Xamarin.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\OneSignalSDK.Xamarin.4.0.0\build\Xamarin.iOS\OneSignalSDK.Xamarin.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\OneSignalSDK.Xamarin.4.0.0\build\Xamarin.iOS\OneSignalSDK.Xamarin.targets'))" />
+  </Target>
+</Project>

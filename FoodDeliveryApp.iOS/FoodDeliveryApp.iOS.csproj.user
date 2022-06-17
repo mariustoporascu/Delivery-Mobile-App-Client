@@ -2,7 +2,7 @@
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <SelectedDevice>iPhone - Marius</SelectedDevice>
-    <SelectedPlatformGroup>RemoteDevice</SelectedPlatformGroup>
+    <SelectedPlatformGroup>LocalDevice</SelectedPlatformGroup>
     <ActiveDebugProfile>iPhone - Marius</ActiveDebugProfile>
     <DeveloperId>
     </DeveloperId>

@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.32126.315
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32602.215
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodDeliveryApp.Android", "FoodDeliveryApp.Android\FoodDeliveryApp.Android.csproj", "{67036882-26A7-4BFE-B933-3C450A18A2AA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodDeliveryApp.iOS", "FoodDeliveryApp.iOS\FoodDeliveryApp.iOS.csproj", "{807C0161-917F-4846-8342-8A208FADDC81}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodDeliveryApp", "FoodDeliveryApp\FoodDeliveryApp.csproj", "{8767EC0E-67A4-404E-870C-0DA91E7E42FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodDeliveryApp", "FoodDeliveryApp\FoodDeliveryApp.csproj", "{8767EC0E-67A4-404E-870C-0DA91E7E42FE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LivroNotif", "LivroNotif\LivroNotif.csproj", "{5755D1B8-62AD-4F96-8DD8-B925F2088C98}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -73,6 +75,18 @@ Global
 		{8767EC0E-67A4-404E-870C-0DA91E7E42FE}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
 		{8767EC0E-67A4-404E-870C-0DA91E7E42FE}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 		{8767EC0E-67A4-404E-870C-0DA91E7E42FE}.Release|iPhoneSimulator.Deploy.0 = Release|Any CPU
+		{5755D1B8-62AD-4F96-8DD8-B925F2088C98}.Debug|Any CPU.ActiveCfg = Debug|iPhoneSimulator
+		{5755D1B8-62AD-4F96-8DD8-B925F2088C98}.Debug|Any CPU.Build.0 = Debug|iPhoneSimulator
+		{5755D1B8-62AD-4F96-8DD8-B925F2088C98}.Debug|iPhone.ActiveCfg = Debug|iPhone
+		{5755D1B8-62AD-4F96-8DD8-B925F2088C98}.Debug|iPhone.Build.0 = Debug|iPhone
+		{5755D1B8-62AD-4F96-8DD8-B925F2088C98}.Debug|iPhoneSimulator.ActiveCfg = Debug|iPhoneSimulator
+		{5755D1B8-62AD-4F96-8DD8-B925F2088C98}.Debug|iPhoneSimulator.Build.0 = Debug|iPhoneSimulator
+		{5755D1B8-62AD-4F96-8DD8-B925F2088C98}.Release|Any CPU.ActiveCfg = Release|iPhoneSimulator
+		{5755D1B8-62AD-4F96-8DD8-B925F2088C98}.Release|Any CPU.Build.0 = Release|iPhoneSimulator
+		{5755D1B8-62AD-4F96-8DD8-B925F2088C98}.Release|iPhone.ActiveCfg = Release|iPhone
+		{5755D1B8-62AD-4F96-8DD8-B925F2088C98}.Release|iPhone.Build.0 = Release|iPhone
+		{5755D1B8-62AD-4F96-8DD8-B925F2088C98}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
+		{5755D1B8-62AD-4F96-8DD8-B925F2088C98}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
