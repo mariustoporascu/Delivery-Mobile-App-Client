@@ -6,7 +6,6 @@
     xmlns:local="clr-namespace:FoodDeliveryApp.ViewModels"
     xmlns:model="clr-namespace:FoodDeliveryApp.Models.ShopModels"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-    x:Name="Items"
     Title="{Binding Title}"
     x:DataType="local:SelectLocationAndPaymentViewModel"
     Shell.PresentationMode="ModalAnimated">

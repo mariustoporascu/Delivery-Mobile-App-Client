@@ -6,7 +6,6 @@
     xmlns:local="clr-namespace:FoodDeliveryApp.ViewModels"
     xmlns:model="clr-namespace:FoodDeliveryApp.Models.ShopModels"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-    x:Name="ItemsSubCateg"
     Title="{Binding Title}"
     Shell.PresentationMode="Animated">
     <!--
@@ -42,8 +41,9 @@
         </StackLayout>
         <!--<RefreshView Command="{Binding LoadItemsCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">-->
         <CollectionView
-            x:Name="ItemsListView"
             IsGrouped="True"
+            ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type local:ItemsViewModel}}, Path=ItemsSubCateg}"
+            ItemSizingStrategy="MeasureFirstItem"
             ItemsLayout="VerticalGrid,2"
             SelectionMode="None"
             VerticalOptions="FillAndExpand">

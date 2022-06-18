@@ -6,7 +6,6 @@
     xmlns:local="clr-namespace:FoodDeliveryApp.ViewModels"
     xmlns:model="clr-namespace:FoodDeliveryApp.Models.ShopModels"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-    x:Name="Items"
     Title="{Binding Title}"
     x:DataType="local:ListaRestauranteViewModel"
     Shell.PresentationMode="Animated">
@@ -16,7 +15,6 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <RefreshView
-        x:DataType="local:ListaRestauranteViewModel"
         Command="{Binding RefreshCommand}"
         HorizontalOptions="FillAndExpand"
         IsRefreshing="{Binding IsBusy, Mode=TwoWay}"

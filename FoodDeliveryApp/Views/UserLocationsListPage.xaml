@@ -24,7 +24,6 @@
 
             </StackLayout>
             <CollectionView
-                x:Name="ItemsListView"
                 Margin="0,50,0,0"
                 ItemsSource="{Binding UserLocations}"
                 SelectionMode="None"

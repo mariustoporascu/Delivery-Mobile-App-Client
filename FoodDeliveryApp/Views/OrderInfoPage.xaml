@@ -25,7 +25,6 @@
             <StackLayout>
                 <StackLayout
                     Margin="5"
-                    x:DataType="local:OrderInfoViewModel"
                     xct:CornerRadiusEffect.CornerRadius="10"
                     BackgroundColor="Goldenrod"
                     HorizontalOptions="FillAndExpand">

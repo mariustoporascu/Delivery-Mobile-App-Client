@@ -9,11 +9,11 @@
 	<key>CFBundleExecutable</key>
 	<string>LivroNotif</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.tmiit.livroapp.LivroNotif</string>
+	<string>com.tmiit.livroapp.LivroNotifiOS</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>com.companyname.LivroNotif</string>
+	<string>LivroNotif</string>
 	<key>CFBundlePackageType</key>
 	<string>XPC!</string>
 	<key>CFBundleShortVersionString</key>

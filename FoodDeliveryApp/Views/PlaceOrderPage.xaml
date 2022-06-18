@@ -46,7 +46,6 @@
 
             <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                 <StackLayout
-                    x:DataType="local:PlaceOrderViewModel"
                     xct:CornerRadiusEffect.CornerRadius="10"
                     BackgroundColor="{AppThemeBinding Light=LightCyan,
                                                       Dark=LightCyan}"
@@ -161,7 +160,6 @@
                 </StackLayout>
                 <StackLayout
                     Margin="0,5,0,5"
-                    x:DataType="local:PlaceOrderViewModel"
                     xct:CornerRadiusEffect.CornerRadius="10"
                     BackgroundColor="{AppThemeBinding Light=LightCyan,
                                                       Dark=LightCyan}"

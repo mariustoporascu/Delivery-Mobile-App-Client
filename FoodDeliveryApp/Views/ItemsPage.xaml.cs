@@ -19,7 +19,6 @@ namespace FoodDeliveryApp.Views
         {
             base.OnAppearing();
 
-            ItemsListView.ItemsSource = viewModel.ItemsSubCateg;
             viewModel.LoadItemsCommand.Execute(null);
             viewModel.CItems = viewModel.DataStore.GetCartItems();
         }

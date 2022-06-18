@@ -26,7 +26,6 @@ namespace FoodDeliveryApp.Views
 
             viewModel.IsLoggedIn = App.IsLoggedIn;
             viewModel.LoadItemsCommand.Execute(null);
-            ItemsListView.ScrollTo(0, position: ScrollToPosition.Start);
             viewModel.GetTime();
 
         }
