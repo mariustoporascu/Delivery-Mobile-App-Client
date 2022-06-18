@@ -71,7 +71,7 @@ namespace FoodDeliveryApp.Views
         {
             try
             {
-                await this.DisplayToastAsync("Parola a fost setata.", 1300);
+                await Shell.Current.DisplayToastAsync("Parola a fost setata.", 1500);
             }
             catch (Exception ex)
             {

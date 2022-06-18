@@ -25,6 +25,9 @@ namespace FoodDeliveryApp.ViewModels
         public event EventHandler RequireConfirmEmail = delegate { };
         private readonly OidcIdentity _oidcIdentity;
         public bool IsGoogleSignInAvailable { get { return Device.RuntimePlatform == Device.Android ? true : false; } }
+        public Command SignInWithAppleCommand { get; set; }
+        public bool IsAppleSignInAvailable { get { return appleSignInService?.IsAvailable ?? false; } }
+        IAppleSignInService appleSignInService;
 
         public Command ExecuteLoginGoogle { get; }
 
@@ -32,6 +35,8 @@ namespace FoodDeliveryApp.ViewModels
         public LoginViewModel()
         {
             _oidcIdentity = new OidcIdentity();
+            appleSignInService = DependencyService.Get<IAppleSignInService>();
+            SignInWithAppleCommand = new Command(async () => await OnAppleSignInRequest());
             Login = new Command(async () => await AfterSignIn());
             ExecuteLoginGoogle = new Command(async () => await LoginWithGoogle());
             ExecuteLoginFacebook = new Command(async () => await LoginWithFacebook());
@@ -45,7 +50,7 @@ namespace FoodDeliveryApp.ViewModels
             var gMailId = await SecureStorage.GetAsync(App.GOOGLE_ID);
             var fMail = await SecureStorage.GetAsync(App.FACEBOOK_ID_EMAIL);
             var fMailId = await SecureStorage.GetAsync(App.FACEBOOK_ID);
-            var aMail = await SecureStorage.GetAsync(App.APPLE_ID_EMAIL);
+            var aMail = "apple@apple.com";
             var aMailId = await SecureStorage.GetAsync(App.APPLE_ID);
             var lWith = await SecureStorage.GetAsync(App.LOGIN_WITH);
             if (!string.IsNullOrEmpty(lWith))
@@ -80,7 +85,6 @@ namespace FoodDeliveryApp.ViewModels
                     MissingMemberHandling = MissingMemberHandling.Ignore
                 };
                 App.UserInfo = JsonConvert.DeserializeObject<UserModel>(loginResult.Trim(), settings);
-                App.UserInfo.Email = finalEmail;
                 App.UserInfo.UserIdentification = finalId;
             }
 
@@ -203,6 +207,50 @@ namespace FoodDeliveryApp.ViewModels
                 Debug.WriteLine(ex);
                 OnSignInFailed?.Invoke(this, new EventArgs());
             }
+        }
+        async Task OnAppleSignInRequest()
+        {
+            try
+            {
+                var account = await appleSignInService.SignInAsync();
+                if (account != null && !string.IsNullOrWhiteSpace(account.Email))
+                {
+                    SecureStorage.SetAsync(App.APPLE_ID, account.UserId).Wait();
+                    SecureStorage.SetAsync(App.LOGIN_WITH, "Apple").Wait();
+
+                    var serverResp = await AuthController.Execute(new UserModel
+                    {
+                        Email = account.Email,
+                        FullName = account.Name,
+                        UserIdentification = account.UserId,
+                        FireBaseToken = App.FirebaseUserToken
+                    }, Constants.AuthOperations.Create);
+                    if (!string.IsNullOrEmpty(serverResp) &&
+                            (serverResp.Contains("Account created, you can now login.") || serverResp.Contains("Reused previous loginwithothers."))
+                            && await AfterSignInOthers())
+                        OnSignIn?.Invoke(this, new EventArgs());
+                    else
+                        OnSignInFailed?.Invoke(this, new EventArgs());
+                }
+                else if (account != null && !string.IsNullOrWhiteSpace(account.UserId))
+                {
+                    SecureStorage.SetAsync(App.APPLE_ID, account.UserId).Wait();
+                    SecureStorage.SetAsync(App.LOGIN_WITH, "Apple").Wait();
+                    if (await AfterSignInOthers())
+                        OnSignIn?.Invoke(this, new EventArgs());
+                    else
+                        OnSignInFailed?.Invoke(this, new EventArgs());
+                }
+                else
+                    OnSignInFailed?.Invoke(this, new EventArgs());
+            }
+
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                OnSignInFailed?.Invoke(this, new EventArgs());
+            }
+
         }
 
     }

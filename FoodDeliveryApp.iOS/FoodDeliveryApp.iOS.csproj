@@ -48,15 +48,14 @@
     <WarningLevel>4</WarningLevel>
     <MtouchArch>ARM64</MtouchArch>
     <MtouchDebug>true</MtouchDebug>
-    <CodesignEntitlements>
-    </CodesignEntitlements>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <MtouchLink>None</MtouchLink>
     <MtouchInterpreter>-all</MtouchInterpreter>
     <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
     <CodesignKey>Apple Development: Marius Toporascu (5THXDHZ9AT)</CodesignKey>
     <CodesignProvision>livroappdev</CodesignProvision>
     <BuildIpa>false</BuildIpa>
-    <DeviceSpecificBuild>false</DeviceSpecificBuild>
+    <DeviceSpecificBuild>true</DeviceSpecificBuild>
     <IOSDebugOverWiFi>false</IOSDebugOverWiFi>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
@@ -84,6 +83,7 @@
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <Compile Include="Renderers\AppleSignInButtonRenderer.cs" />
+    <Compile Include="Renderers\AwesomeHyperLinkLabelRenderer.cs" />
     <Compile Include="Renderers\CustomMapRenderer.cs" />
     <Compile Include="Renderers\CustomMKAnnotationView.cs" />
     <Compile Include="Renderers\TabIconRenderer.cs" />

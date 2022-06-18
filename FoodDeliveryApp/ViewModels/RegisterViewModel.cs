@@ -26,8 +26,6 @@ namespace FoodDeliveryApp.ViewModels
 
         public bool _loggedIn = !App.IsLoggedIn;
         public bool LoggedIn { get => _loggedIn; }
-        public bool IsAppleSignInAvailable { get { return appleSignInService?.IsAvailable ?? false; } }
-        public Command SignInWithAppleCommand { get; set; }
         public Command SignUpWebCommand { get; set; }
 
         public event EventHandler OnSignIn = delegate { };
@@ -36,13 +34,9 @@ namespace FoodDeliveryApp.ViewModels
 
         public event EventHandler OnSignUpWeb = delegate { };
 
-        IAppleSignInService appleSignInService;
 
         public RegisterViewModel()
         {
-
-            appleSignInService = DependencyService.Get<IAppleSignInService>();
-            SignInWithAppleCommand = new Command(async () => await OnAppleSignInRequest());
             SignUpWebCommand = new Command(async () => await SignUpWithWeb());
         }
 
@@ -62,41 +56,7 @@ namespace FoodDeliveryApp.ViewModels
                 OnSignInFailed?.Invoke(this, new EventArgs());
         }
 
-        async Task OnAppleSignInRequest()
-        {
-            try
-            {
-                var account = await appleSignInService.SignInAsync();
-                if (account != null && !string.IsNullOrWhiteSpace(account.Email))
-                {
-                    SecureStorage.SetAsync(App.APPLE_ID_EMAIL, account.Email).Wait();
-                    SecureStorage.SetAsync(App.APPLE_ID_NAME, account.Name).Wait();
-                    SecureStorage.SetAsync(App.APPLE_ID, account.UserId).Wait();
-                    SecureStorage.SetAsync(App.LOGIN_WITH, "Apple").Wait();
 
-                    var serverResp = await AuthController.Execute(new UserModel
-                    {
-                        Email = account.Email,
-                        FullName = account.Name,
-                        UserIdentification = account.UserId,
-                        FireBaseToken = App.FirebaseUserToken
-                    }, Constants.AuthOperations.Create);
-                    //if (!string.IsNullOrEmpty(serverResp) && await AfterSignIn())
-                    //    OnSignIn?.Invoke(this, new EventArgs());
-                    //else
-                    //    OnSignInFailed?.Invoke(this, new EventArgs());
-                }
-                else
-                    OnSignInFailed?.Invoke(this, new EventArgs());
-            }
-
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
-                OnSignInFailed?.Invoke(this, new EventArgs());
-            }
-
-        }
 
     }
 }

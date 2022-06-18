@@ -34,6 +34,8 @@ namespace FoodDeliveryApp.Views
                         await DisplayAlert("Succes", "Alegerea ta a fost transmisa.", "OK");
                     else
                         await DisplayAlert("Eroare", "Alegerea ta nu a fost transmisa.", "OK");
+                    MessagingCenter.Send<OrderInfoPage>(this, "RefreshOrders");
+
 
                 }
                 catch (Exception ex)
@@ -56,6 +58,8 @@ namespace FoodDeliveryApp.Views
                         await DisplayAlert("Succes", "Alegerea ta a fost transmisa.", "OK");
                     else
                         await DisplayAlert("Eroare", "Alegerea ta nu a fost transmisa.", "OK");
+                    MessagingCenter.Send<OrderInfoPage>(this, "RefreshOrders");
+
 
                 }
                 catch (Exception ex)
@@ -76,6 +80,8 @@ namespace FoodDeliveryApp.Views
                         await DisplayAlert("Succes", "Alegerea ta a fost transmisa.", "OK");
                     else
                         await DisplayAlert("Eroare", "Alegerea ta nu a fost transmisa.", "OK");
+                    MessagingCenter.Send<OrderInfoPage>(this, "RefreshOrders");
+
                 }
             }
             catch (Exception ex)
@@ -94,6 +100,8 @@ namespace FoodDeliveryApp.Views
                         await DisplayAlert("Succes", "Alegerea ta a fost transmisa.", "OK");
                     else
                         await DisplayAlert("Eroare", "Alegerea ta nu a fost transmisa.", "OK");
+                    MessagingCenter.Send<OrderInfoPage>(this, "RefreshOrders");
+
                 }
             }
             catch (Exception ex)

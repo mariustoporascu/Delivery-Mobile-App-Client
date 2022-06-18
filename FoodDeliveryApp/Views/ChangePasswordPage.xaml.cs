@@ -92,7 +92,7 @@ namespace FoodDeliveryApp.Views
         {
             try
             {
-                await this.DisplayToastAsync("Parola a fost schimbata.", 1300);
+                await Shell.Current.DisplayToastAsync("Parola a fost schimbata.", 1500);
             }
             catch (Exception ex)
             {

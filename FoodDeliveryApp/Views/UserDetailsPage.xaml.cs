@@ -111,7 +111,7 @@ namespace FoodDeliveryApp.Views
         {
             try
             {
-                await this.DisplayToastAsync("Profilul a fost actualizat.", 1300);
+                await Shell.Current.DisplayToastAsync("Profilul a fost actualizat.", 1500);
                 await Navigation.PopModalAsync(true);
             }
             catch (Exception ex)
@@ -123,7 +123,7 @@ namespace FoodDeliveryApp.Views
         {
             try
             {
-                await this.DisplayToastAsync("Incercare esuata.", 1300);
+                await Shell.Current.DisplayToastAsync("Incercare esuata.", 1500);
             }
             catch (Exception ex)
             {

@@ -80,7 +80,7 @@ namespace FoodDeliveryApp
             var gMailId = await SecureStorage.GetAsync(App.GOOGLE_ID);
             var fMail = await SecureStorage.GetAsync(App.FACEBOOK_ID_EMAIL);
             var fMailId = await SecureStorage.GetAsync(App.FACEBOOK_ID);
-            var aMail = await SecureStorage.GetAsync(App.APPLE_ID_EMAIL);
+            var aMail = "apple@apple.com";
             var aMailId = await SecureStorage.GetAsync(App.APPLE_ID);
             var webMail = await SecureStorage.GetAsync(App.WEBEMAIL);
             var webPass = await SecureStorage.GetAsync(App.WEBPASS);
@@ -124,7 +124,6 @@ namespace FoodDeliveryApp
                     MissingMemberHandling = MissingMemberHandling.Ignore
                 };
                 App.UserInfo = JsonConvert.DeserializeObject<UserModel>(loginResult.Trim(), settings);
-                App.UserInfo.Email = finalEmail;
                 if (string.IsNullOrEmpty(finalId))
                 {
                     App.UserInfo.Password = webPass;

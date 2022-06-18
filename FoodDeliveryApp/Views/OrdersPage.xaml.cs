@@ -12,6 +12,8 @@ namespace FoodDeliveryApp.Views
         {
             InitializeComponent();
             BindingContext = viewModel = new OrdersViewModel();
+            MessagingCenter.Subscribe<OrderInfoPage>(this, "RefreshOrders", (sender) => viewModel.LoadOrdersCommand.Execute(null));
+
         }
         protected override async void OnAppearing()
         {

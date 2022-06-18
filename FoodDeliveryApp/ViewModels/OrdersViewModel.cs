@@ -26,6 +26,8 @@ namespace FoodDeliveryApp.ViewModels
             get => isPageVisible;
             set => SetProperty(ref isPageVisible, value);
         }
+        private bool isLoading = false;
+
         public OrdersViewModel()
         {
             Orders = new ObservableRangeCollection<Order>();
@@ -36,47 +38,53 @@ namespace FoodDeliveryApp.ViewModels
         }
         public async Task ExecuteLoadOrdersCommand()
         {
-            IsBusy = true;
-            string email = App.UserInfo.Email;
-            try
+            if (!isLoading)
             {
-                uiOrders = new List<Order>();
-                var serverOrders = await DataStore.GetServerOrders(email);
-
-                /*if (Device.RuntimePlatform == Device.Android)
-                    serverOrders = await DataStore.GetServerOrders(email);
-                else
-                    serverOrders = DataStore.GetServerOrders(email).GetAwaiter().GetResult();*/
-
-                lock (Orders)
+                isLoading = true;
+                IsBusy = true;
+                string email = App.UserInfo.Email;
+                try
                 {
-                    foreach (ServerOrder serverOrder in serverOrders)
-                        uiOrders.Add(new Order
-                        {
-                            OrderId = serverOrder.OrderId,
-                            Status = serverOrder.Status,
-                            TotalOrdered = serverOrder.TotalOrdered + serverOrder.TransportFee,
-                            Created = serverOrder.Created,
-                        });
-                    FilterBy(SelectedTime);
-                    if (Orders.Count > 0)
-                    {
-                        IsPageVisible = true;
-                    }
-                    else
-                        IsPageVisible = false;
-                }
-                await Task.Delay(1000);
+                    uiOrders = new List<Order>();
+                    var serverOrders = await DataStore.GetServerOrders(email);
 
+                    /*if (Device.RuntimePlatform == Device.Android)
+                        serverOrders = await DataStore.GetServerOrders(email);
+                    else
+                        serverOrders = DataStore.GetServerOrders(email).GetAwaiter().GetResult();*/
+
+                    lock (Orders)
+                    {
+                        foreach (ServerOrder serverOrder in serverOrders)
+                            uiOrders.Add(new Order
+                            {
+                                OrderId = serverOrder.OrderId,
+                                Status = serverOrder.Status,
+                                TotalOrdered = serverOrder.TotalOrdered + serverOrder.TransportFee,
+                                Created = serverOrder.Created,
+                            });
+                        FilterBy(SelectedTime);
+                        if (Orders.Count > 0)
+                        {
+                            IsPageVisible = true;
+                        }
+                        else
+                            IsPageVisible = false;
+                    }
+                    await Task.Delay(1000);
+
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex);
+                }
+                finally
+                {
+                    IsBusy = false;
+                    isLoading = false;
+                }
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
-            }
-            finally
-            {
-                IsBusy = false;
-            }
+
         }
         public void FilterBy(DateTime time)
         {

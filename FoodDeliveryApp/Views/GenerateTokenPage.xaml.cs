@@ -50,7 +50,7 @@ namespace FoodDeliveryApp.Views
         {
             try
             {
-                await this.DisplayToastAsync("Codul a fost trimis catre tine.", 1300);
+                await Shell.Current.DisplayToastAsync("Codul a fost trimis catre tine.", 1500);
             }
             catch (Exception ex)
             {

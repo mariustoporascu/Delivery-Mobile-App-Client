@@ -248,18 +248,19 @@
                         <StackLayout Orientation="Horizontal">
                             <Button
                                 Margin="0"
-                                Padding="0"
+                                Padding="10,0,10,0"
                                 xct:CornerRadiusEffect.CornerRadius="30"
                                 BackgroundColor="OrangeRed"
                                 Clicked="Button_Clicked_1"
                                 FontSize="Medium"
                                 HorizontalOptions="CenterAndExpand"
                                 Text="Refuza"
+                                TextColor="Black"
                                 TextTransform="None" />
 
                             <Button
                                 Margin="0"
-                                Padding="0"
+                                Padding="10,0,10,0"
                                 xct:CornerRadiusEffect.CornerRadius="30"
                                 BackgroundColor="LimeGreen"
                                 Clicked="Button_Clicked"

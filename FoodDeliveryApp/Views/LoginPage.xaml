@@ -129,7 +129,7 @@
                     Orientation="Horizontal"
                     Spacing="10"
                     VerticalOptions="CenterAndExpand">
-                    <StackLayout HorizontalOptions="CenterAndExpand">
+                    <StackLayout HorizontalOptions="CenterAndExpand" IsVisible="{Binding IsGoogleSignInAvailable}">
 
                         <ImageButton
                             x:Name="GoogleBtn"
@@ -139,10 +139,33 @@
                             BackgroundColor="Transparent"
                             Command="{Binding ExecuteLoginGoogle}"
                             HeightRequest="50"
-                            IsVisible="{Binding IsGoogleSignInAvailable}"
                             Source="google.png" />
                     </StackLayout>
-                    <StackLayout HorizontalOptions="CenterAndExpand">
+                    <StackLayout
+                        HorizontalOptions="CenterAndExpand"
+                        IsVisible="{Binding IsAppleSignInAvailable}"
+                        Spacing="20">
+
+                        <ImageButton
+                            x:Name="AppleBtn"
+                            xct:TouchEffect.PressedAnimationDuration="100"
+                            xct:TouchEffect.PressedScale="1.1"
+                            Aspect="AspectFit"
+                            BackgroundColor="Transparent"
+                            Command="{Binding SignInWithAppleCommand}"
+                            HeightRequest="50"
+                            Source="signInWithApple.png" />
+                        <ImageButton
+                            x:Name="FBBtn2"
+                            xct:TouchEffect.PressedAnimationDuration="100"
+                            xct:TouchEffect.PressedScale="1.1"
+                            Aspect="AspectFit"
+                            BackgroundColor="Transparent"
+                            Command="{Binding ExecuteLoginFacebook}"
+                            HeightRequest="50"
+                            Source="btn_facebook_signin.png" />
+                    </StackLayout>
+                    <StackLayout HorizontalOptions="CenterAndExpand" IsVisible="{Binding IsGoogleSignInAvailable}">
 
                         <ImageButton
                             x:Name="FBBtn"

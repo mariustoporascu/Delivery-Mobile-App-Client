@@ -43,7 +43,7 @@ namespace FoodDeliveryApp.Views
         {
             try
             {
-                await this.DisplayToastAsync("Emailul a fost confirmat cu succes.", 1300);
+                await Shell.Current.DisplayToastAsync("Emailul a fost confirmat cu succes.", 1500);
             }
             catch (Exception ex)
             {

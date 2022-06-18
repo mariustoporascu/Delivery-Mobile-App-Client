@@ -1,8 +1,11 @@
 ﻿using FoodDeliveryApp.Constants;
 using FoodDeliveryApp.ViewModels;
 using OneSignalSDK.Xamarin;
+using Plugin.XamarinFormsSaveOpenPDFPackage;
 using System;
 using System.Diagnostics;
+using System.IO;
+using System.Net.Http;
 using Xamarin.CommunityToolkit.Extensions;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -16,19 +19,19 @@ namespace FoodDeliveryApp.Views
         {
             InitializeComponent();
             BindingContext = viewModel = new LoginViewModel();
-            if (Device.RuntimePlatform == Device.iOS)
+            /*if (Device.RuntimePlatform == Device.iOS)
                 viewModel.OnSignIn += OnSignInApple;
-            else
-                viewModel.OnSignIn += OnSignIn;
+            else*/
+            viewModel.OnSignIn += OnSignIn;
             viewModel.OnSignInFailed += OnSignInFailed;
             viewModel.RequireConfirmEmail += RequireConfirmEmail;
 
             if (App.IsLoggedIn)
             {
-                if (Device.RuntimePlatform == Device.iOS)
+                /*if (Device.RuntimePlatform == Device.iOS)
                     OnSignInApple(this, new EventArgs());
-                else
-                    OnSignIn(this, new EventArgs());
+                else*/
+                OnSignIn(this, new EventArgs());
             }
         }
         protected override void OnAppearing()
@@ -50,10 +53,10 @@ namespace FoodDeliveryApp.Views
             }
             if (App.IsLoggedIn)
             {
-                if (Device.RuntimePlatform == Device.iOS)
+                /*if (Device.RuntimePlatform == Device.iOS)
                     OnSignInApple(this, new EventArgs());
-                else
-                    OnSignIn(this, new EventArgs());
+                else*/
+                OnSignIn(this, new EventArgs());
             }
 
         }
@@ -61,7 +64,21 @@ namespace FoodDeliveryApp.Views
         {
             try
             {
-                await Navigation.PushModalAsync(new GoogleDriveViewerPage(ServerConstants.Termeni));
+                if (Device.RuntimePlatform == Device.iOS)
+                {
+                    using (var httpclient = new HttpClient())
+                    {
+                        var stream = await httpclient.GetStreamAsync(ServerConstants.Termeni);
+                        using (var memStream = new MemoryStream())
+                        {
+                            await stream.CopyToAsync(memStream);
+                            await CrossXamarinFormsSaveOpenPDFPackage.Current
+                                .SaveAndView("TermeniLivro.pdf", "application/pdf", memStream, PDFOpenContext.InApp);
+                        }
+                    }
+                }
+                else
+                    await Navigation.PushModalAsync(new GoogleDriveViewerPage(ServerConstants.Termeni));
 
             }
             catch (Exception ex)
@@ -73,7 +90,21 @@ namespace FoodDeliveryApp.Views
         {
             try
             {
-                await Navigation.PushModalAsync(new GoogleDriveViewerPage(ServerConstants.Gdpr));
+                if (Device.RuntimePlatform == Device.iOS)
+                {
+                    using (var httpclient = new HttpClient())
+                    {
+                        var stream = await httpclient.GetStreamAsync(ServerConstants.Gdpr);
+                        using (var memStream = new MemoryStream())
+                        {
+                            await stream.CopyToAsync(memStream);
+                            await CrossXamarinFormsSaveOpenPDFPackage.Current
+                                .SaveAndView("GDPRLivro.pdf", "application/pdf", memStream, PDFOpenContext.InApp);
+                        }
+                    }
+                }
+                else
+                    await Navigation.PushModalAsync(new GoogleDriveViewerPage(ServerConstants.Gdpr));
 
             }
             catch (Exception ex)
@@ -106,7 +137,7 @@ namespace FoodDeliveryApp.Views
         {
             try
             {
-                await this.DisplayToastAsync("Ai fost autentificat.", 1300);
+                await Shell.Current.DisplayToastAsync("Ai fost autentificat.", 1500);
             }
             catch (Exception ex)
             {

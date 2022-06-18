@@ -14,25 +14,25 @@ namespace FoodDeliveryApp.Views
         {
             InitializeComponent();
             BindingContext = viewModel = new RegisterViewModel();
-            if (Device.RuntimePlatform == Device.iOS)
+            /*if (Device.RuntimePlatform == Device.iOS)
             {
                 viewModel.OnSignIn += OnSignInApple;
                 viewModel.OnSignUpWeb += OnSignUpWebApple;
             }
             else
-            {
-                viewModel.OnSignIn += OnSignIn;
-                viewModel.OnSignUpWeb += OnSignUpWeb;
-            }
+            {*/
+            viewModel.OnSignIn += OnSignIn;
+            viewModel.OnSignUpWeb += OnSignUpWeb;
+            //}
 
             viewModel.OnSignInFailed += OnSignInFailed;
             BindingContext = viewModel;
             if (!viewModel._loggedIn)
             {
-                if (Device.RuntimePlatform == Device.iOS)
+                /*if (Device.RuntimePlatform == Device.iOS)
                     OnSignInApple(this, new EventArgs());
-                else
-                    OnSignIn(this, new EventArgs());
+                else*/
+                OnSignIn(this, new EventArgs());
             }
 
         }
@@ -153,7 +153,7 @@ namespace FoodDeliveryApp.Views
         {
             try
             {
-                await this.DisplayToastAsync("Contul tau a fost creat cu succes", 1300);
+                await Shell.Current.DisplayToastAsync("Contul tau a fost creat cu succes", 1500);
             }
             catch (Exception ex)
             {

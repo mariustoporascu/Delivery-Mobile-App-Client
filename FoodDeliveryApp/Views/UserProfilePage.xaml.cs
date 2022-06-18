@@ -1,9 +1,12 @@
 ﻿using FoodDeliveryApp.Constants;
 using FoodDeliveryApp.ViewModels;
+using Plugin.XamarinFormsSaveOpenPDFPackage;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.Extensions;
@@ -91,7 +94,21 @@ namespace FoodDeliveryApp.Views
         {
             try
             {
-                await Navigation.PushModalAsync(new GoogleDriveViewerPage(ServerConstants.Termeni));
+                if (Device.RuntimePlatform == Device.iOS)
+                {
+                    using (var httpclient = new HttpClient())
+                    {
+                        var stream = await httpclient.GetStreamAsync(ServerConstants.Termeni);
+                        using (var memStream = new MemoryStream())
+                        {
+                            await stream.CopyToAsync(memStream);
+                            await CrossXamarinFormsSaveOpenPDFPackage.Current
+                                .SaveAndView("TermeniLivro.pdf", "application/pdf", memStream, PDFOpenContext.InApp);
+                        }
+                    }
+                }
+                else
+                    await Navigation.PushModalAsync(new GoogleDriveViewerPage(ServerConstants.Termeni));
 
             }
             catch (Exception ex)
@@ -103,7 +120,21 @@ namespace FoodDeliveryApp.Views
         {
             try
             {
-                await Navigation.PushModalAsync(new GoogleDriveViewerPage(ServerConstants.Intrebari));
+                if (Device.RuntimePlatform == Device.iOS)
+                {
+                    using (var httpclient = new HttpClient())
+                    {
+                        var stream = await httpclient.GetStreamAsync(ServerConstants.Intrebari);
+                        using (var memStream = new MemoryStream())
+                        {
+                            await stream.CopyToAsync(memStream);
+                            await CrossXamarinFormsSaveOpenPDFPackage.Current
+                                .SaveAndView("IntrebariLivro.pdf", "application/pdf", memStream, PDFOpenContext.InApp);
+                        }
+                    }
+                }
+                else
+                    await Navigation.PushModalAsync(new GoogleDriveViewerPage(ServerConstants.Intrebari));
 
             }
             catch (Exception ex)
@@ -115,7 +146,21 @@ namespace FoodDeliveryApp.Views
         {
             try
             {
-                await Navigation.PushModalAsync(new GoogleDriveViewerPage(ServerConstants.Gdpr));
+                if (Device.RuntimePlatform == Device.iOS)
+                {
+                    using (var httpclient = new HttpClient())
+                    {
+                        var stream = await httpclient.GetStreamAsync(ServerConstants.Gdpr);
+                        using (var memStream = new MemoryStream())
+                        {
+                            await stream.CopyToAsync(memStream);
+                            await CrossXamarinFormsSaveOpenPDFPackage.Current
+                                .SaveAndView("GDPRLivro.pdf", "application/pdf", memStream, PDFOpenContext.InApp);
+                        }
+                    }
+                }
+                else
+                    await Navigation.PushModalAsync(new GoogleDriveViewerPage(ServerConstants.Gdpr));
 
             }
             catch (Exception ex)
@@ -127,7 +172,7 @@ namespace FoodDeliveryApp.Views
         {
             try
             {
-                await this.DisplayToastAsync("Contul a fost sters.", 1300);
+                await Shell.Current.DisplayToastAsync("Contul a fost sters.", 1500);
 
             }
             catch (Exception ex)
@@ -139,7 +184,7 @@ namespace FoodDeliveryApp.Views
         {
             try
             {
-                await this.DisplayToastAsync("Contul nu s-a putut sterge.", 1300);
+                await Shell.Current.DisplayToastAsync("Contul nu s-a putut sterge.", 1500);
 
             }
             catch (Exception ex)
