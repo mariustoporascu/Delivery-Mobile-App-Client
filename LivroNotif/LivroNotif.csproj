@@ -80,31 +80,29 @@
     <OutputPath>bin\iPhone\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodesignKey>Apple Development: Marius Toporascu (5THXDHZ9AT)</CodesignKey>
+    <CodesignKey>Apple Distribution: Marius Toporascu (YB847G5ND6)</CodesignKey>
     <MtouchUseSGen>true</MtouchUseSGen>
     <MtouchUseRefCounting>true</MtouchUseRefCounting>
-    <MtouchFloat32>false</MtouchFloat32>
+    <MtouchFloat32>true</MtouchFloat32>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-    <MtouchLink>None</MtouchLink>
+    <MtouchLink>SdkOnly</MtouchLink>
     <MtouchArch>ARM64</MtouchArch>
     <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
     <MtouchTlsProvider>Default</MtouchTlsProvider>
     <MtouchEnableSGenConc>true</MtouchEnableSGenConc>
     <MtouchDebug>false</MtouchDebug>
+    <CodesignProvision>LivroNotif App Store Distribution</CodesignProvision>
+    <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'Default' ">
     <AppExtensionDebugBundleId />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="OneSignal.iOS.Binding, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\OneSignalSDK.Xamarin.4.0.0\lib\Xamarin.iOS\OneSignal.iOS.Binding.dll</HintPath>
-    </Reference>
-    <Reference Include="OneSignalSDK.Xamarin, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\OneSignalSDK.Xamarin.4.0.0\lib\Xamarin.iOS\OneSignalSDK.Xamarin.dll</HintPath>
-    </Reference>
-    <Reference Include="OneSignalSDK.Xamarin.Core, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\OneSignalSDK.Xamarin.4.0.0\lib\Xamarin.iOS\OneSignalSDK.Xamarin.Core.dll</HintPath>
-    </Reference>
+    <PackageReference Include="OneSignalSDK.Xamarin">
+      <Version>4.0.0</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -113,43 +111,16 @@
   <ItemGroup>
     <None Include="Info.plist" />
     <None Include="Entitlements.plist" />
-    <None Include="OneSignalSDK.Xamarin.iOS.resources\manifest" />
-    <None Include="OneSignalSDK.Xamarin.iOS.resources\OneSignal.xcframework\Info.plist" />
-    <None Include="OneSignalSDK.Xamarin.iOS.resources\OneSignal.xcframework\ios-arm64_armv7_armv7s\OneSignal.framework\Info.plist" />
-    <None Include="OneSignalSDK.Xamarin.iOS.resources\OneSignal.xcframework\ios-arm64_armv7_armv7s\OneSignal.framework\Modules\module.modulemap" />
-    <None Include="OneSignalSDK.Xamarin.iOS.resources\OneSignal.xcframework\ios-arm64_armv7_armv7s\OneSignal.framework\OneSignal" />
-    <None Include="OneSignalSDK.Xamarin.iOS.resources\OneSignal.xcframework\ios-arm64_i386_x86_64-simulator\OneSignal.framework\Info.plist" />
-    <None Include="OneSignalSDK.Xamarin.iOS.resources\OneSignal.xcframework\ios-arm64_i386_x86_64-simulator\OneSignal.framework\Modules\module.modulemap" />
-    <None Include="OneSignalSDK.Xamarin.iOS.resources\OneSignal.xcframework\ios-arm64_i386_x86_64-simulator\OneSignal.framework\OneSignal" />
-    <None Include="OneSignalSDK.Xamarin.iOS.resources\OneSignal.xcframework\ios-arm64_i386_x86_64-simulator\OneSignal.framework\_CodeSignature\CodeResources" />
-    <None Include="OneSignalSDK.Xamarin.iOS.resources\OneSignal.xcframework\ios-arm64_x86_64-maccatalyst\OneSignal.framework\Modules\module.modulemap" />
-    <None Include="OneSignalSDK.Xamarin.iOS.resources\OneSignal.xcframework\ios-arm64_x86_64-maccatalyst\OneSignal.framework\OneSignal" />
-    <None Include="OneSignalSDK.Xamarin.iOS.resources\OneSignal.xcframework\ios-arm64_x86_64-maccatalyst\OneSignal.framework\Resources\Info.plist" />
-    <None Include="OneSignalSDK.Xamarin.iOS.resources\OneSignal.xcframework\ios-arm64_x86_64-maccatalyst\OneSignal.framework\Versions\A\Modules\module.modulemap" />
-    <None Include="OneSignalSDK.Xamarin.iOS.resources\OneSignal.xcframework\ios-arm64_x86_64-maccatalyst\OneSignal.framework\Versions\A\OneSignal" />
-    <None Include="OneSignalSDK.Xamarin.iOS.resources\OneSignal.xcframework\ios-arm64_x86_64-maccatalyst\OneSignal.framework\Versions\A\Resources\Info.plist" />
-    <None Include="OneSignalSDK.Xamarin.iOS.resources\OneSignal.xcframework\ios-arm64_x86_64-maccatalyst\OneSignal.framework\Versions\Current\Modules\module.modulemap" />
-    <None Include="OneSignalSDK.Xamarin.iOS.resources\OneSignal.xcframework\ios-arm64_x86_64-maccatalyst\OneSignal.framework\Versions\Current\OneSignal" />
-    <None Include="OneSignalSDK.Xamarin.iOS.resources\OneSignal.xcframework\ios-arm64_x86_64-maccatalyst\OneSignal.framework\Versions\Current\Resources\Info.plist" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="NotificationService.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="OneSignalSDK.Xamarin.iOS.resources\OneSignal.xcframework\ios-arm64_armv7_armv7s\OneSignal.framework\Headers\OneSignal.h" />
-    <Content Include="OneSignalSDK.Xamarin.iOS.resources\OneSignal.xcframework\ios-arm64_i386_x86_64-simulator\OneSignal.framework\Headers\OneSignal.h" />
-    <Content Include="OneSignalSDK.Xamarin.iOS.resources\OneSignal.xcframework\ios-arm64_x86_64-maccatalyst\OneSignal.framework\Headers\OneSignal.h" />
-    <Content Include="OneSignalSDK.Xamarin.iOS.resources\OneSignal.xcframework\ios-arm64_x86_64-maccatalyst\OneSignal.framework\Versions\A\Headers\OneSignal.h" />
-    <Content Include="OneSignalSDK.Xamarin.iOS.resources\OneSignal.xcframework\ios-arm64_x86_64-maccatalyst\OneSignal.framework\Versions\Current\Headers\OneSignal.h" />
-  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.AppExtension.CSharp.targets" />
-  <Import Project="..\packages\OneSignalSDK.Xamarin.4.0.0\build\Xamarin.iOS\OneSignalSDK.Xamarin.targets" Condition="Exists('..\packages\OneSignalSDK.Xamarin.4.0.0\build\Xamarin.iOS\OneSignalSDK.Xamarin.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\OneSignalSDK.Xamarin.4.0.0\build\Xamarin.iOS\OneSignalSDK.Xamarin.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\OneSignalSDK.Xamarin.4.0.0\build\Xamarin.iOS\OneSignalSDK.Xamarin.targets'))" />
     <Error Condition="!Exists('..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets'))" />
   </Target>
   <Import Project="..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets')" />
