@@ -25,7 +25,8 @@
                             HorizontalOptions="FillAndExpand">
                             <StackLayout
                                 x:DataType="model:TipCompanie"
-                                HeightRequest="280"
+                                HeightRequest="{OnIdiom Tablet=560,
+                                                        Phone=280}"
                                 HorizontalOptions="FillAndExpand">
                                 <StackLayout
                                     HorizontalOptions="FillAndExpand"
@@ -33,7 +34,8 @@
                                     VerticalOptions="FillAndExpand">
                                     <Label
                                         FontAttributes="Bold"
-                                        FontSize="Medium"
+                                        FontSize="{OnIdiom Tablet=Large,
+                                                           Phone=Medium}"
                                         HorizontalTextAlignment="Center"
                                         LineBreakMode="WordWrap"
                                         Text="{Binding Name}"
@@ -43,7 +45,8 @@
                                         xct:CornerRadiusEffect.CornerRadius="20"
                                         Aspect="Fill"
                                         BackgroundColor="Transparent"
-                                        HeightRequest="235">
+                                        HeightRequest="{OnIdiom Tablet=470,
+                                                                Phone=235}">
                                         <Image.Source>
                                             <UriImageSource
                                                 CacheValidity="7"

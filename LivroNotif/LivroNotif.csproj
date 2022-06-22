@@ -21,7 +21,7 @@
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignKey>Apple Development: Marius Toporascu (5THXDHZ9AT)</CodesignKey>
     <MtouchDebug>true</MtouchDebug>
     <MtouchFastDev>false</MtouchFastDev>
     <MtouchUseSGen>true</MtouchUseSGen>
@@ -32,6 +32,9 @@
     <MtouchTlsProvider>Default</MtouchTlsProvider>
     <MtouchEnableSGenConc>true</MtouchEnableSGenConc>
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <CodesignProvision>livronotifdev</CodesignProvision>
+    <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
+    <MtouchFloat32>true</MtouchFloat32>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>pdbonly</DebugType>

@@ -28,7 +28,8 @@ namespace FoodDeliveryApp.ViewModels
         public Command SignInWithAppleCommand { get; set; }
         public bool IsAppleSignInAvailable { get { return appleSignInService?.IsAvailable ?? false; } }
         IAppleSignInService appleSignInService;
-
+        private bool _FBLoginEnabled = false;
+        public bool FBLoginEnabled { get => _FBLoginEnabled; set => SetProperty(ref _FBLoginEnabled, value); }
         public Command ExecuteLoginGoogle { get; }
 
         public Command ExecuteLoginFacebook { get; }

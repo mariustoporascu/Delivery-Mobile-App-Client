@@ -22,6 +22,7 @@ namespace FoodDeliveryApp.ViewModels
         public Command LoadItemsCommand { get; }
         public Command RefreshCommand { get; }
         public event EventHandler NotOpen = delegate { };
+        private bool firstLaunch = true;
 
         public EntryFoodAppViewModel()
         {
@@ -49,20 +50,29 @@ namespace FoodDeliveryApp.ViewModels
         }
         public async Task RefreshItems()
         {
-            IsBusy = true;
-            try
+            if (!firstLaunch)
             {
-                await ReloadServerData();
-                var items = DataStore.GetTipCompanii().ToList();
-                if (items.Count != Items.Count)
-                    ExecuteLoadItemsCommand();
+                IsBusy = true;
+                try
+                {
+                    await ReloadServerData();
+                    var items = DataStore.GetTipCompanii().ToList();
+                    if (items.Count != Items.Count)
+                        ExecuteLoadItemsCommand();
 
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex);
+                }
+                IsBusy = false;
             }
-            catch (Exception ex)
+
+            else
             {
-                Debug.WriteLine(ex);
+                ExecuteLoadItemsCommand();
+                firstLaunch = false;
             }
-            IsBusy = false;
         }
         public TipCompanie SelectedItem
         {

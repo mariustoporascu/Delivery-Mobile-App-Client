@@ -12,6 +12,7 @@ namespace FoodDeliveryApp.Models.ShopModels
         public string GramajInterfata { get; set; }
         public decimal Price { get; set; }
         public string PretInterfata { get; set; }
+        public bool IsAvailable { get; set; }
         public int MeasuringUnitId { get; set; }
         public int SubCategoryRefId { get; set; }
         public string Photo { get; set; }

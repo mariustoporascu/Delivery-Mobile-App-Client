@@ -12,6 +12,11 @@
         x:DataType enables compiled bindings for better performance and compile time validation of binding expressions.
         https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/data-binding/compiled-bindings
     -->
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <xct:InvertedBoolConverter x:Key="invertBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <StackLayout
         BackgroundColor="White"
         HorizontalOptions="FillAndExpand"
@@ -86,7 +91,9 @@
                                     <Image
                                         xct:CornerRadiusEffect.CornerRadius="20"
                                         Aspect="Fill"
-                                        BackgroundColor="Transparent">
+                                        BackgroundColor="Transparent"
+                                        HeightRequest="{OnIdiom Tablet=400,
+                                                                Phone=200}">
                                         <Image.Source>
                                             <UriImageSource
                                                 CacheValidity="7"
@@ -109,20 +116,23 @@
                                         Orientation="Vertical"
                                         VerticalOptions="CenterAndExpand">
                                         <Label
-                                            FontSize="Medium"
+                                            FontSize="{OnIdiom Tablet=Large,
+                                                               Phone=Medium}"
                                             HorizontalTextAlignment="Center"
                                             LineBreakMode="WordWrap"
                                             Text="{Binding Name}"
                                             TextColor="Black" />
                                         <Label
-                                            FontSize="Medium"
+                                            FontSize="{OnIdiom Tablet=Large,
+                                                               Phone=Medium}"
                                             HorizontalTextAlignment="Center"
                                             LineBreakMode="NoWrap"
                                             Text="{Binding GramajInterfata}"
                                             TextColor="Black"
                                             VerticalOptions="End" />
                                         <Label
-                                            FontSize="Medium"
+                                            FontSize="{OnIdiom Tablet=Large,
+                                                               Phone=Medium}"
                                             HorizontalTextAlignment="Center"
                                             LineBreakMode="NoWrap"
                                             Text="{Binding PretInterfata}"
@@ -148,7 +158,16 @@
                                         BackgroundColor="Transparent"
                                         Clicked="OnAddItem"
                                         CommandParameter="{Binding .}"
+                                        IsVisible="{Binding IsAvailable}"
                                         Source="buy.png" />
+                                    <Label
+                                        FontSize="Default"
+                                        HorizontalTextAlignment="Center"
+                                        IsVisible="{Binding IsAvailable, Converter={StaticResource invertBoolConverter}}"
+                                        LineBreakMode="WordWrap"
+                                        Text="Momentan indisponibil"
+                                        TextColor="Red"
+                                        VerticalOptions="End" />
                                     <!--<ImageButton
                                         Margin="5,0,5,0"
                                         Aspect="AspectFit"

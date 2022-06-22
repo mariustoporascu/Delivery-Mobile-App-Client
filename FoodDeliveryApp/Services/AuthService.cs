@@ -66,5 +66,17 @@ namespace FoodDeliveryApp.Services
             }
             return string.Empty;
         }
+
+        public async Task<bool> FbLoginEnabled()
+        {
+            Uri uri = new Uri($"{ServerConstants.BaseUrl}/foodapp/fbbtnios");
+            HttpResponseMessage httpResponseMessage = await _httpClient.GetAsync(uri);
+            if (httpResponseMessage.IsSuccessStatusCode)
+            {
+                var respInfo = await httpResponseMessage.Content.ReadAsStringAsync();
+                return respInfo.Contains("true");
+            }
+            return false;
+        }
     }
 }

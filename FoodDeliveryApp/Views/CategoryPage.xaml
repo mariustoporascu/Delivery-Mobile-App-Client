@@ -24,7 +24,8 @@
                 VerticalOptions="EndAndExpand">
                 <Label
                     FontAttributes="Bold"
-                    FontSize="Medium"
+                    FontSize="{OnIdiom Tablet=Large,
+                                       Phone=Medium}"
                     HorizontalTextAlignment="Center"
                     LineBreakMode="WordWrap"
                     Text="Toate produsele"
@@ -46,7 +47,8 @@
                                 Margin="5"
                                 xct:CornerRadiusEffect.CornerRadius="20"
                                 BackgroundColor="LightCyan"
-                                HeightRequest="180">
+                                HeightRequest="{OnIdiom Tablet=360,
+                                                        Phone=180}">
                                 <StackLayout
                                     x:DataType="model:Categ"
                                     HorizontalOptions="FillAndExpand"
@@ -56,7 +58,8 @@
                                         xct:CornerRadiusEffect.CornerRadius="20"
                                         Aspect="Fill"
                                         BackgroundColor="Transparent"
-                                        HeightRequest="140">
+                                        HeightRequest="{OnIdiom Tablet=280,
+                                                                Phone=140}">
                                         <Image.Source>
                                             <UriImageSource
                                                 CacheValidity="7"
@@ -65,7 +68,8 @@
                                         </Image.Source>
                                     </Image>
                                     <Label
-                                        FontSize="Medium"
+                                        FontSize="{OnIdiom Tablet=Large,
+                                                           Phone=Medium}"
                                         HorizontalTextAlignment="Center"
                                         LineBreakMode="WordWrap"
                                         Text="{Binding Name}"

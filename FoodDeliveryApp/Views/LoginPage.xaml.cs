@@ -34,10 +34,10 @@ namespace FoodDeliveryApp.Views
                 OnSignIn(this, new EventArgs());
             }
         }
-        protected override void OnAppearing()
+        protected override async void OnAppearing()
         {
             base.OnAppearing();
-
+            viewModel.FBLoginEnabled = await viewModel.AuthController.FbLoginEnabled();
             if (string.IsNullOrWhiteSpace(App.FirebaseUserToken))
             {
                 App.FirebaseUserToken = OneSignal.Default.DeviceState.userId;

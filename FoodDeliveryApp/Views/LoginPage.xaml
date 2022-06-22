@@ -23,7 +23,7 @@
                         Text="Autentificare"
                         TextColor="Black" />
                 </StackLayout>
-                <StackLayout Margin="0,25,0,0">
+                <StackLayout Margin="{OnIdiom Tablet='0,100,0,0', Phone='0,25,0,0'}">
                     <StackLayout
                         Margin="0"
                         Padding="1"
@@ -84,7 +84,8 @@
                         xct:CornerRadiusEffect.CornerRadius="30"
                         BackgroundColor="LightCoral"
                         Command="{Binding Login}"
-                        FontSize="Medium"
+                        FontSize="{OnIdiom Tablet=Large,
+                                           Phone=Medium}"
                         Text="Conectare"
                         TextColor="White"
                         TextTransform="None" />
@@ -95,7 +96,8 @@
                         BackgroundColor="Transparent"
                         Clicked="RedirSignUp"
                         FontAttributes="None"
-                        FontSize="Medium"
+                        FontSize="{OnIdiom Tablet=Large,
+                                           Phone=Medium}"
                         Text="Creaza cont nou"
                         TextColor="Black"
                         TextTransform="None" />
@@ -109,20 +111,23 @@
                         BackgroundColor="Transparent"
                         Clicked="PasswordForgotClicked"
                         FontAttributes="None"
-                        FontSize="Medium"
+                        FontSize="{OnIdiom Tablet=Large,
+                                           Phone=Medium}"
                         Text="Ai uitat parola?"
                         TextColor="Black"
                         TextTransform="None" />
-                    <Label
-                        Margin="0,10,0,0"
-                        BackgroundColor="Transparent"
-                        FontAttributes="None"
-                        FontSize="Medium"
-                        HorizontalTextAlignment="Center"
-                        Text="Sau continua cu:"
-                        TextColor="Black"
-                        TextTransform="None" />
+
                 </StackLayout>
+                <Label
+                    Margin="0,10,0,0"
+                    BackgroundColor="Transparent"
+                    FontAttributes="None"
+                    FontSize="{OnIdiom Tablet=Large,
+                                       Phone=Medium}"
+                    HorizontalTextAlignment="Center"
+                    Text="Sau continua cu:"
+                    TextColor="Black"
+                    TextTransform="None" />
                 <StackLayout
                     Margin="0,5,0,0"
                     HorizontalOptions="CenterAndExpand"
@@ -163,6 +168,7 @@
                             BackgroundColor="Transparent"
                             Command="{Binding ExecuteLoginFacebook}"
                             HeightRequest="50"
+                            IsVisible="{Binding FBLoginEnabled}"
                             Source="btn_facebook_signin.png" />
                     </StackLayout>
                     <StackLayout HorizontalOptions="CenterAndExpand" IsVisible="{Binding IsGoogleSignInAvailable}">
@@ -199,7 +205,8 @@
                                 Padding="0"
                                 BackgroundColor="Transparent"
                                 Clicked="TermeniClicked"
-                                FontSize="Small"
+                                FontSize="{OnIdiom Tablet=Medium,
+                                                   Phone=Small}"
                                 HeightRequest="50"
                                 ImageSource="orders.png"
                                 Text="Termeni si conditii"
@@ -214,7 +221,8 @@
                                 Padding="0"
                                 BackgroundColor="Transparent"
                                 Clicked="GDPRclicked"
-                                FontSize="Small"
+                                FontSize="{OnIdiom Tablet=Medium,
+                                                   Phone=Small}"
                                 HeightRequest="50"
                                 ImageSource="lock.png"
                                 Text="Protectia Datelor"
@@ -229,7 +237,8 @@
                         BackgroundColor="Transparent"
                         Clicked="OnDismissButtonClicked"
                         FontAttributes="None"
-                        FontSize="Medium"
+                        FontSize="{OnIdiom Tablet=Large,
+                                           Phone=Medium}"
                         Text="Anuleaza"
                         TextColor="Black"
                         TextTransform="None" />

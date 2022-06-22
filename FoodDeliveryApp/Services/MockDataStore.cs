@@ -94,7 +94,8 @@ namespace FoodDeliveryApp.Services
         {
             _serverInfo.loadCartPrefs();
             foreach (var item in _serverInfo.cartItems)
-                if (_serverInfo.items.Find(prod => prod.ProductId == item.ProductId) == null)
+                if (_serverInfo.items.Find(prod => prod.ProductId == item.ProductId) == null ||
+                    !_serverInfo.items.Find(prod => prod.ProductId == item.ProductId).IsAvailable)
                     DeleteFromCart(item);
             return _serverInfo.cartItems;
         }

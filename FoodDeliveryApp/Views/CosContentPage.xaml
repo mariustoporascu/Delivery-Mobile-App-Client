@@ -26,35 +26,42 @@
 
                 <Label
                     FontAttributes="Bold"
-                    FontSize="Small"
+                    FontSize="{OnIdiom Tablet=Medium,
+                                       Phone=Small}"
                     HorizontalTextAlignment="Center"
                     LineBreakMode="WordWrap"
                     Text="Produs"
                     TextColor="Black"
                     VerticalTextAlignment="Center"
-                    WidthRequest="120" />
+                    WidthRequest="{OnIdiom Tablet=340,
+                                           Phone=120}" />
                 <Label
                     FontAttributes="Bold"
-                    FontSize="Small"
+                    FontSize="{OnIdiom Tablet=Medium,
+                                       Phone=Small}"
                     HorizontalTextAlignment="Center"
                     LineBreakMode="WordWrap"
                     Text="Cantitate"
                     TextColor="Black"
                     VerticalTextAlignment="Center"
-                    WidthRequest="100" />
+                    WidthRequest="{OnIdiom Tablet=200,
+                                           Phone=100}" />
                 <Label
                     FontAttributes="Bold"
-                    FontSize="Small"
+                    FontSize="{OnIdiom Tablet=Medium,
+                                       Phone=Small}"
                     HorizontalTextAlignment="Center"
                     LineBreakMode="WordWrap"
                     Text="Pret produs"
                     TextColor="Black"
                     VerticalTextAlignment="Center"
-                    WidthRequest="70" />
+                    WidthRequest="{OnIdiom Tablet=140,
+                                           Phone=70}" />
 
                 <Label
                     FontAttributes="Bold"
-                    FontSize="Small"
+                    FontSize="{OnIdiom Tablet=Medium,
+                                       Phone=Small}"
                     HorizontalOptions="CenterAndExpand"
                     HorizontalTextAlignment="Center"
                     LineBreakMode="WordWrap"
@@ -69,9 +76,7 @@
                                                   Dark=Gray}"
                 Command="{Binding LoadItemsCommand}"
                 IsRefreshing="{Binding IsBusy, Mode=TwoWay}">-->
-            <CollectionView
-                ItemsSource="{Binding Items}"
-                SelectionMode="None">
+            <CollectionView ItemsSource="{Binding Items}" SelectionMode="None">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <StackLayout
@@ -79,9 +84,10 @@
                             x:DataType="model:CartItem"
                             HorizontalOptions="FillAndExpand"
                             Orientation="Horizontal">
-                            <StackLayout VerticalOptions="CenterAndExpand" WidthRequest="120">
+                            <StackLayout VerticalOptions="CenterAndExpand" WidthRequest="{OnIdiom Tablet=340, Phone=120}">
                                 <Label
-                                    FontSize="Small"
+                                    FontSize="{OnIdiom Tablet=Medium,
+                                                       Phone=Small}"
                                     HorizontalOptions="CenterAndExpand"
                                     HorizontalTextAlignment="Center"
                                     LineBreakMode="WordWrap"
@@ -92,7 +98,8 @@
                             <StackLayout
                                 Orientation="Horizontal"
                                 VerticalOptions="CenterAndExpand"
-                                WidthRequest="100">
+                                WidthRequest="{OnIdiom Tablet=200,
+                                                       Phone=100}">
                                 <ImageButton
                                     Margin="5,0,5,0"
                                     Aspect="AspectFit"
@@ -103,7 +110,8 @@
                                     Source="minus.png" />
                                 <Label
                                     Margin="5,0,5,0"
-                                    FontSize="Medium"
+                                    FontSize="{OnIdiom Tablet=Large,
+                                                       Phone=Medium}"
                                     HorizontalOptions="CenterAndExpand"
                                     HorizontalTextAlignment="Center"
                                     Text="{Binding Cantitate}"
@@ -118,9 +126,10 @@
                                     HorizontalOptions="CenterAndExpand"
                                     Source="plus.png" />
                             </StackLayout>
-                            <StackLayout VerticalOptions="CenterAndExpand" WidthRequest="70">
+                            <StackLayout VerticalOptions="CenterAndExpand" WidthRequest="{OnIdiom Tablet=140, Phone=70}">
                                 <Label
-                                    FontSize="Small"
+                                    FontSize="{OnIdiom Tablet=Medium,
+                                                       Phone=Small}"
                                     HorizontalTextAlignment="Center"
                                     LineBreakMode="NoWrap"
                                     Text="{Binding PriceTotal}"
@@ -172,7 +181,8 @@
                         xct:CornerRadiusEffect.CornerRadius="30"
                         BackgroundColor="LightCoral"
                         Clicked="GoToFinalizeOrder"
-                        FontSize="Medium"
+                        FontSize="{OnIdiom Tablet=Large,
+                                           Phone=Medium}"
                         IsVisible="{Binding IsLoggedIn}"
                         Text="Plaseaza comanda"
                         TextColor="White"
@@ -205,7 +215,8 @@
                 Source="cart.png" />
             <Label
                 FontAttributes="Bold"
-                FontSize="Medium"
+                FontSize="{OnIdiom Tablet=Large,
+                                   Phone=Medium}"
                 HorizontalTextAlignment="Center"
                 Text="Cosul este gol."
                 TextColor="Black" />

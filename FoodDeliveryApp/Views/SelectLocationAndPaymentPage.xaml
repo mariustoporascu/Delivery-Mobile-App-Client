@@ -61,12 +61,14 @@
 
             <StackLayout Margin="0,10,0,0" VerticalOptions="EndAndExpand">
                 <Button
-                    Margin="0,0,0,20"
+                    Margin="{OnIdiom Tablet='0,0,0,70',
+                                     Phone='0,0,0,20'}"
                     Padding="0"
                     xct:CornerRadiusEffect.CornerRadius="30"
                     BackgroundColor="LightCoral"
                     Clicked="ClickedGoToFinalize"
-                    FontSize="Medium"
+                    FontSize="{OnIdiom Tablet=Large,
+                                       Phone=Medium}"
                     Text="Vizualizeaza detalii finale"
                     TextColor="White"
                     TextTransform="None" />
@@ -75,7 +77,8 @@
                     BackgroundColor="Transparent"
                     Clicked="OnDismissButtonClicked"
                     FontAttributes="None"
-                    FontSize="Medium"
+                    FontSize="{OnIdiom Tablet=Large,
+                                       Phone=Medium}"
                     Text="Anuleaza"
                     TextColor="Black"
                     TextTransform="None" />

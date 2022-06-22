@@ -28,17 +28,19 @@
                             xct:CornerRadiusEffect.CornerRadius="20"
                             BackgroundColor="LightCyan"
                             HorizontalOptions="FillAndExpand">
-                            <StackLayout HeightRequest="200" HorizontalOptions="FillAndExpand">
+                            <StackLayout HorizontalOptions="FillAndExpand">
                                 <StackLayout
                                     x:DataType="model:Companie"
                                     HorizontalOptions="FillAndExpand"
+                                    IsEnabled="{Binding TemporaryClosed, Converter={StaticResource invertBoolConverter}}"
                                     Orientation="Vertical"
                                     VerticalOptions="FillAndExpand">
                                     <Image
                                         xct:CornerRadiusEffect.CornerRadius="20"
                                         Aspect="Fill"
                                         BackgroundColor="Transparent"
-                                        HeightRequest="140">
+                                        HeightRequest="{OnIdiom Tablet=280,
+                                                                Phone=140}">
                                         <Image.Source>
                                             <UriImageSource
                                                 CacheValidity="7"
@@ -47,29 +49,38 @@
 
                                         </Image.Source>
                                     </Image>
-                                    <Label
-                                        FontSize="Medium"
-                                        HorizontalTextAlignment="Center"
-                                        LineBreakMode="WordWrap"
-                                        Text="{Binding Name}"
-                                        TextColor="Black"
-                                        VerticalOptions="CenterAndExpand" />
                                     <StackLayout
+                                        Margin="0,0,0,10"
                                         HorizontalOptions="CenterAndExpand"
                                         IsVisible="{Binding IsActive, Converter={StaticResource invertBoolConverter}}"
-                                        Orientation="Horizontal">
+                                        Orientation="Horizontal"
+                                        VerticalOptions="CenterAndExpand">
                                         <Label
-                                            FontSize="Small"
+                                            FontSize="{OnIdiom Tablet=Large,
+                                                               Phone=Medium}"
                                             HorizontalTextAlignment="Center"
                                             LineBreakMode="NoWrap"
                                             Text="Se deschide la data de"
                                             TextColor="Black" />
                                         <Label
-                                            FontSize="Small"
+                                            FontSize="{OnIdiom Tablet=Large,
+                                                               Phone=Medium}"
                                             HorizontalTextAlignment="Center"
                                             LineBreakMode="NoWrap"
                                             Text="{Binding Opening, StringFormat='{0:MMMM dd, yyyy}'}"
                                             TextColor="Black" />
+                                    </StackLayout>
+                                    <StackLayout
+                                        Margin="0,0,0,10"
+                                        HorizontalOptions="CenterAndExpand"
+                                        IsVisible="{Binding TemporaryClosed}">
+                                        <Label
+                                            FontSize="{OnIdiom Tablet=Large,
+                                                               Phone=Medium}"
+                                            HorizontalTextAlignment="Center"
+                                            LineBreakMode="NoWrap"
+                                            Text="Inchis pentru moment, revenim."
+                                            TextColor="Red" />
                                     </StackLayout>
                                     <StackLayout.GestureRecognizers>
                                         <TapGestureRecognizer

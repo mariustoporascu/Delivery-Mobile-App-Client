@@ -53,8 +53,8 @@ namespace FoodDeliveryApp.ViewModels
             {
 
                 Items.Clear();
-                var items = DataStore.GetCompanii(TipId);
-                Title = "Lista " + DataStore.GetTipCompanii().First(tip => tip.TipCompanieId == TipId).Name;
+                var items = DataStore.GetCompanii(TipId).Where(comp => comp.VisibleInApp == true);
+                Title = DataStore.GetTipCompanii().First(tip => tip.TipCompanieId == TipId).Name;
 
                 Items.AddRange(items);
             }
@@ -66,6 +66,7 @@ namespace FoodDeliveryApp.ViewModels
         }
         public async Task RefreshItems()
         {
+
             IsBusy = true;
             try
             {
@@ -80,6 +81,7 @@ namespace FoodDeliveryApp.ViewModels
                 Debug.WriteLine(ex);
             }
             IsBusy = false;
+
         }
 
         public Companie SelectedItem

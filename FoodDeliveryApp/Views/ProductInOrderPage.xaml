@@ -23,7 +23,8 @@
                 xct:CornerRadiusEffect.CornerRadius="10"
                 Aspect="Fill"
                 BackgroundColor="Transparent"
-                HeightRequest="360" />
+                HeightRequest="{OnIdiom Tablet=720,
+                                        Phone=360}" />
             <StackLayout xct:CornerRadiusEffect.CornerRadius="10" BackgroundColor="{AppThemeBinding Light=LightCyan, Dark=LightCyan}">
                 <StackLayout
                     Padding="15"
@@ -53,7 +54,8 @@
                         TextColor="Black"
                         VerticalOptions="CenterAndExpand" />
                     <Label
-                        FontSize="Small"
+                        FontSize="{OnIdiom Tablet=Medium,
+                                           Phone=Small}"
                         LineBreakMode="WordWrap"
                         Text="{Binding Item.Description}"
                         TextColor="Black"

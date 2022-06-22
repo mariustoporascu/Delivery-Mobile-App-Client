@@ -7,5 +7,7 @@ namespace FoodDeliveryApp.Services
     public interface IAuthController
     {
         Task<string> Execute(UserModel userModel, AuthOperations operation);
+        Task<bool> FbLoginEnabled();
+
     }
 }

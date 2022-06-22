@@ -70,24 +70,29 @@
                     Text="Emailul poate ajunge la tine in cateva minute, te rugam sa verifici si sectiunea spam."
                     TextColor="Gray" />
             </StackLayout>
-            <StackLayout Margin="0,10,0,0" HorizontalOptions="FillAndExpand">
+            <StackLayout
+                Margin="0,10,0,0"
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="EndAndExpand">
                 <Button
                     Margin="0"
                     Padding="0"
                     xct:CornerRadiusEffect.CornerRadius="30"
                     BackgroundColor="LightCoral"
                     Clicked="CheckFields"
-                    FontSize="Medium"
+                    FontSize="{OnIdiom Tablet=Large,
+                                       Phone=Medium}"
                     Text="Genereaza"
                     TextColor="White"
                     TextTransform="None" />
             </StackLayout>
-            <StackLayout VerticalOptions="CenterAndExpand">
+            <StackLayout VerticalOptions="EndAndExpand">
                 <Button
                     BackgroundColor="Transparent"
                     Clicked="AmCodClicked"
                     FontAttributes="None"
-                    FontSize="Medium"
+                    FontSize="{OnIdiom Tablet=Large,
+                                       Phone=Medium}"
                     Text="Am deja un cod."
                     TextColor="Black"
                     TextTransform="None" />
@@ -97,7 +102,8 @@
                     BackgroundColor="Transparent"
                     Clicked="OnDismissButtonClicked"
                     FontAttributes="None"
-                    FontSize="Medium"
+                    FontSize="{OnIdiom Tablet=Large,
+                                       Phone=Medium}"
                     Text="Anuleaza"
                     TextColor="Black"
                     TextTransform="None" />

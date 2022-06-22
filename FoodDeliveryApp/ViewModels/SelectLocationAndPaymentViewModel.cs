@@ -20,8 +20,8 @@ namespace FoodDeliveryApp.ViewModels
         {
             Title = "Locatie si modalitate plata";
             PaymentMethods = new List<string>();
-            PaymentMethods.Add("Plata cash la livrare");
-            PaymentMethods.Add("Plata cu cardul la livrare");
+            PaymentMethods.Add("Cash la livrare");
+            PaymentMethods.Add("Card la livrare");
             Locations = new List<string>();
             foreach (var loc in App.UserInfo.Locations)
                 Locations.Add($"{App.UserInfo.Locations.IndexOf(loc) + 1} - {loc.LocationName}, {loc.BuildingInfo}, {loc.Street}, {loc.City}");

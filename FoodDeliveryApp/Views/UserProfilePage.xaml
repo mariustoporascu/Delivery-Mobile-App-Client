@@ -23,7 +23,7 @@
                 Margin="35,0,35,0"
                 HorizontalOptions="FillAndExpand"
                 VerticalOptions="FillAndExpand">
-                <StackLayout Margin="0,20,0,0" IsVisible="{Binding IsLoggedIn}">
+                <StackLayout Margin="{OnIdiom Tablet='0,70,0,0', Phone='0,20,0,0'}" IsVisible="{Binding IsLoggedIn}">
 
                     <Label
                         FontSize="Large"
@@ -36,7 +36,8 @@
                             BackgroundColor="Transparent"
                             Source="phone.png" />
                         <Label
-                            FontSize="Medium"
+                            FontSize="{OnIdiom Tablet=Large,
+                                               Phone=Medium}"
                             HorizontalTextAlignment="Center"
                             Text="{Binding PhoneNumber}"
                             TextColor="Black" />
@@ -48,7 +49,8 @@
                         xct:CornerRadiusEffect.CornerRadius="30"
                         BackgroundColor="Transparent"
                         Clicked="EditInfo"
-                        FontSize="Small"
+                        FontSize="{OnIdiom Tablet=Medium,
+                                           Phone=Small}"
                         HorizontalOptions="Center"
                         ImageSource="edit.png"
                         Text="Editeaza datele"
@@ -60,7 +62,8 @@
                         xct:CornerRadiusEffect.CornerRadius="30"
                         BackgroundColor="Transparent"
                         Clicked="SetPassword"
-                        FontSize="Small"
+                        FontSize="{OnIdiom Tablet=Medium,
+                                           Phone=Small}"
                         HorizontalOptions="Start"
                         ImageSource="password.png"
                         IsVisible="{Binding HasPasswordSet, Converter={StaticResource invertBoolConverter}}"
@@ -73,7 +76,8 @@
                         xct:CornerRadiusEffect.CornerRadius="30"
                         BackgroundColor="Transparent"
                         Clicked="ChangePassword"
-                        FontSize="Small"
+                        FontSize="{OnIdiom Tablet=Medium,
+                                           Phone=Small}"
                         HorizontalOptions="Start"
                         ImageSource="password.png"
                         IsVisible="{Binding CanChangePass}"
@@ -86,7 +90,8 @@
                         xct:CornerRadiusEffect.CornerRadius="30"
                         BackgroundColor="Transparent"
                         Clicked="EditLocation"
-                        FontSize="Small"
+                        FontSize="{OnIdiom Tablet=Medium,
+                                           Phone=Small}"
                         HorizontalOptions="Start"
                         ImageSource="location.png"
                         IsEnabled="{Binding CanEditLocation}"
@@ -99,7 +104,8 @@
                         xct:CornerRadiusEffect.CornerRadius="30"
                         BackgroundColor="Transparent"
                         Clicked="TermeniClicked"
-                        FontSize="Small"
+                        FontSize="{OnIdiom Tablet=Medium,
+                                           Phone=Small}"
                         HorizontalOptions="Start"
                         ImageSource="orders.png"
                         Text="Termeni si conditii"
@@ -111,7 +117,8 @@
                         xct:CornerRadiusEffect.CornerRadius="30"
                         BackgroundColor="Transparent"
                         Clicked="GDPRclicked"
-                        FontSize="Small"
+                        FontSize="{OnIdiom Tablet=Medium,
+                                           Phone=Small}"
                         HorizontalOptions="Start"
                         ImageSource="lock.png"
                         Text="Protectia Datelor"
@@ -123,7 +130,8 @@
                         xct:CornerRadiusEffect.CornerRadius="30"
                         BackgroundColor="Transparent"
                         Clicked="IntrebariClicked"
-                        FontSize="Small"
+                        FontSize="{OnIdiom Tablet=Medium,
+                                           Phone=Small}"
                         HorizontalOptions="Start"
                         ImageSource="info.png"
                         Text="Intrebari frecvente"
@@ -135,7 +143,8 @@
                         xct:CornerRadiusEffect.CornerRadius="30"
                         BackgroundColor="Transparent"
                         Clicked="AskHelpClicked"
-                        FontSize="Small"
+                        FontSize="{OnIdiom Tablet=Medium,
+                                           Phone=Small}"
                         HorizontalOptions="Start"
                         ImageSource="send.png"
                         Text="Cere ajutor"
@@ -147,7 +156,8 @@
                         xct:CornerRadiusEffect.CornerRadius="30"
                         BackgroundColor="Transparent"
                         Clicked="Deconectare_clicked"
-                        FontSize="Small"
+                        FontSize="{OnIdiom Tablet=Medium,
+                                           Phone=Small}"
                         HorizontalOptions="Start"
                         ImageSource="logout.png"
                         Text="Deconecteaza-te"
@@ -159,7 +169,8 @@
                         xct:CornerRadiusEffect.CornerRadius="30"
                         BackgroundColor="Transparent"
                         Clicked="DeleteButtonClicked"
-                        FontSize="Small"
+                        FontSize="{OnIdiom Tablet=Medium,
+                                           Phone=Small}"
                         HorizontalOptions="Start"
                         ImageSource="delete.png"
                         Text="Sterge contul"
@@ -184,7 +195,8 @@
                         xct:CornerRadiusEffect.CornerRadius="30"
                         BackgroundColor="LightCoral"
                         Clicked="RedirSignIn"
-                        FontSize="Medium"
+                        FontSize="{OnIdiom Tablet=Large,
+                                           Phone=Medium}"
                         Text="Autentifica-te"
                         TextColor="White"
                         TextTransform="None" />
@@ -193,7 +205,8 @@
                         Padding="0"
                         BackgroundColor="Transparent"
                         Clicked="IntrebariClicked"
-                        FontSize="Small"
+                        FontSize="{OnIdiom Tablet=Medium,
+                                           Phone=Small}"
                         HorizontalOptions="Center"
                         ImageSource="info.png"
                         Text="Intrebari frecvente"
@@ -204,7 +217,8 @@
                         Padding="0"
                         BackgroundColor="Transparent"
                         Clicked="AskHelpClicked"
-                        FontSize="Small"
+                        FontSize="{OnIdiom Tablet=Medium,
+                                           Phone=Small}"
                         HorizontalOptions="Center"
                         ImageSource="send.png"
                         Text="Cere ajutor"

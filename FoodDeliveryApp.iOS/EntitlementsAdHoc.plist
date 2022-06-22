@@ -4,7 +4,7 @@
 	<dict>
 				
 				<key>aps-environment</key>
-		<string>development</string>
+		<string>production</string>
 				
 				<key>com.apple.developer.networking.wifi-info</key>
 		<true/>
@@ -15,7 +15,7 @@
 		</array>
 				
 				<key>application-identifier</key>
-		<string>YB847G5ND6.com.tmiit.livroapp.LivroNotifiOS</string>
+		<string>YB847G5ND6.com.tmiit.livroapp</string>
 				
 				<key>keychain-access-groups</key>
 		<array>
@@ -24,10 +24,15 @@
 		</array>
 				
 				<key>get-task-allow</key>
-		<true/>
+		<false/>
 				
 				<key>com.apple.developer.team-identifier</key>
 		<string>YB847G5ND6</string>
+				
+				<key>com.apple.developer.applesignin</key>
+		<array>
+				<string>Default</string>
+		</array>
 		
 	</dict>
 </plist>

@@ -13,6 +13,9 @@ namespace FoodDeliveryApp.Models.ShopModels
         public DateTime Opening { get; set; }
         public int TipCompanieRefId { get; set; }
         public bool IsActive { get; set; }
+        public bool TemporaryClosed { get; set; }
+        public bool VisibleInApp { get; set; }
+
         [JsonProperty("transportFees")]
         public List<TransportFee> TransportFees { get; set; }
         public Uri GetPhotoUri => string.IsNullOrWhiteSpace(Photo) ?

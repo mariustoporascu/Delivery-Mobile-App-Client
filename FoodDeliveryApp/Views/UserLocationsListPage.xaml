@@ -24,7 +24,8 @@
 
             </StackLayout>
             <CollectionView
-                Margin="0,50,0,0"
+                Margin="{OnIdiom Tablet='0,100,0,0',
+                                 Phone='0,50,0,0'}"
                 ItemsSource="{Binding UserLocations}"
                 SelectionMode="None"
                 VerticalOptions="CenterAndExpand">
@@ -42,7 +43,8 @@
                                     BackgroundColor="Transparent"
                                     Command="{Binding Source={RelativeSource AncestorType={x:Type local:UserLocationsListViewModel}}, Path=ItemTapped}"
                                     CommandParameter="{Binding .}"
-                                    FontSize="Small"
+                                    FontSize="{OnIdiom Tablet=Large,
+                                                       Phone=Small}"
                                     ImageSource="edit.png"
                                     Text="{Binding LocationName}"
                                     TextColor="Black"
@@ -50,7 +52,7 @@
 
                             </StackLayout>
 
-                            <StackLayout HorizontalOptions="EndAndExpand" VerticalOptions="Center">
+                            <StackLayout HorizontalOptions="StartAndExpand" VerticalOptions="Center">
                                 <ImageButton
                                     Margin="5,0,5,0"
                                     Aspect="AspectFit"
@@ -70,7 +72,7 @@
                 VerticalOptions="CenterAndExpand">
 
                 <Button
-                    Margin="0"
+                    Margin="{OnIdiom Tablet='0,0,0,70'}"
                     Padding="0"
                     xct:CornerRadiusEffect.CornerRadius="30"
                     BackgroundColor="LightCoral"

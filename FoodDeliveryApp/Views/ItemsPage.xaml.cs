@@ -18,8 +18,8 @@ namespace FoodDeliveryApp.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            if (Device.RuntimePlatform == Device.iOS)
-                ItemsCollView.ItemSizingStrategy = ItemSizingStrategy.MeasureFirstItem;
+            //if (Device.RuntimePlatform == Device.iOS)
+            //    ItemsCollView.ItemSizingStrategy = ItemSizingStrategy.MeasureFirstItem;
             viewModel.LoadItemsCommand.Execute(null);
             viewModel.CItems = viewModel.DataStore.GetCartItems();
         }

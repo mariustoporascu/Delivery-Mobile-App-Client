@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:FoodDeliveryApp.Controls"
     xmlns:local="clr-namespace:FoodDeliveryApp.ViewModels"
+    xmlns:map="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
     xmlns:model="clr-namespace:FoodDeliveryApp.Models.MapsModels"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     Title="Harta"
@@ -24,7 +25,8 @@
             x:Name="AppMap"
             HasScrollEnabled="True"
             HasZoomEnabled="True"
-            HeightRequest="350"
+            HeightRequest="{OnIdiom Tablet=700,
+                                    Phone=350}"
             IsVisible="True"
             MapType="Street"
             VerticalOptions="FillAndExpand" />

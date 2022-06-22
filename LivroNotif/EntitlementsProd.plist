@@ -2,9 +2,11 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 	<dict>
+		<key>beta-reports-active</key>
+		<true/>
 				
 				<key>aps-environment</key>
-		<string>development</string>
+		<string>production</string>
 				
 				<key>com.apple.developer.networking.wifi-info</key>
 		<true/>
@@ -24,7 +26,7 @@
 		</array>
 				
 				<key>get-task-allow</key>
-		<true/>
+		<false/>
 				
 				<key>com.apple.developer.team-identifier</key>
 		<string>YB847G5ND6</string>
