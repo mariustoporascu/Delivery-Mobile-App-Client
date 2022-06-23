@@ -46,12 +46,18 @@
             PlaceholderColor="Gray"
             Text="{Binding Help.Email}"
             TextColor="Black" />
+        <Label
+            Margin="5,10,5,0"
+            FontSize="{OnIdiom Tablet=Medium,
+                               Phone=Small}"
+            HorizontalOptions="CenterAndExpand"
+            HorizontalTextAlignment="Center"
+            LineBreakMode="WordWrap"
+            Text="Mesajul tau, te rugam sa incluzi detalii care ne-ar putea ajuta sa rezolvam problema ta."
+            TextColor="Black" />
         <Editor
-            Margin="0,10,0,0"
             BackgroundColor="White"
-            HeightRequest="250"
-            Placeholder="Mesajul tau, te rugam sa incluzi detalii care ne-ar putea ajuta sa rezolvam problema ta."
-            PlaceholderColor="Black"
+            HeightRequest="200"
             Text="{Binding Help.Message}"
             TextColor="Black"
             VerticalOptions="CenterAndExpand" />

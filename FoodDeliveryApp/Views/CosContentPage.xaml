@@ -33,7 +33,8 @@
                     Text="Produs"
                     TextColor="Black"
                     VerticalTextAlignment="Center"
-                    WidthRequest="{OnIdiom Tablet=340,
+                    WidthRequest="{OnIdiom Tablet={OnPlatform iOS=340,
+                                                              Android=200},
                                            Phone=120}" />
                 <Label
                     FontAttributes="Bold"
@@ -44,7 +45,8 @@
                     Text="Cantitate"
                     TextColor="Black"
                     VerticalTextAlignment="Center"
-                    WidthRequest="{OnIdiom Tablet=200,
+                    WidthRequest="{OnIdiom Tablet={OnPlatform iOS=200,
+                                                              Android=150},
                                            Phone=100}" />
                 <Label
                     FontAttributes="Bold"
@@ -55,7 +57,8 @@
                     Text="Pret produs"
                     TextColor="Black"
                     VerticalTextAlignment="Center"
-                    WidthRequest="{OnIdiom Tablet=140,
+                    WidthRequest="{OnIdiom Tablet={OnPlatform iOS=140,
+                                                              Android=100},
                                            Phone=70}" />
 
                 <Label
@@ -84,7 +87,7 @@
                             x:DataType="model:CartItem"
                             HorizontalOptions="FillAndExpand"
                             Orientation="Horizontal">
-                            <StackLayout VerticalOptions="CenterAndExpand" WidthRequest="{OnIdiom Tablet=340, Phone=120}">
+                            <StackLayout VerticalOptions="CenterAndExpand" WidthRequest="{OnIdiom Tablet={OnPlatform iOS=340, Android=200}, Phone=120}">
                                 <Label
                                     FontSize="{OnIdiom Tablet=Medium,
                                                        Phone=Small}"
@@ -98,7 +101,8 @@
                             <StackLayout
                                 Orientation="Horizontal"
                                 VerticalOptions="CenterAndExpand"
-                                WidthRequest="{OnIdiom Tablet=200,
+                                WidthRequest="{OnIdiom Tablet={OnPlatform iOS=200,
+                                                                          Android=150},
                                                        Phone=100}">
                                 <ImageButton
                                     Margin="5,0,5,0"
@@ -126,7 +130,7 @@
                                     HorizontalOptions="CenterAndExpand"
                                     Source="plus.png" />
                             </StackLayout>
-                            <StackLayout VerticalOptions="CenterAndExpand" WidthRequest="{OnIdiom Tablet=140, Phone=70}">
+                            <StackLayout VerticalOptions="CenterAndExpand" WidthRequest="{OnIdiom Tablet={OnPlatform iOS=140, Android=100}, Phone=70}">
                                 <Label
                                     FontSize="{OnIdiom Tablet=Medium,
                                                        Phone=Small}"

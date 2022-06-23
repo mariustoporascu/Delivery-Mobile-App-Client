@@ -486,7 +486,8 @@
                             Text="Produs"
                             TextColor="Black"
                             VerticalTextAlignment="Center"
-                            WidthRequest="{OnIdiom Tablet=340,
+                            WidthRequest="{OnIdiom Tablet={OnPlatform iOS=340,
+                                                                      Android=200},
                                                    Phone=120}" />
                         <Label
                             FontAttributes="Bold"
@@ -497,7 +498,8 @@
                             Text="Gramaj"
                             TextColor="Black"
                             VerticalTextAlignment="Center"
-                            WidthRequest="{OnIdiom Tablet=160,
+                            WidthRequest="{OnIdiom Tablet={OnPlatform iOS=160,
+                                                                      Android=120},
                                                    Phone=80}" />
                         <Label
                             FontAttributes="Bold"
@@ -508,7 +510,8 @@
                             Text="Pret"
                             TextColor="Black"
                             VerticalTextAlignment="Center"
-                            WidthRequest="{OnIdiom Tablet=160,
+                            WidthRequest="{OnIdiom Tablet={OnPlatform iOS=160,
+                                                                      Android=120},
                                                    Phone=80}" />
                         <Label
                             FontAttributes="Bold"
@@ -544,7 +547,8 @@
                                             Text="{Binding Name}"
                                             TextColor="Black"
                                             VerticalTextAlignment="Center"
-                                            WidthRequest="{OnIdiom Tablet=340,
+                                            WidthRequest="{OnIdiom Tablet={OnPlatform iOS=340,
+                                                                                      Android=200},
                                                                    Phone=120}" />
                                         <Label
                                             FontSize="{OnIdiom Tablet=Medium,
@@ -554,7 +558,8 @@
                                             Text="{Binding GramajInterfata}"
                                             TextColor="Black"
                                             VerticalTextAlignment="Center"
-                                            WidthRequest="{OnIdiom Tablet=160,
+                                            WidthRequest="{OnIdiom Tablet={OnPlatform iOS=160,
+                                                                                      Android=120},
                                                                    Phone=80}" />
                                         <Label
                                             FontSize="{OnIdiom Tablet=Medium,
@@ -564,7 +569,8 @@
                                             Text="{Binding PretInterfata}"
                                             TextColor="Black"
                                             VerticalTextAlignment="Center"
-                                            WidthRequest="{OnIdiom Tablet=160,
+                                            WidthRequest="{OnIdiom Tablet={OnPlatform iOS=160,
+                                                                                      Android=120},
                                                                    Phone=80}" />
                                         <Label
                                             FontAttributes="Bold"

@@ -56,12 +56,18 @@
                 Text="{Binding Item.PriceTotal}"
                 TextColor="Black" />
         </StackLayout>
+        <Label
+            Margin="5,10,5,0"
+            FontSize="{OnIdiom Tablet=Medium,
+                               Phone=Small}"
+            HorizontalOptions="CenterAndExpand"
+            HorizontalTextAlignment="Center"
+            LineBreakMode="WordWrap"
+            Text="Detalii pe care doresti sa le transmiti in legatura cu produsul(ex: alergii, fara vreun ingredient,etc)"
+            TextColor="Black" />
         <Editor
-            Margin="0,10,0,0"
             BackgroundColor="White"
-            HeightRequest="250"
-            Placeholder="Detalii pe care doresti sa le transmiti in legatura cu produsul(ex: alergii, fara vreun ingredient,etc)"
-            PlaceholderColor="Black"
+            HeightRequest="170"
             Text="{Binding Item.ClientComments}"
             TextColor="Black"
             VerticalOptions="CenterAndExpand" />
