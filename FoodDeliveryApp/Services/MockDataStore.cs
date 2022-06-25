@@ -1,4 +1,5 @@
 ﻿using FoodDeliveryApp.Models.ShopModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -83,6 +84,10 @@ namespace FoodDeliveryApp.Services
             _serverInfo.saveCartPrefs(_serverInfo.cartItems);
         }
 
+        public List<string> GetPaymentMtds()
+        {
+            return _serverInfo.paymentMethods;
+        }
         public void CleanCart()
         {
             _serverInfo.cartItems.Clear();
@@ -138,7 +143,15 @@ namespace FoodDeliveryApp.Services
 
         public async Task<List<ServerOrder>> GetServerOrders(string email)
         {
-            return await _serverInfo.loadServerOrders(email);
+            try
+            {
+                return await _serverInfo.loadServerOrders(email);
+
+            }
+            catch (Exception)
+            {
+                return new List<ServerOrder>();
+            }
         }
     }
 }

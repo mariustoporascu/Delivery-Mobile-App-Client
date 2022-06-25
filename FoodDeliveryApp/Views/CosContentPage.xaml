@@ -73,12 +73,6 @@
                     VerticalTextAlignment="Center" />
             </StackLayout>
 
-            <!--<RefreshView
-                x:DataType="local:CosContentViewModel"
-                BackgroundColor="{AppThemeBinding Light=LightGray,
-                                                  Dark=Gray}"
-                Command="{Binding LoadItemsCommand}"
-                IsRefreshing="{Binding IsBusy, Mode=TwoWay}">-->
             <CollectionView ItemsSource="{Binding Items}" SelectionMode="None">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
@@ -157,7 +151,6 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-            <!--</RefreshView>-->
             <StackLayout>
                 <StackLayout Margin="0,20,0,20" HorizontalOptions="FillAndExpand">
                     <StackLayout HorizontalOptions="CenterAndExpand" Orientation="Horizontal">

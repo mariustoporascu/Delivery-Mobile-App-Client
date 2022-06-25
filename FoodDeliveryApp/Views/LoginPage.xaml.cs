@@ -37,7 +37,12 @@ namespace FoodDeliveryApp.Views
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            viewModel.FBLoginEnabled = await viewModel.AuthController.FbLoginEnabled();
+            try
+            {
+                viewModel.FBLoginEnabled = await viewModel.AuthController.FbLoginEnabled();
+
+            }
+            catch (Exception) { }
             if (string.IsNullOrWhiteSpace(App.FirebaseUserToken))
             {
                 App.FirebaseUserToken = OneSignal.Default.DeviceState.userId;

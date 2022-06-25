@@ -195,23 +195,25 @@ namespace FoodDeliveryApp.Views
 
         private async void DeleteButtonClicked(object sender, EventArgs e)
         {
-            var orders = await viewModel.DataStore.GetServerOrders(viewModel.Email);
-            if (orders.Count > 0 && orders.Any(or => or.Status != "Livrata" && or.Status != "Anulata" && or.Status != "Refuzata"))
+            try
             {
-                await DisplayAlert("Eroare", "Nu puteti sterge contul pana nu se onoreaza comenzile nefinalizate.", "OK");
-                return;
-            }
-            var prompt = await DisplayAlert("Confirmati", "Apasand acest buton confirmati ca doriti sa stergeti contul definitiv.", "OK", "Cancel");
-            if (prompt)
-            {
-                try
+                var orders = await viewModel.DataStore.GetServerOrders(viewModel.Email);
+                if (orders.Count > 0 && orders.Any(or => or.Status != "Livrata" && or.Status != "Anulata" && or.Status != "Refuzata"))
                 {
+                    await DisplayAlert("Eroare", "Nu puteti sterge contul pana nu se onoreaza comenzile nefinalizate.", "OK");
+                    return;
+                }
+                var prompt = await DisplayAlert("Confirmati", "Apasand acest buton confirmati ca doriti sa stergeti contul definitiv.", "OK", "Cancel");
+                if (prompt)
+                {
+
                     viewModel.DeleteProfile.Execute(null);
                 }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex.Message);
-                }
+
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
             }
         }
         private async void Deconectare_clicked(object sender, EventArgs e)

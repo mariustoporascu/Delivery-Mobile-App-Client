@@ -108,14 +108,16 @@ namespace FoodDeliveryApp.ViewModels
         {
             if (App.IsLoggedIn)
             {
-                var googleDirection = await MapsApiServ.ServiceClientInstance.GetDirections(customer, driver);
-                if (googleDirection.Routes != null && googleDirection.Routes.Count > 0)
+                try
                 {
-                    HasRoute = true;
-                    return googleDirection;
+                    var googleDirection = await MapsApiServ.ServiceClientInstance.GetDirections(customer, driver);
+                    if (googleDirection.Routes != null && googleDirection.Routes.Count > 0)
+                    {
+                        HasRoute = true;
+                        return googleDirection;
+                    }
                 }
-                HasRoute = false;
-                return null;
+                catch (Exception) { }
             }
             HasRoute = false;
             return null;

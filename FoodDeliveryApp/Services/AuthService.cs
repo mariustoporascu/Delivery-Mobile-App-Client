@@ -51,9 +51,9 @@ namespace FoodDeliveryApp.Services
             Uri uri = new Uri($"{ServerConstants.BaseUrl}/auth/{endPoint[(int)operation]}");
 
             TryAddHeaders();
-            return await sendRequest(userModel, uri);
+            return await SendRequest(userModel, uri);
         }
-        private async Task<string> sendRequest(UserModel userModel, Uri uri)
+        private async Task<string> SendRequest(UserModel userModel, Uri uri)
         {
 
             var json = JsonConvert.SerializeObject(userModel);

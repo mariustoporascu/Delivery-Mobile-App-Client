@@ -8,6 +8,11 @@
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     x:DataType="local:ConfirmEmailViewModel"
     Shell.PresentationMode="ModalAnimated">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <xct:InvertedBoolConverter x:Key="invertBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
         <Image
             Grid.Row="0"
@@ -15,7 +20,7 @@
             HorizontalOptions="FillAndExpand"
             Source="splash_auth.png"
             VerticalOptions="FillAndExpand" />
-        <StackLayout Grid.Row="0" Margin="35,80,35,5">
+        <StackLayout Grid.Row="0" Margin="35,80,35,5" IsVisible="{Binding IsBusy, Converter={StaticResource invertBoolConverter}}">
             <StackLayout Margin="0,0,0,0" Padding="0">
                 <Label
                     FontSize="36"
@@ -114,6 +119,20 @@
                     TextTransform="None" />
             </StackLayout>
         </StackLayout>
+        <StackLayout
+            HorizontalOptions="FillAndExpand"
+            IsVisible="{Binding IsBusy, Mode=TwoWay}"
+            VerticalOptions="FillAndExpand">
 
+            <Image
+                Aspect="AspectFit"
+                BackgroundColor="Transparent"
+                HeightRequest="100"
+                HorizontalOptions="CenterAndExpand"
+                IsAnimationPlaying="True"
+                Source="loading.gif"
+                VerticalOptions="CenterAndExpand"
+                WidthRequest="100" />
+        </StackLayout>
     </Grid>
 </ContentPage>

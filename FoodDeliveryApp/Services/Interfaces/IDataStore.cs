@@ -7,6 +7,7 @@ namespace FoodDeliveryApp.Services
     public interface IDataStore
     {
         Task Init();
+        List<string> GetPaymentMtds();
         void SaveCart(CartItem item);
         void DeleteFromCart(CartItem item);
         CartItem GetCartItem(int id);

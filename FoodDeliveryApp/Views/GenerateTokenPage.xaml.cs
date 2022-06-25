@@ -20,6 +20,7 @@ namespace FoodDeliveryApp.Views
             BindingContext = viewModel = new GenerateTokenViewModel();
             viewModel.OnSignIn += OnGenerateSucces;
             viewModel.OnSignInFailed += OnGenerateFailed;
+            viewModel.HasCode += HasCode;
         }
         private void CheckFieldMail(object sender, TextChangedEventArgs e)
         {
@@ -45,6 +46,19 @@ namespace FoodDeliveryApp.Views
 
 
             viewModel.GenerateToken.Execute(null);
+        }
+
+        async void HasCode(object sender, EventArgs args)
+        {
+            try
+            {
+                await Shell.Current.DisplayToastAsync($"Ai generat deja un cod valid, se poate genera altul dupa 15 minute de la generarea anterioara.", 1500);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+            await Navigation.PushModalAsync(new ResetPasswordPage());
         }
         async void OnGenerateSucces(object sender, EventArgs args)
         {

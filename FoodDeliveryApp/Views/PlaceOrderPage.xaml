@@ -22,7 +22,10 @@
             HorizontalOptions="FillAndExpand"
             Source="splash_auth.png"
             VerticalOptions="FillAndExpand" />
-        <StackLayout Grid.Row="0" Margin="35,60,35,5">
+        <StackLayout
+            Grid.Row="0"
+            Margin="35,60,35,5"
+            IsVisible="{Binding IsBusy, Converter={StaticResource invertBoolConverter}}">
             <StackLayout Margin="0,0,0,0" Padding="0">
                 <Label
                     FontSize="36"
@@ -273,6 +276,21 @@
                         TextTransform="None" />
                 </StackLayout>
             </StackLayout>
+        </StackLayout>
+        <StackLayout
+            HorizontalOptions="FillAndExpand"
+            IsVisible="{Binding IsBusy, Mode=TwoWay}"
+            VerticalOptions="FillAndExpand">
+
+            <Image
+                Aspect="AspectFit"
+                BackgroundColor="Transparent"
+                HeightRequest="100"
+                HorizontalOptions="CenterAndExpand"
+                IsAnimationPlaying="True"
+                Source="loading.gif"
+                VerticalOptions="CenterAndExpand"
+                WidthRequest="100" />
         </StackLayout>
     </Grid>
 </ContentPage>

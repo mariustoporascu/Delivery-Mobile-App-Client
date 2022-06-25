@@ -26,24 +26,38 @@ namespace FoodDeliveryApp.ViewModels
         public SetPasswordViewModel()
         {
             SetPassword = new Command(async () => await SettingPass());
+            IsBusy = false;
+
         }
         private async Task SettingPass()
         {
-            var result = await AuthController.Execute(new UserModel
+            IsBusy = true;
+            try
             {
-                Email = App.UserInfo.Email,
-                Password = Password,
-                UserIdentification = App.UserInfo.UserIdentification,
-            }, Constants.AuthOperations.SetPassword);
-            if (!string.IsNullOrWhiteSpace(result) && result.Contains("Password set."))
-            {
-                App.UserInfo.HasSetPassword = true;
-                OnSetPasswordSuc?.Invoke(this, new EventArgs());
+                var result = await AuthController.Execute(new UserModel
+                {
+                    Email = App.UserInfo.Email,
+                    Password = Password,
+                    UserIdentification = App.UserInfo.UserIdentification,
+                }, Constants.AuthOperations.SetPassword);
+                IsBusy = false;
+
+                if (!string.IsNullOrWhiteSpace(result) && result.Contains("Password set."))
+                {
+                    App.UserInfo.HasSetPassword = true;
+                    OnSetPasswordSuc?.Invoke(this, new EventArgs());
+                }
+                else
+                {
+                    OnSetPasswordFailed?.Invoke(this, new EventArgs());
+                }
             }
-            else
+            catch (Exception)
             {
+                IsBusy = false;
                 OnSetPasswordFailed?.Invoke(this, new EventArgs());
             }
+
         }
     }
 }

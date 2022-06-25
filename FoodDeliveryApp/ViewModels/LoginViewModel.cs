@@ -41,6 +41,8 @@ namespace FoodDeliveryApp.ViewModels
             Login = new Command(async () => await AfterSignIn());
             ExecuteLoginGoogle = new Command(async () => await LoginWithGoogle());
             ExecuteLoginFacebook = new Command(async () => await LoginWithFacebook());
+            IsBusy = false;
+
         }
         async Task<bool> AfterSignInOthers()
         {
@@ -93,36 +95,49 @@ namespace FoodDeliveryApp.ViewModels
         }
         async Task AfterSignIn()
         {
-            var authService = DependencyService.Get<IAuthController>();
-            string loginResult = await authService.Execute(new UserModel { Email = UserName, Password = Password, FireBaseToken = App.FirebaseUserToken }, Constants.AuthOperations.Login);
-            if (loginResult != string.Empty && loginResult.Contains("Email not confirmed"))
+            IsBusy = true;
+            try
             {
-                RequireConfirmEmail?.Invoke(this, new EventArgs());
-            }
-            else if (loginResult != string.Empty && !loginResult.Contains("Password is wrong.")
-                && !loginResult.Contains("Email is wrong or user not existing.") && !loginResult.Contains("Login data invalid."))
-            {
-                App.IsLoggedIn = true;
-                var settings = new JsonSerializerSettings
+                var authService = DependencyService.Get<IAuthController>();
+                string loginResult = await authService.Execute(new UserModel { Email = UserName, Password = Password, FireBaseToken = App.FirebaseUserToken }, Constants.AuthOperations.Login);
+                if (loginResult != string.Empty && loginResult.Contains("Email not confirmed"))
                 {
-                    NullValueHandling = NullValueHandling.Ignore,
-                    MissingMemberHandling = MissingMemberHandling.Ignore
-                };
-                App.UserInfo = JsonConvert.DeserializeObject<UserModel>(loginResult.Trim(), settings);
-                App.UserInfo.Email = UserName;
-                App.UserInfo.Password = Password;
-                SecureStorage.SetAsync(App.WEBEMAIL, UserName).Wait();
-                SecureStorage.SetAsync(App.WEBPASS, Password).Wait();
-                SecureStorage.SetAsync(App.LOGIN_WITH, "WebLogin").Wait();
-                OnSignIn?.Invoke(this, new EventArgs());
+                    RequireConfirmEmail?.Invoke(this, new EventArgs());
+                }
+                else if (loginResult != string.Empty && !loginResult.Contains("Password is wrong.")
+                    && !loginResult.Contains("Email is wrong or user not existing.") && !loginResult.Contains("Login data invalid."))
+                {
+                    App.IsLoggedIn = true;
+                    var settings = new JsonSerializerSettings
+                    {
+                        NullValueHandling = NullValueHandling.Ignore,
+                        MissingMemberHandling = MissingMemberHandling.Ignore
+                    };
+                    App.UserInfo = JsonConvert.DeserializeObject<UserModel>(loginResult.Trim(), settings);
+                    App.UserInfo.Email = UserName;
+                    App.UserInfo.Password = Password;
+                    SecureStorage.SetAsync(App.WEBEMAIL, UserName).Wait();
+                    SecureStorage.SetAsync(App.WEBPASS, Password).Wait();
+                    SecureStorage.SetAsync(App.LOGIN_WITH, "WebLogin").Wait();
+                    OnSignIn?.Invoke(this, new EventArgs());
 
+                }
+                else
+                    OnSignInFailed?.Invoke(this, new EventArgs());
             }
-            else
+            catch (Exception)
+            {
                 OnSignInFailed?.Invoke(this, new EventArgs());
+            }
+            finally
+            {
+                IsBusy = false;
+            }
 
         }
         private async Task LoginWithFacebook()
         {
+            IsBusy = true;
             try
             {
                 FacebookResponse<bool> response = await CrossFacebookClient.Current.LoginAsync(new string[] { "email", "public_profile" });
@@ -166,9 +181,14 @@ namespace FoodDeliveryApp.ViewModels
                 Debug.WriteLine(ex);
                 OnSignInFailed?.Invoke(this, new EventArgs());
             }
+            finally
+            {
+                IsBusy = false;
+            }
         }
         private async Task LoginWithGoogle()
         {
+            IsBusy = true;
             try
             {
                 Credentials credentials = await _oidcIdentity.Authenticate();
@@ -208,9 +228,15 @@ namespace FoodDeliveryApp.ViewModels
                 Debug.WriteLine(ex);
                 OnSignInFailed?.Invoke(this, new EventArgs());
             }
+            finally
+            {
+                IsBusy = false;
+            }
         }
         async Task OnAppleSignInRequest()
         {
+            IsBusy = true;
+
             try
             {
                 var account = await appleSignInService.SignInAsync();
@@ -250,6 +276,10 @@ namespace FoodDeliveryApp.ViewModels
             {
                 Debug.WriteLine(ex);
                 OnSignInFailed?.Invoke(this, new EventArgs());
+            }
+            finally
+            {
+                IsBusy = false;
             }
 
         }

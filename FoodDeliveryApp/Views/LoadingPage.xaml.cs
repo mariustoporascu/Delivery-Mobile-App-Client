@@ -19,7 +19,11 @@ namespace FoodDeliveryApp.Views
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            await DependencyService.Get<IDataStore>().Init();
+            try
+            {
+                await DependencyService.Get<IDataStore>().Init();
+            }
+            catch (Exception) { }
             App.Current.MainPage = new AppShell();
         }
     }

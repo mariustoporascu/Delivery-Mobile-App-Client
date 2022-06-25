@@ -13,26 +13,44 @@ namespace FoodDeliveryApp.ViewModels
         public string UserName { get => userName; set => SetProperty(ref userName, value); }
         public Command GenerateToken { get; }
         public event EventHandler OnSignIn = delegate { };
+        public event EventHandler HasCode = delegate { };
         public event EventHandler OnSignInFailed = delegate { };
 
         public GenerateTokenViewModel()
         {
             GenerateToken = new Command(async () => await Generate());
+            IsBusy = false;
+
         }
         public async Task Generate()
         {
-            var result = await AuthController.Execute(new UserModel
+            IsBusy = true;
+            try
             {
-                Email = UserName,
-            }, Constants.AuthOperations.GenerateToken);
-            if (!string.IsNullOrWhiteSpace(result) && result.Contains("Token sent."))
-            {
-                OnSignIn?.Invoke(this, new EventArgs());
+                var result = await AuthController.Execute(new UserModel
+                {
+                    Email = UserName,
+                }, Constants.AuthOperations.GenerateToken);
+                IsBusy = false;
+                if (!string.IsNullOrWhiteSpace(result) && result.Contains("Token sent."))
+                {
+                    OnSignIn?.Invoke(this, new EventArgs());
+                }
+                else if (!string.IsNullOrWhiteSpace(result) && result.Contains("Already generated"))
+                {
+                    HasCode?.Invoke(this, new EventArgs());
+                }
+                else
+                {
+                    OnSignInFailed?.Invoke(this, new EventArgs());
+                }
             }
-            else
+            catch (Exception)
             {
+                IsBusy = false;
                 OnSignInFailed?.Invoke(this, new EventArgs());
             }
+
         }
     }
 }

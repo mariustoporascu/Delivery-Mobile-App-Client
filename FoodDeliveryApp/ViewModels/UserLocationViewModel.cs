@@ -50,60 +50,72 @@ namespace FoodDeliveryApp.ViewModels
 
             }
             SaveLocation = new Command(async () => await OnSaveLocation());
+            IsBusy = false;
+
         }
         async Task OnSaveLocation()
         {
-
-            var result = await AuthController.Execute(new UserModel
+            IsBusy = true;
+            try
             {
-                Location = new UserLocation
+                var result = await AuthController.Execute(new UserModel
                 {
-                    LocationId = LocationId,
-                    LocationName = LocationName,
-                    City = City,
-                    BuildingInfo = BuildingInfo,
-                    Street = Street,
-                    CoordX = CoordX,
-                    CoordY = CoordY,
-                },
-                Email = App.UserInfo.Email,
-                UserIdentification = App.UserInfo.UserIdentification,
-                Password = App.UserInfo.Password,
-            }, Constants.AuthOperations.Location);
-            if (!string.IsNullOrWhiteSpace(result) && result.Contains("Location updated."))
-            {
-                if (App.UserInfo.Locations == null)
-                    App.UserInfo.Locations = new List<UserLocation>();
-                var locationId = int.Parse(result.Split(':')[0]);
-                var location = App.UserInfo.Locations.Find(loc => loc.LocationId == locationId);
-                if (location == null)
-                    App.UserInfo.Locations.Add(new UserLocation
+                    Location = new UserLocation
                     {
-                        LocationId = locationId,
+                        LocationId = LocationId,
                         LocationName = LocationName,
                         City = City,
                         BuildingInfo = BuildingInfo,
                         Street = Street,
                         CoordX = CoordX,
                         CoordY = CoordY,
-                    });
+                    },
+                    Email = App.UserInfo.Email,
+                    UserIdentification = App.UserInfo.UserIdentification,
+                    Password = App.UserInfo.Password,
+                }, Constants.AuthOperations.Location);
+                IsBusy = false;
+                if (!string.IsNullOrWhiteSpace(result) && result.Contains("Location updated."))
+                {
+                    if (App.UserInfo.Locations == null)
+                        App.UserInfo.Locations = new List<UserLocation>();
+                    var locationId = int.Parse(result.Split(':')[0]);
+                    var location = App.UserInfo.Locations.Find(loc => loc.LocationId == locationId);
+                    if (location == null)
+                        App.UserInfo.Locations.Add(new UserLocation
+                        {
+                            LocationId = locationId,
+                            LocationName = LocationName,
+                            City = City,
+                            BuildingInfo = BuildingInfo,
+                            Street = Street,
+                            CoordX = CoordX,
+                            CoordY = CoordY,
+                        });
+                    else
+                    {
+                        location.LocationId = locationId;
+                        location.LocationName = LocationName;
+                        location.City = City;
+                        location.BuildingInfo = BuildingInfo;
+                        location.Street = Street;
+                        location.CoordX = CoordX;
+                        location.CoordY = CoordY;
+                    }
+
+                    OnUpdateLocation?.Invoke(this, new EventArgs());
+                }
                 else
                 {
-                    location.LocationId = locationId;
-                    location.LocationName = LocationName;
-                    location.City = City;
-                    location.BuildingInfo = BuildingInfo;
-                    location.Street = Street;
-                    location.CoordX = CoordX;
-                    location.CoordY = CoordY;
+                    UpdateLocationFailed?.Invoke(this, new EventArgs());
                 }
-
-                OnUpdateLocation?.Invoke(this, new EventArgs());
             }
-            else
+            catch (Exception)
             {
+                IsBusy = false;
                 UpdateLocationFailed?.Invoke(this, new EventArgs());
             }
+
         }
     }
 }

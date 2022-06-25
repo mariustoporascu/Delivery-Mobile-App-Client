@@ -52,6 +52,7 @@ namespace FoodDeliveryApp.ViewModels
             RefreshCommand = new Command(RefreshView);
             ChangeRatingDriver = new Command(IntermediatDriverRating);
             ChangeRatingRestaurant = new Command(IntermediateRestRating);
+            IsBusy = false;
 
         }
         public int OrderId
@@ -69,14 +70,21 @@ namespace FoodDeliveryApp.ViewModels
 
         public async Task<bool> ConfirmOrder(bool value)
         {
-            if (await OrderService.AgreeEstTime(orderId, value))
+            try
             {
-                CurrOrder.HasUserConfirmedET = value;
-                HasUserResponded = true;
-                return true;
+                if (await OrderService.AgreeEstTime(orderId, value))
+                {
+                    CurrOrder.HasUserConfirmedET = value;
+                    HasUserResponded = true;
+                    return true;
+                }
+                HasUserResponded = false;
+                return false;
             }
-            HasUserResponded = false;
-            return false;
+            catch (Exception)
+            {
+                return false;
+            }
 
         }
         public async void RefreshView()
@@ -176,13 +184,20 @@ namespace FoodDeliveryApp.ViewModels
         }
         public async Task<bool> GiveDriverRating(int rating)
         {
-            if (await OrderService.GiveRatingDriver(App.UserInfo.Email, OrderId, rating))
+            try
             {
-                CurrOrder.ClientGaveRatingDriver = true;
-                CurrOrder.RatingDriver = rating;
-                return true;
+                if (await OrderService.GiveRatingDriver(App.UserInfo.Email, OrderId, rating))
+                {
+                    CurrOrder.ClientGaveRatingDriver = true;
+                    CurrOrder.RatingDriver = rating;
+                    return true;
+                }
+                return false;
             }
-            return false;
+            catch (Exception)
+            {
+                return false;
+            }
         }
         public void IntermediateRestRating()
         {
@@ -190,13 +205,21 @@ namespace FoodDeliveryApp.ViewModels
         }
         public async Task<bool> GiveRestaurantRating(int rating)
         {
-            if (await OrderService.GiveRatingRestaurant(App.UserInfo.Email, OrderId, rating))
+            try
             {
-                CurrOrder.ClientGaveRatingCompanie = true;
-                CurrOrder.RatingCompanie = rating;
-                return true;
+                if (await OrderService.GiveRatingRestaurant(App.UserInfo.Email, OrderId, rating))
+                {
+                    CurrOrder.ClientGaveRatingCompanie = true;
+                    CurrOrder.RatingCompanie = rating;
+                    return true;
+                }
+                return false;
             }
-            return false;
+            catch (Exception)
+            {
+                return false;
+            }
+
         }
         async Task OnItemSelected(OrderProductDisplay item)
         {

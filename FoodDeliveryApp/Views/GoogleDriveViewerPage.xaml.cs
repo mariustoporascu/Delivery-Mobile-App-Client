@@ -24,8 +24,15 @@ namespace FoodDeliveryApp.Views
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            var filePath = await GetPdf(url);
-            DocField.Uri = filePath;
+            try
+            {
+                var filePath = await GetPdf(url);
+                DocField.Uri = filePath;
+            }
+            catch (Exception)
+            {
+                await Shell.Current.DisplayAlert("Eroare", "Pdf-ul nu a putut fi incarcat, redeschideti pagina.", "OK");
+            }
         }
         async void OnDismissButtonClicked(object sender, EventArgs args)
         {
@@ -34,22 +41,15 @@ namespace FoodDeliveryApp.Views
         }
         async Task<string> GetPdf(string url)
         {
+
             var filePath = Path.Combine(FileSystem.AppDataDirectory, url.Split('/').Last());
 
             var pdfBytes = await client.GetByteArrayAsync(url);
 
-            try
-            {
-                File.WriteAllBytes(filePath, pdfBytes);
 
-                return filePath;
-            }
-            catch (Exception ex)
-            {
-                await Application.Current.MainPage.DisplayAlert("Eroare", "Pdf-ul nu a putut fi incarcat, redeschideti pagina.", "OK");
-            }
+            File.WriteAllBytes(filePath, pdfBytes);
 
-            return string.Empty;
+            return filePath;
         }
     }
 }

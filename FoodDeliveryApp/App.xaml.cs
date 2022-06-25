@@ -41,9 +41,9 @@ namespace FoodDeliveryApp
             {
                 bool promptToConfirmExit = false;
                 if (Shell.Current.Navigation.NavigationStack.Count == 1)
-                {
                     promptToConfirmExit = true;
-                }
+                if (Shell.Current.Navigation.ModalStack.Count > 0)
+                    promptToConfirmExit = false;
                 return promptToConfirmExit;
             }
         }
@@ -86,51 +86,56 @@ namespace FoodDeliveryApp
             var webPass = await SecureStorage.GetAsync(App.WEBPASS);
             FirebaseUserToken = await SecureStorage.GetAsync(App.FBToken);
             var lWith = await SecureStorage.GetAsync(App.LOGIN_WITH);
-            if (!string.IsNullOrEmpty(lWith))
+            try
             {
+                if (!string.IsNullOrEmpty(lWith))
+                {
 
-                if (lWith.Equals("Google"))
-                {
-                    loginResult = await authService.Execute(new UserModel { Email = gMail, UserIdentification = gMailId, FireBaseToken = FirebaseUserToken }, Constants.AuthOperations.Login);
-                    finalEmail = gMail;
-                    finalId = gMailId;
+                    if (lWith.Equals("Google"))
+                    {
+                        loginResult = await authService.Execute(new UserModel { Email = gMail, UserIdentification = gMailId, FireBaseToken = FirebaseUserToken }, Constants.AuthOperations.Login);
+                        finalEmail = gMail;
+                        finalId = gMailId;
+                    }
+                    else if (lWith.Equals("Facebook"))
+                    {
+                        loginResult = await authService.Execute(new UserModel { Email = fMail, UserIdentification = fMailId, FireBaseToken = FirebaseUserToken }, Constants.AuthOperations.Login);
+                        finalEmail = fMail;
+                        finalId = fMailId;
+                    }
+                    else if (lWith.Equals("Apple"))
+                    {
+                        loginResult = await authService.Execute(new UserModel { Email = aMail, UserIdentification = aMailId, FireBaseToken = FirebaseUserToken }, Constants.AuthOperations.Login);
+                        finalEmail = aMail;
+                        finalId = aMailId;
+                    }
+                    else if (lWith.Equals("WebLogin"))
+                    {
+                        loginResult = await authService.Execute(new UserModel { Email = webMail, Password = webPass, FireBaseToken = FirebaseUserToken }, Constants.AuthOperations.Login);
+                        finalEmail = webMail;
+                    }
                 }
-                else if (lWith.Equals("Facebook"))
+
+                if (loginResult != string.Empty && !loginResult.Contains("Password is wrong.")
+                    && !loginResult.Contains("Email is wrong or user not existing.") && !loginResult.Contains("Login data invalid."))
                 {
-                    loginResult = await authService.Execute(new UserModel { Email = fMail, UserIdentification = fMailId, FireBaseToken = FirebaseUserToken }, Constants.AuthOperations.Login);
-                    finalEmail = fMail;
-                    finalId = fMailId;
-                }
-                else if (lWith.Equals("Apple"))
-                {
-                    loginResult = await authService.Execute(new UserModel { Email = aMail, UserIdentification = aMailId, FireBaseToken = FirebaseUserToken }, Constants.AuthOperations.Login);
-                    finalEmail = aMail;
-                    finalId = aMailId;
-                }
-                else if (lWith.Equals("WebLogin"))
-                {
-                    loginResult = await authService.Execute(new UserModel { Email = webMail, Password = webPass, FireBaseToken = FirebaseUserToken }, Constants.AuthOperations.Login);
-                    finalEmail = webMail;
+                    App.IsLoggedIn = true;
+                    var settings = new JsonSerializerSettings
+                    {
+                        NullValueHandling = NullValueHandling.Ignore,
+                        MissingMemberHandling = MissingMemberHandling.Ignore
+                    };
+                    App.UserInfo = JsonConvert.DeserializeObject<UserModel>(loginResult.Trim(), settings);
+                    if (string.IsNullOrEmpty(finalId))
+                    {
+                        App.UserInfo.Password = webPass;
+                    }
+                    else
+                        App.UserInfo.UserIdentification = finalId;
                 }
             }
+            catch (Exception) { }
 
-            if (loginResult != string.Empty && !loginResult.Contains("Password is wrong.")
-                && !loginResult.Contains("Email is wrong or user not existing.") && !loginResult.Contains("Login data invalid."))
-            {
-                App.IsLoggedIn = true;
-                var settings = new JsonSerializerSettings
-                {
-                    NullValueHandling = NullValueHandling.Ignore,
-                    MissingMemberHandling = MissingMemberHandling.Ignore
-                };
-                App.UserInfo = JsonConvert.DeserializeObject<UserModel>(loginResult.Trim(), settings);
-                if (string.IsNullOrEmpty(finalId))
-                {
-                    App.UserInfo.Password = webPass;
-                }
-                else
-                    App.UserInfo.UserIdentification = finalId;
-            }
         }
 
         protected override void OnSleep()

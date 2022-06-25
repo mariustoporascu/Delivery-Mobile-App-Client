@@ -20,6 +20,7 @@ namespace FoodDeliveryApp.Views
             BindingContext = viewModel = new ResetPasswordViewModel();
             viewModel.ResetPasswordSuc += ResetPasswordSuc;
             viewModel.ResetPasswordFailed += ResetPasswordFailed;
+            viewModel.CoolDown += CoolDown;
         }
         private void CheckFieldToken(object sender, TextChangedEventArgs e)
         {
@@ -102,6 +103,11 @@ namespace FoodDeliveryApp.Views
         {
 
             await DisplayAlert("Eroare", "Incercare esuata", "OK");
+        }
+        private async void CoolDown(object sender, EventArgs e)
+        {
+
+            await DisplayAlert("Eroare", "Ai atins numarul maxim de incercari, genereaza alt cod.", "OK");
         }
         async void OnDismissButtonClicked(object sender, EventArgs args)
         {

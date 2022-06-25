@@ -38,22 +38,37 @@ namespace FoodDeliveryApp.ViewModels
         public RegisterViewModel()
         {
             SignUpWebCommand = new Command(async () => await SignUpWithWeb());
+            IsBusy = false;
+
         }
 
         private async Task SignUpWithWeb()
         {
-            var serverResp = await AuthController.Execute(new UserModel
+            IsBusy = true;
+            try
             {
-                FullName = FullName,
-                Email = UserName,
-                Password = Password,
-                FireBaseToken = App.FirebaseUserToken
+                var serverResp = await AuthController.Execute(new UserModel
+                {
+                    FullName = FullName,
+                    Email = UserName,
+                    Password = Password,
+                    FireBaseToken = App.FirebaseUserToken
 
-            }, Constants.AuthOperations.Create);
-            if (!string.IsNullOrEmpty(serverResp) && serverResp.Contains("Account created, you can now login."))
-                OnSignUpWeb?.Invoke(this, new EventArgs());
-            else
+                }, Constants.AuthOperations.Create);
+                IsBusy = false;
+
+                if (!string.IsNullOrEmpty(serverResp) && serverResp.Contains("Account created, you can now login."))
+                    OnSignUpWeb?.Invoke(this, new EventArgs());
+                else
+                    OnSignInFailed?.Invoke(this, new EventArgs());
+            }
+            catch (Exception)
+            {
+                IsBusy = false;
                 OnSignInFailed?.Invoke(this, new EventArgs());
+            }
+
+
         }
 
 

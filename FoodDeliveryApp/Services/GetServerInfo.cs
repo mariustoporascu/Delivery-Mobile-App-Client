@@ -22,6 +22,7 @@ namespace FoodDeliveryApp.Services
         public List<TipCompanie> tipCompanii;
         public List<UnitatiMasura> unitati;
         public List<AvailableCity> cities;
+        public List<string> paymentMethods;
 
         public GetServerInfo()
         {
@@ -31,13 +32,19 @@ namespace FoodDeliveryApp.Services
         public async Task loadAppInfo()
         {
             loadCartPrefs();
-            await loadServerCateg();
-            await loadServerSubCateg();
-            await loadServerProducts();
-            await loadServerCompanii();
-            await loadServerTipCompanii();
-            await loadServerMeasuringUnits();
-            await loadServerAvailableCity();
+            try
+            {
+                await loadServerCateg();
+                await loadServerSubCateg();
+                await loadServerProducts();
+                await loadServerCompanii();
+                await loadServerTipCompanii();
+                await loadServerMeasuringUnits();
+                await loadServerAvailableCity();
+                await getPaymentMethods();
+            }
+            catch (Exception) { }
+
         }
 
         public void loadCartPrefs()
@@ -62,6 +69,21 @@ namespace FoodDeliveryApp.Services
                 MissingMemberHandling = MissingMemberHandling.Ignore
             };
             CartPrefs = JsonConvert.SerializeObject(cartPrefs, settings);
+        }
+        async Task getPaymentMethods()
+        {
+            Uri uri = new Uri($"{ServerConstants.BaseUrl}/foodapp/getpaymentmethods");
+            HttpResponseMessage response = await client.GetAsync(uri);
+            if (response.IsSuccessStatusCode)
+            {
+                string content = await response.Content.ReadAsStringAsync();
+                var settings = new JsonSerializerSettings
+                {
+                    NullValueHandling = NullValueHandling.Ignore,
+                    MissingMemberHandling = MissingMemberHandling.Ignore
+                };
+                paymentMethods = JsonConvert.DeserializeObject<List<string>>(content, settings);
+            }
         }
         async Task loadServerProducts()
         {

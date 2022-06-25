@@ -38,6 +38,8 @@ namespace FoodDeliveryApp.ViewModels
         {
             DeleteProfile = new Command(async () => await OnDeleteProfile());
             Logout = new Command(LogOutFunct);
+            IsBusy = false;
+
         }
         void LogOutFunct()
         {
@@ -56,46 +58,61 @@ namespace FoodDeliveryApp.ViewModels
         {
             if (App.IsLoggedIn)
             {
-                var serverOrders = await DataStore.GetServerOrders(App.UserInfo.Email);
-                if (serverOrders == null || serverOrders.Count == 0 || serverOrders.FindAll(or => or.Status != "Livrata" && or.Status != "Refuzata"
-                    && or.Status != "Anulata").Count == 0)
-                    CanEditLocation = true;
-                else
-                    CanEditLocation = false;
-                IsLoggedIn = App.IsLoggedIn;
-                Header = "Bun venit " + App.UserInfo.FullName;
-                FullName = App.UserInfo.FullName;
-                Email = App.UserInfo.Email;
-                PhoneNumber = App.UserInfo.PhoneNumber;
-                HasPasswordSet = App.UserInfo.HasSetPassword;
-                CanChangePass = string.IsNullOrWhiteSpace(App.UserInfo.UserIdentification);
+                try
+                {
+                    var serverOrders = await DataStore.GetServerOrders(App.UserInfo.Email);
+                    if (serverOrders == null || serverOrders.Count == 0 || serverOrders.FindAll(or => or.Status != "Livrata" && or.Status != "Refuzata"
+                        && or.Status != "Anulata").Count == 0)
+                        CanEditLocation = true;
+                    else
+                        CanEditLocation = false;
+                    IsLoggedIn = App.IsLoggedIn;
+                    Header = "Bun venit " + App.UserInfo.FullName;
+                    FullName = App.UserInfo.FullName;
+                    Email = App.UserInfo.Email;
+                    PhoneNumber = App.UserInfo.PhoneNumber;
+                    HasPasswordSet = App.UserInfo.HasSetPassword;
+                    CanChangePass = string.IsNullOrWhiteSpace(App.UserInfo.UserIdentification);
+                }
+                catch (Exception) { }
+
+
             }
         }
 
         async Task OnDeleteProfile()
         {
-            var result = await AuthController.Execute(new UserModel
+            try
             {
-                Email = Email,
-                UserIdentification = App.UserInfo.UserIdentification,
-                Password = App.UserInfo.Password,
-            }, Constants.AuthOperations.Delete);
-            if (!result.Contains("Email is wrong or user not existing.") && !result.Contains("result : False"))
-            {
-                App.UserInfo = new UserModel();
-                App.IsLoggedIn = false;
-                SecureStorage.RemoveAll();
-                IsLoggedIn = false;
-                Header = string.Empty;
-                FullName = string.Empty;
-                Email = string.Empty;
-                PhoneNumber = string.Empty;
-                OnDeleteAcc?.Invoke(this, new EventArgs());
+                var result = await AuthController.Execute(new UserModel
+                {
+                    Email = Email,
+                    UserIdentification = App.UserInfo.UserIdentification,
+                    Password = App.UserInfo.Password,
+                }, Constants.AuthOperations.Delete);
+                if (!result.Contains("Email is wrong or user not existing.") && !result.Contains("result : False"))
+                {
+                    App.UserInfo = new UserModel();
+                    App.IsLoggedIn = false;
+                    SecureStorage.RemoveAll();
+                    IsLoggedIn = false;
+                    Header = string.Empty;
+                    FullName = string.Empty;
+                    Email = string.Empty;
+                    PhoneNumber = string.Empty;
+                    OnDeleteAcc?.Invoke(this, new EventArgs());
+                }
+                else
+                {
+                    DeleteAccFailed?.Invoke(this, new EventArgs());
+                }
             }
-            else
+            catch (Exception)
             {
                 DeleteAccFailed?.Invoke(this, new EventArgs());
+
             }
+
         }
     }
 }

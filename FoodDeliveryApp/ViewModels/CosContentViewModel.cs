@@ -154,47 +154,52 @@ namespace FoodDeliveryApp.ViewModels
         }
         public async void GetTime()
         {
-            Uri uri = new Uri(ServerConstants.TimeUrl);
-            HttpResponseMessage response = await _client.GetAsync(uri);
-            if (response.IsSuccessStatusCode)
+            try
             {
-                string content = await response.Content.ReadAsStringAsync();
-                var settings = new JsonSerializerSettings
+                Uri uri = new Uri(ServerConstants.TimeUrl);
+                HttpResponseMessage response = await _client.GetAsync(uri);
+                if (response.IsSuccessStatusCode)
                 {
-                    NullValueHandling = NullValueHandling.Ignore,
-                    MissingMemberHandling = MissingMemberHandling.Ignore
-                };
-                var timeObject = JsonConvert.DeserializeObject<WorldTime>(content, settings);
-                CanPlaceOrder = true;
-                var tipCompanii = DataStore.GetTipCompanii().ToList();
-                var companii = DataStore.GetCompanii(0).ToList();
-                foreach (var item in Items)
-                    if (CanPlaceOrder)
+                    string content = await response.Content.ReadAsStringAsync();
+                    var settings = new JsonSerializerSettings
                     {
-                        var companie = companii.Find(comp => comp.CompanieId == item.CompanieRefId);
-                        var tipCompanie = tipCompanii.Find(tip => tip.TipCompanieId == companie.TipCompanieRefId);
-                        if (tipCompanie.StartHour <= tipCompanie.EndHour)
+                        NullValueHandling = NullValueHandling.Ignore,
+                        MissingMemberHandling = MissingMemberHandling.Ignore
+                    };
+                    var timeObject = JsonConvert.DeserializeObject<WorldTime>(content, settings);
+                    CanPlaceOrder = true;
+                    var tipCompanii = DataStore.GetTipCompanii().ToList();
+                    var companii = DataStore.GetCompanii(0).ToList();
+                    foreach (var item in Items)
+                        if (CanPlaceOrder)
                         {
-                            // start and stop times are in the same day
-                            if (!(new TimeSpan(timeObject.DateTime.Hour, timeObject.DateTime.Minute, 0) >= new TimeSpan(tipCompanie.StartHour, 30, 0)
-                                    && new TimeSpan(timeObject.DateTime.Hour, timeObject.DateTime.Minute, 0) <= new TimeSpan(tipCompanie.EndHour, 30, 0)))
+                            var companie = companii.Find(comp => comp.CompanieId == item.CompanieRefId);
+                            var tipCompanie = tipCompanii.Find(tip => tip.TipCompanieId == companie.TipCompanieRefId);
+                            if (tipCompanie.StartHour <= tipCompanie.EndHour)
                             {
-                                CanPlaceOrder = false;
+                                // start and stop times are in the same day
+                                if (!(new TimeSpan(timeObject.DateTime.Hour, timeObject.DateTime.Minute, 0) >= new TimeSpan(tipCompanie.StartHour, 30, 0)
+                                        && new TimeSpan(timeObject.DateTime.Hour, timeObject.DateTime.Minute, 0) <= new TimeSpan(tipCompanie.EndHour, 30, 0)))
+                                {
+                                    CanPlaceOrder = false;
+                                }
                             }
-                        }
-                        else
-                        {
-                            // start and stop times are in different days
-                            if (!(new TimeSpan(timeObject.DateTime.Hour, timeObject.DateTime.Minute, 0) >= new TimeSpan(tipCompanie.StartHour, 30, 0)
-                                || new TimeSpan(timeObject.DateTime.Hour, timeObject.DateTime.Minute, 0) <= new TimeSpan(tipCompanie.EndHour, 30, 0)))
+                            else
                             {
-                                CanPlaceOrder = false;
+                                // start and stop times are in different days
+                                if (!(new TimeSpan(timeObject.DateTime.Hour, timeObject.DateTime.Minute, 0) >= new TimeSpan(tipCompanie.StartHour, 30, 0)
+                                    || new TimeSpan(timeObject.DateTime.Hour, timeObject.DateTime.Minute, 0) <= new TimeSpan(tipCompanie.EndHour, 30, 0)))
+                                {
+                                    CanPlaceOrder = false;
+                                }
                             }
-                        }
 
-                    }
+                        }
+                }
+                else { CanPlaceOrder = false; }
             }
-            else { CanPlaceOrder = false; }
+            catch (Exception) { CanPlaceOrder = false; }
+
         }
         partial class WorldTime
         {

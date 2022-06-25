@@ -28,25 +28,38 @@ namespace FoodDeliveryApp.ViewModels
         public ChangePasswordViewModel()
         {
             ChangePassword = new Command(async () => await ChangingPass());
+            IsBusy = false;
+
         }
         private async Task ChangingPass()
         {
-            var result = await AuthController.Execute(new UserModel
+            IsBusy = true;
+            try
             {
-                Email = App.UserInfo.Email,
-                Password = Password,
-                NewPassword = NewPassword,
-            }, Constants.AuthOperations.ChangePassword);
-            if (!string.IsNullOrWhiteSpace(result) && result.Contains("Password changed."))
-            {
-                App.UserInfo.Password = NewPassword;
-                SecureStorage.SetAsync(App.WEBPASS, NewPassword).Wait();
-                ChangePasswordSuc?.Invoke(this, new EventArgs());
+                var result = await AuthController.Execute(new UserModel
+                {
+                    Email = App.UserInfo.Email,
+                    Password = Password,
+                    NewPassword = NewPassword,
+                }, Constants.AuthOperations.ChangePassword);
+                IsBusy = false;
+                if (!string.IsNullOrWhiteSpace(result) && result.Contains("Password changed."))
+                {
+                    App.UserInfo.Password = NewPassword;
+                    SecureStorage.SetAsync(App.WEBPASS, NewPassword).Wait();
+                    ChangePasswordSuc?.Invoke(this, new EventArgs());
+                }
+                else
+                {
+                    ChangePasswordFailed?.Invoke(this, new EventArgs());
+                }
             }
-            else
+            catch (Exception)
             {
+                IsBusy = false;
                 ChangePasswordFailed?.Invoke(this, new EventArgs());
             }
+
         }
     }
 }

@@ -32,10 +32,13 @@ namespace FoodDeliveryApp.ViewModels
             PlaceFinalOrder = new Command(async () => await OnClickPlaceOrder());
             if (HasValidProfile)
                 LoadPageData();
+            IsBusy = false;
+
         }
 
         public void LoadPageData()
         {
+            IsBusy = true;
             CartItems = DataStore.GetCartItems();
             ProductsInOrderCompanie = new List<ProductInOrder>();
             foreach (var item in CartItems)
@@ -80,22 +83,31 @@ namespace FoodDeliveryApp.ViewModels
                 OrderCompanie.OrderInfos = OrderInfo;
                 OrderCompanie.ProductsInOrder = ProductsInOrderCompanie;
             }
-
+            IsBusy = false;
 
         }
 
         async Task OnClickPlaceOrder()
         {
-
-            var result = await OrderService.CreateOrder(OrderCompanie);
-            if (!string.IsNullOrEmpty(result) && result.Contains("Order placed."))
+            IsBusy = true;
+            try
             {
-                DataStore.CleanCart();
-                OnPlaceOrder?.Invoke(this, new EventArgs());
-            }
-            else
-                OnPlaceOrderFailed?.Invoke(this, new EventArgs());
+                var result = await OrderService.CreateOrder(OrderCompanie);
+                IsBusy = false;
+                if (!string.IsNullOrEmpty(result) && result.Contains("Order placed."))
+                {
+                    DataStore.CleanCart();
+                    OnPlaceOrder?.Invoke(this, new EventArgs());
+                }
+                else
+                    OnPlaceOrderFailed?.Invoke(this, new EventArgs());
 
+            }
+            catch (Exception)
+            {
+                IsBusy = false;
+                OnPlaceOrderFailed?.Invoke(this, new EventArgs());
+            }
         }
     }
 }

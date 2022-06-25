@@ -10,6 +10,11 @@
     x:DataType="viewModels:GenerateTokenViewModel"
     Shell.PresentationMode="ModalAnimated"
     mc:Ignorable="d">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <xct:InvertedBoolConverter x:Key="invertBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
         <Image
             Grid.Row="0"
@@ -17,7 +22,7 @@
             HorizontalOptions="FillAndExpand"
             Source="splash_auth.png"
             VerticalOptions="FillAndExpand" />
-        <StackLayout Grid.Row="0" Margin="35,80,35,5">
+        <StackLayout Grid.Row="0" Margin="35,80,35,5" IsVisible="{Binding IsBusy, Converter={StaticResource invertBoolConverter}}">
             <StackLayout Margin="0,0,0,0" Padding="0">
                 <Label
                     FontSize="40"
@@ -108,6 +113,21 @@
                     TextColor="Black"
                     TextTransform="None" />
             </StackLayout>
+        </StackLayout>
+        <StackLayout
+            HorizontalOptions="FillAndExpand"
+            IsVisible="{Binding IsBusy, Mode=TwoWay}"
+            VerticalOptions="FillAndExpand">
+
+            <Image
+                Aspect="AspectFit"
+                BackgroundColor="Transparent"
+                HeightRequest="100"
+                HorizontalOptions="CenterAndExpand"
+                IsAnimationPlaying="True"
+                Source="loading.gif"
+                VerticalOptions="CenterAndExpand"
+                WidthRequest="100" />
         </StackLayout>
     </Grid>
 </ContentPage>

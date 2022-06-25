@@ -20,22 +20,35 @@ namespace FoodDeliveryApp.ViewModels
         public ConfirmEmailViewModel()
         {
             ConfirmEmail = new Command(async () => await Confirm());
+            IsBusy = false;
+
         }
         public async Task Confirm()
         {
-            var result = await AuthController.Execute(new UserModel
+            IsBusy = true;
+            try
             {
-                Email = UserName,
-                ResetTokenPass = Token,
-            }, Constants.AuthOperations.ConfirmEmail);
-            if (!string.IsNullOrWhiteSpace(result) && result.Contains("Email Confirmed."))
-            {
-                OnSignIn?.Invoke(this, new EventArgs());
+                var result = await AuthController.Execute(new UserModel
+                {
+                    Email = UserName,
+                    ResetTokenPass = Token,
+                }, Constants.AuthOperations.ConfirmEmail);
+                IsBusy = false;
+                if (!string.IsNullOrWhiteSpace(result) && result.Contains("Email Confirmed."))
+                {
+                    OnSignIn?.Invoke(this, new EventArgs());
+                }
+                else
+                {
+                    OnSignInFailed?.Invoke(this, new EventArgs());
+                }
             }
-            else
+            catch (Exception)
             {
+                IsBusy = false;
                 OnSignInFailed?.Invoke(this, new EventArgs());
             }
+
         }
     }
 }

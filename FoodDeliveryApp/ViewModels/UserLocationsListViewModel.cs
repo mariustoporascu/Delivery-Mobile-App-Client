@@ -30,6 +30,8 @@ namespace FoodDeliveryApp.ViewModels
                 CanAddMore = true;
             ItemTapped = new Command<UserLocation>((item) => EditItem(item));
             DeleteCommand = new Command<UserLocation>(async (item) => await Delete(item));
+            IsBusy = false;
+
         }
 
         public void RefreshLocations()
@@ -54,25 +56,33 @@ namespace FoodDeliveryApp.ViewModels
         {
             if (item == null)
                 return;
-            var result = await AuthController.Execute(new UserModel
+            try
             {
-                LocationDeleteId = item.LocationId,
-                Email = App.UserInfo.Email,
-                UserIdentification = App.UserInfo.UserIdentification,
-                Password = App.UserInfo.Password,
-            }, Constants.AuthOperations.DeleteLocation);
-            if (!string.IsNullOrWhiteSpace(result) && result.Contains("Location deleted."))
-            {
+                var result = await AuthController.Execute(new UserModel
+                {
+                    LocationDeleteId = item.LocationId,
+                    Email = App.UserInfo.Email,
+                    UserIdentification = App.UserInfo.UserIdentification,
+                    Password = App.UserInfo.Password,
+                }, Constants.AuthOperations.DeleteLocation);
+                if (!string.IsNullOrWhiteSpace(result) && result.Contains("Location deleted."))
+                {
 
-                var location = App.UserInfo.Locations.Find(loc => loc.LocationId == item.LocationId);
-                App.UserInfo.Locations.Remove(location);
+                    var location = App.UserInfo.Locations.Find(loc => loc.LocationId == item.LocationId);
+                    App.UserInfo.Locations.Remove(location);
 
-                RefreshLocations();
+                    RefreshLocations();
+                }
+                else
+                {
+                    DeleteLocationFailed?.Invoke(this, new EventArgs());
+                }
             }
-            else
+            catch (Exception)
             {
                 DeleteLocationFailed?.Invoke(this, new EventArgs());
             }
+
         }
     }
 }

@@ -25,29 +25,49 @@ namespace FoodDeliveryApp.ViewModels
         public event EventHandler ResetPasswordSuc = delegate { };
 
         public event EventHandler ResetPasswordFailed = delegate { };
+        public event EventHandler CoolDown = delegate { };
 
         public Command ResetPassword { get; }
         public ResetPasswordViewModel()
         {
             ResetPassword = new Command(async () => await ChangingPass());
+            IsBusy = false;
+
         }
         private async Task ChangingPass()
         {
-            var result = await AuthController.Execute(new UserModel
+            IsBusy = true;
+            try
             {
-                ResetTokenPass = Token,
-                Email = UserName,
-                NewPassword = NewPassword,
-            }, Constants.AuthOperations.ResetPassword);
-            if (!string.IsNullOrWhiteSpace(result) && result.Contains("Password changed"))
-            {
+                var result = await AuthController.Execute(new UserModel
+                {
+                    ResetTokenPass = Token,
+                    Email = UserName,
+                    NewPassword = NewPassword,
+                }, Constants.AuthOperations.ResetPassword);
+                IsBusy = false;
 
-                ResetPasswordSuc?.Invoke(this, new EventArgs());
+                if (!string.IsNullOrWhiteSpace(result) && result.Contains("Password changed"))
+                {
+
+                    ResetPasswordSuc?.Invoke(this, new EventArgs());
+                }
+                else if (!string.IsNullOrWhiteSpace(result) && result.Contains("Tried too many times"))
+                {
+                    CoolDown?.Invoke(this, new EventArgs());
+
+                }
+                else
+                {
+                    ResetPasswordFailed?.Invoke(this, new EventArgs());
+                }
             }
-            else
+            catch (Exception)
             {
+                IsBusy = false;
                 ResetPasswordFailed?.Invoke(this, new EventArgs());
             }
+
         }
     }
 }

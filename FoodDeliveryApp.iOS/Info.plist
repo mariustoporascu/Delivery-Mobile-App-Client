@@ -21,7 +21,7 @@
 		<key>CFBundleDisplayName</key>
 		<string>Livro</string>
 		<key>CFBundleVersion</key>
-		<string>1.0.3</string>
+		<string>1.0.4</string>
 		<key>UILaunchStoryboardName</key>
 		<string>LaunchScreen</string>
 		<key>UIMainStoryboardFile</key>
@@ -99,7 +99,7 @@
 		<key>BUNDLE_ID</key>
 		<string>com.tmiit.livroapp</string>
 		<key>CFBundleShortVersionString</key>
-		<string>3</string>
+		<string>5</string>
 		<key>UIBackgroundModes</key>
 		<array>
 			<string>remote-notification</string>
