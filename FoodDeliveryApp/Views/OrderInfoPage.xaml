@@ -34,8 +34,8 @@
                         VerticalOptions="CenterAndExpand">
                         <Label
                             FontAttributes="Bold"
-                            FontSize="{OnIdiom Tablet=Medium,
-                                               Phone=Small}"
+                            FontSize="{OnIdiom Tablet=Large,
+                                               Phone=Medium}"
                             HorizontalOptions="CenterAndExpand"
                             HorizontalTextAlignment="Center"
                             LineBreakMode="NoWrap"
