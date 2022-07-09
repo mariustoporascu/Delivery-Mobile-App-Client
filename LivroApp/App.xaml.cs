@@ -81,9 +81,9 @@ namespace LivroApp
             {
                 switch (loginType)
                 {
-                    case LoginTypeEnum.Google.ToString():
-                    case LoginTypeEnum.Facebook.ToString():
-                    case LoginTypeEnum.Apple.ToString():
+                    case "Google":
+                    case "Facebook":
+                    case "Apple":
                         loginResult = await authService.Execute(new UserModel
                         {
                             Email = email,
@@ -91,7 +91,7 @@ namespace LivroApp
                             FireBaseToken = FirebaseUserToken
                         }, AuthOperations.Login);
                         break;
-                    case LoginTypeEnum.LivroWeb.ToString():
+                    case "LivroWeb":
                         loginResult = await authService.Execute(new UserModel
                         {
                             Email = email,

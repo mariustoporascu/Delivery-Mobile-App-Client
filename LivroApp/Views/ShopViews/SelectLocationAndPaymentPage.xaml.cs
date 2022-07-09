@@ -24,12 +24,10 @@ namespace LivroApp.Views
         }
         async void OnDismissButtonClicked(object sender, EventArgs args)
         {
-            // Page appearance not animated
             await Navigation.PopModalAsync(true);
         }
-        private async void PaymentMethods_SelectedIndexChanged(object sender, System.EventArgs e)
+        private void PaymentMethods_SelectedIndexChanged(object sender, System.EventArgs e)
         {
-
             try
             {
                 if (SelectorPaymentMethods.ItemsSource[SelectorPaymentMethods.SelectedIndex].ToString() == viewModel.SelMethod)
@@ -37,16 +35,12 @@ namespace LivroApp.Views
                 viewModel.SelMethod = SelectorPaymentMethods.ItemsSource[SelectorPaymentMethods.SelectedIndex].ToString();
             }
 
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
+            catch (Exception) { }
 
 
         }
-        private async void Locations_SelectedIndexChanged(object sender, System.EventArgs e)
+        private void Locations_SelectedIndexChanged(object sender, System.EventArgs e)
         {
-            //$"{loc.LocationName},{loc.BuildingInfo},{loc.Street},{loc.City}"
             try
             {
                 var selLocationString = SelectorLocations.ItemsSource[SelectorLocations.SelectedIndex].ToString();
@@ -55,10 +49,7 @@ namespace LivroApp.Views
                     viewModel.SelLocation = location.LocationId;
             }
 
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
+            catch (Exception) { }
         }
     }
 }

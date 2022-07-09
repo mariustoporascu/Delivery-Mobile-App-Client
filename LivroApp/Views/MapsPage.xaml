@@ -35,7 +35,7 @@
             IsVisible="{Binding HasRoute}"
             VerticalOptions="End">
             <CollectionView
-                ItemsSource="{Binding DisplayStats}"
+                ItemsSource="{Binding Items}"
                 SelectionMode="None"
                 VerticalOptions="End">
                 <CollectionView.ItemTemplate>

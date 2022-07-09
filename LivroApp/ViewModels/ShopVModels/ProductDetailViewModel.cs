@@ -9,7 +9,7 @@ namespace LivroApp.ViewModels.ShopVModels
     public class ProductDetailViewModel : BaseViewModel<Product>
     {
         private Product _item;
-        private int itemId;
+        private int _itemId;
         public ProductDetailViewModel()
         {
         }
@@ -20,13 +20,10 @@ namespace LivroApp.ViewModels.ShopVModels
         }
         public int ItemId
         {
-            get
-            {
-                return itemId;
-            }
+            get => _itemId;
             set
             {
-                itemId = value;
+                _itemId = value;
                 LoadItem(value);
             }
         }

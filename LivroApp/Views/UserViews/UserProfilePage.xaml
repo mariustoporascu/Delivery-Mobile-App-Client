@@ -3,7 +3,7 @@
     x:Class="LivroApp.Views.UserProfilePage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:viewModels="clr-namespace:LivroApp.ViewModels;assembly=FoodDeliveryApp"
+    xmlns:viewModels="clr-namespace:LivroApp.ViewModels.UserVModels"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     Title="Detalii cont"
     x:DataType="viewModels:UserProfileViewModel"
@@ -23,7 +23,7 @@
                 Margin="35,0,35,0"
                 HorizontalOptions="FillAndExpand"
                 VerticalOptions="FillAndExpand">
-                <StackLayout Margin="{OnIdiom Tablet='0,70,0,0', Phone='0,20,0,0'}" IsVisible="{Binding IsLoggedIn}">
+                <StackLayout Margin="{OnIdiom Tablet='0,70,0,0', Phone='0,20,0,0'}" IsVisible="{Binding LoggedIn}">
 
                     <Label
                         FontSize="Large"
@@ -178,7 +178,7 @@
                         TextTransform="None" />
                 </StackLayout>
                 <StackLayout
-                    IsVisible="{Binding IsLoggedIn, Converter={StaticResource invertBoolConverter}}"
+                    IsVisible="{Binding LoggedIn, Converter={StaticResource invertBoolConverter}}"
                     Spacing="30"
                     VerticalOptions="CenterAndExpand">
 

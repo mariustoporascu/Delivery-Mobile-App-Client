@@ -22,7 +22,7 @@ namespace LivroApp.Views
             if (!App.IsLoggedIn)
                 await Shell.Current.Navigation.PopToRootAsync();
         }
-        private async void Button_Clicked(object sender, System.EventArgs e)
+        private async void Button_Clicked(object sender, EventArgs e)
         {
             var prompt = await DisplayAlert("Confirmati", "Apasand acest buton confirmati ca ati acceptat timpul estimat de pregatire.", "OK", "Cancel");
             if (prompt)
@@ -35,13 +35,8 @@ namespace LivroApp.Views
                     else
                         await DisplayAlert("Eroare", "Alegerea ta nu a fost transmisa.", "OK");
                     MessagingCenter.Send<OrderInfoPage>(this, "RefreshOrders");
-
-
                 }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex.Message);
-                }
+                catch (Exception) { }
             }
 
         }
@@ -59,13 +54,8 @@ namespace LivroApp.Views
                     else
                         await DisplayAlert("Eroare", "Alegerea ta nu a fost transmisa.", "OK");
                     MessagingCenter.Send<OrderInfoPage>(this, "RefreshOrders");
-
-
                 }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex.Message);
-                }
+                catch (Exception) { }
             }
 
         }
@@ -84,12 +74,9 @@ namespace LivroApp.Views
 
                 }
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
+            catch (Exception) { }
         }
-        private async void GetRestRat(object sender, System.EventArgs e)
+        private async void GetRestRat(object sender, EventArgs e)
         {
             try
             {
@@ -104,10 +91,7 @@ namespace LivroApp.Views
 
                 }
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
+            catch (Exception) { }
         }
     }
 }

@@ -51,7 +51,7 @@ namespace LivroApp.Views
             }
             else
             {
-                IEnumerable<Position> aproxLocation = await mapsViewModel.geoCoder.GetPositionsForAddressAsync("Dacia, Cernavoda, Constanta, Romania");
+                IEnumerable<Position> aproxLocation = await mapsViewModel.GeoCoder.GetPositionsForAddressAsync("Dacia, Cernavoda, Constanta, Romania");
                 if (aproxLocation.Count() > 0)
                 {
                     Position position1 = aproxLocation.FirstOrDefault();
@@ -73,7 +73,7 @@ namespace LivroApp.Views
             calculateRoute = false;
             viewLeaved = true;
             routes = null;
-            mapsViewModel.DisplayStats.Clear();
+            mapsViewModel.Items.Clear();
             mapsViewModel.HasRoute = false;
         }
 
@@ -145,7 +145,7 @@ namespace LivroApp.Views
         void UpdatePostions(Dictionary<int, GoogleDirection> routes)
         {
             AppMap.MapElements.Clear();
-            mapsViewModel.DisplayStats.Clear();
+            mapsViewModel.Items.Clear();
             List<StatsModel> dict = new List<StatsModel>();
             foreach (var route in routes)
             {
@@ -206,7 +206,7 @@ namespace LivroApp.Views
                 });
 
             }
-            mapsViewModel.DisplayStats.AddRange(dict);
+            mapsViewModel.Items.AddRange(dict);
         }
     }
 }

@@ -26,7 +26,7 @@
             <CollectionView
                 Margin="{OnIdiom Tablet='0,100,0,0',
                                  Phone='0,50,0,0'}"
-                ItemsSource="{Binding UserLocations}"
+                ItemsSource="{Binding Items}"
                 SelectionMode="None"
                 VerticalOptions="CenterAndExpand">
                 <CollectionView.ItemTemplate>

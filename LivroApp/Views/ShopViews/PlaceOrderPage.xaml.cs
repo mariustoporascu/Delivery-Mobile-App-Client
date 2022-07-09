@@ -13,15 +13,8 @@ namespace LivroApp.Views
         {
             InitializeComponent();
             BindingContext = vm = new PlaceOrderViewModel(locationId, paymentMethod);
-            /* if (Device.RuntimePlatform == Device.iOS)
-                 vm.OnPlaceOrder += OnPlaceOrderApple;
-             else
-             {*/
-            vm.OnPlaceOrder += OnPlaceOrder;
-            vm.OnPlaceOrderFailed += OnPlaceOrderFailed;
-
-            //}
-
+            vm.SuccessDelegate += OnPlaceOrder;
+            vm.FailedDelegate += OnPlaceOrderFailed;
         }
         private void OnPlaceOrderApple(object sender, EventArgs e)
         {
@@ -29,10 +22,7 @@ namespace LivroApp.Views
             {
                 this.DisplayToastAsync("Comanda a fost plasata", 2300);
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
+            catch (Exception) { }
             Navigation.PopModalAsync(true);
         }
         private async void OnPlaceOrder(object sender, EventArgs e)
@@ -41,27 +31,20 @@ namespace LivroApp.Views
             {
                 await Shell.Current.DisplayToastAsync("Comanda a fost plasata", 1500);
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
+            catch (Exception) { }
             await Shell.Current.Navigation.PopToRootAsync();
         }
         private async void OnPlaceOrderFailed(object sender, EventArgs e)
         {
             try
             {
-                await this.DisplayAlert("Eroare", "Comanda nu s-a putut plasa, va rugam sa reincercati", "OK");
+                await DisplayAlert("Eroare", "Comanda nu s-a putut plasa, va rugam sa reincercati", "OK");
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
+            catch (Exception) { }
         }
 
         async void OnDismissButtonClicked(object sender, EventArgs args)
         {
-            // Page appearance not animated
             await Navigation.PopModalAsync(true);
         }
     }

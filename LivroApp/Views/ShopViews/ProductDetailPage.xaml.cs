@@ -5,13 +5,13 @@ using Xamarin.Forms;
 
 namespace LivroApp.Views
 {
-    public partial class ItemDetailPage : ContentPage
+    public partial class ProductDetailPage : ContentPage
     {
-        ItemDetailViewModel vm;
-        public ItemDetailPage()
+        ProductDetailViewModel vm;
+        public ProductDetailPage()
         {
             InitializeComponent();
-            BindingContext = vm = new ItemDetailViewModel();
+            BindingContext = vm = new ProductDetailViewModel();
         }
         protected override void OnAppearing()
         {

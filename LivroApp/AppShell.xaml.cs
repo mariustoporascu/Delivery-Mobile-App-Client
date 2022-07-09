@@ -8,15 +8,14 @@ namespace LivroApp
         public AppShell()
         {
             InitializeComponent();
-            Routing.RegisterRoute(nameof(ItemsPage), typeof(ItemsPage));
+            Routing.RegisterRoute(nameof(ProductsPage), typeof(ProductsPage));
             Routing.RegisterRoute(nameof(ListaCompaniiPage), typeof(ListaCompaniiPage));
             Routing.RegisterRoute(nameof(CategoryPage), typeof(CategoryPage));
-            Routing.RegisterRoute(nameof(ItemDetailPage), typeof(ItemDetailPage));
+            Routing.RegisterRoute(nameof(ProductDetailPage), typeof(ProductDetailPage));
             Routing.RegisterRoute(nameof(RegisterPage), typeof(RegisterPage));
             Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
             Routing.RegisterRoute(nameof(PlaceOrderPage), typeof(PlaceOrderPage));
             Routing.RegisterRoute(nameof(OrderInfoPage), typeof(OrderInfoPage));
-            Routing.RegisterRoute(nameof(ProductInOrderPage), typeof(ProductInOrderPage));
             Routing.RegisterRoute(nameof(UserDetailsPage), typeof(UserDetailsPage));
             Routing.RegisterRoute(nameof(UserLocationPage), typeof(UserLocationPage));
             Routing.RegisterRoute(nameof(ConfirmEmailPage), typeof(ConfirmEmailPage));

@@ -1,5 +1,5 @@
 ﻿using LivroApp.Models.ShopModels;
-using LivroApp.ViewModels;
+using LivroApp.ViewModels.ShopVModels;
 using System;
 using Xamarin.CommunityToolkit.Extensions;
 using Xamarin.Forms;
@@ -8,27 +8,25 @@ namespace LivroApp.Views
 {
     public partial class ProductsPage : ContentPage
     {
-        ItemsViewModel viewModel;
+        ProductsViewModel viewModel;
 
         public ProductsPage()
         {
             InitializeComponent();
-            BindingContext = viewModel = new ItemsViewModel();
+            BindingContext = viewModel = new ProductsViewModel();
         }
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            //if (Device.RuntimePlatform == Device.iOS)
-            //    ItemsCollView.ItemSizingStrategy = ItemSizingStrategy.MeasureFirstItem;
-            viewModel.LoadItemsCommand.Execute(null);
+            viewModel.LoadAllItems.Execute(null);
             viewModel.CItems = viewModel.DataStore.GetCartItems();
         }
 
         private async void OnAddItem(object sender, EventArgs e)
         {
             var btnDetails = (ImageButton)sender;
-            var cartItem = viewModel.CItems.Find(ci => ci.ProductId == ((Item)btnDetails.CommandParameter).ProductId);
-            var item = (Item)btnDetails.CommandParameter;
+            var cartItem = viewModel.CItems.Find(ci => ci.ProductId == ((Product)btnDetails.CommandParameter).ProductId);
+            var item = (Product)btnDetails.CommandParameter;
             if (viewModel.CheckHasAnother())
             {
                 var prompt = await DisplayAlert("Confirmati",
@@ -52,13 +50,8 @@ namespace LivroApp.Views
         }
         private void Entry_Completed(object sender, EventArgs e)
         {
-
-            viewModel.SearchCommand.Execute(null);
+            viewModel.SearchItem.Execute(null);
         }
-        //private void Entry_TextChanged(object sender, TextChangedEventArgs e)
-        //{
-        //    if (viewModel.SItems.Count > 0)
-        //        viewModel.Searching();
-        //}
+
     }
 }

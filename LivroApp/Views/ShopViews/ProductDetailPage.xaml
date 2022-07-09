@@ -1,13 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
-    x:Class="LivroApp.Views.ItemDetailPage"
+    x:Class="LivroApp.Views.ProductDetailPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:LivroApp.ViewModels"
-    xmlns:model="clr-namespace:LivroApp.Models.ShopModels"
+    xmlns:local="clr-namespace:LivroApp.ViewModels.ShopVModels"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     Title="{Binding Title}"
-    x:DataType="local:ItemDetailViewModel"
+    x:DataType="local:ProductDetailViewModel"
     Shell.PresentationMode="Animated">
     <ScrollView
         BackgroundColor="White"
@@ -101,52 +100,6 @@
                         VerticalOptions="CenterAndExpand" />
                 </StackLayout>
             </StackLayout>
-            <!--<Frame
-                Padding="20"
-                BackgroundColor="LightCyan"
-                CornerRadius="10"
-                HorizontalOptions="CenterAndExpand"
-                VerticalOptions="EndAndExpand">
-                <StackLayout
-                    Margin="0,0,0,0"
-                    HorizontalOptions="CenterAndExpand"
-                    Orientation="Horizontal"
-                    VerticalOptions="EndAndExpand">
-                    <ImageButton
-                        Margin="5,0,5,0"
-                        Aspect="AspectFit"
-                        BackgroundColor="Transparent"
-                        Command="{Binding Source={RelativeSource AncestorType={x:Type local:ItemDetailViewModel}}, Path=MinusCommand}"
-                        HeightRequest="28"
-                        Source="minus.png"
-                        WidthRequest="28" />
-            -->
-            <!--<ImageButton
-                        Margin="5,0,5,0"
-                        Aspect="AspectFit"
-                        BackgroundColor="Transparent"
-                        Command="{Binding Source={RelativeSource AncestorType={x:Type local:ItemDetailViewModel}}, Path=MinusCommand}"
-                        HeightRequest="28"
-                        Source="minus.png"
-                        WidthRequest="28" />
-                    <Label
-                        Margin="20,0,20,0"
-                        FontSize="Large"
-                        Text="{Binding Item.Cantitate}"
-                        TextColor="Blue"
-                        VerticalTextAlignment="Center" />
-                    <ImageButton
-                        Margin="5,0,5,0"
-                        Aspect="AspectFit"
-                        BackgroundColor="Transparent"
-                        Command="{Binding Source={RelativeSource AncestorType={x:Type local:ItemDetailViewModel}}, Path=PlusCommand}"
-                        HeightRequest="28"
-                        Source="plus.png"
-                        WidthRequest="28" />-->
-            <!--
-                </StackLayout>
-            </Frame>-->
-
         </StackLayout>
     </ScrollView>
 </ContentPage>

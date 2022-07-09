@@ -4,7 +4,7 @@ using Xamarin.Forms;
 
 namespace LivroApp.ViewModels.ShopVModels
 {
-    public class SelectLocationAndPaymentViewModel : BaseViewModel
+    public class SelectLocationAndPaymentViewModel : BaseViewModel<object>
     {
         public List<string> PaymentMethods { get; set; }
         public List<string> Locations { get; set; }

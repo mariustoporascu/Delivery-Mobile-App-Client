@@ -10,30 +10,9 @@ namespace LivroApp.Views
         {
             InitializeComponent();
             BindingContext = viewModel = new OrdersViewModel();
-            MessagingCenter.Subscribe<OrderInfoPage>(this, "RefreshOrders", (sender) => viewModel.LoadOrdersCommand.Execute(null));
+            MessagingCenter.Subscribe<OrderInfoPage>(this, "RefreshOrders", (sender) => viewModel.LoadAllItems.Execute(null));
 
         }
-        protected override async void OnAppearing()
-        {
-            base.OnAppearing();
-
-            if (App.IsLoggedIn)
-            {
-                viewModel.IsLoggedIn = true;
-                //viewModel.LoadOrdersCommand.Execute(null);
-            }
-            else
-            {
-                viewModel.IsLoggedIn = false;
-                viewModel.IsBusy = false;
-            }
-
-        }
-        protected override void OnDisappearing()
-        {
-            base.OnDisappearing();
-        }
-
         private void DatePicker_DateSelected(object sender, DateChangedEventArgs e)
         {
             viewModel.SelectedTime = e.NewDate;

@@ -7,38 +7,30 @@ using Xamarin.Forms;
 
 namespace LivroApp.ViewModels.ShopVModels
 {
-    public class PlaceOrderViewModel : BaseViewModel
+    public class PlaceOrderViewModel : BaseViewModel<object>
     {
-
-        private bool hasValidProfile = false;
-        public bool HasValidProfile { get => hasValidProfile; set => SetProperty(ref hasValidProfile, value); }
+        private decimal totalCompanie = 0.00M;
         public ServerOrder OrderCompanie { get; set; }
         public OrderInfo OrderInfo { get; set; }
         public List<ProductInOrder> ProductsInOrderCompanie { get; set; }
-        private decimal totalCompanie = 0.00M;
         public List<CartItem> CartItems { get; set; }
         public Command PlaceFinalOrder { get; set; }
-        public event EventHandler OnPlaceOrder = delegate { };
-        public event EventHandler OnPlaceOrderFailed = delegate { };
         private int locationId;
-        private string paymentMethod;
         public int LocationId { get => locationId; set => SetProperty(ref locationId, value); }
+        private string paymentMethod;
         public string PaymentMethod { get => paymentMethod; set => SetProperty(ref paymentMethod, value); }
         public PlaceOrderViewModel(int locationId, string paymentMethod)
         {
-            HasValidProfile = App.UserInfo.CompleteProfile && App.UserInfo.Locations != null && App.UserInfo.Locations.Count > 0;
+            IsAvailable = App.UserInfo.CompleteProfile && App.UserInfo.Locations != null && App.UserInfo.Locations.Count > 0;
             LocationId = locationId;
             PaymentMethod = paymentMethod;
             PlaceFinalOrder = new Command(async () => await OnClickPlaceOrder());
-            if (HasValidProfile)
+            if (IsAvailable)
                 LoadPageData();
-            IsBusy = false;
-
         }
 
         public void LoadPageData()
         {
-            IsBusy = true;
             CartItems = DataStore.GetCartItems();
             ProductsInOrderCompanie = new List<ProductInOrder>();
             foreach (var item in CartItems)
@@ -50,6 +42,9 @@ namespace LivroApp.ViewModels.ShopVModels
 
             if (ProductsInOrderCompanie.Count > 0)
             {
+                var transportFeeObj = DataStore.GetCompanie(CartItems[0].CompanieRefId)
+                        .TransportFees.Find(fee => fee.CityRefId == DataStore.GetAvailableCities().ToList()
+                        .Find(city => city.Name == App.UserInfo.Locations.Find(loc => loc.LocationId == LocationId)?.City)?.CityId);
                 OrderCompanie = new ServerOrder
                 {
                     CustomerId = App.UserInfo.Email,
@@ -62,29 +57,25 @@ namespace LivroApp.ViewModels.ShopVModels
                     PaymentMethod = PaymentMethod,
                     NumeCompanie = DataStore.GetCompanie(CartItems[0].CompanieRefId).Name,
                     TotalOrdered = totalCompanie,
-                    TransportFee = totalCompanie >= DataStore.GetCompanie(CartItems[0].CompanieRefId)
-                        .TransportFees.Find(fee => fee.CityRefId == DataStore.GetAvailableCities().ToList()
-                        .Find(city => city.Name == App.UserInfo.Locations.Find(loc => loc.LocationId == LocationId).City).CityId)
-                        .MinimumOrderValue ? 0 : DataStore.GetCompanie(CartItems[0].CompanieRefId)
-                        .TransportFees.Find(fee => fee.CityRefId == DataStore.GetAvailableCities().ToList()
-                        .Find(city => city.Name == App.UserInfo.Locations.Find(loc => loc.LocationId == LocationId).City).CityId).TransporFee,
+                    // 0 or if not null transport fee value
+                    TransportFee = totalCompanie >= transportFeeObj?.MinimumOrderValue ? 0 : transportFeeObj?.TransporFee ?? 0,
+
                 };
             }
             if (OrderCompanie != null)
             {
+                var userLoc = App.UserInfo.Locations.Find(loc => loc.LocationId == LocationId);
                 OrderInfo = new OrderInfo
                 {
                     FullName = App.UserInfo.FullName,
                     OrderInfoId = 0,
                     PhoneNo = App.UserInfo.PhoneNumber,
-                    Address = string.Concat(App.UserInfo.Locations.Find(loc => loc.LocationId == LocationId).BuildingInfo, ", ", App.UserInfo.Locations.Find(loc => loc.LocationId == LocationId).Street, ", ", App.UserInfo.Locations.Find(loc => loc.LocationId == LocationId).City)
+                    Address = string.Concat(userLoc?.BuildingInfo, ", ", userLoc?.Street, ", ", userLoc?.City)
                 };
 
                 OrderCompanie.OrderInfos = OrderInfo;
                 OrderCompanie.ProductsInOrder = ProductsInOrderCompanie;
             }
-            IsBusy = false;
-
         }
 
         async Task OnClickPlaceOrder()
@@ -93,21 +84,16 @@ namespace LivroApp.ViewModels.ShopVModels
             try
             {
                 var result = await OrderService.CreateOrder(OrderCompanie);
-                IsBusy = false;
                 if (!string.IsNullOrEmpty(result) && result.Contains("Order placed."))
                 {
                     DataStore.CleanCart();
-                    OnPlaceOrder?.Invoke(this, new EventArgs());
+                    CallSuccessEvent();
                 }
                 else
-                    OnPlaceOrderFailed?.Invoke(this, new EventArgs());
-
+                    CallFailedEvent();
             }
-            catch (Exception)
-            {
-                IsBusy = false;
-                OnPlaceOrderFailed?.Invoke(this, new EventArgs());
-            }
+            catch (Exception) { CallFailedEvent(); }
+            finally { IsBusy = false; }
         }
     }
 }

@@ -5,9 +5,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:LivroApp.Controls"
     xmlns:fRating="clr-namespace:Rating;assembly=Rating"
-    xmlns:local="clr-namespace:LivroApp.ViewModels"
+    xmlns:local="clr-namespace:LivroApp.ViewModels.ShopVModels"
     xmlns:model="clr-namespace:LivroApp.Models.ShopModels"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+        x:DataType="local:OrderInfoViewModel"
     Title="{Binding Title}"
     Shell.PresentationMode="Animated">
     <ContentPage.Resources>
@@ -16,7 +17,6 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <RefreshView
-        x:DataType="local:OrderInfoViewModel"
         Command="{Binding RefreshCommand}"
         HorizontalOptions="FillAndExpand"
         IsRefreshing="{Binding IsBusy, Mode=TwoWay}"

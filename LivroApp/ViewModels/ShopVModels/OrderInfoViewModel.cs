@@ -9,7 +9,7 @@ using Xamarin.Forms;
 namespace LivroApp.ViewModels.ShopVModels
 {
     [QueryProperty(nameof(OrderId), nameof(OrderId))]
-    public class OrderInfoViewModel : BaseViewModel
+    public class OrderInfoViewModel : BaseViewModel<OrderProductDisplay>
     {
         private OrderInfo orderInfo;
         public OrderInfo CurrOrderInfo { get => orderInfo; set => SetProperty(ref orderInfo, value); }
@@ -32,47 +32,29 @@ namespace LivroApp.ViewModels.ShopVModels
         public bool CanGiveRating { get => _canGiveRating; set => SetProperty(ref _canGiveRating, value); }
         private bool _hasComments = false;
         public bool HasComments { get => _hasComments; set => SetProperty(ref _hasComments, value); }
-
-        private ObservableRangeCollection<OrderProductDisplay> _items;
-        public ObservableRangeCollection<OrderProductDisplay> Items { get => _items; set => SetProperty(ref _items, value); }
-        public Command<OrderProductDisplay> ItemTapped { get; }
         public Command RefreshCommand { get; }
         public Command ChangeRatingDriver { get; }
         public Command ChangeRatingRestaurant { get; }
         public event EventHandler GetRatDriver = delegate { };
         public event EventHandler GetRatRest = delegate { };
 
-        private int orderId;
 
         public OrderInfoViewModel()
         {
-            Title = "Detalii Comanda";
             Items = new ObservableRangeCollection<OrderProductDisplay>();
             ItemTapped = new Command<OrderProductDisplay>(async (item) => await OnItemSelected(item));
             RefreshCommand = new Command(RefreshView);
             ChangeRatingDriver = new Command(IntermediatDriverRating);
             ChangeRatingRestaurant = new Command(IntermediateRestRating);
-            IsBusy = false;
-
         }
-        public int OrderId
-        {
-            get
-            {
-                return orderId;
-            }
-            set
-            {
-                orderId = value;
-                LoadOrder(value);
-            }
-        }
+        private int _orderId;
+        public int OrderId { get => _orderId; set { _orderId = value; LoadOrder(value); } }
 
         public async Task<bool> ConfirmOrder(bool value)
         {
             try
             {
-                if (await OrderService.AgreeEstTime(orderId, value))
+                if (await OrderService.AgreeEstTime(OrderId, value))
                 {
                     CurrOrder.HasUserConfirmedET = value;
                     HasUserResponded = true;
@@ -81,10 +63,7 @@ namespace LivroApp.ViewModels.ShopVModels
                 HasUserResponded = false;
                 return false;
             }
-            catch (Exception)
-            {
-                return false;
-            }
+            catch (Exception) { return false; }
 
         }
         public async void RefreshView()
@@ -111,6 +90,7 @@ namespace LivroApp.ViewModels.ShopVModels
         {
             try
             {
+                Title = $"Detalii Comanda {OrderId}";
                 var order = DataStore.GetOrder(orderId);
                 Title = "Detalii Comanda nr. " + orderId;
                 CurrOrderInfo = order.OrderInfos;
@@ -194,10 +174,7 @@ namespace LivroApp.ViewModels.ShopVModels
                 }
                 return false;
             }
-            catch (Exception)
-            {
-                return false;
-            }
+            catch (Exception) { return false; }
         }
         public void IntermediateRestRating()
         {
@@ -215,19 +192,13 @@ namespace LivroApp.ViewModels.ShopVModels
                 }
                 return false;
             }
-            catch (Exception)
-            {
-                return false;
-            }
-
+            catch (Exception) { return false; }
         }
         async Task OnItemSelected(OrderProductDisplay item)
         {
             if (item == null)
                 return;
-
-            // This will push the ItemDetailPage onto the navigation stack
-            await Shell.Current.GoToAsync($"{nameof(ProductInOrderPage)}?{nameof(ProductInOrderViewModel.ItemId)}={item.ProductId}");
+            await Shell.Current.GoToAsync($"{nameof(ProductDetailPage)}?{nameof(ProductDetailViewModel.ItemId)}={item.ProductId}");
         }
     }
 }

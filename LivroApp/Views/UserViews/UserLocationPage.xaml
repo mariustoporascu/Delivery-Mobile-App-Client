@@ -6,7 +6,6 @@
     xmlns:controls="clr-namespace:LivroApp.Controls"
     xmlns:local="clr-namespace:LivroApp.ViewModels.UserVModels"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-    Title="Locatia ta"
     x:DataType="local:UserLocationViewModel"
     Shell.PresentationMode="ModalAnimated">
     <ContentPage.Resources>

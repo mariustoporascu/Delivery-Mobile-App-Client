@@ -11,65 +11,29 @@ namespace LivroApp.ViewModels.ShopVModels
 {
     [QueryProperty(nameof(RefId), nameof(RefId))]
     [QueryProperty(nameof(CategId), nameof(CategId))]
-    public class ProductsViewModel : BaseViewModel
+    public class ProductsViewModel : BaseViewModel<Product>
     {
-        private ObservableRangeCollection<Grouping<SubCateg, Item>> _itemsSubCateg;
-        public ObservableRangeCollection<Grouping<SubCateg, Item>> ItemsSubCateg { get => _itemsSubCateg; set => SetProperty(ref _itemsSubCateg, value); }
-        public List<Item> SItems { get; set; }
-        public List<SubCateg> SSubCateg { get; set; }
-        public List<Categ> SCateg { get; set; }
+        private ObservableRangeCollection<Grouping<SubCategory, Product>> _itemsSubCateg;
+        public ObservableRangeCollection<Grouping<SubCategory, Product>> ItemsSubCateg { get => _itemsSubCateg; set => SetProperty(ref _itemsSubCateg, value); }
+        private string _searchItems = "";
+        public string SearchItems { get => _searchItems; set => SetProperty(ref _searchItems, value); }
+        public List<Product> SItems { get; set; }
+        public List<SubCategory> SSubCateg { get; set; }
+        public List<Category> SCateg { get; set; }
         public List<CartItem> CItems { get; set; }
-        private string searchItem = "";
-        private Item _selectedItem;
-        private int categId;
-        private int refId;
-        public Command LoadItemsCommand { get; }
-        /*public Command<Item> MinusCommand { get; }
-        public Command<Item> PlusCommand { get; }*/
-        public Command SearchCommand { get; }
-        public Command<Item> ItemTapped { get; }
-
-        public string SearchItem
-        {
-            get => searchItem;
-            set => SetProperty(ref searchItem, value);
-        }
-        public int CategId
-        {
-            get
-            {
-                return categId;
-            }
-            set
-            {
-                categId = value;
-            }
-        }
-
-        public int RefId
-        {
-            get
-            {
-                return refId;
-            }
-            set
-            {
-                refId = value;
-            }
-        }
+        private int _categId;
+        public int CategId { get => _categId; set => _categId = value; }
         public ProductsViewModel()
         {
-            Title = $"Produse";
-            ItemsSubCateg = new ObservableRangeCollection<Grouping<SubCateg, Item>>();
+            Title = $"Produse {DataStore.GetCompanie((int)RefId).Name}";
+            ItemsSubCateg = new ObservableRangeCollection<Grouping<SubCategory, Product>>();
             CItems = new List<CartItem>();
-            SItems = new List<Item>();
-            SCateg = new List<Categ>();
-            SSubCateg = new List<SubCateg>();
-            LoadItemsCommand = new Command(ExecuteLoadItemsCommand);
-            ItemTapped = new Command<Item>((item) => OnItemSelected(item));
-            /*MinusCommand = new Command<Item>(OnMinus);
-            PlusCommand = new Command<Item>(OnPlus);*/
-            SearchCommand = new Command(Searching);
+            SItems = new List<Product>();
+            SCateg = new List<Category>();
+            SSubCateg = new List<SubCategory>();
+            LoadAllItems = new Command(ExecuteLoadItemsCommand);
+            ItemTapped = new Command<Product>((item) => OnItemSelected(item));
+            SearchItem = new Command(Searching);
         }
 
         void ExecuteLoadItemsCommand()
@@ -77,15 +41,14 @@ namespace LivroApp.ViewModels.ShopVModels
 
             try
             {
-                SearchItem = "";
+                SearchItems = "";
                 ItemsSubCateg.Clear();
-                var newListSub = new ObservableRangeCollection<Grouping<SubCateg, Item>>();
+                var newListSub = new ObservableRangeCollection<Grouping<SubCategory, Product>>();
                 if (SItems.Count == 0)
                 {
                     var items = DataStore.GetItems(RefId, CategId);
                     foreach (var item in items)
                     {
-                        /*item.Cantitate = 0;*/
                         SItems.Add(item);
                     }
                 }
@@ -112,7 +75,7 @@ namespace LivroApp.ViewModels.ShopVModels
                         {
                             if (SItems.FindAll(item => item.SubCategoryRefId == subCateg.SubCategoryId).Count > 0)
                             {
-                                newListSub.Add(new Grouping<SubCateg, Item>(subCateg, SItems.FindAll(item => item.SubCategoryRefId == subCateg.SubCategoryId)));
+                                newListSub.Add(new Grouping<SubCategory, Product>(subCateg, SItems.FindAll(item => item.SubCategoryRefId == subCateg.SubCategoryId)));
                             }
                         }
                     }
@@ -124,20 +87,16 @@ namespace LivroApp.ViewModels.ShopVModels
                             {
                                 if (SItems.FindAll(item => item.SubCategoryRefId == subCateg.SubCategoryId).Count > 0)
                                 {
-                                    newListSub.Add(new Grouping<SubCateg, Item>(subCateg, SItems.FindAll(item => item.SubCategoryRefId == subCateg.SubCategoryId)));
+                                    newListSub.Add(new Grouping<SubCategory, Product>(subCateg, SItems.FindAll(item => item.SubCategoryRefId == subCateg.SubCategoryId)));
                                 }
                             }
                         }
-
 
                 ItemsSubCateg.AddRange(newListSub);
                 CItems = DataStore.GetCartItems();
 
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
-            }
+            catch (Exception) { }
         }
         void Searching()
         {
@@ -145,9 +104,9 @@ namespace LivroApp.ViewModels.ShopVModels
             try
             {
                 ItemsSubCateg.Clear();
-                var newListSub = new ObservableCollection<Grouping<SubCateg, Item>>();
-                var items = SItems.FindAll(item => item.Name.ToLower().Contains(searchItem.ToLower())
-                        || item.Description.ToLower().Contains(searchItem.ToLower()));
+                var newListSub = new ObservableCollection<Grouping<SubCategory, Product>>();
+                var items = SItems.FindAll(item => item.Name.ToLower().Contains(SearchItems.ToLower())
+                        || item.Description.ToLower().Contains(SearchItems.ToLower()));
                 if (CategId > 0)
                     foreach (var subCateg in SSubCateg)
                     {
@@ -155,7 +114,7 @@ namespace LivroApp.ViewModels.ShopVModels
                         {
                             if (items.FindAll(item => item.SubCategoryRefId == subCateg.SubCategoryId).Count > 0)
                             {
-                                newListSub.Add(new Grouping<SubCateg, Item>(subCateg, items.FindAll(item => item.SubCategoryRefId == subCateg.SubCategoryId)));
+                                newListSub.Add(new Grouping<SubCategory, Product>(subCateg, items.FindAll(item => item.SubCategoryRefId == subCateg.SubCategoryId)));
                             }
                         }
                     }
@@ -167,7 +126,7 @@ namespace LivroApp.ViewModels.ShopVModels
                             {
                                 if (items.FindAll(item => item.SubCategoryRefId == subCateg.SubCategoryId).Count > 0)
                                 {
-                                    newListSub.Add(new Grouping<SubCateg, Item>(subCateg, items.FindAll(item => item.SubCategoryRefId == subCateg.SubCategoryId)));
+                                    newListSub.Add(new Grouping<SubCategory, Product>(subCateg, items.FindAll(item => item.SubCategoryRefId == subCateg.SubCategoryId)));
                                 }
                             }
                         }
@@ -175,41 +134,9 @@ namespace LivroApp.ViewModels.ShopVModels
 
                 ItemsSubCateg.AddRange(newListSub);
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
-            }
+            catch (Exception) { }
         }
 
-        Item SelectedItem
-        {
-            get => _selectedItem;
-            set
-            {
-                SetProperty(ref _selectedItem, value);
-                OnItemSelected(value);
-            }
-        }
-
-        /*void OnMinus(Item itemVM)
-        {
-            if (CItems == null)
-                return;
-            var item = CItems.Find(citem => citem.ProductId == itemVM.ProductId);
-            if (itemVM == null || item == null)
-                return;
-            item.Cantitate--;
-            item.PriceTotal = item.Cantitate * itemVM.Price;
-            itemVM.Cantitate--;
-            if (item.Cantitate == 0)
-            {
-                CItems.Remove(item);
-                DataStore.DeleteFromCart(item);
-            }
-            else
-                DataStore.SaveCart(item);
-
-        }*/
         public bool CheckHasAnother()
         {
             var hasAnotherCompany = CItems.Find(ci => ci.CompanieRefId != RefId);
@@ -217,40 +144,12 @@ namespace LivroApp.ViewModels.ShopVModels
                 return true;
             return false;
         }
-        /*void OnPlus(Item itemVM)
-        {
-            if (CItems == null)
-                return;
-            if (itemVM == null)
-                return;
 
-            var item = CItems.Find(citem => citem.ProductId == itemVM.ProductId);
-
-            if (item == null)
-            {
-                item = new CartItem
-                {
-                    ProductId = itemVM.ProductId,
-                    Gramaj = itemVM.Gramaj,
-                    Name = itemVM.Name,
-                    Cantitate = itemVM.Cantitate,
-                    CompanieRefId = RefId
-                };
-                CItems.Add(item);
-            }
-            item.Cantitate++;
-            item.PriceTotal = item.Cantitate * itemVM.Price;
-            itemVM.Cantitate++;
-            DataStore.SaveCart(item);
-
-        }*/
-        async void OnItemSelected(Item item)
+        async void OnItemSelected(Product item)
         {
             if (item == null)
                 return;
-
-            // This will push the ItemDetailPage onto the navigation stack
-            await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?{nameof(ItemDetailViewModel.ItemId)}={item.ProductId}&{nameof(ItemDetailViewModel.RefId)}={RefId}");
+            await Shell.Current.GoToAsync($"{nameof(ProductDetailPage)}?{nameof(ProductDetailViewModel.ItemId)}={item.ProductId}");
         }
     }
 }
