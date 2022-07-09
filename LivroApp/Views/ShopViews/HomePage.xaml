@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    x:Class="LivroApp.Views.HomePage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:LivroApp.ViewModels"
+    xmlns:model="clr-namespace:LivroApp.Models.ShopModels"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    Title="{Binding Title}"
+    x:DataType="local:HomeViewModel"
+    Shell.PresentationMode="Animated">
+    <RefreshView
+        Command="{Binding RefreshServerData}"
+        HorizontalOptions="FillAndExpand"
+        IsRefreshing="{Binding IsBusy, Mode=TwoWay}"
+        VerticalOptions="FillAndExpand">
+        <CollectionView ItemsSource="{Binding Items}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout BackgroundColor="White" HorizontalOptions="FillAndExpand">
+                        <StackLayout
+                            Margin="20"
+                            xct:CornerRadiusEffect.CornerRadius="20"
+                            BackgroundColor="DarkCyan"
+                            HorizontalOptions="FillAndExpand">
+                            <StackLayout
+                                x:DataType="model:TipCompanie"
+                                HeightRequest="{OnIdiom Tablet=560,
+                                                        Phone=280}"
+                                HorizontalOptions="FillAndExpand">
+                                <StackLayout
+                                    HorizontalOptions="FillAndExpand"
+                                    Orientation="Vertical"
+                                    VerticalOptions="FillAndExpand">
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="{OnIdiom Tablet=Large,
+                                                           Phone=Medium}"
+                                        HorizontalTextAlignment="Center"
+                                        LineBreakMode="WordWrap"
+                                        Text="{Binding Name}"
+                                        TextColor="Black"
+                                        VerticalOptions="CenterAndExpand" />
+                                    <Image
+                                        xct:CornerRadiusEffect.CornerRadius="20"
+                                        Aspect="Fill"
+                                        BackgroundColor="Transparent"
+                                        HeightRequest="{OnIdiom Tablet=470,
+                                                                Phone=235}">
+                                        <Image.Source>
+                                            <UriImageSource
+                                                CacheValidity="7"
+                                                CachingEnabled="True"
+                                                Uri="{Binding GetPhotoUri}" />
+
+                                        </Image.Source>
+                                    </Image>
+
+                                    <StackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type local:HomeViewModel}}, Path=ItemTapped}"
+                                            CommandParameter="{Binding .}"
+                                            NumberOfTapsRequired="1" />
+                                    </StackLayout.GestureRecognizers>
+                                </StackLayout>
+                            </StackLayout>
+                        </StackLayout>
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+        </CollectionView>
+    </RefreshView>
+</ContentPage>

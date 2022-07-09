@@ -1,7 +1,7 @@
-﻿using System;
-using Foundation;
-using UserNotifications;
+﻿using Foundation;
 using OneSignalSDK.Xamarin;
+using System;
+using UserNotifications;
 
 namespace LivroNotif
 {

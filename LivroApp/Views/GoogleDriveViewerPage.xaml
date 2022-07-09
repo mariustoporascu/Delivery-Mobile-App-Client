@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="LivroApp.Views.GoogleDriveViewerPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:LivroApp.Controls"
+    Shell.PresentationMode="ModalAnimated">
+
+    <StackLayout
+        BackgroundColor="White"
+        HorizontalOptions="FillAndExpand"
+        VerticalOptions="FillAndExpand">
+        <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+            <controls:GoogleDriveViewerWebView
+                x:Name="DocField"
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="FillAndExpand" />
+        </StackLayout>
+        <StackLayout Margin="0,10,0,10">
+            <Button
+                BackgroundColor="Transparent"
+                Clicked="OnDismissButtonClicked"
+                FontAttributes="None"
+                FontSize="Medium"
+                Text="Am inteles"
+                TextColor="Black"
+                TextTransform="None" />
+        </StackLayout>
+    </StackLayout>
+</ContentPage>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config xmlns:android="http://schemas.android.com/apk/res/android">
+	<base-config cleartextTrafficPermitted="false">
+		<trust-anchors>
+			<certificates src="system" />
+		</trust-anchors>
+	</base-config>
+	<domain-config cleartextTrafficPermitted="true">
+		<domain includeSubdomains="true">sytes.net</domain>
+		<trust-anchors>
+			<certificates src="system" />
+		</trust-anchors>
+	</domain-config>
+	<domain-config cleartextTrafficPermitted="false">
+		<domain includeSubdomains="true">livro.ro</domain>
+		<trust-anchors>
+			<certificates src="system" />
+		</trust-anchors>
+	</domain-config>
+</network-security-config>

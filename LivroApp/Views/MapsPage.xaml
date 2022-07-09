@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="LivroApp.Views.MapsPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:LivroApp.Controls"
+    xmlns:local="clr-namespace:LivroApp.ViewModels"
+    xmlns:map="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
+    xmlns:model="clr-namespace:LivroApp.Models.MapsModels"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    Title="Harta"
+    x:DataType="local:MapsViewModel"
+    Shell.PresentationMode="Animated">
+
+    <StackLayout
+        BackgroundColor="White"
+        HorizontalOptions="FillAndExpand"
+        VerticalOptions="FillAndExpand">
+        <Label
+            FontSize="Large"
+            HorizontalTextAlignment="Center"
+            Text="Urmareste comanda"
+            TextColor="Black" />
+        <controls:CustomMap
+            x:Name="AppMap"
+            HasScrollEnabled="True"
+            HasZoomEnabled="True"
+            HeightRequest="{OnIdiom Tablet=700,
+                                    Phone=350}"
+            IsVisible="True"
+            MapType="Street"
+            VerticalOptions="FillAndExpand" />
+        <StackLayout
+            HorizontalOptions="FillAndExpand"
+            IsVisible="{Binding HasRoute}"
+            VerticalOptions="End">
+            <CollectionView
+                ItemsSource="{Binding DisplayStats}"
+                SelectionMode="None"
+                VerticalOptions="End">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout x:DataType="model:StatsModel" VerticalOptions="End">
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="Medium"
+                                HorizontalOptions="CenterAndExpand"
+                                LineBreakMode="WordWrap"
+                                Text="{Binding Title}"
+                                TextColor="Black" />
+                            <StackLayout Margin="5" Orientation="Horizontal">
+                                <Label
+                                    FontSize="Medium"
+                                    HorizontalOptions="CenterAndExpand"
+                                    LineBreakMode="WordWrap"
+                                    Text="{Binding DistToGo}"
+                                    TextColor="Black" />
+                                <Label
+                                    FontSize="Medium"
+                                    HorizontalOptions="CenterAndExpand"
+                                    LineBreakMode="WordWrap"
+                                    Text="{Binding TimeToGo}"
+                                    TextColor="Black" />
+                            </StackLayout>
+                        </StackLayout>
+
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </StackLayout>
+    </StackLayout>
+</ContentPage>

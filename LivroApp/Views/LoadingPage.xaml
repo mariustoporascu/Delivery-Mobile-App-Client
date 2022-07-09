@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="LivroApp.Views.LoadingPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Shell.PresentationMode="ModalAnimated">
+    <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+        <Image
+            Grid.Row="0"
+            Aspect="Fill"
+            HorizontalOptions="FillAndExpand"
+            Source="splash_auth.png"
+            VerticalOptions="FillAndExpand" />
+        <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+            <Image
+                Aspect="AspectFit"
+                BackgroundColor="Transparent"
+                HeightRequest="150"
+                HorizontalOptions="CenterAndExpand"
+                IsAnimationPlaying="True"
+                Source="loading.gif"
+                VerticalOptions="CenterAndExpand"
+                WidthRequest="150" />
+        </StackLayout>
+    </Grid>
+</ContentPage>

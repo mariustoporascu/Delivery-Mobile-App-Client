@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="LivroApp.Views.CategoryPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:LivroApp.ViewModels"
+    xmlns:model="clr-namespace:LivroApp.Models.ShopModels"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    Title="{Binding Title}"
+    x:DataType="local:CategoryViewModel"
+    Shell.PresentationMode="Animated">
+    <StackLayout
+        BackgroundColor="White"
+        HorizontalOptions="FillAndExpand"
+        VerticalOptions="FillAndExpand">
+        <StackLayout Padding="0,5,0,5">
+
+            <StackLayout
+                Margin="0"
+                Padding="10"
+                xct:CornerRadiusEffect.CornerRadius="10"
+                BackgroundColor="LightCyan"
+                HorizontalOptions="CenterAndExpand"
+                VerticalOptions="EndAndExpand">
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="{OnIdiom Tablet=Large,
+                                       Phone=Medium}"
+                    HorizontalTextAlignment="Center"
+                    LineBreakMode="WordWrap"
+                    Text="Toate produsele"
+                    TextColor="Black"
+                    TextDecorations="Underline" />
+                <StackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding AllItemsTapped}" NumberOfTapsRequired="1" />
+                </StackLayout.GestureRecognizers>
+            </StackLayout>
+
+        </StackLayout>
+        <RefreshView Command="{Binding LoadAllItems}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+            <CollectionView ItemsLayout="VerticalGrid,2" ItemsSource="{Binding Items}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout BackgroundColor="White" HorizontalOptions="FillAndExpand">
+
+                            <StackLayout
+                                Margin="5"
+                                xct:CornerRadiusEffect.CornerRadius="20"
+                                BackgroundColor="LightCyan"
+                                HeightRequest="{OnIdiom Tablet=360,
+                                                        Phone=180}">
+                                <StackLayout
+                                    x:DataType="model:Category"
+                                    HorizontalOptions="FillAndExpand"
+                                    Orientation="Vertical"
+                                    VerticalOptions="FillAndExpand">
+                                    <Image
+                                        xct:CornerRadiusEffect.CornerRadius="20"
+                                        Aspect="Fill"
+                                        BackgroundColor="Transparent"
+                                        HeightRequest="{OnIdiom Tablet=280,
+                                                                Phone=140}">
+                                        <Image.Source>
+                                            <UriImageSource
+                                                CacheValidity="7"
+                                                CachingEnabled="True"
+                                                Uri="{Binding GetPhotoUri}" />
+                                        </Image.Source>
+                                    </Image>
+                                    <Label
+                                        FontSize="{OnIdiom Tablet=Large,
+                                                           Phone=Medium}"
+                                        HorizontalTextAlignment="Center"
+                                        LineBreakMode="WordWrap"
+                                        Text="{Binding Name}"
+                                        TextColor="Black"
+                                        VerticalOptions="CenterAndExpand" />
+                                    <StackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type local:CategoryViewModel}}, Path=ItemTapped}"
+                                            CommandParameter="{Binding .}"
+                                            NumberOfTapsRequired="1" />
+                                    </StackLayout.GestureRecognizers>
+                                </StackLayout>
+                            </StackLayout>
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+    </StackLayout>
+</ContentPage>

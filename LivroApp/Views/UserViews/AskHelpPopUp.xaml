@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<xct:Popup
+    x:Class="LivroApp.Views.AskHelpPopUp"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewmodels="clr-namespace:LivroApp.ViewModels"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    x:DataType="viewmodels:AskHelpPopUpVM"
+    IsLightDismissEnabled="False"
+    Size="300,500">
+
+    <StackLayout
+        BackgroundColor="White"
+        HorizontalOptions="FillAndExpand"
+        VerticalOptions="FillAndExpand">
+        <Entry
+            xct:CornerRadiusEffect.CornerRadius="10"
+            BackgroundColor="White"
+            ClearButtonVisibility="WhileEditing"
+            FontSize="Medium"
+            HorizontalOptions="FillAndExpand"
+            HorizontalTextAlignment="Center"
+            Placeholder="Numele tau"
+            PlaceholderColor="Gray"
+            Text="{Binding Help.Name}"
+            TextColor="Black" />
+        <Entry
+            xct:CornerRadiusEffect.CornerRadius="10"
+            BackgroundColor="White"
+            ClearButtonVisibility="WhileEditing"
+            FontSize="Medium"
+            HorizontalOptions="FillAndExpand"
+            HorizontalTextAlignment="Center"
+            Placeholder="Nr Telefon"
+            PlaceholderColor="Gray"
+            Text="{Binding Help.TelNo}"
+            TextColor="Black" />
+        <Entry
+            xct:CornerRadiusEffect.CornerRadius="10"
+            BackgroundColor="White"
+            ClearButtonVisibility="WhileEditing"
+            FontSize="Medium"
+            HorizontalOptions="FillAndExpand"
+            HorizontalTextAlignment="Center"
+            Placeholder="Adresa de email"
+            PlaceholderColor="Gray"
+            Text="{Binding Help.Email}"
+            TextColor="Black" />
+        <Label
+            Margin="5,10,5,0"
+            FontSize="{OnIdiom Tablet=Medium,
+                               Phone=Small}"
+            HorizontalOptions="CenterAndExpand"
+            HorizontalTextAlignment="Center"
+            LineBreakMode="WordWrap"
+            Text="Mesajul tau, te rugam sa incluzi detalii care ne-ar putea ajuta sa rezolvam problema ta."
+            TextColor="Black" />
+        <Editor
+            BackgroundColor="White"
+            HeightRequest="200"
+            Text="{Binding Help.Message}"
+            TextColor="Black"
+            VerticalOptions="CenterAndExpand" />
+        <StackLayout
+            Margin="10"
+            HorizontalOptions="CenterAndExpand"
+            Orientation="Horizontal"
+            Spacing="20"
+            VerticalOptions="EndAndExpand">
+            <Button
+                Padding="5"
+                xct:CornerRadiusEffect.CornerRadius="30"
+                BackgroundColor="Transparent"
+                Clicked="OnDismissButtonClicked"
+                FontAttributes="None"
+                FontSize="Default"
+                Text="Inapoi"
+                TextColor="OrangeRed"
+                TextTransform="None" />
+            <Button
+                Padding="5"
+                xct:CornerRadiusEffect.CornerRadius="30"
+                BackgroundColor="Transparent"
+                Clicked="SendClicked"
+                FontAttributes="None"
+                FontSize="Default"
+                Text="Trimite"
+                TextColor="SeaGreen"
+                TextTransform="None" />
+        </StackLayout>
+    </StackLayout>
+</xct:Popup>

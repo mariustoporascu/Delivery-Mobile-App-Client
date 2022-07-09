@@ -1,0 +1,103 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<LangVersion>8</LangVersion>
+		<Nullable>enable</Nullable>
+		<PlatformTarget>AnyCPU</PlatformTarget>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Remove="Design\Login.xaml" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="OneSignalSDK.Xamarin" Version="4.0.0" />
+		<PackageReference Include="Plugin.FacebookClient" Version="4.0.1" />
+		<PackageReference Include="Refractored.MvvmHelpers" Version="1.6.2" />
+		<PackageReference Include="Xamarin.CommunityToolkit" Version="2.0.2" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.2-beta1" />
+		<PackageReference Include="Xamarin.Forms" Version="5.0.0.2478" />
+		<PackageReference Include="Xamarin.Essentials" Version="1.7.3" />
+		<PackageReference Include="IdentityModel" Version="6.0.0" />
+		<PackageReference Include="IdentityModel.OidcClient" Version="5.0.0" />
+		<PackageReference Include="Xamarin.Forms.Maps" Version="5.0.0.2478" />
+		<PackageReference Include="Xamarin.Forms.SaveOpenPDFPackage" Version="1.0.0" />
+		<PackageReference Include="Xamarin.Rating" Version="1.0.0.2" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Reference Include="Mono.Android">
+			<HintPath>C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\ReferenceAssemblies\Microsoft\Framework\MonoAndroid\v11.0\Mono.Android.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="Views\ShopViews\HomePage.xaml.cs">
+	    <DependentUpon>HomePage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\ShopViews\ProductsPage.xaml.cs">
+	    <DependentUpon>ProductsPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\ShopViews\ListaCompaniiPage.xaml.cs">
+	    <DependentUpon>ListaCompaniiPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\UserViews\UserDetailsPage.xaml.cs">
+	    <DependentUpon>UserDetailsPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\UserViews\UserLocationPage.xaml.cs">
+	    <DependentUpon>UserLocationPage.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Update="App.xaml">
+			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Views\UserViews\AskHelpPopUp.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Views\ShopViews\ATCPopUp.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Views\AuthViews\ChangePasswordPage.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Views\AuthViews\ConfirmEmailPage.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Views\AuthViews\GenerateTokenPage.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Views\GoogleDriveViewerPage.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Views\LoadingPage.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Views\ShopViews\ProductInOrderPage.xaml">
+			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Views\AuthViews\ResetPasswordPage.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Views\ShopViews\SelectLocationAndPaymentPage.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Views\AuthViews\SetPasswordPage.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Views\UserViews\UserDetailsPage.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Views\UserViews\UserLocationPage.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Views\UserViews\UserLocationsListPage.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Views\UserViews\UserProfilePage.xaml">
+			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+	</ItemGroup>
+</Project>

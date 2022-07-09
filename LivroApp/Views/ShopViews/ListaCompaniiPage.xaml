@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="LivroApp.Views.ListaCompaniiPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:LivroApp.ViewModels"
+    xmlns:model="clr-namespace:LivroApp.Models.ShopModels"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    Title="{Binding Title}"
+    x:DataType="local:ListaCompaniiViewModel"
+    Shell.PresentationMode="Animated">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <xct:InvertedBoolConverter x:Key="invertBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <RefreshView
+        Command="{Binding RefreshServerData}"
+        HorizontalOptions="FillAndExpand"
+        IsRefreshing="{Binding IsBusy, Mode=TwoWay}"
+        VerticalOptions="FillAndExpand">
+        <CollectionView ItemsSource="{Binding Items}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout BackgroundColor="White" HorizontalOptions="FillAndExpand">
+                        <StackLayout
+                            Margin="5"
+                            xct:CornerRadiusEffect.CornerRadius="20"
+                            BackgroundColor="LightCyan"
+                            HorizontalOptions="FillAndExpand">
+                            <StackLayout HorizontalOptions="FillAndExpand">
+                                <StackLayout
+                                    x:DataType="model:Companie"
+                                    HorizontalOptions="FillAndExpand"
+                                    IsEnabled="{Binding TemporaryClosed, Converter={StaticResource invertBoolConverter}}"
+                                    Orientation="Vertical"
+                                    VerticalOptions="FillAndExpand">
+                                    <Image
+                                        xct:CornerRadiusEffect.CornerRadius="20"
+                                        Aspect="Fill"
+                                        BackgroundColor="Transparent"
+                                        HeightRequest="{OnIdiom Tablet=280,
+                                                                Phone=140}">
+                                        <Image.Source>
+                                            <UriImageSource
+                                                CacheValidity="7"
+                                                CachingEnabled="True"
+                                                Uri="{Binding GetPhotoUri}" />
+
+                                        </Image.Source>
+                                    </Image>
+                                    <StackLayout
+                                        Margin="0,0,0,10"
+                                        HorizontalOptions="CenterAndExpand"
+                                        IsVisible="{Binding IsActive, Converter={StaticResource invertBoolConverter}}"
+                                        Orientation="Horizontal"
+                                        VerticalOptions="CenterAndExpand">
+                                        <Label
+                                            FontSize="{OnIdiom Tablet=Large,
+                                                               Phone=Medium}"
+                                            HorizontalTextAlignment="Center"
+                                            LineBreakMode="NoWrap"
+                                            Text="Se deschide la data de"
+                                            TextColor="Black" />
+                                        <Label
+                                            FontSize="{OnIdiom Tablet=Large,
+                                                               Phone=Medium}"
+                                            HorizontalTextAlignment="Center"
+                                            LineBreakMode="NoWrap"
+                                            Text="{Binding Opening, StringFormat='{0:MMMM dd, yyyy}'}"
+                                            TextColor="Black" />
+                                    </StackLayout>
+                                    <StackLayout
+                                        Margin="0,0,0,10"
+                                        HorizontalOptions="CenterAndExpand"
+                                        IsVisible="{Binding TemporaryClosed}">
+                                        <Label
+                                            FontSize="{OnIdiom Tablet=Large,
+                                                               Phone=Medium}"
+                                            HorizontalTextAlignment="Center"
+                                            LineBreakMode="NoWrap"
+                                            Text="Inchis pentru moment, revenim."
+                                            TextColor="Red" />
+                                    </StackLayout>
+                                    <StackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type local:ListaCompaniiViewModel}}, Path=ItemTapped}"
+                                            CommandParameter="{Binding .}"
+                                            NumberOfTapsRequired="1" />
+                                    </StackLayout.GestureRecognizers>
+                                </StackLayout>
+                            </StackLayout>
+                        </StackLayout>
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+        </CollectionView>
+    </RefreshView>
+</ContentPage>
