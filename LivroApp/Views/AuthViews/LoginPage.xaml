@@ -3,8 +3,7 @@
     x:Class="LivroApp.Views.LoginPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:LivroApp.ViewModels"
-    xmlns:model="clr-namespace:LivroApp.Models.ShopModels"
+    xmlns:local="clr-namespace:LivroApp.ViewModels.AuthVModels"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     x:DataType="local:LoginViewModel"
     Shell.PresentationMode="ModalAnimated">
@@ -91,7 +90,7 @@
                         Padding="0"
                         xct:CornerRadiusEffect.CornerRadius="30"
                         BackgroundColor="LightCoral"
-                        Command="{Binding Login}"
+                        Command="{Binding ExecuteLoginLivro}"
                         FontSize="{OnIdiom Tablet=Large,
                                            Phone=Medium}"
                         Text="Conectare"
@@ -165,7 +164,7 @@
                             xct:TouchEffect.PressedScale="1.1"
                             Aspect="AspectFit"
                             BackgroundColor="Transparent"
-                            Command="{Binding SignInWithAppleCommand}"
+                            Command="{Binding ExecuteLoginApple}"
                             HeightRequest="50"
                             Source="signInWithApple.png" />
                         <ImageButton
@@ -176,7 +175,7 @@
                             BackgroundColor="Transparent"
                             Command="{Binding ExecuteLoginFacebook}"
                             HeightRequest="50"
-                            IsVisible="{Binding FBLoginEnabled}"
+                            IsVisible="{Binding FacebookLoginEnabled}"
                             Source="btn_facebook_signin.png" />
                     </StackLayout>
                     <StackLayout HorizontalOptions="CenterAndExpand" IsVisible="{Binding IsGoogleSignInAvailable}">

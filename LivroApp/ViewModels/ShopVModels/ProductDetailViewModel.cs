@@ -6,18 +6,17 @@ using Xamarin.Forms;
 namespace LivroApp.ViewModels.ShopVModels
 {
     [QueryProperty(nameof(ItemId), nameof(ItemId))]
-    public class ProductInOrderViewModel : BaseViewModel
+    public class ProductDetailViewModel : BaseViewModel<Product>
     {
-        private Item item;
+        private Product _item;
         private int itemId;
-
-        public ProductInOrderViewModel()
+        public ProductDetailViewModel()
         {
         }
-        public Item Item
+        public Product Item
         {
-            get => item;
-            set => SetProperty(ref item, value);
+            get => _item;
+            set => SetProperty(ref _item, value);
         }
         public int ItemId
         {
@@ -36,12 +35,9 @@ namespace LivroApp.ViewModels.ShopVModels
             try
             {
                 Item = DataStore.GetItem(itemId);
-                Title = "Detalii " + Item.Name;
+                Title = Item.Name;
             }
-            catch (Exception)
-            {
-                Debug.WriteLine("Failed to Load Item");
-            }
+            catch (Exception) { Debug.WriteLine("Failed to Load Item"); }
         }
     }
 }

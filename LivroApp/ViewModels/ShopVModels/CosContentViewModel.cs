@@ -1,6 +1,7 @@
 ﻿using LivroApp.Constants;
 using LivroApp.Models.ShopModels;
 using LivroApp.Views;
+using MvvmHelpers;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -15,27 +16,23 @@ namespace LivroApp.ViewModels.ShopVModels
     public class CosContentViewModel : BaseViewModel<CartItem>
     {
         private decimal _total;
-        private List<Product> SItems;
+        private List<Product> _SItems;
         HttpClient _client;
-        private bool canPlaceOrder = false;
+        private bool _canPlaceOrder = false;
         public bool CanPlaceOrder
         {
-            get => canPlaceOrder;
-            set => SetProperty(ref canPlaceOrder, value);
+            get => _canPlaceOrder;
+            set => SetProperty(ref _canPlaceOrder, value);
         }
-        public Command LoadItemsCommand { get; }
         public Command MinusCommand { get; }
         public Command PlusCommand { get; }
         public Command DeleteCommand { get; }
         public CosContentViewModel()
         {
-            Title = "Cos cumparaturi";
-            Items = new ObservableCollection<CartItem>();
-            LoadItemsCommand = new Command(ExecuteLoadItemsCommand);
             _client = new HttpClient();
-            SItems = new List<Product>();
-            ItemTapped = new Command<CartItem>((item) => OnItemSelected(item));
-
+            Items = new ObservableRangeCollection<CartItem>();
+            _SItems = new List<Product>();
+            LoadAllItems = new Command(ExecuteLoadItemsCommand);
             MinusCommand = new Command<CartItem>(OnMinus);
             PlusCommand = new Command<CartItem>(OnPlus);
             DeleteCommand = new Command<CartItem>(OnDelete);
@@ -47,38 +44,26 @@ namespace LivroApp.ViewModels.ShopVModels
         }
         void ExecuteLoadItemsCommand()
         {
-
+            IsBusy = true;
             try
             {
                 Items.Clear();
                 Total = 0;
                 var items = DataStore.GetCartItems();
-                if (SItems.Count == 0)
-                    SItems.AddRange(DataStore.GetItems(0, 0));
+                if (_SItems.Count == 0)
+                    _SItems.AddRange(DataStore.GetItems(0, 0));
                 foreach (var item in items)
                 {
                     Items.Add(item);
-                    Total = Total + item.PriceTotal;
+                    Total += item.PriceTotal;
                 }
                 if (items.Count > 0)
                     IsAvailable = true;
                 else
                     IsAvailable = false;
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
-            }
-        }
-
-        public CartItem SelectedItem
-        {
-            get => _selectedItem;
-            set
-            {
-                SetProperty(ref _selectedItem, value);
-                OnItemSelected(value);
-            }
+            catch (Exception) { }
+            finally { IsBusy = false; }
         }
         void OnDelete(CartItem item)
         {
@@ -92,7 +77,7 @@ namespace LivroApp.ViewModels.ShopVModels
             if (item == null)
                 return;
             item.Cantitate--;
-            item.PriceTotal = item.Cantitate * SItems.Find(prod => prod.ProductId == item.ProductId).Price;
+            item.PriceTotal = item.Cantitate * _SItems.Find(prod => prod.ProductId == item.ProductId).Price;
             if (item.Cantitate == 0)
             {
                 DataStore.DeleteFromCart(item);
@@ -108,7 +93,7 @@ namespace LivroApp.ViewModels.ShopVModels
             if (item == null)
                 return;
             item.Cantitate++;
-            item.PriceTotal = item.Cantitate * SItems.Find(prod => prod.ProductId == item.ProductId).Price;
+            item.PriceTotal = item.Cantitate * _SItems.Find(prod => prod.ProductId == item.ProductId).Price;
 
             DataStore.SaveCart(item);
             RefreshCanExecutes();
@@ -125,14 +110,6 @@ namespace LivroApp.ViewModels.ShopVModels
             else
                 IsAvailable = false;
 
-        }
-        async void OnItemSelected(CartItem item)
-        {
-            if (item == null)
-                return;
-
-            // This will push the ItemDetailPage onto the navigation stack
-            await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?{nameof(ItemDetailViewModel.ItemId)}={item.ProductId}");
         }
         public async void GetTime()
         {

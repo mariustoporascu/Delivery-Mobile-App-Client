@@ -25,14 +25,14 @@ namespace LivroApp.ViewModels.ShopVModels
             {
                 Items.Clear();
                 var items = DataStore.GetCategories((int)RefId);
-
                 Items.AddRange(items);
+                if (Items.Count > 0)
+                    IsAvailable = true;
+                else
+                    IsAvailable = false;
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
-            }
-            IsBusy = false;
+            catch (Exception) { }
+            finally { IsBusy = false; }
         }
         public async void OnItemSelected(Category item)
         {
@@ -43,7 +43,7 @@ namespace LivroApp.ViewModels.ShopVModels
         }
         async void OnAllProducts()
         {
-            await Shell.Current.GoToAsync($"{nameof(ProductsPage)}?{nameof(RefId)}={RefId}&{nameof(ProductsViewModel.CategId)}={null}");
+            await Shell.Current.GoToAsync($"{nameof(ProductsPage)}?{nameof(RefId)}={RefId}&{nameof(ProductsViewModel.CategId)}={0}");
         }
     }
 }

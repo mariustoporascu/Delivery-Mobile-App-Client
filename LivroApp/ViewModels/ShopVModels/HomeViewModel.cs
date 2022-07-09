@@ -14,7 +14,6 @@ namespace LivroApp.ViewModels.ShopVModels
         private bool firstLaunch = true;
         public HomeViewModel()
         {
-            Title = "Acasa";
             Items = new ObservableRangeCollection<TipCompanie>();
             ItemTapped = new Command<TipCompanie>((item) => OnItemSelected(item));
             LoadAllItems = new Command(ExecuteLoadItemsCommand);
@@ -22,9 +21,17 @@ namespace LivroApp.ViewModels.ShopVModels
         }
         void ExecuteLoadItemsCommand()
         {
-            Items.Clear();
-            var items = DataStore.GetTipCompanii();
-            Items.AddRange(items);
+            try
+            {
+                Items.Clear();
+                var items = DataStore.GetTipCompanii();
+                Items.AddRange(items);
+                if (Items.Count > 0)
+                    IsAvailable = true;
+                else
+                    IsAvailable = false;
+            }
+            catch (Exception) { }
         }
         public async Task RefreshAppData()
         {
@@ -38,10 +45,7 @@ namespace LivroApp.ViewModels.ShopVModels
                     if (items.Count != Items.Count)
                         ExecuteLoadItemsCommand();
                 }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex);
-                }
+                catch (Exception) { }
             }
             else
             {

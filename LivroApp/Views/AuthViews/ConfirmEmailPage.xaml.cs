@@ -1,5 +1,4 @@
-﻿using LivroApp.ViewModels;
-
+﻿using LivroApp.ViewModels.AuthVModels;
 using System;
 using System.Diagnostics;
 using Xamarin.CommunityToolkit.Extensions;
@@ -14,9 +13,8 @@ namespace LivroApp.Views
         {
             InitializeComponent();
             BindingContext = viewModel = new ConfirmEmailViewModel();
-            viewModel.OnSignIn += OnSignIn;
-            viewModel.OnSignInFailed += OnSignInFailed;
-
+            viewModel.SuccessDelegate += OnSignIn;
+            viewModel.FailedDelegate += OnSignInFailed;
         }
 
         async void ConfirmClicked(object sender, EventArgs args)
@@ -45,10 +43,7 @@ namespace LivroApp.Views
             {
                 await Shell.Current.DisplayToastAsync("Emailul a fost confirmat cu succes.", 1500);
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
+            catch (Exception) { }
             await Navigation.PopModalAsync(true);
         }
 

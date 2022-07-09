@@ -19,8 +19,8 @@ namespace LivroApp.Views
             InitializeComponent();
             geoCoder = new Geocoder();
             BindingContext = viewModel = new UserLocationViewModel(locationId);
-            viewModel.OnUpdateLocation += OnUpdateLocation;
-            viewModel.UpdateLocationFailed += UpdateLocationFailed;
+            viewModel.SuccessDelegate += OnUpdateLocation;
+            viewModel.FailedDelegate += UpdateLocationFailed;
         }
         protected override async void OnAppearing()
         {
@@ -37,19 +37,12 @@ namespace LivroApp.Views
             {
                 try
                 {
-
                     goToPin.Position = new Position(viewModel.CoordX, viewModel.CoordY);
 
                     AppMap.Pins.Add(goToPin);
                     AppMap.MoveToRegion(MapSpan.FromCenterAndRadius(goToPin.Position, Distance.FromMeters(100)));
-
                 }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex.Message);
-                }
-
-
+                catch (Exception) { }
             }
             else
             {
@@ -74,15 +67,8 @@ namespace LivroApp.Views
                     return;
                 }
                 CladireAp.TextColor = Color.Black;
-
-
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-
-
-            }
+            catch (Exception) { }
         }
         private void CheckFieldLocName(object sender, TextChangedEventArgs e)
         {
@@ -94,15 +80,8 @@ namespace LivroApp.Views
                     return;
                 }
                 LocName.TextColor = Color.Black;
-
-
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-
-
-            }
+            catch (Exception) { }
         }
         private async void CheckFieldNumeNrStrada(object sender, EventArgs e)
         {
@@ -121,22 +100,14 @@ namespace LivroApp.Views
                 SelectorCity.TextColor = Color.Black;
 
                 NumeNrStrada.TextColor = Color.Black;
-
-
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-
-
-            }
+            catch (Exception) { }
         }
         private async void City_SelectedIndexChanged(object sender, System.EventArgs e)
         {
             //$"{loc.LocationName},{loc.BuildingInfo},{loc.Street},{loc.City}"
             try
             {
-
                 if (!await VerifyLocation(true))
                 {
                     SelectorCity.TextColor = Color.Red;
@@ -147,10 +118,7 @@ namespace LivroApp.Views
                 SelectorCity.TextColor = Color.Black;
             }
 
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
+            catch (Exception) { }
         }
 
         private async Task<bool> IsProfileValid()
@@ -161,14 +129,10 @@ namespace LivroApp.Views
                 CladireApEntry.IsValid && await VerifyLocation(false))
                     return true;
                 return false;
-
-
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Debug.WriteLine(ex.Message);
                 return false;
-
             }
         }
         private async Task<bool> VerifyLocation(bool changeLocation)
@@ -205,13 +169,11 @@ namespace LivroApp.Views
 
                         return true;
                     }
-                    return false;
                 }
                 return false;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Debug.WriteLine(ex.Message);
                 return false;
             }
         }
@@ -220,7 +182,6 @@ namespace LivroApp.Views
 
             try
             {
-
                 Pin goToPin;
                 var map = (Map)sender;
                 //User Actual Location
@@ -239,10 +200,7 @@ namespace LivroApp.Views
                 viewModel.CoordY = map.VisibleRegion.Center.Longitude;
 
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
+            catch (Exception) { }
         }
         private async void SaveButtonClicked(object sender, EventArgs e)
         {
@@ -253,10 +211,7 @@ namespace LivroApp.Views
                 else
                     await DisplayAlert("Eroare", "Datele locatiei nu sunt complete.", "OK");
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
+            catch (Exception) { }
         }
         private async void OnUpdateLocation(object sender, EventArgs e)
         {
@@ -265,10 +220,7 @@ namespace LivroApp.Views
                 await Shell.Current.DisplayToastAsync("Locatia a fost actualizata.", 1500);
                 await Navigation.PopModalAsync(true);
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
+            catch (Exception) { }
         }
         private async void UpdateLocationFailed(object sender, EventArgs e)
         {
@@ -276,10 +228,7 @@ namespace LivroApp.Views
             {
                 await Shell.Current.DisplayToastAsync("Incercare esuata.", 1500);
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
+            catch (Exception) { }
         }
         private async void DismissClicked(object sender, EventArgs e)
         {
@@ -287,10 +236,7 @@ namespace LivroApp.Views
             {
                 await Navigation.PopModalAsync(true);
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
+            catch (Exception) { }
         }
     }
 }

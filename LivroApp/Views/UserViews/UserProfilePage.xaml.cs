@@ -18,8 +18,8 @@ namespace LivroApp.Views
         {
             InitializeComponent();
             BindingContext = viewModel = new UserProfileViewModel();
-            viewModel.OnDeleteAcc += OnDeleteAcc;
-            viewModel.DeleteAccFailed += DeleteAccFailed;
+            viewModel.SuccessDelegate += OnDeleteAcc;
+            viewModel.FailedDelegate += DeleteAccFailed;
 
         }
         protected override void OnAppearing()
@@ -39,36 +39,24 @@ namespace LivroApp.Views
             try
             {
                 await Navigation.PushModalAsync(new UserLocationsListPage());
-
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
+            catch (Exception) { }
         }
         private async void EditInfo(object sender, EventArgs e)
         {
             try
             {
                 await Navigation.PushModalAsync(new UserDetailsPage());
-
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
+            catch (Exception) { }
         }
         private async void SetPassword(object sender, EventArgs e)
         {
             try
             {
                 await Navigation.PushModalAsync(new SetPasswordPage());
-
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
+            catch (Exception) { }
         }
         private async void ChangePassword(object sender, EventArgs e)
         {
@@ -77,10 +65,7 @@ namespace LivroApp.Views
                 await Navigation.PushModalAsync(new ChangePasswordPage());
 
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
+            catch (Exception) { }
         }
         private void AskHelpClicked(object sender, EventArgs e)
         {
@@ -107,10 +92,7 @@ namespace LivroApp.Views
                     await Navigation.PushModalAsync(new GoogleDriveViewerPage(ServerConstants.Termeni));
 
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
+            catch (Exception) { }
         }
         private async void IntrebariClicked(object sender, EventArgs e)
         {
@@ -133,10 +115,7 @@ namespace LivroApp.Views
                     await Navigation.PushModalAsync(new GoogleDriveViewerPage(ServerConstants.Intrebari));
 
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
+            catch (Exception) { }
         }
         private async void GDPRclicked(object sender, EventArgs e)
         {
@@ -159,34 +138,23 @@ namespace LivroApp.Views
                     await Navigation.PushModalAsync(new GoogleDriveViewerPage(ServerConstants.Gdpr));
 
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
+            catch (Exception) { }
         }
         private async void OnDeleteAcc(object sender, EventArgs e)
         {
             try
             {
                 await Shell.Current.DisplayToastAsync("Contul a fost sters.", 1500);
-
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
+            catch (Exception) { }
         }
         private async void DeleteAccFailed(object sender, EventArgs e)
         {
             try
             {
                 await Shell.Current.DisplayToastAsync("Contul nu s-a putut sterge.", 1500);
-
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
+            catch (Exception) { }
         }
 
         private async void DeleteButtonClicked(object sender, EventArgs e)
@@ -205,12 +173,8 @@ namespace LivroApp.Views
 
                     viewModel.DeleteProfile.Execute(null);
                 }
-
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
+            catch (Exception) { }
         }
         private async void Deconectare_clicked(object sender, EventArgs e)
         {
@@ -221,10 +185,7 @@ namespace LivroApp.Views
                 {
                     viewModel.Logout.Execute(null);
                 }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex.Message);
-                }
+                catch (Exception) { }
             }
         }
 

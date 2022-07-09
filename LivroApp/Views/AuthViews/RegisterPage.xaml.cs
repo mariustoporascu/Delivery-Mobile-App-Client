@@ -14,27 +14,9 @@ namespace LivroApp.Views
         {
             InitializeComponent();
             BindingContext = viewModel = new RegisterViewModel();
-            /*if (Device.RuntimePlatform == Device.iOS)
-            {
-                viewModel.OnSignIn += OnSignInApple;
-                viewModel.OnSignUpWeb += OnSignUpWebApple;
-            }
-            else
-            {*/
-            viewModel.OnSignIn += OnSignIn;
-            viewModel.OnSignUpWeb += OnSignUpWeb;
-            //}
-
-            viewModel.OnSignInFailed += OnSignInFailed;
+            viewModel.SuccessDelegate += OnSignUpWeb;
+            viewModel.FailedDelegate += OnSignInFailed;
             BindingContext = viewModel;
-            if (!viewModel._loggedIn)
-            {
-                /*if (Device.RuntimePlatform == Device.iOS)
-                    OnSignInApple(this, new EventArgs());
-                else*/
-                OnSignIn(this, new EventArgs());
-            }
-
         }
         private void CheckFieldMail(object sender, TextChangedEventArgs e)
         {
@@ -61,13 +43,8 @@ namespace LivroApp.Views
                     return;
                 }
                 FullName.TextColor = Color.Black;
-
-
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
+            catch (Exception) { }
         }
         private void CheckFieldPass(object sender, TextChangedEventArgs e)
         {
@@ -127,27 +104,7 @@ namespace LivroApp.Views
             ConfirmPassword.TextColor = Color.Black;
             FullName.TextColor = Color.Black;
 
-            viewModel.SignUpWebCommand.Execute(null);
-        }
-        private void OnSignInApple(object sender, EventArgs e)
-        {
-            Navigation.PopModalAsync(true);
-        }
-        private void OnSignUpWebApple(object sender, EventArgs e)
-        {
-            try
-            {
-                this.DisplayToastAsync("Contul tau a fost creat cu succes", 2300);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
-            Navigation.PopModalAsync(true);
-        }
-        private async void OnSignIn(object sender, EventArgs e)
-        {
-            await Navigation.PopModalAsync(true);
+            viewModel.SignUpLivro.Execute(null);
         }
         private async void OnSignUpWeb(object sender, EventArgs e)
         {
@@ -155,14 +112,9 @@ namespace LivroApp.Views
             {
                 await Shell.Current.DisplayToastAsync("Contul tau a fost creat cu succes", 1500);
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
+            catch (Exception) { }
             await Navigation.PopModalAsync(true);
         }
-
-
         private async void OnSignInFailed(object sender, EventArgs e)
         {
 
@@ -170,7 +122,6 @@ namespace LivroApp.Views
         }
         async void OnDismissButtonClicked(object sender, EventArgs args)
         {
-            // Page appearance not animated
             await Navigation.PopModalAsync(true);
         }
 

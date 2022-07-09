@@ -23,17 +23,20 @@ namespace LivroApp.Views
             if (!string.IsNullOrWhiteSpace(viewModel.Help.Email) && !string.IsNullOrWhiteSpace(viewModel.Help.Name)
                 && !string.IsNullOrWhiteSpace(viewModel.Help.TelNo) && !string.IsNullOrWhiteSpace(viewModel.Help.Message))
             {
-                if (await viewModel.SendMsg())
+                try
                 {
-                    await Shell.Current.DisplayAlert("Succes", "Mesajul tau a fost trimis.", "OK");
-                    Dismiss(null);
+                    if (await viewModel.SendMsg())
+                    {
+                        await Shell.Current.DisplayAlert("Succes", "Mesajul tau a fost trimis.", "OK");
+                        Dismiss(null);
+                    }
+                    else
+                    {
+                        await Shell.Current.DisplayAlert("Eroare", "Mesajul nu a fost trimis, reincercati.", "OK");
+                        return;
+                    }
                 }
-                else
-                {
-                    await Shell.Current.DisplayAlert("Eroare", "Mesajul nu a fost trimis, reincercati.", "OK");
-                    return;
-                }
-
+                catch (Exception) { }
             }
             else
                 await Shell.Current.DisplayAlert("Eroare", "Trebuie sa completezi toate campurile.", "OK");

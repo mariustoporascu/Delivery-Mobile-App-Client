@@ -7,7 +7,7 @@ using Xamarin.Forms;
 
 namespace LivroApp.ViewModels.AuthVModels
 {
-    public class SetPasswordViewModel : BaseViewModel<BaseModel>
+    public class SetPasswordViewModel : BaseViewModel<object>
     {
         private string _confirmPassword = string.Empty;
         private string _password = string.Empty;

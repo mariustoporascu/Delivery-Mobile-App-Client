@@ -3,10 +3,10 @@
     x:Class="LivroApp.Views.HomePage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:LivroApp.ViewModels"
+    xmlns:local="clr-namespace:LivroApp.ViewModels.ShopVModels"
     xmlns:model="clr-namespace:LivroApp.Models.ShopModels"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-    Title="{Binding Title}"
+    Title="Acasa"
     x:DataType="local:HomeViewModel"
     Shell.PresentationMode="Animated">
     <RefreshView

@@ -19,7 +19,7 @@ namespace LivroApp.Services
         //IEnumerable<Item> SearchItems(int canal, int refId, int? categId, string itemName = "");
         IEnumerable<Category> GetCategories(int refId);
         IEnumerable<SubCategory> GetSubCategories(int? categId);
-        IEnumerable<Companie> GetCompanii(int? tipCompanie);
+        IEnumerable<Companie> GetCompanii(int tipCompanie);
         IEnumerable<AvailableCity> GetAvailableCities();
         Companie GetCompanie(int companieId);
         IEnumerable<UnitatiMasura> GetUnitatiMasura();

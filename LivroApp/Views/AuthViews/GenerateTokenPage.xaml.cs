@@ -13,8 +13,8 @@ namespace LivroApp.Views
         {
             InitializeComponent();
             BindingContext = viewModel = new GenerateTokenViewModel();
-            viewModel.OnSignIn += OnGenerateSucces;
-            viewModel.OnSignInFailed += OnGenerateFailed;
+            viewModel.SuccessDelegate += OnGenerateSucces;
+            viewModel.FailedDelegate += OnGenerateFailed;
             viewModel.HasCode += HasCode;
         }
         private void CheckFieldMail(object sender, TextChangedEventArgs e)
@@ -39,7 +39,6 @@ namespace LivroApp.Views
 
             Email.TextColor = Color.Black;
 
-
             viewModel.GenerateToken.Execute(null);
         }
 
@@ -49,10 +48,7 @@ namespace LivroApp.Views
             {
                 await Shell.Current.DisplayToastAsync($"Ai generat deja un cod valid, se poate genera altul dupa 15 minute de la generarea anterioara.", 1500);
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
+            catch (Exception) { }
             await Navigation.PushModalAsync(new ResetPasswordPage());
         }
         async void OnGenerateSucces(object sender, EventArgs args)
@@ -61,22 +57,16 @@ namespace LivroApp.Views
             {
                 await Shell.Current.DisplayToastAsync("Codul a fost trimis catre tine.", 1500);
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
+            catch (Exception) { }
             await Navigation.PushModalAsync(new ResetPasswordPage());
         }
         async void OnGenerateFailed(object sender, EventArgs args)
         {
             try
             {
-                await this.DisplayAlert("Eroare", "Codul nu a putut fi generat. Reincearca.", "OK");
+                await DisplayAlert("Eroare", "Codul nu a putut fi generat. Reincearca.", "OK");
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
+            catch (Exception) { }
         }
         async void OnDismissButtonClicked(object sender, EventArgs args)
         {

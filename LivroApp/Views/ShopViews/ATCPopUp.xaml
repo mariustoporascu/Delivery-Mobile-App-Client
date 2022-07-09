@@ -3,7 +3,7 @@
     x:Class="LivroApp.Views.ATCPopUp"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:viewmodels="clr-namespace:LivroApp.ViewModels"
+    xmlns:viewmodels="clr-namespace:LivroApp.ViewModels.ShopVModels"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     x:DataType="viewmodels:ATCPopUpVM"
     IsLightDismissEnabled="False"

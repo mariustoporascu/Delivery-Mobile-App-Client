@@ -5,8 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:d="http://xamarin.com/schemas/2014/forms/design"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:viewModels="clr-namespace:LivroApp.ViewModels;assembly=FoodDeliveryApp"
-    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit" xmlns:viewModels="clr-namespace:LivroApp.ViewModels.AuthVModels"
     x:DataType="viewModels:GenerateTokenViewModel"
     Shell.PresentationMode="ModalAnimated"
     mc:Ignorable="d">

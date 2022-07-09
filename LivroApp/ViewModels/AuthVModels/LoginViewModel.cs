@@ -14,7 +14,7 @@ using Xamarin.Forms;
 
 namespace LivroApp.ViewModels.AuthVModels
 {
-    public class LoginViewModel : BaseViewModel<BaseModel>
+    public class LoginViewModel : BaseViewModel<object>
     {
         private string _userName = string.Empty;
         private string _password = string.Empty;

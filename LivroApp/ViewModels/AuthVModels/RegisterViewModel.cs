@@ -9,7 +9,7 @@ using Xamarin.Forms;
 
 namespace LivroApp.ViewModels.AuthVModels
 {
-    public class RegisterViewModel : BaseViewModel<BaseModel>
+    public class RegisterViewModel : BaseViewModel<object>
     {
         private string _userName = string.Empty;
         private string _fullName = string.Empty;

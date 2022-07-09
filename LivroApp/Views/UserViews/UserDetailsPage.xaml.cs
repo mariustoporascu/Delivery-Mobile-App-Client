@@ -15,8 +15,8 @@ namespace LivroApp.Views
         {
             InitializeComponent();
             BindingContext = viewModel = new UserDetailsViewModel();
-            viewModel.OnUpdateProfile += OnUpdateProfile;
-            viewModel.UpdateProfileFailed += UpdateProfileFailed;
+            viewModel.SuccessDelegate += OnUpdateProfile;
+            viewModel.FailedDelegate += UpdateProfileFailed;
         }
         protected override void OnAppearing()
         {
@@ -42,10 +42,7 @@ namespace LivroApp.Views
 
 
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
+            catch (Exception) { }
         }
         private void CheckFieldNrTelefon(object sender, TextChangedEventArgs e)
         {
@@ -62,32 +59,18 @@ namespace LivroApp.Views
                     return;
                 }
                 NrTelefon.TextColor = Color.Black;
-
-
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-
-            }
+            catch (Exception) { }
         }
         private bool IsProfileValid()
         {
             try
             {
-                if (NrTelefonEntry.IsValid &&
-                NumeCompletEntry.IsValid)
+                if (NrTelefonEntry.IsValid && NumeCompletEntry.IsValid)
                     return true;
                 return false;
-
-
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-                return false;
-
-            }
+            catch (Exception) { return false; }
         }
         private async void SaveButtonClicked(object sender, EventArgs e)
         {
@@ -98,10 +81,7 @@ namespace LivroApp.Views
                 else
                     await DisplayAlert("Eroare", "Datele nu sunt complete.", "OK");
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
+            catch (Exception) { }
         }
         private async void OnUpdateProfile(object sender, EventArgs e)
         {
@@ -110,10 +90,7 @@ namespace LivroApp.Views
                 await Shell.Current.DisplayToastAsync("Profilul a fost actualizat.", 1500);
                 await Navigation.PopModalAsync(true);
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
+            catch (Exception) { }
         }
         private async void UpdateProfileFailed(object sender, EventArgs e)
         {
@@ -121,10 +98,7 @@ namespace LivroApp.Views
             {
                 await Shell.Current.DisplayToastAsync("Incercare esuata.", 1500);
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
+            catch (Exception) { }
         }
         async void OnDismissButtonClicked(object sender, EventArgs args)
         {

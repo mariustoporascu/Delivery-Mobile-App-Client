@@ -3,10 +3,10 @@
     x:Class="LivroApp.Views.CosContentPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:LivroApp.ViewModels"
+    xmlns:local="clr-namespace:LivroApp.ViewModels.ShopVModels"
     xmlns:model="clr-namespace:LivroApp.Models.ShopModels"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-    Title="{Binding Title}"
+    Title="Cos Cumparaturi"
     x:DataType="local:CosContentViewModel"
     Shell.PresentationMode="Animated">
     <ContentPage.Resources>
@@ -18,7 +18,7 @@
         Margin="10,10,10,0"
         HorizontalOptions="FillAndExpand"
         VerticalOptions="FillAndExpand">
-        <StackLayout IsVisible="{Binding IsPageVisible}">
+        <StackLayout IsVisible="{Binding IsAvailable}">
             <StackLayout
                 HorizontalOptions="FillAndExpand"
                 Orientation="Horizontal"
@@ -180,7 +180,7 @@
                         Clicked="GoToFinalizeOrder"
                         FontSize="{OnIdiom Tablet=Large,
                                            Phone=Medium}"
-                        IsVisible="{Binding IsLoggedIn}"
+                        IsVisible="{Binding LoggedIn}"
                         Text="Plaseaza comanda"
                         TextColor="White"
                         TextTransform="None" />
@@ -189,7 +189,7 @@
                         FontAttributes="Bold"
                         FontSize="Default"
                         HorizontalTextAlignment="Center"
-                        IsVisible="{Binding IsLoggedIn, Converter={StaticResource invertBoolConverter}}"
+                        IsVisible="{Binding LoggedIn, Converter={StaticResource invertBoolConverter}}"
                         Text="Pentru plasare comanda trebuie sa fii autentificat."
                         TextColor="Black" />
                 </StackLayout>
@@ -205,7 +205,7 @@
 
             </StackLayout>
         </StackLayout>
-        <StackLayout IsVisible="{Binding IsPageVisible, Converter={StaticResource invertBoolConverter}}" VerticalOptions="CenterAndExpand">
+        <StackLayout IsVisible="{Binding IsAvailable, Converter={StaticResource invertBoolConverter}}" VerticalOptions="CenterAndExpand">
             <Image
                 BackgroundColor="Transparent"
                 HeightRequest="50"

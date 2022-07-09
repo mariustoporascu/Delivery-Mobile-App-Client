@@ -36,6 +36,9 @@
 	  <Compile Update="Views\ShopViews\HomePage.xaml.cs">
 	    <DependentUpon>HomePage.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Views\ShopViews\ProductDetailPage.xaml.cs">
+	    <DependentUpon>ProductDetailPage.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\ShopViews\ProductsPage.xaml.cs">
 	    <DependentUpon>ProductsPage.xaml</DependentUpon>
 	  </Compile>
@@ -74,9 +77,6 @@
 		</EmbeddedResource>
 		<EmbeddedResource Update="Views\LoadingPage.xaml">
 		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-		</EmbeddedResource>
-		<EmbeddedResource Update="Views\ShopViews\ProductInOrderPage.xaml">
-			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
 		<EmbeddedResource Update="Views\AuthViews\ResetPasswordPage.xaml">
 		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>

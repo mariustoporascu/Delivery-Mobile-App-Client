@@ -18,12 +18,9 @@ namespace LivroApp.Views
         {
             try
             {
-                await this.DisplayAlert("Info", "Indisponibil momentan, se va deschide in curand.", "OK");
+                await DisplayAlert("Info", "Indisponibil momentan, se va deschide in curand.", "OK");
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
+            catch (Exception) { }
         }
         protected override void OnAppearing()
         {

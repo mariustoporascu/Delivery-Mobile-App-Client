@@ -7,7 +7,7 @@ using Xamarin.Forms;
 
 namespace LivroApp.ViewModels.AuthVModels
 {
-    public class GenerateTokenViewModel : BaseViewModel<BaseModel>
+    public class GenerateTokenViewModel : BaseViewModel<object>
     {
         private string _userName = string.Empty;
         public string UserName { get => _userName; set => SetProperty(ref _userName, value); }

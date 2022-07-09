@@ -13,8 +13,8 @@ namespace LivroApp.Views
         {
             InitializeComponent();
             BindingContext = viewModel = new ChangePasswordViewModel();
-            viewModel.ChangePasswordSuc += ChangePasswordSuc;
-            viewModel.ChangePasswordFailed += ChangePasswordFailed;
+            viewModel.SuccessDelegate += ChangePasswordSuc;
+            viewModel.FailedDelegate += ChangePasswordFailed;
         }
         private void CheckFieldPass(object sender, TextChangedEventArgs e)
         {
@@ -89,17 +89,13 @@ namespace LivroApp.Views
             {
                 await Shell.Current.DisplayToastAsync("Parola a fost schimbata.", 1500);
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
+            catch (Exception) { }
             await Navigation.PopModalAsync(true);
         }
 
 
         private async void ChangePasswordFailed(object sender, EventArgs e)
         {
-
             await DisplayAlert("Eroare", "Incercare esuata", "OK");
         }
         async void OnDismissButtonClicked(object sender, EventArgs args)

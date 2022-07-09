@@ -5,7 +5,7 @@ using Xamarin.Forms;
 
 namespace LivroApp.ViewModels.ShopVModels
 {
-    public class ATCPopUpVM
+    public class ATCPopUpVM : BaseViewModel<object>
     {
         public CartItem Item { get; set; }
         public decimal RefPrice { get; set; }

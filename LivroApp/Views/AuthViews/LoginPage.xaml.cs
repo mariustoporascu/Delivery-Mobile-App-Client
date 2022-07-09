@@ -19,27 +19,16 @@ namespace LivroApp.Views
         {
             InitializeComponent();
             BindingContext = viewModel = new LoginViewModel();
-            /*if (Device.RuntimePlatform == Device.iOS)
-                viewModel.OnSignIn += OnSignInApple;
-            else*/
-            viewModel.OnSignIn += OnSignIn;
-            viewModel.OnSignInFailed += OnSignInFailed;
+            viewModel.SuccessDelegate += OnSignIn;
+            viewModel.FailedDelegate += OnSignInFailed;
             viewModel.RequireConfirmEmail += RequireConfirmEmail;
-
-            if (App.IsLoggedIn)
-            {
-                /*if (Device.RuntimePlatform == Device.iOS)
-                    OnSignInApple(this, new EventArgs());
-                else*/
-                OnSignIn(this, new EventArgs());
-            }
         }
         protected override async void OnAppearing()
         {
             base.OnAppearing();
             try
             {
-                viewModel.FBLoginEnabled = await viewModel.AuthController.FbLoginEnabled();
+                viewModel.FacebookLoginEnabled = await viewModel.AuthController.FbLoginEnabled();
 
             }
             catch (Exception) { }
@@ -48,19 +37,12 @@ namespace LivroApp.Views
                 App.FirebaseUserToken = OneSignal.Default.DeviceState.userId;
                 try
                 {
-                    SecureStorage.SetAsync(App.FBToken, App.FirebaseUserToken).Wait();
-
+                    SecureStorage.SetAsync(App.FIREBASE_TOKEN, App.FirebaseUserToken).Wait();
                 }
-                catch (Exception)
-                {
-
-                }
+                catch (Exception) { }
             }
             if (App.IsLoggedIn)
             {
-                /*if (Device.RuntimePlatform == Device.iOS)
-                    OnSignInApple(this, new EventArgs());
-                else*/
                 OnSignIn(this, new EventArgs());
             }
 
@@ -86,10 +68,7 @@ namespace LivroApp.Views
                     await Navigation.PushModalAsync(new GoogleDriveViewerPage(ServerConstants.Termeni));
 
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
+            catch (Exception) { }
         }
         private async void GDPRclicked(object sender, EventArgs e)
         {
@@ -112,10 +91,7 @@ namespace LivroApp.Views
                     await Navigation.PushModalAsync(new GoogleDriveViewerPage(ServerConstants.Gdpr));
 
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
+            catch (Exception) { }
         }
         private async void RedirSignUp(object sender, EventArgs e)
         {
@@ -123,31 +99,16 @@ namespace LivroApp.Views
         }
         async void OnDismissButtonClicked(object sender, EventArgs args)
         {
-            // Page appearance not animated
             await Navigation.PopModalAsync(true);
         }
-        private void OnSignInApple(object sender, EventArgs e)
-        {
-            try
-            {
-                this.DisplayToastAsync("Ai fost autentificat.", 2300);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
-            Navigation.PopModalAsync(true);
-        }
+
         private async void OnSignIn(object sender, EventArgs e)
         {
             try
             {
                 await Shell.Current.DisplayToastAsync("Ai fost autentificat.", 1500);
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
+            catch (Exception) { }
             await Navigation.PopModalAsync(true);
         }
 
@@ -162,7 +123,6 @@ namespace LivroApp.Views
 
         private async void OnSignInFailed(object sender, EventArgs e)
         {
-
             await DisplayAlert("Eroare", "Autentificare esuata", "OK");
         }
     }

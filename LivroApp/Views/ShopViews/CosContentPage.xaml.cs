@@ -7,8 +7,6 @@ namespace LivroApp.Views
     public partial class CosContentPage : ContentPage
     {
         CosContentViewModel viewModel;
-
-
         public CosContentPage()
         {
             InitializeComponent();
@@ -20,8 +18,7 @@ namespace LivroApp.Views
         {
             base.OnAppearing();
 
-            viewModel.IsLoggedIn = App.IsLoggedIn;
-            viewModel.LoadItemsCommand.Execute(null);
+            viewModel.LoadAllItems.Execute(null);
             viewModel.GetTime();
 
         }

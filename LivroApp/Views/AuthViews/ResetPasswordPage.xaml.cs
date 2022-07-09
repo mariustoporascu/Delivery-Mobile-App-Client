@@ -13,8 +13,8 @@ namespace LivroApp.Views
         {
             InitializeComponent();
             BindingContext = viewModel = new ResetPasswordViewModel();
-            viewModel.ResetPasswordSuc += ResetPasswordSuc;
-            viewModel.ResetPasswordFailed += ResetPasswordFailed;
+            viewModel.SuccessDelegate += ResetPasswordSuc;
+            viewModel.FailedDelegate += ResetPasswordFailed;
             viewModel.CoolDown += CoolDown;
         }
         private void CheckFieldToken(object sender, TextChangedEventArgs e)
@@ -86,10 +86,7 @@ namespace LivroApp.Views
             {
                 await Shell.Current.DisplayToastAsync("Parola a fost schimbata.", 1500);
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
+            catch (Exception) { }
             await Navigation.PopModalAsync(true);
         }
 
@@ -106,7 +103,6 @@ namespace LivroApp.Views
         }
         async void OnDismissButtonClicked(object sender, EventArgs args)
         {
-            // Page appearance not animated
             await Navigation.PopModalAsync(true);
         }
     }

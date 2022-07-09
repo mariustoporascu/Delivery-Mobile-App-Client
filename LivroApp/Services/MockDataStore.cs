@@ -32,9 +32,9 @@ namespace LivroApp.Services
             return _serverInfo.cartItems.FirstOrDefault(s => s.ProductId == id);
         }
 
-        public List<Product> GetItems(int? refId, int? categId)
+        public List<Product> GetItems(int refId, int? categId)
         {
-            if (refId == null)
+            if (refId == 0)
                 return _serverInfo.products;
             if (categId > 0)
             {
@@ -44,17 +44,19 @@ namespace LivroApp.Services
                     items.AddRange(_serverInfo.products.FindAll(prod => prod.SubCategoryRefId == sub.SubCategoryId));
                 return items;
             }
-            var categs = _serverInfo.categories.FindAll(ctg => ctg.CompanieRefId == refId);
-            var subCategAll = new List<SubCategory>();
-            foreach (var ctg in categs)
+            else
             {
-                subCategAll.AddRange(_serverInfo.subCategories.FindAll(sub => sub.CategoryRefId == ctg.CategoryId));
+                var categs = _serverInfo.categories.FindAll(ctg => ctg.CompanieRefId == refId);
+                var subCategAll = new List<SubCategory>();
+                foreach (var ctg in categs)
+                {
+                    subCategAll.AddRange(_serverInfo.subCategories.FindAll(sub => sub.CategoryRefId == ctg.CategoryId));
+                }
+                var itemsAll = new List<Product>();
+                foreach (var sub in subCategAll)
+                    itemsAll.AddRange(_serverInfo.products.FindAll(prod => prod.SubCategoryRefId == sub.SubCategoryId));
+                return itemsAll;
             }
-            var itemsAll = new List<Product>();
-            foreach (var sub in subCategAll)
-                itemsAll.AddRange(_serverInfo.products.FindAll(prod => prod.SubCategoryRefId == sub.SubCategoryId));
-            return itemsAll;
-
         }
 
         public void SaveCart(CartItem item)

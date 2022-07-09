@@ -33,7 +33,6 @@ namespace LivroApp.Views
         }
         async void OnDismissButtonClicked(object sender, EventArgs args)
         {
-            // Page appearance not animated
             await Navigation.PopModalAsync(true);
         }
         async Task<string> GetPdf(string url)

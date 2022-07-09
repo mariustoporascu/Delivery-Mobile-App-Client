@@ -13,8 +13,8 @@ namespace LivroApp.Views
         {
             InitializeComponent();
             BindingContext = viewModel = new SetPasswordViewModel();
-            viewModel.OnSetPasswordSuc += SetPasswordSuc;
-            viewModel.OnSetPasswordFailed += OnSetPasswordFailed;
+            viewModel.SuccessDelegate += SetPasswordSuc;
+            viewModel.FailedDelegate += OnSetPasswordFailed;
         }
         private void CheckFieldPass(object sender, TextChangedEventArgs e)
         {
@@ -68,10 +68,7 @@ namespace LivroApp.Views
             {
                 await Shell.Current.DisplayToastAsync("Parola a fost setata.", 1500);
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
+            catch (Exception) { }
             await Navigation.PopModalAsync(true);
         }
 

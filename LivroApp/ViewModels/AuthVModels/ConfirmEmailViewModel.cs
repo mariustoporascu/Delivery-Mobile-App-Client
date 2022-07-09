@@ -7,7 +7,7 @@ using Xamarin.Forms;
 
 namespace LivroApp.ViewModels.AuthVModels
 {
-    public class ConfirmEmailViewModel : BaseViewModel<BaseModel>
+    public class ConfirmEmailViewModel : BaseViewModel<object>
     {
         private string _userName = string.Empty;
         private string _token = string.Empty;

@@ -15,7 +15,7 @@ namespace LivroApp.Views
             InitializeComponent();
             BindingContext = viewModel = new UserLocationsListViewModel();
             viewModel.EditLocation += EditLocationClicked;
-            viewModel.DeleteLocationFailed += DeleteLocationFailed;
+            viewModel.FailedDelegate += DeleteLocationFailed;
         }
         protected override void OnAppearing()
         {
@@ -29,23 +29,17 @@ namespace LivroApp.Views
                 if (viewModel.LocationId > 0)
                     await Navigation.PushModalAsync(new UserLocationPage(viewModel.LocationId));
                 else
-                    await this.DisplayAlert("Eroare", "Nu se poate edita locatia aceasta", "OK");
+                    await DisplayAlert("Eroare", "Nu se poate edita locatia aceasta", "OK");
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
+            catch (Exception) { }
         }
         private async void DeleteLocationFailed(object sender, EventArgs e)
         {
             try
             {
-                await this.DisplayAlert("Eroare", "Stergerea locatiei a intampinat o eroare.", "OK");
+                await DisplayAlert("Eroare", "Stergerea locatiei a intampinat o eroare.", "OK");
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
+            catch (Exception) { }
         }
         private async void AddNewClicked(object sender, EventArgs e)
         {
@@ -54,12 +48,9 @@ namespace LivroApp.Views
                 if (App.UserInfo.Locations == null || App.UserInfo.Locations.Count < 3)
                     await Navigation.PushModalAsync(new UserLocationPage(0));
                 else
-                    await this.DisplayAlert("Eroare", "Nu mai poti adauga locatii, este posibil doar 3.", "OK");
+                    await DisplayAlert("Eroare", "Nu mai poti adauga locatii, este posibil doar 3.", "OK");
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
+            catch (Exception) { }
         }
         private async void DismissClicked(object sender, EventArgs e)
         {
@@ -67,10 +58,7 @@ namespace LivroApp.Views
             {
                 await Navigation.PopModalAsync(true);
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
+            catch (Exception) { }
         }
     }
 }

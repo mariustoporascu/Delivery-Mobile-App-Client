@@ -17,15 +17,25 @@ namespace LivroApp.ViewModels.ShopVModels
         {
             Title = DataStore.GetTipCompanii().First(tip => tip.TipCompanieId == RefId).Name;
             Items = new ObservableRangeCollection<Companie>();
+            LoadAllItems = new Command(ExecuteLoadItems);
             RefreshServerData = new Command(async () => await RefreshAppData());
             ItemTapped = new Command<Companie>((item) => OnItemSelected(item));
         }
 
         void ExecuteLoadItems()
         {
-            Items.Clear();
-            var items = DataStore.GetCompanii(RefId).Where(comp => comp.VisibleInApp == true);
-            Items.AddRange(items);
+            try
+            {
+                Items.Clear();
+                var items = DataStore.GetCompanii(RefId).Where(comp => comp.VisibleInApp == true);
+                Items.AddRange(items);
+                if (Items.Count > 0)
+                    IsAvailable = true;
+                else
+                    IsAvailable = false;
+            }
+            catch (Exception) { }
+
         }
         public async Task RefreshAppData()
         {
@@ -39,11 +49,8 @@ namespace LivroApp.ViewModels.ShopVModels
                     ExecuteLoadItems();
 
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
-            }
-            IsBusy = false;
+            catch (Exception) { }
+            finally { IsBusy = false; }
 
         }
         async void OnItemSelected(Companie item)
