@@ -15,7 +15,6 @@ namespace LivroApp.ViewModels.ShopVModels
     {
         public ListaCompaniiViewModel()
         {
-            Title = DataStore.GetTipCompanii().First(tip => tip.TipCompanieId == RefId).Name;
             Items = new ObservableRangeCollection<Companie>();
             LoadAllItems = new Command(ExecuteLoadItems);
             RefreshServerData = new Command(async () => await RefreshAppData());
@@ -39,7 +38,6 @@ namespace LivroApp.ViewModels.ShopVModels
         }
         public async Task RefreshAppData()
         {
-
             IsBusy = true;
             try
             {

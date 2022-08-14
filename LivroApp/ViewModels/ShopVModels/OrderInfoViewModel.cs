@@ -90,7 +90,6 @@ namespace LivroApp.ViewModels.ShopVModels
         {
             try
             {
-                Title = $"Detalii Comanda {OrderId}";
                 var order = DataStore.GetOrder(orderId);
                 Title = "Detalii Comanda nr. " + orderId;
                 CurrOrderInfo = order.OrderInfos;

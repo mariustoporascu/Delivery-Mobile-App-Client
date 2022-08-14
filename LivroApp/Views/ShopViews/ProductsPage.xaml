@@ -27,7 +27,7 @@
                 Placeholder="Cauta Produs"
                 PlaceholderColor="{AppThemeBinding Light=Black,
                                                    Dark=Black}"
-                Text="{Binding Source={RelativeSource AncestorType={x:Type local:ProductsViewModel}}, Path=SearchItem}"
+                Text="{Binding Source={RelativeSource AncestorType={x:Type local:ProductsViewModel}}, Path=SearchItems}"
                 TextColor="{AppThemeBinding Light=Black,
                                             Dark=Black}" />
 
@@ -35,7 +35,7 @@
                 Margin="0,0,10,0"
                 Aspect="AspectFit"
                 BackgroundColor="Transparent"
-                Command="{Binding Source={RelativeSource AncestorType={x:Type local:ProductsViewModel}}, Path=SearchCommand}"
+                Command="{Binding Source={RelativeSource AncestorType={x:Type local:ProductsViewModel}}, Path=SearchItem}"
                 HorizontalOptions="End"
                 Source="search.png" />
 
@@ -43,7 +43,7 @@
         <CollectionView
             x:Name="ItemsCollView"
             IsGrouped="True"
-            ItemsLayout="VerticalGrid,2"
+            ItemsLayout="VerticalGrid"
             ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type local:ProductsViewModel}}, Path=ItemsSubCateg}"
             SelectionMode="None"
             VerticalOptions="FillAndExpand">
@@ -53,7 +53,7 @@
                         <StackLayout
                             Padding="5"
                             xct:CornerRadiusEffect.CornerRadius="20"
-                            BackgroundColor="LimeGreen"
+                            BackgroundColor="White"
                             HorizontalOptions="FillAndExpand">
                             <Label
                                 FontAttributes="Bold"
@@ -61,7 +61,8 @@
                                 HorizontalOptions="CenterAndExpand"
                                 LineBreakMode="WordWrap"
                                 Text="{Binding Key.Name}"
-                                TextColor="Black" />
+                                TextColor="Black"
+                                TextDecorations="Underline" />
                         </StackLayout>
                     </StackLayout>
                 </DataTemplate>
@@ -79,16 +80,18 @@
                             <StackLayout
                                 x:DataType="model:Product"
                                 HorizontalOptions="FillAndExpand"
-                                Orientation="Vertical"
+                                Orientation="Horizontal"
                                 VerticalOptions="FillAndExpand">
 
-                                <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand">
+                                <StackLayout VerticalOptions="CenterAndExpand">
                                     <Image
                                         xct:CornerRadiusEffect.CornerRadius="20"
                                         Aspect="Fill"
                                         BackgroundColor="Transparent"
-                                        HeightRequest="{OnIdiom Tablet=400,
-                                                                Phone=200}">
+                                        HeightRequest="{OnIdiom Tablet=300,
+                                                                Phone=150}"
+                                        WidthRequest="{OnIdiom Tablet=300,
+                                                               Phone=150}">
                                         <Image.Source>
                                             <UriImageSource
                                                 CacheValidity="7"
@@ -105,64 +108,66 @@
                                             NumberOfTapsRequired="1" />
                                     </StackLayout.GestureRecognizers>
                                 </StackLayout>
-                                <StackLayout HeightRequest="150" VerticalOptions="CenterAndExpand">
-                                    <StackLayout
-                                        HorizontalOptions="CenterAndExpand"
-                                        Orientation="Vertical"
-                                        VerticalOptions="CenterAndExpand">
-                                        <Label
-                                            FontSize="{OnIdiom Tablet=Large,
-                                                               Phone=Medium}"
-                                            HorizontalTextAlignment="Center"
-                                            LineBreakMode="WordWrap"
-                                            Text="{Binding Name}"
-                                            TextColor="Black" />
-                                        <Label
-                                            FontSize="{OnIdiom Tablet=Large,
-                                                               Phone=Medium}"
-                                            HorizontalTextAlignment="Center"
-                                            LineBreakMode="NoWrap"
-                                            Text="{Binding GramajInterfata}"
-                                            TextColor="Black"
-                                            VerticalOptions="End" />
-                                        <Label
-                                            FontSize="{OnIdiom Tablet=Large,
-                                                               Phone=Medium}"
-                                            HorizontalTextAlignment="Center"
-                                            LineBreakMode="NoWrap"
-                                            Text="{Binding PretInterfata}"
-                                            TextColor="Black"
-                                            VerticalOptions="End" />
-                                        <StackLayout.GestureRecognizers>
-                                            <TapGestureRecognizer
-                                                Command="{Binding Source={RelativeSource AncestorType={x:Type local:ProductsViewModel}}, Path=ItemTapped}"
-                                                CommandParameter="{Binding .}"
-                                                NumberOfTapsRequired="1" />
-                                        </StackLayout.GestureRecognizers>
+                                <StackLayout HorizontalOptions="CenterAndExpand" Orientation="Vertical">
+                                    <StackLayout VerticalOptions="CenterAndExpand">
+                                        <StackLayout
+                                            HorizontalOptions="CenterAndExpand"
+                                            Orientation="Vertical"
+                                            VerticalOptions="CenterAndExpand">
+                                            <Label
+                                                FontSize="{OnIdiom Tablet=Large,
+                                                                   Phone=Medium}"
+                                                HorizontalTextAlignment="Center"
+                                                LineBreakMode="WordWrap"
+                                                Text="{Binding Name}"
+                                                TextColor="Black" />
+                                            <Label
+                                                FontSize="{OnIdiom Tablet=Large,
+                                                                   Phone=Medium}"
+                                                HorizontalTextAlignment="Center"
+                                                LineBreakMode="NoWrap"
+                                                Text="{Binding GramajInterfata}"
+                                                TextColor="Black"
+                                                VerticalOptions="End" />
+                                            <Label
+                                                FontSize="{OnIdiom Tablet=Large,
+                                                                   Phone=Medium}"
+                                                HorizontalTextAlignment="Center"
+                                                LineBreakMode="NoWrap"
+                                                Text="{Binding PretInterfata}"
+                                                TextColor="Black"
+                                                VerticalOptions="End" />
+                                            <StackLayout.GestureRecognizers>
+                                                <TapGestureRecognizer
+                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type local:ProductsViewModel}}, Path=ItemTapped}"
+                                                    CommandParameter="{Binding .}"
+                                                    NumberOfTapsRequired="1" />
+                                            </StackLayout.GestureRecognizers>
+                                        </StackLayout>
                                     </StackLayout>
-                                </StackLayout>
-                                <StackLayout
-                                    Margin="0,0,0,10"
-                                    HeightRequest="40"
-                                    HorizontalOptions="CenterAndExpand"
-                                    Orientation="Horizontal"
-                                    VerticalOptions="EndAndExpand">
-                                    <ImageButton
-                                        Margin="5,0,5,0"
-                                        Aspect="AspectFit"
-                                        BackgroundColor="Transparent"
-                                        Clicked="OnAddItem"
-                                        CommandParameter="{Binding .}"
-                                        IsVisible="{Binding IsAvailable}"
-                                        Source="buy.png" />
-                                    <Label
-                                        FontSize="Default"
-                                        HorizontalTextAlignment="Center"
-                                        IsVisible="{Binding IsAvailable, Converter={StaticResource invertBoolConverter}}"
-                                        LineBreakMode="WordWrap"
-                                        Text="Momentan indisponibil"
-                                        TextColor="Red"
-                                        VerticalOptions="End" />
+                                    <StackLayout
+                                        Margin="0,0,0,10"
+                                        HeightRequest="40"
+                                        HorizontalOptions="CenterAndExpand"
+                                        Orientation="Horizontal"
+                                        VerticalOptions="EndAndExpand">
+                                        <ImageButton
+                                            Margin="5,0,5,0"
+                                            Aspect="AspectFit"
+                                            BackgroundColor="Transparent"
+                                            Clicked="OnAddItem"
+                                            CommandParameter="{Binding .}"
+                                            IsVisible="{Binding IsAvailable}"
+                                            Source="buy.png" />
+                                        <Label
+                                            FontSize="Default"
+                                            HorizontalTextAlignment="Center"
+                                            IsVisible="{Binding IsAvailable, Converter={StaticResource invertBoolConverter}}"
+                                            LineBreakMode="WordWrap"
+                                            Text="Momentan indisponibil"
+                                            TextColor="Red"
+                                            VerticalOptions="End" />
+                                    </StackLayout>
                                 </StackLayout>
                             </StackLayout>
                         </StackLayout>

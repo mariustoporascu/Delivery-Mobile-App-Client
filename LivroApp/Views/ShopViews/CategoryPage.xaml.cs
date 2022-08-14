@@ -16,9 +16,8 @@ namespace LivroApp.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
-
             viewModel.LoadAllItems.Execute(null);
-
+            viewModel.Title = $"Categorii {viewModel.DataStore.GetCompanie(viewModel.RefId).Name}";
         }
     }
 }

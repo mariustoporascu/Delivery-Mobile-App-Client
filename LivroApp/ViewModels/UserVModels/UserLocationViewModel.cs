@@ -100,7 +100,7 @@ namespace LivroApp.ViewModels.UserVModels
                     CallFailedEvent();
             }
             catch (Exception) { CallFailedEvent(); }
-
+            finally { IsBusy = false; }
         }
     }
 }

@@ -12,7 +12,6 @@ namespace LivroApp.ViewModels.ShopVModels
     {
         public CategoryViewModel()
         {
-            Title = $"Categorii {DataStore.GetCompanie((int)RefId).Name}";
             Items = new ObservableRangeCollection<Category>();
             LoadAllItems = new Command(ExecuteLoadItems);
             ItemTapped = new Command<Category>((item) => OnItemSelected(item));

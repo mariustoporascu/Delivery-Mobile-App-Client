@@ -64,7 +64,6 @@ namespace LivroApp.ViewModels.AuthVModels
         async Task<bool> SignInAsync()
         {
             await App.TryLogin();
-
             return App.IsLoggedIn;
         }
         private async Task LoginWithFacebook()

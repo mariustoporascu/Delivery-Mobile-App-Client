@@ -31,17 +31,18 @@ namespace LivroApp.ViewModels.UserVModels
         public UserProfileViewModel()
         {
             DeleteProfile = new Command(async () => await OnDeleteProfile());
-            Logout = new Command(LogOutFunct);
+            Logout = new Command(async () => await LogOutFunct());
         }
-        void LogOutFunct()
+        async Task LogOutFunct()
         {
             App.UserInfo = new UserModel();
             App.IsLoggedIn = false;
+            LoggedIn = false;
             SecureStorage.RemoveAll();
-            RefreshProfile();
+            await RefreshProfile();
         }
 
-        public async void RefreshProfile()
+        public async Task RefreshProfile()
         {
             if (App.IsLoggedIn)
             {
@@ -89,8 +90,9 @@ namespace LivroApp.ViewModels.UserVModels
                 {
                     App.UserInfo = new UserModel();
                     App.IsLoggedIn = false;
+                    LoggedIn = false;
                     SecureStorage.RemoveAll();
-                    RefreshProfile();
+                    await RefreshProfile();
                     CallSuccessEvent();
                 }
                 else

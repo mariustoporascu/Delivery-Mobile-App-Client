@@ -32,7 +32,6 @@ namespace LivroApp.ViewModels.ShopVModels
             try
             {
                 Item = DataStore.GetItem(itemId);
-                Title = Item.Name;
             }
             catch (Exception) { Debug.WriteLine("Failed to Load Item"); }
         }

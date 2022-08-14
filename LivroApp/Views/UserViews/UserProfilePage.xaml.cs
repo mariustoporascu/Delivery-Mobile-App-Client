@@ -22,13 +22,11 @@ namespace LivroApp.Views
             viewModel.FailedDelegate += DeleteAccFailed;
 
         }
-        protected override void OnAppearing()
+        protected override async void OnAppearing()
         {
             base.OnAppearing();
-            viewModel.IsBusy = true;
-            viewModel.RefreshProfile();
-            viewModel.IsBusy = false;
-
+            viewModel.LoggedIn = App.IsLoggedIn;
+            await viewModel.RefreshProfile();
         }
         private async void RedirSignIn(object sender, EventArgs e)
         {

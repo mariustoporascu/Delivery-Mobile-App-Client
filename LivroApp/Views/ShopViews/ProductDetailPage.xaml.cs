@@ -16,6 +16,7 @@ namespace LivroApp.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
+            vm.Title = vm.Item.Name;
 
             if (!string.IsNullOrWhiteSpace(vm.Item.Photo))
             {

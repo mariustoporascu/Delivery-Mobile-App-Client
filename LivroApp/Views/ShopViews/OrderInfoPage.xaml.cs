@@ -19,8 +19,11 @@ namespace LivroApp.Views
         protected override async void OnAppearing()
         {
             base.OnAppearing();
+            viewModel.LoggedIn = App.IsLoggedIn;
             if (!App.IsLoggedIn)
                 await Shell.Current.Navigation.PopToRootAsync();
+            else
+                viewModel.Title = $"Detalii Comanda {viewModel.OrderId}";
         }
         private async void Button_Clicked(object sender, EventArgs e)
         {

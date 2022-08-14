@@ -17,7 +17,7 @@ namespace LivroApp.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
-
+            viewModel.LoggedIn = App.IsLoggedIn;
             viewModel.LoadAllItems.Execute(null);
             viewModel.GetTime();
 

@@ -114,6 +114,7 @@ namespace LivroApp
                     UserInfo = JsonConvert.DeserializeObject<UserModel>(loginResult.Trim(), settings);
                     if (string.IsNullOrWhiteSpace(userID))
                     {
+                        UserInfo.Email = email;
                         UserInfo.Password = password;
                     }
                     else

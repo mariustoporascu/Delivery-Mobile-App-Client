@@ -25,7 +25,6 @@ namespace LivroApp.ViewModels.ShopVModels
         public int CategId { get => _categId; set => _categId = value; }
         public ProductsViewModel()
         {
-            Title = $"Produse {DataStore.GetCompanie((int)RefId).Name}";
             ItemsSubCateg = new ObservableRangeCollection<Grouping<SubCategory, Product>>();
             CItems = new List<CartItem>();
             SItems = new List<Product>();

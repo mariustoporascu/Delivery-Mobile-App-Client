@@ -28,7 +28,7 @@
                                        Phone=Medium}"
                     HorizontalTextAlignment="Center"
                     LineBreakMode="WordWrap"
-                    Text="Toate produsele"
+                    Text="Vezi toate produsele"
                     TextColor="Black"
                     TextDecorations="Underline" />
                 <StackLayout.GestureRecognizers>
@@ -53,6 +53,7 @@
                                     x:DataType="model:Category"
                                     HorizontalOptions="FillAndExpand"
                                     Orientation="Vertical"
+                                    
                                     VerticalOptions="FillAndExpand">
                                     <Image
                                         xct:CornerRadiusEffect.CornerRadius="20"

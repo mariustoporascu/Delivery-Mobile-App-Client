@@ -1,6 +1,7 @@
 ﻿using LivroApp.ViewModels.ShopVModels;
 using System;
 using System.Diagnostics;
+using System.Linq;
 using Xamarin.Forms;
 
 namespace LivroApp.Views
@@ -25,8 +26,8 @@ namespace LivroApp.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
-
             viewModel.LoadAllItems.Execute(null);
+            viewModel.Title = viewModel.DataStore.GetTipCompanii().First(tip => tip.TipCompanieId == viewModel.RefId).Name;
         }
     }
 }

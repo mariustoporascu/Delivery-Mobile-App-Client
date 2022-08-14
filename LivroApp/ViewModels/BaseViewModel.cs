@@ -40,6 +40,9 @@ namespace LivroApp.ViewModels
             get => _refId;
             set => SetProperty(ref _refId, value);
         }
+        private bool _loggedIn = App.IsLoggedIn;
+        public bool LoggedIn { get => _loggedIn; set => SetProperty(ref _loggedIn, value); }
+
         private ObservableRangeCollection<T> _items;
         public ObservableRangeCollection<T> Items
         {
@@ -51,7 +54,6 @@ namespace LivroApp.ViewModels
         public Command LoadAllItems { get; set; }
         public Command AllItemsTapped { get; set; }
         public Command RefreshServerData { get; set; }
-        public bool LoggedIn { get => App.IsLoggedIn; }
         public event EventHandler SuccessDelegate = delegate { };
         public event EventHandler FailedDelegate = delegate { };
         public void CallSuccessEvent() { SuccessDelegate?.Invoke(this, new EventArgs()); }

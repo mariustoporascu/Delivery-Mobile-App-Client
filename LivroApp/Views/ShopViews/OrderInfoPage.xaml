@@ -8,8 +8,8 @@
     xmlns:local="clr-namespace:LivroApp.ViewModels.ShopVModels"
     xmlns:model="clr-namespace:LivroApp.Models.ShopModels"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-        x:DataType="local:OrderInfoViewModel"
     Title="{Binding Title}"
+    x:DataType="local:OrderInfoViewModel"
     Shell.PresentationMode="Animated">
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -531,7 +531,7 @@
                                     Margin="0,5,0,5"
                                     x:DataType="model:OrderProductDisplay"
                                     xct:CornerRadiusEffect.CornerRadius="15"
-                                    BackgroundColor="LightSeaGreen"
+                                    BackgroundColor="#ddeeff"
                                     HorizontalOptions="FillAndExpand"
                                     Orientation="Vertical">
 

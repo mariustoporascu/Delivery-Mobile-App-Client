@@ -20,6 +20,7 @@ namespace LivroApp.Views
             base.OnAppearing();
             viewModel.LoadAllItems.Execute(null);
             viewModel.CItems = viewModel.DataStore.GetCartItems();
+            Title = $"Produse {viewModel.DataStore.GetCompanie(viewModel.RefId).Name}";
         }
 
         private async void OnAddItem(object sender, EventArgs e)

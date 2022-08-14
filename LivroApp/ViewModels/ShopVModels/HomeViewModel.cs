@@ -50,6 +50,7 @@ namespace LivroApp.ViewModels.ShopVModels
             else
             {
                 ExecuteLoadItemsCommand();
+                await Task.Delay(1000);
                 firstLaunch = false;
             }
             IsBusy = false;

@@ -15,6 +15,11 @@ namespace LivroApp.Views
             BindingContext = viewModel = new HomeViewModel();
             viewModel.FailedDelegate += NotOpen;
         }
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            viewModel.LoadAllItems.Execute(null);
+        }
         private async void NotOpen(object sender, EventArgs e)
         {
             try
